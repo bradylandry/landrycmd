@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("writing", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+---
+
+<Layout
+  title="Writing — landrycmd"
+  description="Articles on AI infrastructure, agent frameworks, personal knowledge management, and shipping software."
+>
+  <section>
+    <h1>Writing</h1>
+    <p class="muted">
+      Long-form pieces on infrastructure, AI tooling, personal knowledge
+      management, and the small-but-specific problems I actually run into
+      shipping software.
+    </p>
+
+    {
+      posts.length === 0 && (
+        <p class="subtle">
+          First articles landing soon — subscribe via{" "}
+          <a href="/rss.xml">RSS</a> or follow on{" "}
+          <a href="https://www.linkedin.com/in/bradylandry/">LinkedIn</a>.
+        </p>
+      )
+    }
+
+    {
+      posts.length > 0 && (
+        <ul class="writing-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/writing/${post.slug}/`}>{post.data.title}</a>
+              <span class="date">{formatDate(post.data.date)}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</Layout>
