@@ -1,0 +1,273 @@
+:root {
+  --bg: #0f1115;
+  --bg-elev: #171a21;
+  --fg: #e7e9ee;
+  --fg-muted: #9aa0ac;
+  --fg-subtle: #6b7280;
+  --accent: #7aa2f7;
+  --accent-soft: #3d59a1;
+  --border: #262933;
+  --max-w: 720px;
+  --radius: 8px;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+a:hover {
+  border-bottom-color: var(--accent);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--fg);
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--fg);
+}
+
+.muted {
+  color: var(--fg-muted);
+}
+
+.subtle {
+  color: var(--fg-subtle);
+  font-size: 0.9rem;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-elev);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+ul {
+  padding-left: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+li {
+  margin-bottom: 0.25rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+}
+
+.site-header-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+.site-header .brand {
+  font-weight: 600;
+  color: var(--fg);
+  border-bottom: none;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.site-header nav a {
+  color: var(--fg-muted);
+  border-bottom: none;
+}
+
+.site-header nav a:hover {
+  color: var(--fg);
+}
+
+/* Hero */
+.hero {
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  margin-bottom: 0.75rem;
+}
+
+.hero .tagline {
+  color: var(--fg-muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+/* Project cards */
+.project {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project:last-child {
+  border-bottom: none;
+}
+
+.project-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.project-head .links {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+
+.project-desc {
+  margin: 0.5rem 0 0;
+  color: var(--fg);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  margin-top: 4rem;
+}
+
+.site-footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  color: var(--fg-subtle);
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.site-footer a {
+  color: var(--fg-muted);
+  border-bottom: none;
+}
+
+.site-footer a:hover {
+  color: var(--fg);
+}
+
+/* Writing list */
+.writing-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+
+.writing-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.writing-list .date {
+  color: var(--fg-subtle);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Article / prose */
+article.prose {
+  max-width: 100%;
+}
+
+article.prose h1 {
+  margin-bottom: 0.25rem;
+}
+
+article.prose .meta {
+  color: var(--fg-subtle);
+  font-size: 0.85rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  main {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+  }
+  .site-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

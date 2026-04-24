@@ -1,0 +1,135 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const products = [
+  {
+    name: "Jarvis Quant",
+    tagline: "Algorithmic trading platform",
+    description:
+      "A 21-strategy paper-trading system with dual-portfolio A/B testing between algorithmic and LLM-driven decision engines. FastAPI + APScheduler, Kelly-sized positions, Bayesian confidence scoring, and a weekly AI reviewer that scores strategies against each other.",
+    live: "https://trading.landrycmd.com",
+    github: null,
+  },
+  {
+    name: "Jarvis",
+    tagline: "Personal AI assistant — voice, chat, iOS",
+    description:
+      "Multi-model orchestration across DeepSeek R1 (NVIDIA NIM), Gemini Live, Grok Vision, and others. 20+ tools spanning calendar, email, trading, smart home, and journal. FastAPI backend + Expo iOS app + Firestore sync, deployed on GCP.",
+    live: "https://jarvis.landrycmd.com",
+    github: null,
+  },
+  {
+    name: "PeptideTracker",
+    tagline: "Health-tracking mobile + web app",
+    description:
+      "Peptide reconstitution math, dose logging with injection-site rotation, inventory tracking, and shareable protocols for community reach. Firebase Auth + Firestore + Expo (iOS + web). Live at peptidetrackers.com.",
+    live: "https://peptidetrackers.com",
+    github: null,
+  },
+];
+
+const openSource = [
+  {
+    name: "jarvis-ops",
+    description:
+      "Runbook-first monitoring framework with optional LLM escalation. Ships with working smart-home and trading deployments. MIT licensed.",
+    repo: "https://github.com/bradylandry/jarvis-ops",
+  },
+  {
+    name: "second-brain-template",
+    description:
+      "AI-friendly personal knowledge vault template. Works with Claude Code, Cursor, Continue.dev, Claude Projects, or any AI. Includes /braindump workflow and 6-lens research system.",
+    repo: "https://github.com/bradylandry/second-brain-template",
+  },
+];
+---
+
+<Layout title="landrycmd — Brady Landry">
+  <section class="hero">
+    <h1>landrycmd</h1>
+    <p class="tagline">
+      Independent software shop run by Brady Landry. AI infrastructure,
+      algorithmic trading, and mobile health apps.
+    </p>
+  </section>
+
+  <section id="products">
+    <h2>Products</h2>
+    {
+      products.map((p) => (
+        <div class="project">
+          <div class="project-head">
+            <h3>{p.name}</h3>
+            <span class="muted">{p.tagline}</span>
+            <span class="links">
+              {p.live && (
+                <a href={p.live} rel="noopener">
+                  Live →
+                </a>
+              )}
+              {p.github && (
+                <a href={p.github} rel="noopener">
+                  GitHub →
+                </a>
+              )}
+            </span>
+          </div>
+          <p class="project-desc">{p.description}</p>
+        </div>
+      ))
+    }
+  </section>
+
+  <section id="open-source">
+    <h2>Open source</h2>
+    {
+      openSource.map((r) => (
+        <div class="project">
+          <div class="project-head">
+            <h3>{r.name}</h3>
+            <span class="links">
+              <a href={r.repo} rel="noopener">
+                Repo →
+              </a>
+            </span>
+          </div>
+          <p class="project-desc">{r.description}</p>
+        </div>
+      ))
+    }
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <p>
+      Brady Landry is a senior network engineer with a decade in ISP-scale
+      infrastructure. landrycmd started as a vehicle for the products and
+      open-source work he builds outside his day job. He ships production
+      code across Python, TypeScript, and Swift/React Native; maintains
+      public frameworks for monitoring and personal knowledge management;
+      and runs a 21-strategy quant trading system.
+    </p>
+    <p>
+      Current focus: externalizing internal tooling as open-source
+      frameworks, shipping revenue products, and writing publicly about
+      AI-native infrastructure engineering.
+    </p>
+    <p>
+      <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener"
+        >LinkedIn</a
+      >
+      &nbsp;·&nbsp;
+      <a href="mailto:support@landrycmd.com">Email</a>
+    </p>
+  </section>
+
+  <section id="writing">
+    <h2>Writing</h2>
+    <p class="muted">
+      Long-form pieces on infrastructure, AI tooling, and shipping side
+      products. <a href="/writing/">Read all →</a>
+    </p>
+  </section>
+</Layout>
