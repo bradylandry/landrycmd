@@ -131,6 +131,18 @@ When I sit down to ship a feature, Claude Pro reads my codebase and writes the a
 
 The result is that my 5-hour Claude Pro session window is almost never the bottleneck. The bottleneck is *me* deciding what to build next.
 
+## Footguns the harness doesn't catch
+
+The Pro-plan-orchestrated workflow is great when it works. When it breaks, you find out fast that no LLM in your stack can debug environment problems for you. A few I've collected the hard way:
+
+**The `.env.local` poison-pill.** Run `vercel env pull` once and Vercel's CLI dumps a `.env.local` into your repo with `VERCEL=1`, `TURBO_CACHE=...`, `NX_DAEMON=...`, and a dozen other production-runtime vars. Now your *local* build runs in "I'm in CI" mode because every framework in your stack reads those vars and takes different code paths. Symptom for me on Expo: the Metro dev server stops itself silently before bundling a single file. Looks like a transformer crash. Took an agent two hours of false leads and a supervisor escape hatch to find the real cause. Fix: keep `.env.local` to `EXPO_PUBLIC_*` vars only, or delete it entirely and let `vercel build` re-fetch what it needs.
+
+**Cross-machine drift on local-only state.** Code is in git, `node_modules/` is not, `.expo/` is not, `~/Library/Caches/` is not, your shell's environment is not. I had a peptide-app build hang on my Mac mini and ship cleanly from a different laptop with the *same git commit*. The difference was a 6-month-old `.env.local` from a long-forgotten `vercel pull` plus Node v20 vs Node v25. Three minutes to diagnose with side-by-side machines, three hours to diagnose alone. If a build that worked yesterday breaks today, the first question is: what's local-only that drifted?
+
+**Free-tier rate limits aren't visible until they bite.** A subagent loop hitting NVIDIA NIM works fine for an hour, then 429s during market open when traffic spikes. Local models don't have rate limits but have throughput limits that look the same — your Mac mini at 100% GPU during a render won't return tokens fast. Build with circuit breakers. I have a small wrapper around every cloud API call that drops to local on a 429 and posts a one-line alert. Cost: about 30 lines of code per provider. Saves entire trading cycles from silently failing.
+
+**The harness can't see across processes.** Claude Code dispatches a subagent, the subagent's transformer worker dies because of a Node `dlopen` mismatch, the subagent reports "no output" with no stack trace because its parent ate stderr. This is the failure mode where Claude burns tokens spelunking and finds nothing. The fix is always the same: **manually run the failing command with full env capture and `2>&1`**, paste the output back into Claude. Don't ask Claude to debug a hang — Claude sees what you see, and a hang produces nothing. Run it yourself, capture, then resume.
+
 ## What this doesn't replace
 
 Be honest about the limits:
