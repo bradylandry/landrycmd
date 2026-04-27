@@ -54,20 +54,21 @@ That's the setup. Folder structure plus frontmatter plus markdown. Boring on pur
 
 Reading from a vault is easy. Writing *useful, structured* notes is the hard part — and the part where every PKM system loses the user. You have to decide where it goes, match the house style of the project, date it, link it, commit it. Doing that well takes ten minutes. You don't have ten minutes after a coding session.
 
-`/braindump` is a ~50-line slash command that collapses the whole ritual into one step. After a work session I type:
+`/braindump` is a ~50-line slash command that collapses the whole ritual into one step. After a work session I type one word:
 
 ```text
-/braindump just finished wiring the regime detector into the trading
-scheduler. covered the 2018 vol spike correctly, missed the 2020 covid
-drop. added a TODO to revisit fallback signals.
+/braindump
 ```
 
-The AI then:
+That's it. No summary, no description, no follow-up. The AI:
 
-1. Identifies which project file the work belongs to (or asks if ambiguous)
-2. Reads that file to learn its house style — section structure, tone, bullet/prose ratio
-3. Adds a new `## <Title> (YYYY-MM-DD)` section before `## Lessons Learned`, matching the style
-4. Suggests a git commit (never pushes without explicit approval)
+1. Reads our recent conversation to figure out what was just accomplished
+2. Identifies which project file it belongs to (or asks if ambiguous)
+3. Reads that file to learn its house style — section structure, tone, bullet/prose ratio
+4. Adds a new `## <Title> (YYYY-MM-DD)` section before `## Lessons Learned`, matching the style
+5. Suggests a git commit (never pushes without explicit approval)
+
+The AI was in the session with me. It already has the context. If I want to add a fact from outside the session — a TODO I want to flag, a number I forgot to mention — I can append a sentence after the slash command. Most of the time I don't bother.
 
 The output looks like the rest of the file because the AI read the file before writing. My project notes self-maintain. They are never stale. Years of dated context accumulate at zero ongoing effort, in a format that future-me and future-AI can both navigate.
 
