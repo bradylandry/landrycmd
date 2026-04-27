@@ -48,6 +48,7 @@ const openSource = [
     description:
       "AI-friendly personal knowledge vault template. Works with Claude Code, Cursor, Continue.dev, Claude Projects, or any AI. Includes /braindump workflow and 6-lens research system.",
     repo: "https://github.com/bradylandry/second-brain-template",
+    article: "/writing/second-brain-for-my-ai",
   },
 ];
 ---
@@ -99,6 +100,11 @@ const openSource = [
               <a href={r.repo} rel="noopener">
                 Repo →
               </a>
+              {r.article && (
+                <a href={r.article}>
+                  Article →
+                </a>
+              )}
             </span>
           </div>
           <p class="project-desc">{r.description}</p>
