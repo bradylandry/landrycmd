@@ -142,9 +142,9 @@ The first external user is running it now. The first PR will probably tell me wh
 
 ## The actual takeaway
 
-If you've tried to "organize your thoughts" in Obsidian or Notion and watched the structure rot, the problem isn't your discipline. The problem is that the structure had only one consumer — you — and you don't have time to be the librarian for your own life.
+If you've tried to "organize your thoughts" in Obsidian or Notion and watched the structure rot, the problem isn't your discipline. The problem is that the structure had only one contributor — you — and you don't have time to be the librarian for your own life.
 
-Give the vault a *second reader*: the AI you already use every day. Make the structure machine-readable. Give the AI permission to write back. The maintenance burden collapses, and what comes out the other end is a long-lived context layer that makes every AI tool in your stack noticeably better at its job.
+Give the vault a *second contributor*: the AI you already use every day. Make the structure machine-readable. Give the AI permission to write back. The maintenance burden collapses, and what comes out the other end is a long-lived context layer that makes every AI tool in your stack noticeably better at its job.
 
 The principle underneath is simple: leave breadcrumbs. Document the *why*, not just the *what*. Every commit message, every dated section, every project's lessons learned — that's the trail you're laying for future-you and for the AI that helps future-you. The vault makes the breadcrumbs cheap to drop. The AI follows them when it needs to.
 
