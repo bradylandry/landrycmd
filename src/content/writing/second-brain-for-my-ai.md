@@ -76,6 +76,16 @@ The skill itself is short. The vault structure is what makes it work — without
 
 `/braindump` is the user-facing ritual that ships with the template. My personal vault goes further — git commits, Claude Code sessions, and voice calls auto-capture into dated files without me typing anything. The template stops short of that on purpose; the auto-capture wiring is opinionated about which tools you use, and not every tool I built is the one you'd want. The point of the template is the *substrate* — folder structure, frontmatter, write-permission norms — that any auto-capture mechanism can target. The real value isn't the vault. It's the auto-capture. Manual note-taking doesn't scale, and once it stops scaling the structure rots.
 
+## When the vault talks back
+
+`/braindump` solves the *write-in* side. After a couple weeks of using the vault, I needed the *read-out* side — not just storage, but pressure on current thinking. Two thinking-tool skills shipped with the template do this.
+
+**`/challenge`** — you state a decision or plan. The AI reads `persona/values.md`, `persona/decision-patterns.md`, and the dated sections from your project files in the last 90 days, then argues *against* the proposal using your own past words. Verbatim citations only — no inventing objections from outside knowledge. The output leads with a verdict (Proceed / Reconsider / Don't ship), then 3-4 contradictions, then one synthesizing question.
+
+**`/emerge`** — the inverse. The AI reads all your project files, finds 3-5 patterns that show up across multiple files but aren't yet named in your persona docs, and surfaces them with citations. Discovery, not pressure.
+
+I ran `/challenge` on a real decision the day after wiring it up — "should I keep pushing on a trading project that's eating most of my evenings?" — and got four cited contradictions back, including one from a 6-lens research file I'd genuinely forgotten about. The vault as second contributor pays off when the AI hands you back what you wrote and asks if you still mean it.
+
 ## Onboarding evolved away from itself
 
 The first version of the template's onboarding skill ran a 25-minute interview — "what's your role? what are your projects? what are your values?" — and wrote the persona files from your answers. It worked. It was also unnecessary.
