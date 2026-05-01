@@ -1,12 +1,12 @@
+/* Canonical color tokens — generated from jarvis/design-tokens.json */
+@import url('./tokens.css');
+
 :root {
-  --bg: #0f1115;
+  /* landrycmd-specific tokens (not in canonical palette) */
   --bg-elev: #171a21;
-  --fg: #e7e9ee;
-  --fg-muted: #9aa0ac;
   --fg-subtle: #6b7280;
-  --accent: #7aa2f7;
-  --accent-soft: #3d59a1;
-  --border: #262933;
+
+  /* Layout + typography */
   --max-w: 720px;
   --radius: 8px;
   --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
@@ -23,7 +23,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--bg);
-  color: var(--fg);
+  color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
   font-size: 16px;
@@ -50,7 +50,7 @@ a:hover {
 h1,
 h2,
 h3 {
-  color: var(--fg);
+  color: var(--text);
   line-height: 1.25;
   margin: 0 0 0.5rem;
 }
@@ -77,11 +77,11 @@ h3 {
 
 p {
   margin: 0 0 1rem;
-  color: var(--fg);
+  color: var(--text);
 }
 
 .muted {
-  color: var(--fg-muted);
+  color: var(--text-dim);
 }
 
 .subtle {
@@ -129,7 +129,7 @@ li {
 
 .site-header .brand {
   font-weight: 600;
-  color: var(--fg);
+  color: var(--text);
   border-bottom: none;
 }
 
@@ -140,12 +140,12 @@ li {
 }
 
 .site-header nav a {
-  color: var(--fg-muted);
+  color: var(--text-dim);
   border-bottom: none;
 }
 
 .site-header nav a:hover {
-  color: var(--fg);
+  color: var(--text);
 }
 
 /* Hero */
@@ -158,7 +158,7 @@ li {
 }
 
 .hero .tagline {
-  color: var(--fg-muted);
+  color: var(--text-dim);
   font-size: 1.05rem;
   margin: 0;
 }
@@ -185,12 +185,12 @@ li {
   display: flex;
   gap: 0.75rem;
   font-size: 0.85rem;
-  color: var(--fg-muted);
+  color: var(--text-dim);
 }
 
 .project-desc {
   margin: 0.5rem 0 0;
-  color: var(--fg);
+  color: var(--text);
 }
 
 /* Footer */
@@ -212,12 +212,12 @@ li {
 }
 
 .site-footer a {
-  color: var(--fg-muted);
+  color: var(--text-dim);
   border-bottom: none;
 }
 
 .site-footer a:hover {
-  color: var(--fg);
+  color: var(--text);
 }
 
 /* Writing list */
