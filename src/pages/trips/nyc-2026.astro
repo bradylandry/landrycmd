@@ -545,62 +545,6 @@ const sundayAlternates = [
     cons: ["Most expensive option", "Two shows in a week"],
   },
   {
-    id: "sun-six",
-    badge: "FOR TEENS",
-    badgeClass: "badge-purple",
-    title: "🎤 Six the Musical",
-    venue: "Lena Horne Theatre · 256 W 47th",
-    when: "Sun 3:00 PM",
-    cost: "~$500-800",
-    energy: "Low",
-    memorable: "High",
-    fit: "Karsyn + Blake",
-    pros: ["80 min, no intermission", "Six wives of Henry VIII as a pop concert", "Teen-girl crack"],
-    cons: ["Skews older, Emrie may not engage as much"],
-  },
-  {
-    id: "sun-mj",
-    badge: "FOR DANCE",
-    badgeClass: "badge-purple",
-    title: "🕺 MJ the Musical",
-    venue: "Neil Simon · 250 W 52nd",
-    when: "Sun 3:00 PM",
-    cost: "~$600-900",
-    energy: "Low",
-    memorable: "High",
-    fit: "Karsyn + Blake",
-    pros: ["Michael Jackson catalog, dance-heavy", "Recognizable songs"],
-    cons: ["Less family-blanket-appeal than Lion King"],
-  },
-  {
-    id: "sun-aladdin",
-    badge: "DISNEY",
-    badgeClass: "badge-purple",
-    title: "🧞 Aladdin",
-    venue: "New Amsterdam · 214 W 42nd",
-    when: "Sun 3:00 PM",
-    cost: "~$500-800",
-    energy: "Low",
-    memorable: "Medium",
-    fit: "Skews younger",
-    pros: ["Magic carpet flight scene", "Familiar Disney songs"],
-    cons: ["Skews younger — Blake may find it kiddie"],
-  },
-  {
-    id: "sun-hadestown",
-    badge: "ARTSY",
-    badgeClass: "badge-purple",
-    title: "🎶 Hadestown",
-    venue: "Walter Kerr · 219 W 48th",
-    when: "Sun 3:00 PM",
-    cost: "~$500-800",
-    energy: "Low",
-    memorable: "High",
-    fit: "Blake (sophisticated)",
-    pros: ["Folk-jazz musical, Tony winner", "Edgier — for Blake if she likes deeper musicals"],
-    cons: ["Karsyn/Emrie may struggle to engage", "Heavy themes"],
-  },
-  {
     id: "sun-coney",
     badge: "WILD CARD",
     badgeClass: "badge-yellow",
@@ -733,6 +677,90 @@ const saturdayAlternates = [
     id: "sat-all-three",
     badge: "AGGRESSIVE",
     badgeClass: "badge-pink",
+  },
+];
+
+const shoppingOptions = [
+  {
+    id: "shop-canal",
+    title: "🏮 Canal Street market",
+    detail: "Cheap sunglasses, knockoff bags, kitsch souvenirs. Iconic Chinatown experience. Kids love the chaos. Already on the Sat 2 PM Chinatown wander — vote to keep it as a real stop (vs. just walking through).",
+    when: "Sat afternoon",
+    badge: "DEFAULT",
+    badgeClass: "badge-green",
+    map: "Canal Street market New York",
+  },
+  {
+    id: "shop-macys",
+    title: "🏬 Macy's Herald Square",
+    detail: "Historic — largest department store in the US, oldest wooden escalators (1920s), National Historic Landmark. 5 blocks south of hotel. Walkthrough only (~30 min) is plenty.",
+    when: "Tue arrival or Mon morning",
+    badge: "WALKTHROUGH",
+    badgeClass: "badge-yellow",
+    map: "Macy's Herald Square 151 W 34th",
+  },
+  {
+    id: "shop-bloomingdales",
+    title: "🛍️ Bloomingdale's flagship",
+    detail: "59th & Lex. Iconic from Sex and the City + Friends. 2 blocks from Tiffany's so easy add. Skip unless you want a high-end department store experience.",
+    when: "Thu after Tiffany's",
+    badge: "OPTIONAL",
+    badgeClass: "badge-grey",
+    map: "Bloomingdale's 1000 Third Ave New York",
+  },
+  {
+    id: "shop-dover",
+    title: "🖤 Dover Street Market",
+    detail: "Avant-garde fashion (Comme des Garçons playground). NoMad area, 30th St, 2 blocks from hotel. Worth it if Blake is into edgy fashion / streetwear / art-school aesthetic. Skip otherwise — pricey.",
+    when: "NoMad walk-by",
+    badge: "FOR BLAKE",
+    badgeClass: "badge-purple",
+    map: "Dover Street Market New York 160 Lexington",
+  },
+  {
+    id: "shop-times-square",
+    title: "🍬 Times Square theme shops",
+    detail: "M&M's World (3 floors), Disney Store, Hershey's, Forever 21 (24/7). Touristy but kids love it. Already on the Thu walk to Becco — vote to keep as a real stop.",
+    when: "Thu late afternoon",
+    badge: "DEFAULT",
+    badgeClass: "badge-green",
+    map: "Times Square M&M's World",
+  },
+  {
+    id: "shop-5th-full",
+    title: "💎 5th Avenue full walk (Saks → Bergdorf → Plaza)",
+    detail: "Full corridor: Saks, Rockefeller, FAO Schwarz, Apple Cube, Tiffany's, Bergdorf Goodman, Plaza Hotel. ~2 hours of walking + stops.",
+    when: "Thu afternoon",
+    badge: "DEFAULT",
+    badgeClass: "badge-green",
+    map: "5th Avenue 50th Street New York",
+  },
+  {
+    id: "shop-5th-abbreviated",
+    title: "💎 5th Ave abbreviated (FAO Schwarz + Apple Cube + Tiffany's only)",
+    detail: "Hit the icons in 60-75 min, save energy for Wicked night. Skip Bergdorf, abbreviated Saks. Plaza walk-by only.",
+    when: "Thu afternoon",
+    badge: "ALTERNATE",
+    badgeClass: "badge-yellow",
+    map: "Tiffany 5th Ave Apple Cube",
+  },
+  {
+    id: "shop-soho-full",
+    title: "🛍️ SoHo full afternoon (Brandy + Glossier + Aritzia + Sephora + Nike + UO)",
+    detail: "Friday afternoon ~3 hours. The teens' day. Brandy Melville flagship, Glossier, Aritzia, Sephora, Lululemon, Urban Outfitters, Nike SoHo.",
+    when: "Fri afternoon",
+    badge: "DEFAULT",
+    badgeClass: "badge-green",
+    map: "SoHo Manhattan",
+  },
+  {
+    id: "shop-soho-quick",
+    title: "🛍️ SoHo quick hit (~90 min, just Brandy + Glossier + Aritzia)",
+    detail: "Hit the must-do teen stores in 90 min, dinner earlier. Saves energy for Saturday's big day.",
+    when: "Fri afternoon",
+    badge: "ALTERNATE",
+    badgeClass: "badge-yellow",
+    map: "Brandy Melville Glossier SoHo",
   },
 ];
 
@@ -1320,6 +1348,33 @@ const weather = [
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
                     <button class="vote-btn" data-voter={v} data-option={a.id}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- SHOPPING -->
+        <h3 class="alt-heading">🛍️ Shopping decisions — vote yes/no on each</h3>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
+          Vote your name on every shop you actually want to do. Defaults are what's currently in the day-by-day plan.
+        </p>
+        <div class="alt-stack">
+          {shoppingOptions.map((s) => (
+            <div class="alt-row">
+              <span class={`alt-badge ${s.badgeClass}`}>{s.badge}</span>
+              <div class="alt-row-body">
+                <div class="alt-row-title">{s.title}</div>
+                <div class="alt-row-detail">{s.detail}</div>
+                <div class="alt-row-energy">When: <strong>{s.when}</strong></div>
+                <a class="chip" href={gmap(s.map)}>🗺️ Map</a>
+                <div class="vote-row" data-option-id={s.id}>
+                  <span class="vote-label">Vote:</span>
+                  {VOTERS.map((v) => (
+                    <button class="vote-btn" data-voter={v} data-option={s.id}>
                       {v.charAt(0).toUpperCase() + v.slice(1)}
                     </button>
                   ))}
