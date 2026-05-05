@@ -501,6 +501,278 @@ const reservations = [
   { item: "🍽️ Sunday post-game dinner", date: "Jun 7 · 6:30pm", status: "todo", cost: "~$200", conf: "—" },
 ];
 
+// ===== Alternates & Swaps =====
+const sundayAlternates = [
+  {
+    badge: "DEFAULT",
+    badgeClass: "badge-green",
+    title: "⚾ Yankees vs Red Sox",
+    venue: "Yankee Stadium · Bronx",
+    when: "1:35 PM",
+    cost: "~$450",
+    energy: "Medium",
+    memorable: "High",
+    fit: "All 3 kids",
+    pros: [
+      "Built-in structure — last day, low thinking required",
+      "Kids can zone out if tired",
+      "Different energy bucket from rest of week",
+      "Classic NYC moment",
+    ],
+    cons: ["Heat (1:35 PM June sun)", "If kids dislike baseball can drag"],
+    note: "Best route: walk to 33 St (6 train) → 6 Uptown to 86 St → transfer to 4 Uptown → 161 St-Yankee Stadium. Sit 1st base side for shade.",
+  },
+  {
+    badge: "TOP SWAP",
+    badgeClass: "badge-pink",
+    title: "🎭 Sunday matinee — The Lion King",
+    venue: "Minskoff Theatre · 200 W 45th",
+    when: "2:00 or 3:00 PM",
+    cost: "~$600-1,000",
+    energy: "Low",
+    memorable: "High",
+    fit: "All 3 kids (universal)",
+    pros: [
+      "Sharpest 1-for-1 swap (afternoon anchor event)",
+      "Emrie will love it, Karsyn loves it, Blake will appreciate spectacle",
+      "Opening 'Circle of Life' is unforgettable",
+      "Walk to dinner after at Carmine's or Joe Allen",
+    ],
+    cons: ["Most expensive option", "Two shows in a week"],
+  },
+  {
+    badge: "FOR TEENS",
+    badgeClass: "badge-purple",
+    title: "🎤 Six the Musical",
+    venue: "Lena Horne Theatre · 256 W 47th",
+    when: "Sun 3:00 PM",
+    cost: "~$500-800",
+    energy: "Low",
+    memorable: "High",
+    fit: "Karsyn + Blake",
+    pros: ["80 min, no intermission", "Six wives of Henry VIII as a pop concert", "Teen-girl crack"],
+    cons: ["Skews older, Emrie may not engage as much"],
+  },
+  {
+    badge: "FOR DANCE",
+    badgeClass: "badge-purple",
+    title: "🕺 MJ the Musical",
+    venue: "Neil Simon · 250 W 52nd",
+    when: "Sun 3:00 PM",
+    cost: "~$600-900",
+    energy: "Low",
+    memorable: "High",
+    fit: "Karsyn + Blake",
+    pros: ["Michael Jackson catalog, dance-heavy", "Recognizable songs"],
+    cons: ["Less family-blanket-appeal than Lion King"],
+  },
+  {
+    badge: "DISNEY",
+    badgeClass: "badge-purple",
+    title: "🧞 Aladdin",
+    venue: "New Amsterdam · 214 W 42nd",
+    when: "Sun 3:00 PM",
+    cost: "~$500-800",
+    energy: "Low",
+    memorable: "Medium",
+    fit: "Skews younger",
+    pros: ["Magic carpet flight scene", "Familiar Disney songs"],
+    cons: ["Skews younger — Blake may find it kiddie"],
+  },
+  {
+    badge: "ARTSY",
+    badgeClass: "badge-purple",
+    title: "🎶 Hadestown",
+    venue: "Walter Kerr · 219 W 48th",
+    when: "Sun 3:00 PM",
+    cost: "~$500-800",
+    energy: "Low",
+    memorable: "High",
+    fit: "Blake (sophisticated)",
+    pros: ["Folk-jazz musical, Tony winner", "Edgier — for Blake if she likes deeper musicals"],
+    cons: ["Karsyn/Emrie may struggle to engage", "Heavy themes"],
+  },
+  {
+    badge: "WILD CARD",
+    badgeClass: "badge-yellow",
+    title: "🎢 Coney Island day",
+    venue: "Luna Park · Brooklyn",
+    when: "All day",
+    cost: "~$250-400",
+    energy: "Medium-High",
+    memorable: "High (unique)",
+    fit: "All 3 kids (Emrie wins)",
+    pros: [
+      "Iconic NYC summer day, totally different vibe",
+      "Cyclone (1927 wooden coaster), Wonder Wheel, boardwalk",
+      "Nathan's Famous — original 1916 hot dog stand",
+      "NY Aquarium = rain backup",
+    ],
+    cons: ["~2 hours total subway transit on the last full day", "Coney Island feels seedy outside Luna Park", "End-of-trip energy hit"],
+  },
+  {
+    badge: "TEENS",
+    badgeClass: "badge-purple",
+    title: "🌆 High Line + Edge + Chelsea Market",
+    venue: "Hudson Yards / West Side",
+    when: "Late morning to evening",
+    cost: "~$350",
+    energy: "Medium",
+    memorable: "Medium",
+    fit: "Teens especially",
+    pros: ["Edge has new June 2026 immersive experience just launched", "Glass-floor ledge — Snapchat gold for Karsyn + Blake", "Chelsea Market = lunch sorted"],
+    cons: ["Two observation decks in one trip (already did Top of the Rock) might be redundant"],
+  },
+  {
+    badge: "EASY",
+    badgeClass: "badge-grey",
+    title: "🚢 Manhattan boat cruise",
+    venue: "Circle Line · Pier 83 (W 42nd & Hudson)",
+    when: "3-hour cruise",
+    cost: "~$250",
+    energy: "Low",
+    memorable: "Medium",
+    fit: "Mixed",
+    pros: ["Different angle on landmarks already seen", "Covered if it rains", "Easy — sit and watch"],
+    cons: ["3 hrs is a commitment", "Some kids find boats meh"],
+  },
+  {
+    badge: "RECOVERY",
+    badgeClass: "badge-grey",
+    title: "🥞 Lazy brunch + relaxed wandering",
+    venue: "NoMad / SoHo",
+    when: "Late morning, then chill",
+    cost: "~$200-400",
+    energy: "Very Low",
+    memorable: "Low",
+    fit: "Stacy wins",
+    pros: ["Real recovery before early Monday flight", "Brunch at Jack's Wife Freda or Sadelle's"],
+    cons: ["Last day in NYC and you're doing brunch?"],
+  },
+];
+
+const wednesdayAlternates = [
+  {
+    title: "Default — Liberty + Lunch + 9/11 Museum",
+    detail: "Full plan as scheduled. ~10 hrs of activity. Heaviest day post-flight.",
+    energy: "Heavy",
+    badge: "DEFAULT",
+    badgeClass: "badge-green",
+  },
+  {
+    title: "Lighter — Liberty + Lunch + 9/11 Memorial OUTDOOR ONLY",
+    detail: "Skip the museum. Just walk the memorial (the reflecting pools). ~30 min instead of 2-3 hrs. Saves 2 hours and emotional toll.",
+    energy: "Medium",
+    badge: "RECOMMENDED IF KIDS ARE TIRED",
+    badgeClass: "badge-yellow",
+  },
+  {
+    title: "Lightest — Liberty only, skip Ellis Island second leg",
+    detail: "Take the first ferry, skip the Ellis Island museum loop, head straight back. ~5 hrs total.",
+    energy: "Light",
+    badge: "MELTDOWN BACKUP",
+    badgeClass: "badge-pink",
+  },
+];
+
+const thursdayAlternates = [
+  {
+    title: "Path A — With MoMA",
+    detail: "Grand Central → Top of the Rock → MoMA (floors 4-5 only, hard cap 60-75 min) → 5th Ave → Times Square → Becco. Less shopping time.",
+    energy: "Tight",
+    badge: "ART LOVERS",
+    badgeClass: "badge-purple",
+  },
+  {
+    title: "Path B — No MoMA, more shopping",
+    detail: "Grand Central → Top of the Rock → 5th Ave (Saks, FAO Schwarz, Apple Cube) → lunch → Tiffany's, Bergdorf, Plaza → Times Square (M&M's, Disney Store, Forever 21) → Becco. Recommended if Blake/Stacy shrug at art.",
+    energy: "Medium",
+    badge: "RECOMMENDED",
+    badgeClass: "badge-green",
+  },
+];
+
+const saturdayAlternates = [
+  {
+    title: "Option A — Light bites + Nom Wah + Lombardi's (recommended)",
+    detail: "12:30 PM lunch in DUMBO = light bites only (NOT full pizza). 3:00 PM Nom Wah dim sum. 6:00 PM Lombardi's pizza. Better cultural variety.",
+    energy: "Balanced",
+    badge: "RECOMMENDED",
+    badgeClass: "badge-green",
+  },
+  {
+    title: "Option B — Juliana's lunch + Chinatown snacks (skip Nom Wah)",
+    detail: "Full pizza at Juliana's after Brooklyn Bridge. Chinatown for snacks/bubble tea only — skip the sit-down dim sum. Lighter dinner. Less food pressure.",
+    energy: "Lighter",
+    badge: "SIMPLER",
+    badgeClass: "badge-grey",
+  },
+  {
+    title: "Original — All three (Juliana's + Nom Wah + Lombardi's)",
+    detail: "Three heavy carb meals in 5 hours. Aggressive. Only do this if everyone's a heavy eater and likes pizza/dumplings.",
+    energy: "Heavy",
+    badge: "AGGRESSIVE",
+    badgeClass: "badge-pink",
+  },
+];
+
+const bonusPhotoOps = [
+  {
+    name: "🚢 Free Staten Island Ferry at sunset",
+    detail: "25 min each way, FREE. Passes Statue of Liberty at golden hour. Sunset in June ~8:25 PM — catch the 7:30 PM ferry from Whitehall Terminal. Best statue photos of the trip. Could pair with Sat evening or as a Sun cap.",
+    map: "Whitehall Terminal Staten Island Ferry",
+  },
+  {
+    name: "📸 Brooklyn Bridge at sunset",
+    detail: "Walk back across the bridge from DUMBO around 8 PM Saturday for sunset over Manhattan skyline. Lower Manhattan skyscrapers light up.",
+    map: "Brooklyn Bridge pedestrian walkway",
+  },
+  {
+    name: "🌃 Top of the Rock at sunset",
+    detail: "Could swap Thursday's morning slot to evening (~7:30 PM) — sunset over Central Park + Empire State lit up. Different option for the family if they want night photos. Note: less time before Wicked.",
+    map: "Top of the Rock NYC",
+  },
+  {
+    name: "📸 Bethesda Fountain (Friday bike ride)",
+    detail: "The Gossip Girl spot — Karsyn + Blake will want this photo. Already on the route.",
+    map: "Bethesda Fountain Central Park",
+  },
+  {
+    name: "🌉 Manhattan Bridge view from DUMBO",
+    detail: "Saturday — Washington St in DUMBO with the Manhattan Bridge framed by buildings. The Iconic shot.",
+    map: "Washington Street DUMBO Manhattan Bridge view",
+  },
+  {
+    name: "🗽 Battery Park night view",
+    detail: "Statue of Liberty is lit up at night — visible from Battery Park. Can pair with any evening you're downtown (Sat dinner area).",
+    map: "Battery Park New York",
+  },
+];
+
+const desserts = [
+  { name: "Levain Bakery", detail: "Giant warm cookies, multiple Manhattan locations. Iconic NYC bakery.", map: "Levain Bakery 167 W 74th" },
+  { name: "Anita Gelato", detail: "SoHo location fits Friday afternoon perfectly between shopping and the subway home.", map: "Anita La Mamma del Gelato SoHo" },
+  { name: "Junior's Cheesecake", detail: "Times Square, walk-in friendly, iconic NYC cheesecake. Could pair with Thursday after Wicked.", map: "Junior's Times Square" },
+  { name: "Magnolia Bakery", detail: "Banana pudding fame. Bleecker St (West Village) or Rockefeller location.", map: "Magnolia Bakery Bleecker Street" },
+];
+
+const rainBackup = [
+  { name: "Grand Central Terminal", detail: "Indoor exploring + food hall. Whispering Gallery, Zodiac ceiling. Already on Thursday — could expand.", map: "Grand Central Terminal" },
+  { name: "Chelsea Market", detail: "Indoor food hall + shops. Could be a full afternoon.", map: "Chelsea Market New York" },
+  { name: "American Museum of Natural History", detail: "Massive, indoor, great rainy-day pivot. Dinosaurs, planetarium, ocean room.", map: "American Museum of Natural History" },
+  { name: "SUMMIT One Vanderbilt", detail: "Glass observation experience near Grand Central. Mirrored rooms = Karsyn/Blake Insta gold. Different from Top of the Rock.", map: "Summit One Vanderbilt" },
+  { name: "Eataly Flatiron", detail: "Indoor food hall 2 blocks from hotel. Backup for any meal.", map: "Eataly Flatiron" },
+  { name: "Macy's Herald Square", detail: "Indoor shopping, historic, 5 blocks from hotel. Wooden escalators are the move.", map: "Macy's Herald Square" },
+];
+
+const meltdownCuts = [
+  { day: "Wednesday", cut: "Skip Ellis Island second leg (just Liberty), shorten 9/11 to outdoor only, taxi back instead of subway" },
+  { day: "Thursday", cut: "Skip MoMA, skip lingering at Rockefeller plaza, Uber back after Wicked instead of subway" },
+  { day: "Friday", cut: "Don't try to 'see all' of Central Park (lower loop only), if tired skip SoHo entirely" },
+  { day: "Saturday", cut: "Skip DUMBO lunch (just photos), walk only halfway across Brooklyn Bridge" },
+  { day: "Sunday", cut: "Don't linger after game, subway straight back, dinner = takeout if needed" },
+];
+
 // Average June NYC weather (placeholder — swap for live API later)
 const weather = [
   { day: "Tue", date: "Jun 2", high: 78, low: 64, sky: "☀️", note: "Arrival evening" },
@@ -532,7 +804,7 @@ const weather = [
       <div class="trip-hero-inner">
         <div class="hero-eyebrow">🗽 NEW YORK CITY</div>
         <h1>NYC Family Trip</h1>
-        <p class="dates">June 2 – 8, 2026 · Brady, Wife, Blake, Karsyn, Emrie</p>
+        <p class="dates">June 2 – 8, 2026 · Brady, Stacy, Blake, Karsyn, Emrie</p>
         <div class="countdown" id="countdown">
           <div class="countdown-segment">
             <span class="countdown-num" id="cd-days">--</span>
@@ -566,6 +838,7 @@ const weather = [
       <a href="#sat">Sat</a>
       <a href="#sun">⚾ Sun</a>
       <a href="#mon">Mon</a>
+      <a href="#alternates">🔀 Alternates</a>
       <a href="#reservations">📋 Bookings</a>
     </nav>
 
@@ -915,6 +1188,149 @@ const weather = [
             ))}
           </tbody>
         </table>
+      </section>
+
+      <!-- ALTERNATES -->
+      <section class="trip-section" id="alternates">
+        <h2><span class="section-icon">🔀</span> Alternates &amp; Swaps — for family discussion</h2>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1.5rem; font-size:0.9rem;">
+          Every option we considered, organized for an easy yes/no discussion with the family. Defaults are what's currently in the day-by-day plan above.
+        </p>
+
+        <!-- SUNDAY -->
+        <h3 class="alt-heading">⚾ Sunday 6/7 — Anchor Event (the big decision)</h3>
+        <div class="alt-grid">
+          {sundayAlternates.map((opt) => (
+            <article class="alt-card">
+              <div class="alt-card-head">
+                <span class={`alt-badge ${opt.badgeClass}`}>{opt.badge}</span>
+                <div class="alt-card-cost">{opt.cost}</div>
+              </div>
+              <div class="alt-card-title">{opt.title}</div>
+              <div class="alt-card-meta">{opt.venue} · {opt.when}</div>
+              <div class="alt-card-stats">
+                <span><strong>Energy:</strong> {opt.energy}</span>
+                <span><strong>Memorable:</strong> {opt.memorable}</span>
+                <span><strong>Fit:</strong> {opt.fit}</span>
+              </div>
+              <div class="alt-pros-cons">
+                <div class="alt-pros">
+                  <div class="alt-pc-label">✅ Pros</div>
+                  <ul>{opt.pros.map((p) => <li>{p}</li>)}</ul>
+                </div>
+                <div class="alt-cons">
+                  <div class="alt-pc-label">⚠️ Cons</div>
+                  <ul>{opt.cons.map((c) => <li>{c}</li>)}</ul>
+                </div>
+              </div>
+              {opt.note && <div class="alt-note">💡 {opt.note}</div>}
+            </article>
+          ))}
+        </div>
+
+        <!-- WEDNESDAY -->
+        <h3 class="alt-heading">🗽 Wednesday 6/3 — Lower Manhattan intensity</h3>
+        <div class="alt-stack">
+          {wednesdayAlternates.map((a) => (
+            <div class="alt-row">
+              <span class={`alt-badge ${a.badgeClass}`}>{a.badge}</span>
+              <div class="alt-row-body">
+                <div class="alt-row-title">{a.title}</div>
+                <div class="alt-row-detail">{a.detail}</div>
+                <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- THURSDAY -->
+        <h3 class="alt-heading">🎭 Thursday 6/4 — MoMA or no MoMA</h3>
+        <div class="alt-stack">
+          {thursdayAlternates.map((a) => (
+            <div class="alt-row">
+              <span class={`alt-badge ${a.badgeClass}`}>{a.badge}</span>
+              <div class="alt-row-body">
+                <div class="alt-row-title">{a.title}</div>
+                <div class="alt-row-detail">{a.detail}</div>
+                <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- SATURDAY -->
+        <h3 class="alt-heading">🌉 Saturday 6/6 — Food pacing</h3>
+        <div class="alt-stack">
+          {saturdayAlternates.map((a) => (
+            <div class="alt-row">
+              <span class={`alt-badge ${a.badgeClass}`}>{a.badge}</span>
+              <div class="alt-row-body">
+                <div class="alt-row-title">{a.title}</div>
+                <div class="alt-row-detail">{a.detail}</div>
+                <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- BONUS PHOTO OPS -->
+        <h3 class="alt-heading">📸 Bonus Photo Ops &amp; Sunset Stops (free additions)</h3>
+        <div class="alt-stack">
+          {bonusPhotoOps.map((p) => (
+            <div class="alt-row">
+              <div class="alt-row-body">
+                <div class="alt-row-title">{p.name}</div>
+                <div class="alt-row-detail">{p.detail}</div>
+                <a class="chip" href={gmap(p.map)}>🗺️ Map</a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- DESSERTS -->
+        <h3 class="alt-heading">🍰 Wow Dessert Stops</h3>
+        <div class="alt-stack">
+          {desserts.map((d) => (
+            <div class="alt-row">
+              <div class="alt-row-body">
+                <div class="alt-row-title">{d.name}</div>
+                <div class="alt-row-detail">{d.detail}</div>
+                <a class="chip" href={gmap(d.map)}>🗺️ Map</a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- RAIN BACKUP -->
+        <h3 class="alt-heading">🌧️ Rain Backup — Indoor Pivots</h3>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
+          If heavy rain hits, swap one of these in. Statue of Liberty + Brooklyn Bridge + bike day are the rain-sensitive ones.
+        </p>
+        <div class="alt-stack">
+          {rainBackup.map((r) => (
+            <div class="alt-row">
+              <div class="alt-row-body">
+                <div class="alt-row-title">{r.name}</div>
+                <div class="alt-row-detail">{r.detail}</div>
+                <a class="chip" href={gmap(r.map)}>🗺️ Map</a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- MELTDOWN PROTOCOL -->
+        <h3 class="alt-heading">🚨 Meltdown Protocol — what to cut first</h3>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
+          If kids hit 6/10 tired, here's what to drop per day. Saves the day from spiraling.
+        </p>
+        <div class="meltdown-grid">
+          {meltdownCuts.map((m) => (
+            <div class="meltdown-card">
+              <div class="meltdown-day">{m.day}</div>
+              <div class="meltdown-cut">{m.cut}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <!-- LOGISTICS NOTES -->
