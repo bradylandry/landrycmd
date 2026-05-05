@@ -854,6 +854,354 @@
   color: var(--trip-green) !important;
 }
 
+/* --- SCROLL PROGRESS BAR --- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--trip-accent),
+    var(--trip-pink),
+    var(--trip-yellow)
+  );
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 100;
+  box-shadow: 0 0 12px var(--trip-glow);
+  transition: transform 0.05s linear;
+}
+
+/* --- HERO PARTICLES --- */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  bottom: -20px;
+  left: var(--x);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--trip-accent);
+  opacity: 0;
+  animation: float-up var(--d) linear var(--delay) infinite;
+  box-shadow: 0 0 6px var(--trip-glow);
+}
+.particle.p1 { background: var(--trip-pink); width: 4px; height: 4px; }
+.particle.p2 { background: var(--trip-yellow); }
+.particle.p3 { background: var(--trip-purple); width: 2px; height: 2px; }
+.particle.p4 { background: #fff; width: 2px; height: 2px; }
+.particle.p5 { background: var(--trip-green); }
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-110vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* --- HERO SKYLINE --- */
+.skyline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--trip-pink);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  animation: fade-in 1s ease-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- WEATHER --- */
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.weather-day {
+  background: var(--trip-card);
+  border: 1px solid var(--trip-card-border);
+  border-radius: 12px;
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.weather-day:hover {
+  transform: translateY(-2px);
+  border-color: var(--trip-accent);
+}
+
+.weather-day-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--trip-accent);
+}
+
+.weather-day-date {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-bottom: 0.5rem;
+}
+
+.weather-icon {
+  font-size: 1.6rem;
+  margin: 0.25rem 0;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.3));
+}
+
+.weather-temps {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.weather-high {
+  color: var(--trip-yellow);
+  font-weight: 700;
+}
+
+.weather-low {
+  color: var(--text-dim);
+  margin-left: 0.4rem;
+}
+
+.weather-note {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-top: 0.4rem;
+  letter-spacing: 0.02em;
+  min-height: 1.5em;
+}
+
+/* --- NYC MAP --- */
+.nyc-map-wrap {
+  background: var(--trip-card);
+  border: 1px solid var(--trip-card-border);
+  border-radius: 16px;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.nyc-map {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+.map-pin {
+  cursor: pointer;
+  transform-origin: center;
+  animation: pin-drop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.map-pin.pin-1 { animation-delay: 0.2s; }
+.map-pin.pin-2 { animation-delay: 0.4s; }
+.map-pin.pin-3 { animation-delay: 0.6s; }
+.map-pin.pin-4 { animation-delay: 0.0s; }
+.map-pin.pin-5 { animation-delay: 0.8s; }
+.map-pin.pin-6 { animation-delay: 1.0s; }
+.map-pin.pin-7 { animation-delay: 1.2s; }
+
+@keyframes pin-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.map-pin circle:nth-child(1) {
+  animation: pin-pulse 3s ease-in-out infinite;
+}
+
+@keyframes pin-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.3; }
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* --- DAY GLYPH --- */
+.day-glyph {
+  width: 56px;
+  height: 56px;
+  color: var(--day-color, var(--trip-accent));
+  filter: drop-shadow(0 0 12px var(--day-color, var(--trip-glow)));
+  flex-shrink: 0;
+  animation: glyph-float 4s ease-in-out infinite;
+}
+
+.day-glyph svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes glyph-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.day-card-date {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* --- WICKED SPARKLES --- */
+.sparkle-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sparkle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, transparent 70%);
+  animation: twinkle var(--d) ease-in-out var(--delay) infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+/* --- LOGISTICS TIP CARDS --- */
+.logistics-tip {
+  background: var(--trip-card);
+  border: 1px solid var(--trip-card-border);
+  padding: 1.25rem;
+  border-radius: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.logistics-tip:hover {
+  transform: translateY(-2px);
+  border-color: var(--trip-accent);
+}
+
+/* --- MORE CHIP COLORS --- */
+.chip-grey {
+  color: #a1a1aa;
+  background: rgba(161, 161, 170, 0.08);
+  border-color: rgba(161, 161, 170, 0.25);
+}
+.chip-grey:hover {
+  background: rgba(161, 161, 170, 0.18);
+  border-color: #a1a1aa;
+  border-bottom-color: #a1a1aa;
+}
+
+.chip-purple {
+  color: var(--trip-purple);
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.25);
+}
+.chip-purple:hover {
+  background: rgba(167, 139, 250, 0.18);
+  border-color: var(--trip-purple);
+  border-bottom-color: var(--trip-purple);
+}
+
+/* --- FLIGHT ARROW (replace static SVG with animated dotted arc) --- */
+.flight-arrow svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.plane-along-arc {
+  animation: plane-along 4s ease-in-out infinite;
+}
+
+@keyframes plane-along {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(35px) translateY(-7px);
+  }
+  100% {
+    transform: translateX(70px) translateY(0);
+    opacity: 0;
+  }
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 600px) {
   .trip-hero {
@@ -880,5 +1228,28 @@
   .res-table th:nth-child(4),
   .res-table td:nth-child(4) {
     display: none;
+  }
+  .weather-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.4rem;
+  }
+  .weather-day {
+    padding: 0.7rem 0.4rem;
+  }
+  .weather-icon {
+    font-size: 1.4rem;
+  }
+  .day-glyph {
+    width: 44px;
+    height: 44px;
+  }
+  .nyc-map {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .weather-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
