@@ -502,8 +502,11 @@ const reservations = [
 ];
 
 // ===== Alternates & Swaps =====
+const VOTERS = ["brady", "stacy", "blake", "karsyn", "emrie"] as const;
+
 const sundayAlternates = [
   {
+    id: "sun-yankees",
     badge: "DEFAULT",
     badgeClass: "badge-green",
     title: "⚾ Yankees vs Red Sox",
@@ -523,6 +526,7 @@ const sundayAlternates = [
     note: "Best route: walk to 33 St (6 train) → 6 Uptown to 86 St → transfer to 4 Uptown → 161 St-Yankee Stadium. Sit 1st base side for shade.",
   },
   {
+    id: "sun-lion-king",
     badge: "TOP SWAP",
     badgeClass: "badge-pink",
     title: "🎭 Sunday matinee — The Lion King",
@@ -541,6 +545,7 @@ const sundayAlternates = [
     cons: ["Most expensive option", "Two shows in a week"],
   },
   {
+    id: "sun-six",
     badge: "FOR TEENS",
     badgeClass: "badge-purple",
     title: "🎤 Six the Musical",
@@ -554,6 +559,7 @@ const sundayAlternates = [
     cons: ["Skews older, Emrie may not engage as much"],
   },
   {
+    id: "sun-mj",
     badge: "FOR DANCE",
     badgeClass: "badge-purple",
     title: "🕺 MJ the Musical",
@@ -567,6 +573,7 @@ const sundayAlternates = [
     cons: ["Less family-blanket-appeal than Lion King"],
   },
   {
+    id: "sun-aladdin",
     badge: "DISNEY",
     badgeClass: "badge-purple",
     title: "🧞 Aladdin",
@@ -580,6 +587,7 @@ const sundayAlternates = [
     cons: ["Skews younger — Blake may find it kiddie"],
   },
   {
+    id: "sun-hadestown",
     badge: "ARTSY",
     badgeClass: "badge-purple",
     title: "🎶 Hadestown",
@@ -593,6 +601,7 @@ const sundayAlternates = [
     cons: ["Karsyn/Emrie may struggle to engage", "Heavy themes"],
   },
   {
+    id: "sun-coney",
     badge: "WILD CARD",
     badgeClass: "badge-yellow",
     title: "🎢 Coney Island day",
@@ -611,6 +620,7 @@ const sundayAlternates = [
     cons: ["~2 hours total subway transit on the last full day", "Coney Island feels seedy outside Luna Park", "End-of-trip energy hit"],
   },
   {
+    id: "sun-edge",
     badge: "TEENS",
     badgeClass: "badge-purple",
     title: "🌆 High Line + Edge + Chelsea Market",
@@ -624,6 +634,7 @@ const sundayAlternates = [
     cons: ["Two observation decks in one trip (already did Top of the Rock) might be redundant"],
   },
   {
+    id: "sun-cruise",
     badge: "EASY",
     badgeClass: "badge-grey",
     title: "🚢 Manhattan boat cruise",
@@ -637,6 +648,7 @@ const sundayAlternates = [
     cons: ["3 hrs is a commitment", "Some kids find boats meh"],
   },
   {
+    id: "sun-brunch",
     badge: "RECOVERY",
     badgeClass: "badge-grey",
     title: "🥞 Lazy brunch + relaxed wandering",
@@ -653,6 +665,7 @@ const sundayAlternates = [
 
 const wednesdayAlternates = [
   {
+    id: "wed-full",
     title: "Default — Liberty + Lunch + 9/11 Museum",
     detail: "Full plan as scheduled. ~10 hrs of activity. Heaviest day post-flight.",
     energy: "Heavy",
@@ -663,6 +676,7 @@ const wednesdayAlternates = [
     title: "Lighter — Liberty + Lunch + 9/11 Memorial OUTDOOR ONLY",
     detail: "Skip the museum. Just walk the memorial (the reflecting pools). ~30 min instead of 2-3 hrs. Saves 2 hours and emotional toll.",
     energy: "Medium",
+    id: "wed-outdoor-only",
     badge: "RECOMMENDED IF KIDS ARE TIRED",
     badgeClass: "badge-yellow",
   },
@@ -670,6 +684,7 @@ const wednesdayAlternates = [
     title: "Lightest — Liberty only, skip Ellis Island second leg",
     detail: "Take the first ferry, skip the Ellis Island museum loop, head straight back. ~5 hrs total.",
     energy: "Light",
+    id: "wed-liberty-only",
     badge: "MELTDOWN BACKUP",
     badgeClass: "badge-pink",
   },
@@ -680,10 +695,12 @@ const thursdayAlternates = [
     title: "Path A — With MoMA",
     detail: "Grand Central → Top of the Rock → MoMA (floors 4-5 only, hard cap 60-75 min) → 5th Ave → Times Square → Becco. Less shopping time.",
     energy: "Tight",
+    id: "thu-with-moma",
     badge: "ART LOVERS",
     badgeClass: "badge-purple",
   },
   {
+    id: "thu-no-moma",
     title: "Path B — No MoMA, more shopping",
     detail: "Grand Central → Top of the Rock → 5th Ave (Saks, FAO Schwarz, Apple Cube) → lunch → Tiffany's, Bergdorf, Plaza → Times Square (M&M's, Disney Store, Forever 21) → Becco. Recommended if Blake/Stacy shrug at art.",
     energy: "Medium",
@@ -694,6 +711,7 @@ const thursdayAlternates = [
 
 const saturdayAlternates = [
   {
+    id: "sat-light",
     title: "Option A — Light bites + Nom Wah + Lombardi's (recommended)",
     detail: "12:30 PM lunch in DUMBO = light bites only (NOT full pizza). 3:00 PM Nom Wah dim sum. 6:00 PM Lombardi's pizza. Better cultural variety.",
     energy: "Balanced",
@@ -704,6 +722,7 @@ const saturdayAlternates = [
     title: "Option B — Juliana's lunch + Chinatown snacks (skip Nom Wah)",
     detail: "Full pizza at Juliana's after Brooklyn Bridge. Chinatown for snacks/bubble tea only — skip the sit-down dim sum. Lighter dinner. Less food pressure.",
     energy: "Lighter",
+    id: "sat-juliana-only",
     badge: "SIMPLER",
     badgeClass: "badge-grey",
   },
@@ -711,6 +730,7 @@ const saturdayAlternates = [
     title: "Original — All three (Juliana's + Nom Wah + Lombardi's)",
     detail: "Three heavy carb meals in 5 hours. Aggressive. Only do this if everyone's a heavy eater and likes pizza/dumplings.",
     energy: "Heavy",
+    id: "sat-all-three",
     badge: "AGGRESSIVE",
     badgeClass: "badge-pink",
   },
@@ -1192,10 +1212,14 @@ const weather = [
 
       <!-- ALTERNATES -->
       <section class="trip-section" id="alternates">
-        <h2><span class="section-icon">🔀</span> Alternates &amp; Swaps — for family discussion</h2>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1.5rem; font-size:0.9rem;">
-          Every option we considered, organized for an easy yes/no discussion with the family. Defaults are what's currently in the day-by-day plan above.
+        <h2><span class="section-icon">🔀</span> Alternates &amp; Swaps — vote with the family</h2>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1.25rem; font-size:0.9rem;">
+          Every option we considered. Click your name on any option you'd be happy with — vote for as many as you like.
+          Live tallies refresh automatically. Defaults are what's currently in the day-by-day plan above.
         </p>
+        <div class="vote-summary" id="voteSummary" aria-live="polite">
+          <span class="vote-summary-loading">Loading votes…</span>
+        </div>
 
         <!-- SUNDAY -->
         <h3 class="alt-heading">⚾ Sunday 6/7 — Anchor Event (the big decision)</h3>
@@ -1224,6 +1248,14 @@ const weather = [
                 </div>
               </div>
               {opt.note && <div class="alt-note">💡 {opt.note}</div>}
+              <div class="vote-row" data-option-id={opt.id}>
+                <span class="vote-label">Vote:</span>
+                {VOTERS.map((v) => (
+                  <button class="vote-btn" data-voter={v} data-option={opt.id}>
+                    {v.charAt(0).toUpperCase() + v.slice(1)}
+                  </button>
+                ))}
+              </div>
             </article>
           ))}
         </div>
@@ -1238,6 +1270,14 @@ const weather = [
                 <div class="alt-row-title">{a.title}</div>
                 <div class="alt-row-detail">{a.detail}</div>
                 <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+                <div class="vote-row" data-option-id={a.id}>
+                  <span class="vote-label">Vote:</span>
+                  {VOTERS.map((v) => (
+                    <button class="vote-btn" data-voter={v} data-option={a.id}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -1253,6 +1293,14 @@ const weather = [
                 <div class="alt-row-title">{a.title}</div>
                 <div class="alt-row-detail">{a.detail}</div>
                 <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+                <div class="vote-row" data-option-id={a.id}>
+                  <span class="vote-label">Vote:</span>
+                  {VOTERS.map((v) => (
+                    <button class="vote-btn" data-voter={v} data-option={a.id}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -1268,6 +1316,14 @@ const weather = [
                 <div class="alt-row-title">{a.title}</div>
                 <div class="alt-row-detail">{a.detail}</div>
                 <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+                <div class="vote-row" data-option-id={a.id}>
+                  <span class="vote-label">Vote:</span>
+                  {VOTERS.map((v) => (
+                    <button class="vote-btn" data-voter={v} data-option={a.id}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -1432,6 +1488,117 @@ const weather = [
           el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       });
+    });
+
+    // ---- VOTING ----
+    let voteState = {}; // { optionId: [voter, voter, ...] }
+
+    function applyVoteState() {
+      // update each vote button's "voted" class + each row's tally
+      document.querySelectorAll(".vote-btn").forEach((btn) => {
+        const opt = btn.dataset.option;
+        const voter = btn.dataset.voter;
+        const list = voteState[opt] || [];
+        if (list.includes(voter)) {
+          btn.classList.add("voted");
+        } else {
+          btn.classList.remove("voted");
+        }
+      });
+      // for each vote-row, append a tally count
+      document.querySelectorAll(".vote-row").forEach((row) => {
+        const opt = row.dataset.optionId;
+        const list = voteState[opt] || [];
+        let tally = row.querySelector(".vote-tally");
+        if (!tally) {
+          tally = document.createElement("span");
+          tally.className = "vote-tally";
+          row.appendChild(tally);
+        }
+        tally.textContent =
+          list.length === 0
+            ? "no votes"
+            : list.length === 1
+              ? "1 vote"
+              : `${list.length} votes`;
+      });
+      renderSummary();
+    }
+
+    function renderSummary() {
+      const summary = document.getElementById("voteSummary");
+      if (!summary) return;
+      const totals = Object.entries(voteState)
+        .filter(([_, list]) => list.length > 0)
+        .sort((a, b) => b[1].length - a[1].length);
+      if (totals.length === 0) {
+        summary.innerHTML = '<span class="vote-summary-empty">No votes yet — click your name on any option to vote.</span>';
+        return;
+      }
+      const [topId, topVoters] = totals[0];
+      const titleEl = document.querySelector(`[data-option-id="${topId}"]`)
+        ?.closest(".alt-card, .alt-row")
+        ?.querySelector(".alt-card-title, .alt-row-title");
+      const topTitle = titleEl ? titleEl.textContent.trim() : topId;
+      const others = totals.length - 1;
+      summary.innerHTML = `<span class="vote-summary-leader">🏆 Leader: <strong>${topTitle}</strong> · ${topVoters.length} ${topVoters.length === 1 ? "vote" : "votes"} (${topVoters.join(", ")})</span>${others > 0 ? `<span class="vote-summary-other"> · ${others} other ${others === 1 ? "option has" : "options have"} votes</span>` : ""}`;
+    }
+
+    async function loadVotes() {
+      try {
+        const res = await fetch("/api/trips/votes", { cache: "no-store" });
+        const data = await res.json();
+        if (data.ok) {
+          voteState = data.votes || {};
+          applyVoteState();
+        }
+      } catch (e) {
+        // silent — user might be offline
+      }
+    }
+
+    async function castVote(optionId, voter) {
+      // optimistic update
+      const list = voteState[optionId] || [];
+      const had = list.includes(voter);
+      voteState[optionId] = had
+        ? list.filter((v) => v !== voter)
+        : [...list, voter];
+      applyVoteState();
+      try {
+        const res = await fetch("/api/trips/vote", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ optionId, voter, action: "toggle" }),
+        });
+        const data = await res.json();
+        if (!data.ok) {
+          // rollback
+          voteState[optionId] = list;
+          applyVoteState();
+        }
+      } catch (e) {
+        // rollback on network failure
+        voteState[optionId] = list;
+        applyVoteState();
+      }
+    }
+
+    document.querySelectorAll(".vote-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const opt = btn.dataset.option;
+        const voter = btn.dataset.voter;
+        if (opt && voter) castVote(opt, voter);
+      });
+    });
+
+    // initial load + auto-refresh every 30s while page is visible
+    loadVotes();
+    setInterval(() => {
+      if (!document.hidden) loadVotes();
+    }, 30000);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) loadVotes();
     });
   </script>
 </Layout>

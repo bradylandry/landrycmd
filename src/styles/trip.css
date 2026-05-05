@@ -1202,6 +1202,116 @@
   }
 }
 
+/* --- VOTING WIDGET --- */
+.vote-summary {
+  background: linear-gradient(
+    135deg,
+    rgba(56, 189, 248, 0.1),
+    rgba(236, 72, 153, 0.08)
+  );
+  border: 1px solid var(--trip-card-border);
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.vote-summary-loading,
+.vote-summary-empty {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.vote-summary-leader strong {
+  color: var(--trip-yellow);
+  font-weight: 700;
+}
+
+.vote-summary-other {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.vote-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.vote-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin-right: 0.4rem;
+}
+
+.vote-btn {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(56, 189, 248, 0.04);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  font-family: inherit;
+}
+
+.vote-btn:hover {
+  border-color: var(--trip-accent);
+  color: var(--text);
+  background: rgba(56, 189, 248, 0.1);
+  transform: translateY(-1px);
+}
+
+.vote-btn:active {
+  transform: scale(0.95);
+}
+
+.vote-btn.voted {
+  background: var(--trip-accent);
+  color: #0a0e1a;
+  border-color: var(--trip-accent);
+  box-shadow: 0 0 14px var(--trip-glow);
+}
+
+.vote-btn.voted::before {
+  content: "✓ ";
+  font-weight: 800;
+}
+
+.vote-tally {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-style: italic;
+}
+
+@media (max-width: 480px) {
+  .vote-row {
+    gap: 0.3rem;
+  }
+  .vote-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+  .vote-tally {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+}
+
 /* --- ALTERNATES SECTION --- */
 .alt-heading {
   margin: 2.5rem 0 1rem;
