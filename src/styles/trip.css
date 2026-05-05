@@ -1606,6 +1606,22 @@
   .alt-card-title {
     font-size: 1rem;
   }
+  /* stack badge above body on mobile so long badge text doesn't squeeze title */
+  .alt-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .alt-row-body {
+    width: 100%;
+  }
+  .alt-badge {
+    align-self: flex-start;
+    max-width: 100%;
+    white-space: normal;
+    word-break: keep-all;
+    line-height: 1.3;
+  }
 }
 
 @media (max-width: 400px) {
