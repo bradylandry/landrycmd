@@ -1,0 +1,130 @@
+---
+import Layout from "../../layouts/Layout.astro";
+export const prerender = false;
+---
+
+<Layout title="Trip Login">
+  <link slot="head" rel="stylesheet" href="/_trip-style.css" />
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-title">🗽 Family Trip</div>
+      <div class="login-subtitle">Enter the 4-digit code</div>
+
+      <div class="pin-display" id="pinDisplay">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+      </div>
+
+      <div class="pin-keypad" id="keypad">
+        <button type="button" class="pin-key" data-key="1">1</button>
+        <button type="button" class="pin-key" data-key="2">2</button>
+        <button type="button" class="pin-key" data-key="3">3</button>
+        <button type="button" class="pin-key" data-key="4">4</button>
+        <button type="button" class="pin-key" data-key="5">5</button>
+        <button type="button" class="pin-key" data-key="6">6</button>
+        <button type="button" class="pin-key" data-key="7">7</button>
+        <button type="button" class="pin-key" data-key="8">8</button>
+        <button type="button" class="pin-key" data-key="9">9</button>
+        <button type="button" class="pin-key empty" tabindex="-1"></button>
+        <button type="button" class="pin-key" data-key="0">0</button>
+        <button type="button" class="pin-key delete" data-key="del">⌫</button>
+      </div>
+
+      <div class="pin-error" id="pinError"></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ }}>
+    const params = new URLSearchParams(location.search);
+    const next = params.get("next") || "/trips/nyc-2026";
+
+    const display = document.getElementById("pinDisplay");
+    const keypad = document.getElementById("keypad");
+    const error = document.getElementById("pinError");
+    const dots = display.querySelectorAll(".pin-dot");
+
+    let pin = "";
+    let submitting = false;
+
+    function render() {
+      dots.forEach((d, i) => {
+        if (i < pin.length) d.classList.add("filled");
+        else d.classList.remove("filled");
+      });
+    }
+
+    function clearError() {
+      error.textContent = "";
+      error.classList.remove("pin-success");
+    }
+
+    async function submit() {
+      if (submitting) return;
+      submitting = true;
+      clearError();
+      try {
+        const res = await fetch("/api/trips/auth", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ pin }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          error.textContent = "Unlocked ✓";
+          error.classList.add("pin-success");
+          setTimeout(() => {
+            location.href = next;
+          }, 350);
+        } else {
+          error.textContent = data.error || "Wrong code";
+          pin = "";
+          render();
+          // shake animation reset
+          display.style.animation = "none";
+          display.offsetHeight;
+          display.style.animation = "shake 0.3s ease";
+          submitting = false;
+        }
+      } catch (e) {
+        error.textContent = "Network error — try again";
+        submitting = false;
+      }
+    }
+
+    keypad.addEventListener("click", (e) => {
+      const btn = e.target.closest(".pin-key");
+      if (!btn || btn.classList.contains("empty")) return;
+      const key = btn.dataset.key;
+      if (submitting) return;
+      clearError();
+
+      if (key === "del") {
+        pin = pin.slice(0, -1);
+      } else if (pin.length < 4) {
+        pin += key;
+      }
+      render();
+      if (pin.length === 4) setTimeout(submit, 150);
+    });
+
+    // keyboard support
+    window.addEventListener("keydown", (e) => {
+      if (submitting) return;
+      if (/^\d$/.test(e.key) && pin.length < 4) {
+        pin += e.key;
+        clearError();
+        render();
+        if (pin.length === 4) setTimeout(submit, 150);
+      } else if (e.key === "Backspace") {
+        pin = pin.slice(0, -1);
+        render();
+      }
+    });
+  </script>
+</Layout>
+
+<style>
+  @import "../../styles/trip.css";
+</style>
