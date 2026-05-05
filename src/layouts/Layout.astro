@@ -4,10 +4,12 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { title, description = "Independent software shop. AI infrastructure, algorithmic trading, and mobile health apps. Run by Brady Landry." } = Astro.props;
+const { title, description = "Independent software shop. AI infrastructure, algorithmic trading, and mobile health apps. Run by Brady Landry.", noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const isPrivate = noindex || Astro.url.pathname.startsWith("/trips/");
 ---
 
 <!DOCTYPE html>
@@ -17,7 +19,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {isPrivate && <meta name="robots" content="noindex,nofollow,noarchive" />}
+    {!isPrivate && <link rel="canonical" href={canonical} />}
 
     <!-- Open Graph / social -->
     <meta property="og:title" content={title} />

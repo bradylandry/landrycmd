@@ -1,0 +1,884 @@
+/* trip.css — heavy animations for /trips/* pages */
+
+:root {
+  --trip-accent: #38bdf8;
+  --trip-pink: #ec4899;
+  --trip-yellow: #fbbf24;
+  --trip-green: #10b981;
+  --trip-purple: #a78bfa;
+  --trip-red: #ef4444;
+  --trip-orange: #fb923c;
+  --trip-card: rgba(33, 38, 45, 0.7);
+  --trip-card-border: rgba(56, 189, 248, 0.2);
+  --trip-glow: rgba(56, 189, 248, 0.4);
+  /* MTA subway line colors */
+  --mta-1: #ee352e; /* 1/2/3 red */
+  --mta-4: #00933c; /* 4/5/6 green */
+  --mta-7: #b933ad; /* 7 purple */
+  --mta-a: #2850ad; /* A/C/E blue */
+  --mta-b: #ff6319; /* B/D/F/M orange */
+  --mta-l: #a7a9ac; /* L grey */
+  --mta-n: #fccc0a; /* N/Q/R/W yellow */
+  --mta-g: #6cbe45; /* G light green */
+  --mta-j: #996633; /* J/Z brown */
+}
+
+/* expand main on trip pages */
+.trip-page main {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.trip-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 6rem;
+}
+
+/* --- HERO --- */
+.trip-hero {
+  position: relative;
+  padding: 4rem 1.5rem 5rem;
+  text-align: center;
+  overflow: hidden;
+  background: radial-gradient(
+      ellipse at top,
+      rgba(56, 189, 248, 0.15),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #0a0e1a 0%, #0d1117 100%);
+  border-bottom: 1px solid var(--trip-card-border);
+}
+
+.trip-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+      circle at 20% 30%,
+      rgba(56, 189, 248, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(236, 72, 153, 0.08) 0%,
+      transparent 40%
+    );
+  animation: hero-pulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes hero-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.trip-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.trip-hero h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(
+    135deg,
+    #fff 0%,
+    var(--trip-accent) 50%,
+    var(--trip-pink) 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.trip-hero .dates {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  margin: 0.5rem 0 2rem;
+  letter-spacing: 0.05em;
+}
+
+/* --- COUNTDOWN --- */
+.countdown {
+  display: inline-flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--trip-card-border);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  margin-top: 0.5rem;
+}
+
+.countdown-segment {
+  text-align: center;
+  min-width: 60px;
+}
+
+.countdown-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--trip-accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  display: block;
+  text-shadow: 0 0 20px var(--trip-glow);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 20px var(--trip-glow);
+  }
+  50% {
+    text-shadow: 0 0 30px var(--trip-glow), 0 0 40px var(--trip-glow);
+  }
+}
+
+.countdown-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+}
+
+/* --- QUICK NAV --- */
+.quick-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--trip-card-border);
+  padding: 0.75rem 1rem;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.quick-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.quick-nav a {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.quick-nav a:hover {
+  color: var(--trip-accent);
+  background: rgba(56, 189, 248, 0.1);
+  border: none;
+}
+
+/* --- SECTIONS --- */
+.trip-section {
+  margin: 4rem 0;
+}
+
+.trip-section h2 {
+  font-size: 1.75rem;
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-icon {
+  display: inline-block;
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 8px var(--trip-glow));
+}
+
+/* --- FLIGHT CARDS --- */
+.flights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1rem;
+}
+
+.flight-card {
+  background: var(--trip-card);
+  border: 1px solid var(--trip-card-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.flight-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--trip-accent),
+    transparent
+  );
+  animation: scan 3s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.flight-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--trip-accent);
+  box-shadow: 0 10px 40px var(--trip-glow);
+}
+
+.flight-card-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.flight-num {
+  color: var(--trip-accent);
+  font-weight: 600;
+}
+
+.flight-route {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.flight-airport {
+  text-align: center;
+}
+
+.flight-airport-code {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.flight-time {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  margin-top: 0.15rem;
+}
+
+.flight-arrow {
+  position: relative;
+  width: 60px;
+  height: 24px;
+}
+
+.flight-arrow svg {
+  width: 100%;
+  height: 100%;
+  animation: plane-fly 3s ease-in-out infinite;
+}
+
+@keyframes plane-fly {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+}
+
+.flight-meta {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 0.75rem;
+}
+
+.flight-seats {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+/* --- HOTEL CARD --- */
+.hotel-card {
+  background: linear-gradient(
+    135deg,
+    rgba(236, 72, 153, 0.08),
+    rgba(56, 189, 248, 0.06)
+  );
+  border: 1px solid var(--trip-card-border);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hotel-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 80% 20%,
+    rgba(236, 72, 153, 0.15),
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.hotel-card-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.hotel-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.hotel-tagline {
+  color: var(--trip-pink);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.hotel-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.hotel-meta-item {
+  font-size: 0.9rem;
+}
+
+.hotel-meta-label {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+/* --- DAY CARDS --- */
+.days-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.day-card {
+  background: var(--trip-card);
+  border: 1px solid var(--trip-card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.day-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.day-card-head {
+  padding: 1.5rem 1.5rem 1.25rem;
+  border-left: 6px solid var(--day-color, var(--trip-accent));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.day-card-date {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.day-card-day {
+  font-size: 1rem;
+  color: var(--day-color, var(--trip-accent));
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.day-card-num {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.day-card-theme {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+}
+
+.day-card-body {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.day-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  border-left: 2px solid rgba(56, 189, 248, 0.2);
+  margin-left: 0.5rem;
+}
+
+.day-event {
+  position: relative;
+  padding: 0.5rem 0 0.75rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+.day-event::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0.85rem;
+  width: 12px;
+  height: 12px;
+  background: var(--day-color, var(--trip-accent));
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--bg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.day-event:hover::before {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 12px var(--day-color, var(--trip-accent));
+}
+
+.day-event-time {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  min-width: 5rem;
+}
+
+.day-event-title {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.day-event-detail {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+.day-event-actions {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* --- ACTION CHIPS --- */
+.chip {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: var(--trip-accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--trip-accent);
+  border-bottom-color: var(--trip-accent);
+}
+
+.chip-pink {
+  color: var(--trip-pink);
+  background: rgba(236, 72, 153, 0.08);
+  border-color: rgba(236, 72, 153, 0.25);
+}
+
+.chip-pink:hover {
+  background: rgba(236, 72, 153, 0.18);
+  border-color: var(--trip-pink);
+  border-bottom-color: var(--trip-pink);
+}
+
+.chip-yellow {
+  color: var(--trip-yellow);
+  background: rgba(251, 191, 36, 0.08);
+  border-color: rgba(251, 191, 36, 0.25);
+}
+
+.chip-yellow:hover {
+  background: rgba(251, 191, 36, 0.18);
+  border-color: var(--trip-yellow);
+  border-bottom-color: var(--trip-yellow);
+}
+
+.chip-green {
+  color: var(--trip-green);
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.chip-green:hover {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: var(--trip-green);
+  border-bottom-color: var(--trip-green);
+}
+
+/* --- HIGHLIGHT CARDS (Wicked, Yankees) --- */
+.highlight-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1rem 0;
+  overflow: hidden;
+  border: 1px solid var(--trip-card-border);
+}
+
+.wicked-card {
+  background: linear-gradient(
+    135deg,
+    #1a0533 0%,
+    #2d1857 50%,
+    #1a0533 100%
+  );
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+.wicked-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(167, 139, 250, 0.2),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(16, 185, 129, 0.15),
+      transparent 50%
+    );
+  animation: wicked-glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes wicked-glow {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.wicked-card .highlight-title {
+  color: var(--trip-green);
+  font-family: serif;
+  font-style: italic;
+}
+
+.yankees-card {
+  background: linear-gradient(135deg, #001f3f 0%, #0d2752 50%, #001f3f 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.yankees-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 12px,
+    rgba(255, 255, 255, 0.04) 12px,
+    rgba(255, 255, 255, 0.04) 14px
+  );
+  pointer-events: none;
+}
+
+.highlight-content {
+  position: relative;
+  z-index: 2;
+}
+
+.highlight-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+/* --- RESERVATIONS --- */
+.res-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.res-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-dim);
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--trip-card-border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.res-table td {
+  padding: 0.85rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.res-status {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.res-status.booked {
+  color: var(--trip-green);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.res-status.todo {
+  color: var(--trip-yellow);
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.res-status.optional {
+  color: var(--text-dim);
+  background: rgba(139, 148, 158, 0.1);
+  border: 1px solid rgba(139, 148, 158, 0.2);
+}
+
+/* --- LOGIN PAGE --- */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: radial-gradient(
+      ellipse at center,
+      rgba(56, 189, 248, 0.12),
+      transparent 70%
+    ),
+    var(--bg);
+}
+
+.login-card {
+  background: var(--trip-card);
+  border: 1px solid var(--trip-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(56, 189, 248, 0.15);
+}
+
+.login-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  background: linear-gradient(135deg, #fff, var(--trip-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 2rem;
+}
+
+.pin-display {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.pin-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(56, 189, 248, 0.4);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.pin-dot.filled {
+  background: var(--trip-accent);
+  border-color: var(--trip-accent);
+  box-shadow: 0 0 16px var(--trip-glow);
+  transform: scale(1.1);
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.pin-key {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 1rem 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.pin-key:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: var(--trip-accent);
+  transform: translateY(-2px);
+}
+
+.pin-key:active {
+  transform: scale(0.95);
+  background: rgba(56, 189, 248, 0.2);
+}
+
+.pin-key.empty {
+  visibility: hidden;
+}
+
+.pin-key.delete {
+  font-size: 1.2rem;
+}
+
+.pin-error {
+  margin-top: 1rem;
+  color: var(--trip-red);
+  font-size: 0.85rem;
+  min-height: 1.2rem;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+.pin-success {
+  color: var(--trip-green) !important;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  .trip-hero {
+    padding: 3rem 1rem 4rem;
+  }
+  .countdown-num {
+    font-size: 1.6rem;
+  }
+  .trip-section {
+    margin: 3rem 0;
+  }
+  .day-card-head {
+    padding: 1.25rem;
+  }
+  .day-card-body {
+    padding: 0 1.25rem 1.25rem;
+  }
+  .day-event {
+    padding-left: 1.25rem;
+  }
+  .res-table {
+    font-size: 0.8rem;
+  }
+  .res-table th:nth-child(4),
+  .res-table td:nth-child(4) {
+    display: none;
+  }
+}

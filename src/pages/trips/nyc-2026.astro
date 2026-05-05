@@ -1,0 +1,738 @@
+---
+import Layout from "../../layouts/Layout.astro";
+export const prerender = false;
+
+// helper to build a Google Maps query link
+const map = (q: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const transit = (dest: string) =>
+  `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+    "The Evelyn Hotel, 7 East 27th Street, New York, NY",
+  )}&destination=${encodeURIComponent(dest)}&travelmode=transit`;
+const tel = (n: string) => `tel:${n.replace(/[^+\d]/g, "")}`;
+
+const flights = [
+  {
+    label: "Outbound · Leg 1",
+    num: "DL 5308",
+    cabin: "Delta Main",
+    date: "Tue Jun 2",
+    from: { code: "LFT", city: "Lafayette", time: "3:12 PM CDT" },
+    to: { code: "ATL", city: "Atlanta", time: "6:00 PM EDT" },
+    seats: "14A · 14B · 14C · 14D · 15B",
+  },
+  {
+    label: "Outbound · Leg 2",
+    num: "DL 490",
+    cabin: "Delta Main",
+    date: "Tue Jun 2",
+    from: { code: "ATL", city: "Atlanta", time: "8:00 PM EDT" },
+    to: { code: "LGA", city: "LaGuardia · Term C", time: "10:20 PM EDT" },
+    seats: "22A · 22B · 22C · 22D · 22E",
+  },
+  {
+    label: "Return · Leg 1",
+    num: "DL 2227",
+    cabin: "Delta Main",
+    date: "Mon Jun 8",
+    from: { code: "JFK", city: "Kennedy Intl", time: "8:40 AM EDT" },
+    to: { code: "ATL", city: "Atlanta", time: "11:14 AM EDT" },
+    seats: "23C · 23D · 23E · 24A · 24B",
+  },
+  {
+    label: "Return · Leg 2",
+    num: "DL 5308",
+    cabin: "Delta Main",
+    date: "Mon Jun 8",
+    from: { code: "ATL", city: "Atlanta", time: "1:51 PM EDT" },
+    to: { code: "LFT", city: "Lafayette", time: "2:39 PM CDT" },
+    seats: "14A · 14B · 14C · 14D · 15B",
+  },
+];
+
+const days = [
+  {
+    id: "tue",
+    day: "TUE",
+    date: "JUN 2",
+    theme: "Arrival · NYC bound",
+    color: "var(--mta-n)",
+    events: [
+      { time: "3:12 PM", title: "Lafayette → Atlanta (DL 5308)", detail: "Land ATL 6:00 PM" },
+      { time: "8:00 PM", title: "Atlanta → LaGuardia (DL 490)", detail: "Land LGA Terminal C at 10:20 PM" },
+      {
+        time: "11:00 PM",
+        title: "Uber XL → The Evelyn Hotel",
+        detail: "Late check-in (~$55-70). Crash. No dinner activities — Kaiten Zushi moved to Wednesday lunch.",
+        actions: [
+          { label: "🚗 Hotel route", href: map("The Evelyn Hotel, 7 East 27th Street, New York, NY"), type: "" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "wed",
+    day: "WED",
+    date: "JUN 3",
+    theme: "Liberty + 9/11 + lunch in Chinatown",
+    color: "var(--mta-1)",
+    events: [
+      {
+        time: "9:00 AM",
+        title: "Subway 4 / R → Battery Park",
+        detail: "Catch Statue Cruises ferry. Pedestal Reserve tickets booked in advance.",
+        actions: [
+          { label: "🗺️ Battery Park", href: map("Battery Park New York"), type: "" },
+          { label: "🎟️ Pedestal tickets", href: "https://www.cityexperiences.com/new-york/city-cruises/statue/", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "9:30 AM",
+        title: "Statue of Liberty + Ellis Island",
+        detail: "~3 hours total. Pedestal interior + Ellis Island immigration museum.",
+        actions: [
+          { label: "🗺️ Liberty Island", href: map("Statue of Liberty"), type: "" },
+        ],
+      },
+      {
+        time: "1:00 PM",
+        title: "Lunch in Chinatown (Kaiten Zushi pivot)",
+        detail: "Walk up from Battery Park area. Joe's Shanghai (soup dumplings) or Xi'an Famous Foods.",
+        actions: [
+          { label: "🗺️ Chinatown", href: map("Chinatown Manhattan"), type: "" },
+        ],
+      },
+      {
+        time: "3:00 PM",
+        title: "9/11 Memorial & Museum",
+        detail: "Heavy emotional day. Set expectations with Emrie. Plan ~2-3 hours.",
+        actions: [
+          { label: "🗺️ 9/11 Memorial", href: map("9/11 Memorial Museum"), type: "" },
+          { label: "🎟️ Tickets", href: "https://www.911memorial.org/visit/tickets", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "6:00 PM",
+        title: "Subway back to NoMad → easy dinner",
+        detail: "Eataly Flatiron or The Smith. Walking distance from hotel.",
+        actions: [
+          { label: "🍽️ Eataly", href: "https://www.eataly.com/us_en/stores/nyc-flatiron/", type: "chip-pink" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "thu",
+    day: "THU",
+    date: "JUN 4",
+    theme: "Midtown highlights · WICKED 🌟",
+    color: "var(--mta-b)",
+    events: [
+      {
+        time: "9:00 AM",
+        title: "Grand Central Terminal",
+        detail: "Whispering Gallery (lower level near Oyster Bar) + Zodiac ceiling. Karsyn might recognize from Gossip Girl S1E1.",
+        actions: [
+          { label: "🗺️ Grand Central", href: map("Grand Central Terminal"), type: "" },
+          { label: "🚇 From hotel", href: transit("Grand Central Terminal NYC"), type: "" },
+        ],
+      },
+      {
+        time: "10:00 AM",
+        title: "Top of the Rock",
+        detail: "Timed entry · ~$42/pp. Walk via Bryant Park (10 min from Grand Central).",
+        actions: [
+          { label: "🗺️ Top of the Rock", href: map("Top of the Rock NYC"), type: "" },
+          { label: "🎟️ Tickets", href: "https://www.rockefellercenter.com/tickets/top-of-the-rock-observation-deck", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "11:30 AM",
+        title: "MoMA (optional) — or extra 5th Ave shopping",
+        detail: "Floors 4-5 only: Starry Night, Warhol, Dalí. ~1.5 hrs. Adults $30, under-16 free. Skip if Blake/wife shrug.",
+        actions: [
+          { label: "🗺️ MoMA", href: map("Museum of Modern Art NYC"), type: "" },
+          { label: "🎟️ MoMA tickets", href: "https://www.moma.org/tickets/", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "1:00 PM",
+        title: "Lunch (Bryant Park area)",
+        detail: "Casual — Pret, Bryant Park Grill, or 5th Ave delis.",
+      },
+      {
+        time: "2:00 PM",
+        title: "5th Avenue + Times Square shopping",
+        detail: "Saks → Rockefeller → FAO Schwarz → Apple Cube → Tiffany's → Bergdorf → Plaza Hotel → walk back through Times Square (M&M's, Disney Store, Forever 21).",
+        actions: [
+          { label: "🗺️ 5th Ave + 50th", href: map("5th Avenue and 50th Street New York"), type: "" },
+          { label: "🗺️ FAO Schwarz", href: map("FAO Schwarz Rockefeller"), type: "" },
+          { label: "🗺️ Tiffany & Co", href: map("Tiffany & Co. 5th Avenue flagship"), type: "" },
+        ],
+      },
+      {
+        time: "4:30 PM",
+        title: "Becco — pre-show dinner",
+        detail: "$36.95/pp Sinfonia di Pasta unlimited tasting. Lidia Bastianich's. 5 blocks to Gershwin.",
+        actions: [
+          { label: "🗺️ Becco", href: map("Becco 355 W 46th New York"), type: "" },
+          { label: "📞 (212) 397-7597", href: tel("+12123977597"), type: "chip-yellow" },
+          { label: "🍽️ OpenTable", href: "https://www.opentable.com/r/becco-new-york", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "6:30 PM",
+        title: "Walk to Gershwin Theatre",
+        detail: "~5 blocks. 222 W 51st St. Box Office #: TF88GC3. Order #: 206502940-7757062. 5 tickets.",
+        actions: [
+          { label: "🗺️ Gershwin Theatre", href: map("Gershwin Theatre 222 W 51st St"), type: "" },
+        ],
+      },
+      {
+        time: "7:00 PM",
+        title: "🎭 WICKED",
+        detail: "Run time ~2h 45m with intermission. Out by ~10pm.",
+      },
+    ],
+  },
+  {
+    id: "fri",
+    day: "FRI",
+    date: "JUN 5",
+    theme: "Central Park bike + SoHo",
+    color: "var(--mta-g)",
+    events: [
+      {
+        time: "9:00 AM",
+        title: "Subway → Columbus Circle",
+        detail: "B/D/A/C or 1 train. Pre-reserve bikes for the family (Citi Bike is 16+ only).",
+        actions: [
+          { label: "🗺️ Columbus Circle", href: map("Columbus Circle New York"), type: "" },
+          { label: "🚲 Bike Rent NYC", href: "https://www.bikerentnyc.com/", type: "chip-pink" },
+          { label: "🚲 Unlimited Biking", href: "https://www.unlimitedbiking.com/", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "9:30 AM",
+        title: "Family bike — Central Park lower loop",
+        detail: "~3 miles, easy, cars banned from drives. Stops: Bow Bridge, Bethesda Fountain (Gossip Girl spot), Strawberry Fields, the Mall, Sheep Meadow.",
+        actions: [
+          { label: "🗺️ Bethesda Fountain", href: map("Bethesda Fountain Central Park"), type: "" },
+        ],
+      },
+      {
+        time: "12:00 PM",
+        title: "Subway down to SoHo",
+        detail: "C/E to Spring or 6 to Spring. ~25 min total.",
+        actions: [
+          { label: "🗺️ SoHo", href: map("SoHo Manhattan"), type: "" },
+        ],
+      },
+      {
+        time: "12:30 PM",
+        title: "Lunch in SoHo",
+        detail: "Jack's Wife Freda or street food.",
+        actions: [
+          { label: "🗺️ Jack's Wife Freda", href: map("Jack's Wife Freda SoHo"), type: "" },
+        ],
+      },
+      {
+        time: "1:30 PM",
+        title: "SoHo shopping",
+        detail: "Brandy Melville flagship, Glossier, Aritzia, Sephora, Lululemon, Urban Outfitters, Nike SoHo.",
+        actions: [
+          { label: "🗺️ Brandy Melville", href: map("Brandy Melville SoHo"), type: "" },
+          { label: "🗺️ Glossier", href: map("Glossier SoHo"), type: "" },
+        ],
+      },
+      {
+        time: "5:00 PM",
+        title: "Subway back → casual dinner near hotel",
+        detail: "The Smith NoMad, neighborhood pizza, or relaxed takeout.",
+      },
+    ],
+  },
+  {
+    id: "sat",
+    day: "SAT",
+    date: "JUN 6",
+    theme: "Brooklyn Bridge · DUMBO · Chinatown · Little Italy",
+    color: "var(--mta-4)",
+    events: [
+      {
+        time: "10:00 AM",
+        title: "Subway → Brooklyn Bridge entrance",
+        detail: "4/5/6 to Brooklyn Bridge - City Hall.",
+        actions: [
+          { label: "🗺️ Brooklyn Bridge", href: map("Brooklyn Bridge Manhattan entrance"), type: "" },
+        ],
+      },
+      {
+        time: "10:30 AM",
+        title: "Walk Brooklyn Bridge → DUMBO",
+        detail: "New June 2026 redesign separates bikes from pedestrians for the first time. Photo stops at the towers + iconic under-bridge views in DUMBO.",
+      },
+      {
+        time: "12:00 PM",
+        title: "Juliana's Pizza (DUMBO)",
+        detail: "Patsy Grimaldi's original. (Different from Grimaldi's next door — go to Juliana's.)",
+        actions: [
+          { label: "🗺️ Juliana's", href: map("Juliana's Pizza DUMBO Brooklyn"), type: "" },
+        ],
+      },
+      {
+        time: "1:30 PM",
+        title: "Subway → Chinatown",
+        detail: "F train York → East Broadway, ~10 min.",
+      },
+      {
+        time: "2:00 PM",
+        title: "Chinatown wander — Doyers St + Canal St",
+        detail: "Doyers Street curved alley with red lanterns (super photogenic). Canal Street market for cheap sunglasses, knockoffs, kitsch — kids love it.",
+        actions: [
+          { label: "🗺️ Doyers Street", href: map("Doyers Street New York"), type: "" },
+          { label: "🗺️ Canal Street", href: map("Canal Street market New York"), type: "" },
+        ],
+      },
+      {
+        time: "3:00 PM",
+        title: "Nom Wah Tea Parlor — dim sum",
+        detail: "13 Doyers St. Oldest dim sum house in NYC (1920). Reservation required, tiny spot.",
+        actions: [
+          { label: "🗺️ Nom Wah", href: map("Nom Wah Tea Parlor 13 Doyers St"), type: "" },
+          { label: "🍽️ Reservations", href: "https://www.nomwah.com/", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "4:30 PM",
+        title: "Walk to Little Italy (Mulberry St)",
+        detail: "5 blocks north. Gelato break, café stop.",
+        actions: [
+          { label: "🗺️ Mulberry St", href: map("Mulberry Street Little Italy"), type: "" },
+        ],
+      },
+      {
+        time: "6:00 PM",
+        title: "Lombardi's Pizza",
+        detail: "32 Spring St. First pizzeria in America (1905). Coal-fired Margherita.",
+        actions: [
+          { label: "🗺️ Lombardi's", href: map("Lombardi's Pizza 32 Spring St New York"), type: "" },
+          { label: "🍽️ firstpizza.com", href: "https://www.firstpizza.com/", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "8:00 PM",
+        title: "🧳 PACK SUITCASES TONIGHT",
+        detail: "Sunday game can run long. Don't be packing at 9pm before a Monday flight.",
+      },
+    ],
+  },
+  {
+    id: "sun",
+    day: "SUN",
+    date: "JUN 7",
+    theme: "Yankees vs Red Sox ⚾",
+    color: "var(--mta-1)",
+    events: [
+      {
+        time: "11:00 AM",
+        title: "Brunch in NoMad — light",
+        detail: "Don't overdo it before stadium food.",
+      },
+      {
+        time: "12:00 PM",
+        title: "4 train: 33rd St → 161st St / Yankee Stadium",
+        detail: "~30 min direct. Get to stadium by 12:45 to soak in atmosphere.",
+        actions: [
+          { label: "🗺️ Yankee Stadium", href: map("Yankee Stadium Bronx"), type: "" },
+          { label: "🚇 From hotel", href: transit("Yankee Stadium 1 E 161st St Bronx"), type: "" },
+        ],
+      },
+      {
+        time: "1:35 PM",
+        title: "⚾ Yankees vs Red Sox",
+        detail: "Premium rivalry game. Sunrun Kids Clubhouse on 300 level RF if Emrie needs a break.",
+      },
+      {
+        time: "5:00 PM",
+        title: "Subway back to NoMad",
+        detail: "Game ends ~4:45pm.",
+      },
+      {
+        time: "6:30 PM",
+        title: "Dinner near hotel",
+        detail: "Eataly, The Smith, or local pizza. Pre-book this week.",
+      },
+    ],
+  },
+  {
+    id: "mon",
+    day: "MON",
+    date: "JUN 8",
+    theme: "Departure (JFK · early start)",
+    color: "var(--mta-j)",
+    events: [
+      {
+        time: "5:30 AM",
+        title: "🧳 Wake up · final bag check",
+        detail: "Suitcases packed Saturday night. Quick coffee at hotel.",
+      },
+      {
+        time: "6:00 AM",
+        title: "Uber XL → JFK",
+        detail: "JFK is ~1 hr from Manhattan in morning traffic. Arrive ~7:00 AM = 1h40m before flight.",
+        actions: [
+          { label: "🗺️ JFK Terminal 4 (Delta)", href: map("JFK Airport Terminal 4 Delta"), type: "" },
+        ],
+      },
+      {
+        time: "8:40 AM",
+        title: "DL 2227 · JFK → Atlanta",
+        detail: "Land ATL 11:14 AM. ~37 min layover.",
+      },
+      {
+        time: "1:51 PM",
+        title: "DL 5308 · Atlanta → Lafayette",
+        detail: "Land LFT 2:39 PM CDT. Home.",
+      },
+    ],
+  },
+];
+
+const reservations = [
+  { item: "Flights LFT→LGA", date: "Jun 2", status: "booked", cost: "—", conf: "DL 5308 / 490" },
+  { item: "Flights JFK→LFT", date: "Jun 8", status: "booked", cost: "—", conf: "DL 2227 / 5308" },
+  { item: "Hotel — The Evelyn", date: "Jun 2-8", status: "booked", cost: "—", conf: "—" },
+  { item: "🎭 Wicked at Gershwin", date: "Jun 4 · 7pm", status: "booked", cost: "—", conf: "TF88GC3" },
+  { item: "Statue of Liberty Pedestal", date: "Jun 3 · AM", status: "todo", cost: "~$120", conf: "—" },
+  { item: "⚾ Yankees vs Red Sox", date: "Jun 7 · 1:35pm", status: "todo", cost: "~$450", conf: "—" },
+  { item: "Top of the Rock", date: "Jun 4 · 10am", status: "todo", cost: "~$210", conf: "—" },
+  { item: "MoMA (optional)", date: "Jun 4 · 11:30am", status: "optional", cost: "~$90", conf: "—" },
+  { item: "Becco dinner", date: "Jun 4 · 4:30pm", status: "todo", cost: "~$250", conf: "—" },
+  { item: "Bike rental — Central Park", date: "Jun 5 · 9:15am", status: "todo", cost: "~$175", conf: "—" },
+  { item: "Nom Wah dim sum", date: "Jun 6 · 3pm", status: "todo", cost: "~$100", conf: "—" },
+  { item: "Lombardi's", date: "Jun 6 · 6pm", status: "todo", cost: "~$150", conf: "—" },
+  { item: "Sunday post-game dinner", date: "Jun 7 · 6:30pm", status: "todo", cost: "~$200", conf: "—" },
+];
+---
+
+<Layout title="NYC Family Trip · June 2026">
+  <div class="trip-page">
+    <section class="trip-hero">
+      <div class="trip-hero-inner">
+        <h1>NYC Family Trip</h1>
+        <p class="dates">June 2 – 8, 2026 · Brady, Wife, Blake, Karsyn, Emrie</p>
+        <div class="countdown" id="countdown">
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-days">--</span>
+            <span class="countdown-label">days</span>
+          </div>
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-hours">--</span>
+            <span class="countdown-label">hrs</span>
+          </div>
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-mins">--</span>
+            <span class="countdown-label">min</span>
+          </div>
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-secs">--</span>
+            <span class="countdown-label">sec</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="quick-nav">
+      <a href="#flights">✈️ Flights</a>
+      <a href="#hotel">🏨 Hotel</a>
+      <a href="#tue">Tue</a>
+      <a href="#wed">Wed</a>
+      <a href="#thu">Thu · Wicked 🎭</a>
+      <a href="#fri">Fri</a>
+      <a href="#sat">Sat</a>
+      <a href="#sun">Sun · Yankees ⚾</a>
+      <a href="#mon">Mon</a>
+      <a href="#reservations">📋 Bookings</a>
+    </nav>
+
+    <div class="trip-wrap">
+      <!-- FLIGHTS -->
+      <section class="trip-section" id="flights">
+        <h2><span class="section-icon">✈️</span> Flights</h2>
+        <div class="flights-grid">
+          {flights.map((f) => (
+            <div class="flight-card">
+              <div class="flight-card-head">
+                <span class="flight-num">{f.num} · {f.cabin}</span>
+                <span>{f.date}</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-airport">
+                  <div class="flight-airport-code">{f.from.code}</div>
+                  <div class="flight-time">{f.from.time}</div>
+                </div>
+                <div class="flight-arrow">
+                  <svg viewBox="0 0 60 24" fill="none" aria-hidden="true">
+                    <path d="M2 12 L50 12" stroke="var(--trip-accent)" stroke-width="1.5" stroke-dasharray="3 3" />
+                    <path d="M50 4 L58 12 L50 20 L52 12 Z" fill="var(--trip-accent)" />
+                  </svg>
+                </div>
+                <div class="flight-airport">
+                  <div class="flight-airport-code">{f.to.code}</div>
+                  <div class="flight-time">{f.to.time}</div>
+                </div>
+              </div>
+              <div class="flight-meta">
+                <span><strong>{f.label}</strong></span>
+                <span class="flight-seats">{f.seats}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p style="margin-top:1.25rem; font-size:0.9rem; color:var(--text-dim);">
+          ⚠️ <strong>Heads up</strong>: return is from <strong>JFK</strong>, not LGA.
+          Plan ~1 hr Uber XL ride from hotel — leave by 6:00 AM.
+        </p>
+      </section>
+
+      <!-- HOTEL -->
+      <section class="trip-section" id="hotel">
+        <h2><span class="section-icon">🏨</span> Hotel</h2>
+        <div class="hotel-card">
+          <div class="hotel-card-inner">
+            <div class="hotel-tagline">Where we're staying</div>
+            <div class="hotel-name">The Evelyn Hotel · NoMad</div>
+            <p style="color:var(--text-dim); margin: 0 0 1.25rem;">
+              Art Deco boutique hotel · 29th &amp; Madison · 5 blocks from Macy's Herald Square
+            </p>
+            <div class="hotel-meta">
+              <div class="hotel-meta-item">
+                <div class="hotel-meta-label">Address</div>
+                <div>7 East 27th Street<br />New York, NY 10016</div>
+              </div>
+              <div class="hotel-meta-item">
+                <div class="hotel-meta-label">Phone</div>
+                <div><a href={tel("+12125458000")} style="color:var(--trip-pink);">(212) 545-8000</a></div>
+              </div>
+              <div class="hotel-meta-item">
+                <div class="hotel-meta-label">Check-in</div>
+                <div>3:00 PM · Tue Jun 2</div>
+              </div>
+              <div class="hotel-meta-item">
+                <div class="hotel-meta-label">Check-out</div>
+                <div>12:00 PM · Mon Jun 8</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+              <a class="chip" href={map("The Evelyn Hotel 7 East 27th Street New York")}>🗺️ Open in Maps</a>
+              <a class="chip chip-pink" href="https://www.theevelyn.com/">🌐 theevelyn.com</a>
+              <a class="chip chip-yellow" href={tel("+12125458000")}>📞 Call hotel</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DAY-BY-DAY -->
+      <section class="trip-section">
+        <h2><span class="section-icon">📅</span> Day by Day</h2>
+        <div class="days-stack">
+          {days.map((d) => (
+            <article id={d.id} class="day-card" style={`--day-color: ${d.color};`}>
+              <div class="day-card-head">
+                <div class="day-card-date">
+                  <span class="day-card-day">{d.day}</span>
+                  <span class="day-card-num">{d.date}</span>
+                </div>
+                <span class="day-card-theme">{d.theme}</span>
+              </div>
+              <div class="day-card-body">
+                <ul class="day-timeline">
+                  {d.events.map((e) => (
+                    <li class="day-event">
+                      <div>
+                        <span class="day-event-time">{e.time}</span>
+                        <span class="day-event-title">{e.title}</span>
+                      </div>
+                      {e.detail && <div class="day-event-detail">{e.detail}</div>}
+                      {e.actions && (
+                        <div class="day-event-actions">
+                          {e.actions.map((a: any) => (
+                            <a class={`chip ${a.type || ""}`} href={a.href}>
+                              {a.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- HIGHLIGHT: WICKED -->
+      <section class="trip-section">
+        <article class="highlight-card wicked-card">
+          <div class="highlight-content">
+            <div style="color:var(--trip-purple); font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem;">
+              Thursday Jun 4 · 7:00 PM
+            </div>
+            <div class="highlight-title">Wicked</div>
+            <p style="color:rgba(255,255,255,0.85); margin:0.5rem 0 1.25rem;">
+              Gershwin Theatre · 222 W 51st St · 5 tickets · Box office <code>TF88GC3</code>
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+              <a class="chip" href={map("Gershwin Theatre 222 W 51st St")}>🗺️ Gershwin Theatre</a>
+              <a class="chip chip-pink" href="https://wickedthemusical.com/">🌐 Show site</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- HIGHLIGHT: YANKEES -->
+      <section class="trip-section">
+        <article class="highlight-card yankees-card">
+          <div class="highlight-content">
+            <div style="color:rgba(255,255,255,0.7); font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem;">
+              Sunday Jun 7 · 1:35 PM
+            </div>
+            <div class="highlight-title" style="color:#fff;">Yankees vs Red Sox</div>
+            <p style="color:rgba(255,255,255,0.85); margin:0.5rem 0 1.25rem;">
+              Yankee Stadium · Bronx · Premium rivalry game · Target Grandstand Infield 411-413 or 423-425, ~$80-100/seat
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+              <a class="chip" href={map("Yankee Stadium Bronx")}>🗺️ Yankee Stadium</a>
+              <a class="chip chip-pink" href="https://www.tickpick.com/mlb/new-york-yankees-tickets/">🎟️ TickPick</a>
+              <a class="chip chip-pink" href="https://seatgeek.com/new-york-yankees-tickets/6-7-2026-bronx-new-york-yankee-stadium/mlb/17691552">🎟️ SeatGeek</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- RESERVATIONS -->
+      <section class="trip-section" id="reservations">
+        <h2><span class="section-icon">📋</span> Bookings Status</h2>
+        <table class="res-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>When</th>
+              <th>Status</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reservations.map((r) => (
+              <tr>
+                <td>{r.item}</td>
+                <td style="color:var(--text-dim); font-size:0.85rem;">{r.date}</td>
+                <td>
+                  <span class={`res-status ${r.status}`}>
+                    {r.status === "booked" ? "✓ Booked" : r.status === "todo" ? "⏳ To book" : "○ Optional"}
+                  </span>
+                </td>
+                <td style="color:var(--text-dim); font-size:0.85rem;">{r.cost}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- LOGISTICS NOTES -->
+      <section class="trip-section">
+        <h2><span class="section-icon">🚇</span> Logistics</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+          <div style="background:var(--trip-card); border:1px solid var(--trip-card-border); padding:1.25rem; border-radius:12px;">
+            <div style="color:var(--trip-accent); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Subway</div>
+            <p style="margin:0; color:var(--text-dim); font-size:0.9rem; line-height:1.6;">
+              OMNY tap-to-pay (any contactless card or Apple Pay). After 12 taps in 7 days, the rest of the week is free.
+            </p>
+          </div>
+          <div style="background:var(--trip-card); border:1px solid var(--trip-card-border); padding:1.25rem; border-radius:12px;">
+            <div style="color:var(--trip-pink); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">LGA Arrival</div>
+            <p style="margin:0; color:var(--text-dim); font-size:0.9rem; line-height:1.6;">
+              Tue 10:20 PM Terminal C → Uber XL only (5 + bags). ~$55-70 to hotel. Skip AirTrain.
+            </p>
+          </div>
+          <div style="background:var(--trip-card); border:1px solid var(--trip-card-border); padding:1.25rem; border-radius:12px;">
+            <div style="color:var(--trip-yellow); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">JFK Departure</div>
+            <p style="margin:0; color:var(--text-dim); font-size:0.9rem; line-height:1.6;">
+              Mon 8:40 AM. JFK is ~1 hr away. Leave hotel 6:00 AM. Suitcases packed Sat night.
+            </p>
+          </div>
+          <div style="background:var(--trip-card); border:1px solid var(--trip-card-border); padding:1.25rem; border-radius:12px;">
+            <div style="color:var(--trip-green); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Bikes</div>
+            <p style="margin:0; color:var(--text-dim); font-size:0.9rem; line-height:1.6;">
+              Citi Bike is 16+ only. Rent from a Central Park shop for the family — ~$15-20/hr/bike, kids' sizes + helmets.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script is:inline>
+    // ---- COUNTDOWN ----
+    const target = new Date("2026-06-02T15:12:00-05:00").getTime();
+    const dEl = document.getElementById("cd-days");
+    const hEl = document.getElementById("cd-hours");
+    const mEl = document.getElementById("cd-mins");
+    const sEl = document.getElementById("cd-secs");
+
+    function tick() {
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+      const d = Math.floor(diff / 86400000);
+      diff -= d * 86400000;
+      const h = Math.floor(diff / 3600000);
+      diff -= h * 3600000;
+      const m = Math.floor(diff / 60000);
+      diff -= m * 60000;
+      const s = Math.floor(diff / 1000);
+      if (dEl) dEl.textContent = String(d);
+      if (hEl) hEl.textContent = String(h).padStart(2, "0");
+      if (mEl) mEl.textContent = String(m).padStart(2, "0");
+      if (sEl) sEl.textContent = String(s).padStart(2, "0");
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // ---- DAY CARDS REVEAL ON SCROLL ----
+    const cards = document.querySelectorAll(".day-card");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      cards.forEach((c) => io.observe(c));
+    } else {
+      cards.forEach((c) => c.classList.add("visible"));
+    }
+
+    // ---- SMOOTH SCROLL ----
+    document.querySelectorAll('.quick-nav a[href^="#"]').forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+  </script>
+</Layout>
+
+<style>
+  @import "../../styles/trip.css";
+</style>
