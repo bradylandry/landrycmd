@@ -135,7 +135,7 @@ const days = [
       {
         time: "1:00 PM",
         title: "🥟 Lunch in Chinatown",
-        detail: "Walk up from ferry terminal area. Joe's Shanghai for soup dumplings, or Xi'an Famous Foods for hand-pulled noodles. (This is the Kaiten Zushi pivot — kid-pleaser food.)",
+        detail: "15-min walk north from ferry terminal. Two great picks — both kid-pleasers, both casual: (1) Joe's Shanghai (9 Pell St) — famous for xiao long bao (soup dumplings: dumplings filled with broth that explodes when you bite them), kids find this hilarious; (2) Xi'an Famous Foods (multiple locations) — fast-casual hand-pulled noodles, lamb burgers, spicy cumin lamb. Anthony Bourdain made both famous.",
         actions: [
           ...venue("Joe's Shanghai", "Joe's Shanghai Chinatown 9 Pell St"),
           { label: "🗺️ Xi'an Famous Foods", href: gmap("Xi'an Famous Foods Manhattan"), type: "" },
@@ -175,15 +175,15 @@ const days = [
       {
         time: "9:00 AM",
         title: "🚉 Grand Central Terminal",
-        detail: "Whispering Gallery (lower level near Oyster Bar) + Zodiac ceiling. Karsyn might recognize from Gossip Girl S1E1. Free, ~45 min.",
+        detail: "Iconic 1913 train station at 42nd & Park. Free to walk through. Two unmissable things: (1) the Whispering Gallery — diagonal corner archway on the lower level by the Oyster Bar where you whisper into one corner and someone hears you crystal-clear at the opposite corner across the room, (2) the Zodiac ceiling in the main concourse — gold constellations on teal. Karsyn might recognize from Gossip Girl Season 1 Episode 1. ~45 min total.",
         actions: [
           ...venue("Grand Central Terminal"),
         ],
       },
       {
         time: "10:00 AM",
-        title: "🌆 Top of the Rock",
-        detail: "Timed entry · ~$42/pp. Walk via Bryant Park (10 min from Grand Central).",
+        title: "🌆 Top of the Rock (or SUMMIT — see Alternates section)",
+        detail: "Observation deck on the 70th floor of Rockefeller Center. Classic open-air NYC skyline view (the Empire State Building IS in the photo). Timed entry · ~$42/pp. Walk via Bryant Park (10 min from Grand Central). NOTE: SUMMIT One Vanderbilt is a serious alternative — same neighborhood, mirror rooms + glass floor, see Alternates.",
         actions: [
           ...venue("Top of the Rock NYC"),
           { label: "🚶 Walk from Grand Central", href: walk("Top of the Rock NYC", "Grand Central Terminal"), type: "" },
@@ -192,8 +192,8 @@ const days = [
       },
       {
         time: "11:30 AM",
-        title: "🎨 MoMA (optional)",
-        detail: "Hit floors 4-5 only — Starry Night, Warhol, Dalí. ~1.5 hrs. Adults $30, under-16 free. Skip if Blake/wife shrug.",
+        title: "🎨 MoMA — Museum of Modern Art (optional)",
+        detail: "Famous modern art gallery on 53rd & 5th. The big-name pieces everyone recognizes: Van Gogh's Starry Night, Andy Warhol's Campbell's Soup cans, Salvador Dalí's melting clocks, Picasso's Demoiselles. Hit floors 4-5 only and you see all the icons in 90 min. Adults $30, kids under 16 free. Skip if Blake/Stacy shrug at art.",
         actions: [
           ...venue("Museum of Modern Art NYC"),
           { label: "🎟️ MoMA tickets", href: "https://www.moma.org/tickets/", type: "chip-pink" },
@@ -211,7 +211,7 @@ const days = [
       {
         time: "2:00 PM",
         title: "🛍️ 5th Avenue + Times Square shopping",
-        detail: "Saks → Rockefeller → FAO Schwarz → Apple Cube → Tiffany's → Bergdorf → Plaza Hotel → walk back through Times Square (M&M's, Disney Store, Forever 21).",
+        detail: "The famous shopping corridor: Saks Fifth Avenue (luxury department store, iconic Christmas windows in winter), Rockefeller Center (skating rink in winter, plaza), FAO Schwarz (the giant toy store with the floor piano from the movie 'Big'), Apple Fifth Avenue Cube (the famous glass cube, open 24/7), Tiffany & Co. flagship (Breakfast at Tiffany's + Gossip Girl), Bergdorf Goodman (luxury department store), Plaza Hotel (Eloise / Home Alone 2). Then walk back through Times Square — M&M's World (3 floors of M&Ms), Disney Store, Hershey's, Forever 21 (open 24/7).",
         actions: [
           { label: "🗺️ Saks 5th Ave", href: gmap("Saks Fifth Avenue New York"), type: "" },
           { label: "🗺️ FAO Schwarz", href: gmap("FAO Schwarz Rockefeller"), type: "" },
@@ -224,8 +224,8 @@ const days = [
       },
       {
         time: "4:30 PM",
-        title: "🍝 Becco — pre-show dinner",
-        detail: "$36.95/pp Sinfonia di Pasta unlimited tasting. Lidia Bastianich's. 5 blocks to Gershwin.",
+        title: "🍝 Becco — pre-Wicked Italian dinner",
+        detail: "Italian restaurant on Restaurant Row (W 46th, between 8th & 9th Ave), owned by celebrity chef Lidia Bastianich. The reason to go: $36.95/pp 'Sinfonia di Pasta' tasting menu — Caesar salad or antipasto + UNLIMITED tableside service of three rotating daily pasta dishes. Kids who like pasta = unlimited refills. 5 blocks from Gershwin Theatre.",
         actions: [
           ...venue("Becco NYC", "Becco 355 W 46th New York"),
           { label: "📞 (212) 397-7597", href: tel("+12123977597"), type: "chip-yellow" },
@@ -247,6 +247,14 @@ const days = [
         detail: "Run time ~2h 45m with intermission. Out by ~10pm.",
         actions: [
           { label: "🌐 Show site", href: "https://wickedthemusical.com/", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "10:00 PM",
+        title: "🍰 OPTIONAL: Junior's Cheesecake (post-Wicked stop)",
+        detail: "Iconic NYC diner-style cheesecake spot. Times Square location is right on the walk back. Their cheesecake is the New York-style standard. Walk-in friendly even at 10pm.",
+        actions: [
+          ...venue("Junior's Times Square 1515 Broadway"),
         ],
       },
     ],
@@ -272,12 +280,20 @@ const days = [
       {
         time: "9:30 AM",
         title: "🚲 Family bike — Central Park lower loop",
-        detail: "~3 miles, easy, cars banned from drives. Stops: Bow Bridge, Bethesda Fountain (Gossip Girl spot), Strawberry Fields, the Mall, Sheep Meadow.",
+        detail: "~3 miles, easy, cars banned from drives. Stops: Bow Bridge, Bethesda Fountain (the famous fountain you've seen in Gossip Girl + countless rom-coms), Strawberry Fields (John Lennon memorial, Imagine mosaic), The Mall (tree-lined promenade), Sheep Meadow (open lawn).",
         actions: [
           { label: "🗺️ Bethesda Fountain", href: gmap("Bethesda Fountain Central Park"), type: "" },
           { label: "🗺️ Bow Bridge", href: gmap("Bow Bridge Central Park"), type: "" },
           { label: "🗺️ Strawberry Fields", href: gmap("Strawberry Fields Central Park"), type: "" },
           { label: "🗺️ Sheep Meadow", href: gmap("Sheep Meadow Central Park"), type: "" },
+        ],
+      },
+      {
+        time: "11:30 AM",
+        title: "🍪 OPTIONAL: Levain Bakery (Upper West Side)",
+        detail: "Famous NYC bakery known for giant 6-oz warm chocolate chip cookies (think hockey-puck thick, gooey-center). Original location at 167 W 74th — short walk from where you exit Central Park. Quick 10-min stop.",
+        actions: [
+          ...venue("Levain Bakery 167 W 74th"),
         ],
       },
       {
@@ -300,7 +316,7 @@ const days = [
       {
         time: "1:30 PM",
         title: "🛍️ SoHo shopping",
-        detail: "Brandy Melville flagship, Glossier, Aritzia, Sephora, Lululemon, Urban Outfitters, Nike SoHo.",
+        detail: "SoHo (South of Houston St) is a downtown neighborhood with cobblestone streets and trendy shops. The teen-girl fashion mecca: Brandy Melville (mostly one-size loose tees + soft pants), Glossier (Insta-famous millennial-pink minimalist makeup), Aritzia (Canadian women's fashion, very on-trend), Sephora (massive multi-brand makeup), Lululemon (premium athletic wear), Urban Outfitters (alt/indie clothing + decor), Nike SoHo flagship.",
         actions: [
           { label: "🗺️ Brandy Melville", href: gmap("Brandy Melville SoHo flagship"), type: "" },
           { label: "🗺️ Glossier", href: gmap("Glossier SoHo"), type: "" },
@@ -311,9 +327,17 @@ const days = [
         ],
       },
       {
+        time: "4:30 PM",
+        title: "🍦 OPTIONAL: Anita Gelato (SoHo)",
+        detail: "Italian gelato shop on the way out of SoHo. Generous portions, lots of flavors. Quick 15-min stop before subway home.",
+        actions: [
+          ...venue("Anita La Mamma del Gelato SoHo"),
+        ],
+      },
+      {
         time: "5:00 PM",
         title: "🚇 Subway back → casual dinner near hotel",
-        detail: "The Smith NoMad, neighborhood pizza, or relaxed takeout.",
+        detail: "The Smith (American brasserie), neighborhood pizza, or relaxed takeout.",
         actions: [
           { label: "🗺️ The Smith NoMad", href: gmap("The Smith NoMad New York"), type: "" },
         ],
@@ -345,9 +369,17 @@ const days = [
         ],
       },
       {
+        time: "11:30 AM",
+        title: "📸 Iconic DUMBO photo — Manhattan Bridge view from Washington St",
+        detail: "The famous shot you've seen on every NYC postcard: Manhattan Bridge framed perfectly between two brick buildings. Walk to Washington St & Water St in DUMBO. 5-min photo stop on the way to lunch.",
+        actions: [
+          ...venue("Washington Street DUMBO Manhattan Bridge view"),
+        ],
+      },
+      {
         time: "12:00 PM",
-        title: "🍕 Juliana's Pizza (DUMBO)",
-        detail: "Patsy Grimaldi's original. Different from Grimaldi's next door — go to Juliana's.",
+        title: "🍕 Juliana's Pizza (Brooklyn)",
+        detail: "Coal-fired pizzeria in DUMBO neighborhood ('Down Under the Manhattan Bridge Overpass'), 19 Old Fulton St. Founded by Patsy Grimaldi. NOTE: there's a 'Grimaldi's' right next door that's a different restaurant — Juliana's is the original (Patsy's), Grimaldi's took over his old space when he sold the name. Go to Juliana's.",
         actions: [
           ...venue("Juliana's Pizza DUMBO", "Juliana's Pizza 19 Old Fulton St Brooklyn"),
         ],
@@ -359,8 +391,8 @@ const days = [
       },
       {
         time: "2:00 PM",
-        title: "🏮 Doyers St + Canal St",
-        detail: "Doyers Street curved alley with red lanterns (super photogenic). Canal Street market for cheap sunglasses, knockoffs, kitsch.",
+        title: "🏮 Doyers St + Canal St (Chinatown)",
+        detail: "Doyers Street is a historic curved one-block alley in Chinatown with red lanterns strung overhead — one of the most photographed spots in NYC, also Nom Wah is here. Canal Street is the famous market street running through Chinatown — lined with vendors selling cheap sunglasses, fake designer bags, fans, magnets, every kind of NYC kitsch. Kids love the chaos.",
         actions: [
           ...venue("Doyers Street New York"),
           { label: "🗺️ Canal Street market", href: gmap("Canal Street market New York"), type: "" },
@@ -368,8 +400,8 @@ const days = [
       },
       {
         time: "3:00 PM",
-        title: "🥟 Nom Wah Tea Parlor — dim sum",
-        detail: "13 Doyers St. Oldest dim sum house in NYC (1920). Reservation required, tiny spot.",
+        title: "🥟 Nom Wah Tea Parlor — Chinese dim sum",
+        detail: "Tiny dim sum (steamed/fried small Chinese dishes — dumplings, buns, etc.) restaurant at 13 Doyers St. Oldest dim sum house in NYC, founded 1920. Order shareable plates: shrimp dumplings, pork buns, scallion pancakes, sesame balls. Reservation required, very small spot. Featured in Anthony Bourdain's Parts Unknown.",
         actions: [
           ...venue("Nom Wah Tea Parlor", "Nom Wah Tea Parlor 13 Doyers St"),
           { label: "🍽️ Reservations", href: "https://www.nomwah.com/", type: "chip-pink" },
@@ -386,8 +418,8 @@ const days = [
       },
       {
         time: "6:00 PM",
-        title: "🍕 Lombardi's Pizza",
-        detail: "32 Spring St. First pizzeria in America (1905). Coal-fired Margherita.",
+        title: "🍕 Lombardi's Pizza — first pizzeria in America",
+        detail: "32 Spring St in Little Italy. Founded 1905 — the first licensed pizzeria in the United States. Famous for coal-fired thin-crust Margherita pizza (tomato + fresh mozzarella + basil). Order whole pies, share family-style. Walk-in friendly but reservation safer for party of 5.",
         actions: [
           ...venue("Lombardi's Pizza", "Lombardi's Pizza 32 Spring St New York"),
           { label: "🍽️ firstpizza.com", href: "https://www.firstpizza.com/", type: "chip-pink" },
@@ -442,10 +474,18 @@ const days = [
       {
         time: "6:30 PM",
         title: "🍽️ Dinner near hotel",
-        detail: "Eataly, The Smith, or local pizza. Pre-book this week.",
+        detail: "Eataly Flatiron (Italian food hall + market), The Smith (American brasserie), or local pizza. Pre-book this week.",
         actions: [
           { label: "🗺️ Eataly Flatiron", href: gmap("Eataly Flatiron New York"), type: "" },
           { label: "🗺️ The Smith NoMad", href: gmap("The Smith NoMad New York"), type: "" },
+        ],
+      },
+      {
+        time: "7:30 PM",
+        title: "🚢 OPTIONAL: Free Staten Island Ferry sunset (best statue photos of the trip)",
+        detail: "The Staten Island Ferry runs 24/7, takes 25 min each way, and is FREE — passes Statue of Liberty in the harbor at golden hour. June sunset is ~8:25 PM. Catch the 7:30 PM ferry from Whitehall Terminal at the southern tip of Manhattan, ride to Staten Island, then ride back. Don't even get off the boat. 60 min round trip total. Best statue photos of the entire trip.",
+        actions: [
+          ...venue("Whitehall Terminal Staten Island Ferry"),
         ],
       },
     ],
@@ -677,6 +717,42 @@ const saturdayAlternates = [
     id: "sat-all-three",
     badge: "AGGRESSIVE",
     badgeClass: "badge-pink",
+  },
+];
+
+const observationDecks = [
+  {
+    id: "obs-top-of-the-rock",
+    title: "🌆 Top of the Rock",
+    detail: "Observation deck at Rockefeller Center (70th floor, 30 Rockefeller Plaza). Classic open-air views — the only deck where you get the Empire State Building IN your photo. No glass floor. Family-friendly, less crowded than Empire State. ~$45/pp.",
+    when: "Thu 10:00 AM (current default)",
+    badge: "DEFAULT — CLASSIC",
+    badgeClass: "badge-green",
+    map: "Top of the Rock NYC",
+    pros: ["Empire State Building IS the photo", "Less crowded outdoor space", "Easy for families"],
+    cons: ["No glass floor / thrill factor", "Already 'done' by everyone"],
+  },
+  {
+    id: "obs-summit",
+    title: "✨ SUMMIT One Vanderbilt",
+    detail: "Newest deck in NYC (opened 2021, all-new 2026 features). Mirror rooms (the AIR art installation) multiply the skyline on floor + ceiling + walls — Insta gold for Karsyn + Blake. Levitation Skyboxes = glass platforms protruding 1,000 ft over Manhattan. Ascent = external all-glass elevator riding up the building's facade to 1,210 ft (highest in NYC). Best view of Empire State + Chrysler from any deck. RIGHT NEXT to Grand Central (42nd & Vanderbilt) — perfect Thursday morning flow. $44-68/pp depending on Ascent add-on.",
+    when: "Thu 10:00 AM (swap)",
+    badge: "MIRROR ROOMS + GLASS FLOOR",
+    badgeClass: "badge-purple",
+    map: "Summit One Vanderbilt 45 East 42nd",
+    pros: ["HIGHEST deck in NYC (1,210 ft via Ascent)", "Mirror rooms = teen Insta paradise", "Glass floor + Levitation Skyboxes (glass platforms over the city)", "External glass elevator", "LITERALLY next door to Grand Central"],
+    cons: ["Pricier than Top of the Rock", "Less 'classic' — more art-experience than traditional deck"],
+  },
+  {
+    id: "obs-edge",
+    title: "📐 Edge at Hudson Yards",
+    detail: "Outdoor triangle deck on the 100th floor of 30 Hudson Yards, leaning 65 feet OUT from the building. Glass floor section. Highest outdoor sky deck in the Western Hemisphere. New June 2026 immersive experience just launched. Different neighborhood (West Side) — would mean extra subway from Thursday plan. ~$40-50/pp.",
+    when: "Could swap for Thu, OR do as Sun alternative",
+    badge: "OUTDOOR THRILL",
+    badgeClass: "badge-yellow",
+    map: "Edge at Hudson Yards",
+    pros: ["Outdoor + angled glass walls + glass floor triangle", "Highest outdoor deck in Western Hemisphere", "Real thrill factor for teens"],
+    cons: ["Vertigo risk for Emrie", "West Side — disrupts Thursday Midtown flow", "Already mentioned as Sunday alternative"],
   },
 ];
 
@@ -1357,6 +1433,43 @@ const weather = [
           ))}
         </div>
 
+        <!-- OBSERVATION DECKS -->
+        <h3 class="alt-heading">🌆 Observation deck — which one for Thursday?</h3>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
+          Three serious options. SUMMIT One Vanderbilt is the newest + has the mirror rooms + glass floor everyone's been seeing on TikTok, and it's literally next door to Grand Central. Pick one — doing two is overkill.
+        </p>
+        <div class="alt-stack">
+          {observationDecks.map((d) => (
+            <div class="alt-row">
+              <span class={`alt-badge ${d.badgeClass}`}>{d.badge}</span>
+              <div class="alt-row-body">
+                <div class="alt-row-title">{d.title}</div>
+                <div class="alt-row-detail">{d.detail}</div>
+                <div class="alt-row-energy">When: <strong>{d.when}</strong></div>
+                <div class="alt-pros-cons" style="margin-top:0.5rem;">
+                  <div class="alt-pros">
+                    <div class="alt-pc-label">✅ Pros</div>
+                    <ul>{d.pros.map((p) => <li>{p}</li>)}</ul>
+                  </div>
+                  <div class="alt-cons">
+                    <div class="alt-pc-label">⚠️ Cons</div>
+                    <ul>{d.cons.map((c) => <li>{c}</li>)}</ul>
+                  </div>
+                </div>
+                <a class="chip" href={gmap(d.map)}>🗺️ Map</a>
+                <div class="vote-row" data-option-id={d.id}>
+                  <span class="vote-label">Vote:</span>
+                  {VOTERS.map((v) => (
+                    <button class="vote-btn" data-voter={v} data-option={d.id}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <!-- SHOPPING -->
         <h3 class="alt-heading">🛍️ Shopping decisions — vote yes/no on each</h3>
         <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
@@ -1379,34 +1492,6 @@ const weather = [
                     </button>
                   ))}
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- BONUS PHOTO OPS -->
-        <h3 class="alt-heading">📸 Bonus Photo Ops &amp; Sunset Stops (free additions)</h3>
-        <div class="alt-stack">
-          {bonusPhotoOps.map((p) => (
-            <div class="alt-row">
-              <div class="alt-row-body">
-                <div class="alt-row-title">{p.name}</div>
-                <div class="alt-row-detail">{p.detail}</div>
-                <a class="chip" href={gmap(p.map)}>🗺️ Map</a>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- DESSERTS -->
-        <h3 class="alt-heading">🍰 Wow Dessert Stops</h3>
-        <div class="alt-stack">
-          {desserts.map((d) => (
-            <div class="alt-row">
-              <div class="alt-row-body">
-                <div class="alt-row-title">{d.name}</div>
-                <div class="alt-row-detail">{d.detail}</div>
-                <a class="chip" href={gmap(d.map)}>🗺️ Map</a>
               </div>
             </div>
           ))}
