@@ -547,6 +547,7 @@ const VOTERS = ["brady", "stacy", "blake", "karsyn", "emrie"] as const;
 const sundayAlternates = [
   {
     id: "sun-yankees",
+    map: "Yankee Stadium Bronx",
     badge: "DEFAULT",
     badgeClass: "badge-green",
     title: "⚾ Yankees vs Red Sox",
@@ -567,6 +568,7 @@ const sundayAlternates = [
   },
   {
     id: "sun-coney",
+    map: "Luna Park Coney Island Brooklyn",
     badge: "WILD CARD",
     badgeClass: "badge-yellow",
     title: "🎢 Coney Island day",
@@ -586,6 +588,7 @@ const sundayAlternates = [
   },
   {
     id: "sun-edge",
+    map: "Edge at Hudson Yards",
     badge: "TEENS",
     badgeClass: "badge-purple",
     title: "🌆 High Line + Edge + Chelsea Market",
@@ -600,6 +603,7 @@ const sundayAlternates = [
   },
   {
     id: "sun-cruise",
+    map: "Circle Line Sightseeing Pier 83 W 42nd",
     badge: "EASY",
     badgeClass: "badge-grey",
     title: "🚢 Manhattan boat cruise",
@@ -614,6 +618,7 @@ const sundayAlternates = [
   },
   {
     id: "sun-brunch",
+    map: "Jack's Wife Freda NoMad 226 5th Ave",
     badge: "RECOVERY",
     badgeClass: "badge-grey",
     title: "🥞 Lazy brunch + relaxed wandering",
@@ -631,6 +636,7 @@ const sundayAlternates = [
 const wednesdayAlternates = [
   {
     id: "wed-full",
+    map: "Statue of Liberty",
     title: "Default — Liberty + Lunch + 9/11 Museum",
     detail: "Full plan as scheduled. ~10 hrs of activity. Heaviest day post-flight.",
     energy: "Heavy",
@@ -642,6 +648,7 @@ const wednesdayAlternates = [
     detail: "Skip the museum. Just walk the memorial (the reflecting pools). ~30 min instead of 2-3 hrs. Saves 2 hours and emotional toll.",
     energy: "Medium",
     id: "wed-outdoor-only",
+    map: "9/11 Memorial Plaza",
     badge: "RECOMMENDED IF KIDS ARE TIRED",
     badgeClass: "badge-yellow",
   },
@@ -650,6 +657,7 @@ const wednesdayAlternates = [
     detail: "Take the first ferry, skip the Ellis Island museum loop, head straight back. ~5 hrs total.",
     energy: "Light",
     id: "wed-liberty-only",
+    map: "Statue of Liberty",
     badge: "MELTDOWN BACKUP",
     badgeClass: "badge-pink",
   },
@@ -661,11 +669,13 @@ const thursdayAlternates = [
     detail: "Grand Central → Top of the Rock → MoMA (floors 4-5 only, hard cap 60-75 min) → 5th Ave → Times Square → Becco. Less shopping time.",
     energy: "Tight",
     id: "thu-with-moma",
+    map: "Museum of Modern Art NYC",
     badge: "ART LOVERS",
     badgeClass: "badge-purple",
   },
   {
     id: "thu-no-moma",
+    map: "5th Avenue 50th Street New York",
     title: "Path B — No MoMA, more shopping",
     detail: "Grand Central → Top of the Rock → 5th Ave (Saks, FAO Schwarz, Apple Cube) → lunch → Tiffany's, Bergdorf, Plaza → Times Square (M&M's, Disney Store, Forever 21) → Becco. Recommended if Blake/Stacy shrug at art.",
     energy: "Medium",
@@ -677,6 +687,7 @@ const thursdayAlternates = [
 const saturdayAlternates = [
   {
     id: "sat-light",
+    map: "Nom Wah Tea Parlor 13 Doyers St",
     title: "Option A — Light bites + Nom Wah + Lombardi's (recommended)",
     detail: "12:30 PM lunch in DUMBO = light bites only (NOT full pizza). 3:00 PM Nom Wah dim sum. 6:00 PM Lombardi's pizza. Better cultural variety.",
     energy: "Balanced",
@@ -688,6 +699,7 @@ const saturdayAlternates = [
     detail: "Full pizza at Juliana's after Brooklyn Bridge. Chinatown for snacks/bubble tea only — skip the sit-down dim sum. Lighter dinner. Less food pressure.",
     energy: "Lighter",
     id: "sat-juliana-only",
+    map: "Juliana's Pizza 19 Old Fulton DUMBO",
     badge: "SIMPLER",
     badgeClass: "badge-grey",
   },
@@ -696,6 +708,7 @@ const saturdayAlternates = [
     detail: "Three heavy carb meals in 5 hours. Aggressive. Only do this if everyone's a heavy eater and likes pizza/dumplings.",
     energy: "Heavy",
     id: "sat-all-three",
+    map: "Lombardi's Pizza 32 Spring St",
     badge: "AGGRESSIVE",
     badgeClass: "badge-pink",
   },
@@ -1333,6 +1346,13 @@ const weather = [
                 </div>
               </div>
               {opt.note && <div class="alt-note">💡 {opt.note}</div>}
+              {opt.map && (
+                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                  <a class="chip" href={gmap(opt.map)}>🗺️ Google Maps</a>
+                  <a class="chip chip-grey" href={amap(opt.map)}>🍎 Apple Maps</a>
+                  <a class="chip" href={transit(opt.map)}>🚇 From hotel</a>
+                </div>
+              )}
               <div class="vote-row" data-option-id={opt.id}>
                 <span class="vote-label">Vote:</span>
                 {VOTERS.map((v) => (
@@ -1355,6 +1375,13 @@ const weather = [
                 <div class="alt-row-title">{a.title}</div>
                 <div class="alt-row-detail">{a.detail}</div>
                 <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+                {a.map && (
+                  <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                    <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
+                    <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
+                    <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
+                  </div>
+                )}
                 <div class="vote-row" data-option-id={a.id}>
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
@@ -1378,6 +1405,13 @@ const weather = [
                 <div class="alt-row-title">{a.title}</div>
                 <div class="alt-row-detail">{a.detail}</div>
                 <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+                {a.map && (
+                  <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                    <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
+                    <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
+                    <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
+                  </div>
+                )}
                 <div class="vote-row" data-option-id={a.id}>
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
@@ -1401,6 +1435,13 @@ const weather = [
                 <div class="alt-row-title">{a.title}</div>
                 <div class="alt-row-detail">{a.detail}</div>
                 <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
+                {a.map && (
+                  <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                    <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
+                    <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
+                    <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
+                  </div>
+                )}
                 <div class="vote-row" data-option-id={a.id}>
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
@@ -1437,7 +1478,11 @@ const weather = [
                     <ul>{d.cons.map((c) => <li>{c}</li>)}</ul>
                   </div>
                 </div>
-                <a class="chip" href={gmap(d.map)}>🗺️ Map</a>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                  <a class="chip" href={gmap(d.map)}>🗺️ Google Maps</a>
+                  <a class="chip chip-grey" href={amap(d.map)}>🍎 Apple Maps</a>
+                  <a class="chip" href={transit(d.map)}>🚇 From hotel</a>
+                </div>
                 <div class="vote-row" data-option-id={d.id}>
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
@@ -1464,7 +1509,11 @@ const weather = [
                 <div class="alt-row-title">{s.title}</div>
                 <div class="alt-row-detail">{s.detail}</div>
                 <div class="alt-row-energy">When: <strong>{s.when}</strong></div>
-                <a class="chip" href={gmap(s.map)}>🗺️ Map</a>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                  <a class="chip" href={gmap(s.map)}>🗺️ Google Maps</a>
+                  <a class="chip chip-grey" href={amap(s.map)}>🍎 Apple Maps</a>
+                  <a class="chip" href={transit(s.map)}>🚇 From hotel</a>
+                </div>
                 <div class="vote-row" data-option-id={s.id}>
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
