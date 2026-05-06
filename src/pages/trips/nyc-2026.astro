@@ -105,6 +105,15 @@ const days = [
           { label: "📞 Hotel", href: tel("+12125458000"), type: "chip-yellow" },
         ],
       },
+      {
+        time: "Late night",
+        title: "🍪 OPTIONAL: Insomnia Cookies delivery",
+        detail: "Open until 2 AM. NYC chain known for warm fresh-baked cookies delivered. Order to the hotel if anyone has energy after the 12-hour travel day. Multiple flavors, brownies, cookie cakes. Quick app order, ~30 min delivery.",
+        actions: [
+          { label: "🌐 insomniacookies.com", href: "https://insomniacookies.com/", type: "chip-pink" },
+          ...venue("Insomnia Cookies New York"),
+        ],
+      },
     ],
   },
   {
@@ -140,6 +149,14 @@ const days = [
           ...venue("Joe's Shanghai", "Joe's Shanghai Chinatown 9 Pell St"),
           { label: "🗺️ Xi'an Famous Foods", href: gmap("Xi'an Famous Foods Manhattan"), type: "" },
           { label: "🚶 Walk from Battery Park", href: walk("Joe's Shanghai 9 Pell St", "Battery Park New York"), type: "" },
+        ],
+      },
+      {
+        time: "2:30 PM",
+        title: "🍩 Doughnut Plant — cult NYC donuts",
+        detail: "Iconic Lower East Side donut shop founded 1994. 379 Grand St, ~10 min walk between Chinatown lunch and 9/11 Memorial. Famous for square jelly donuts and seasonal flavors (crème brûlée, tres leches, blackout). Quick grab-and-go, eat walking. ~$4-5/donut.",
+        actions: [
+          ...venue("Doughnut Plant", "Doughnut Plant 379 Grand St"),
         ],
       },
       {
@@ -220,6 +237,14 @@ const days = [
           { label: "🗺️ Plaza Hotel", href: gmap("Plaza Hotel New York"), type: "" },
           { label: "🗺️ Times Square", href: gmap("Times Square New York"), type: "" },
           { label: "🗺️ M&M's World", href: gmap("M&M's World Times Square"), type: "" },
+        ],
+      },
+      {
+        time: "3:30 PM",
+        title: "🧁 Magnolia Bakery (Rockefeller location)",
+        detail: "Cult NYC bakery made famous by Sex and the City. The move is the BANANA PUDDING (in mini cups, eat walking) — kids will know it from TikTok. 1240 6th Ave at Rockefeller Center, on your 5th Ave route. Quick 10-min stop. ~$6-8 per banana pudding cup.",
+        actions: [
+          ...venue("Magnolia Bakery Rockefeller", "Magnolia Bakery 1240 6th Ave"),
         ],
       },
       {
@@ -410,10 +435,19 @@ const days = [
       {
         time: "4:30 PM",
         title: "🚶 Walk to Little Italy (Mulberry St)",
-        detail: "5 blocks north. Gelato break, café stop.",
+        detail: "5 blocks north. Café stop or pastry break before pizza.",
         actions: [
           ...venue("Mulberry Street Little Italy"),
           { label: "🚶 Walk from Nom Wah", href: walk("Mulberry Street Little Italy", "Nom Wah Tea Parlor 13 Doyers St"), type: "" },
+        ],
+      },
+      {
+        time: "5:00 PM",
+        title: "🇮🇹 Ferrara Bakery — oldest pastry shop in America",
+        detail: "195 Grand St, Little Italy. Founded 1892 — the oldest pastry shop in America. Famous for cannoli (crispy ricotta-filled tubes), sfogliatelle (flaky shell-shaped pastries), tiramisu, espresso. Quick 30-min sit-down or grab-and-go. 3 blocks from Lombardi's. THE iconic Little Italy pastry experience.",
+        actions: [
+          ...venue("Ferrara Bakery", "Ferrara Bakery 195 Grand St Little Italy"),
+          { label: "🌐 ferraracafe.com", href: "https://ferrarabakery.com/", type: "chip-pink" },
         ],
       },
       {
@@ -486,6 +520,15 @@ const days = [
         detail: "The Staten Island Ferry runs 24/7, takes 25 min each way, and is FREE — passes Statue of Liberty in the harbor at golden hour. June sunset is ~8:25 PM. Catch the 7:30 PM ferry from Whitehall Terminal at the southern tip of Manhattan, ride to Staten Island, then ride back. Don't even get off the boat. 60 min round trip total. Best statue photos of the entire trip.",
         actions: [
           ...venue("Whitehall Terminal Staten Island Ferry"),
+        ],
+      },
+      {
+        time: "9:00 PM",
+        title: "🥤 OPTIONAL: Black Tap Crazy Shakes (night cap)",
+        detail: "TikTok-famous milkshake spot — shakes topped with whole donuts, slices of cake, candy, whipped cream towers. Insane visuals, kids will lose it. Closest location: 136 W 55th St (Midtown) — walking distance from hotel area. Pick one shake to share among 5 — they're huge. Last NYC dessert moment before the early-morning JFK Uber.",
+        actions: [
+          ...venue("Black Tap Crazy Shakes Midtown", "Black Tap 136 W 55th St"),
+          { label: "🌐 blacktap.com", href: "https://blacktap.com/", type: "chip-pink" },
         ],
       },
     ],
