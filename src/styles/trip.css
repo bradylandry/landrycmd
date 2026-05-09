@@ -535,6 +535,25 @@
   gap: 0.4rem;
 }
 
+/* Votable inline events — small pill next to the title */
+.day-event-vote-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--day-color, var(--trip-accent));
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.day-event-votable .vote-row {
+  margin-top: 0.5rem;
+}
+
 /* --- ACTION CHIPS --- */
 .chip {
   font-size: 0.75rem;

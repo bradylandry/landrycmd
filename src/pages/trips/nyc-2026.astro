@@ -116,6 +116,8 @@ const days = [
           { label: "🌐 insomniacookies.com", href: "https://insomniacookies.com/", type: "chip-pink" },
           ...venue("Insomnia Cookies New York"),
         ],
+        votable: true,
+        voteId: "tue-insomnia",
       },
     ],
   },
@@ -153,6 +155,8 @@ const days = [
           { label: "🗺️ Xi'an Famous Foods", href: gmap("Xi'an Famous Foods Manhattan"), type: "" },
           { label: "🚶 Walk from Battery Park", href: walk("Joe's Shanghai 9 Pell St", "Battery Park New York"), type: "" },
         ],
+        votable: true,
+        voteId: "wed-chinatown-lunch",
       },
       {
         time: "2:30 PM",
@@ -161,6 +165,8 @@ const days = [
         actions: [
           ...venue("Doughnut Plant", "Doughnut Plant 379 Grand St"),
         ],
+        votable: true,
+        voteId: "wed-doughnut-plant",
       },
       {
         time: "3:00 PM",
@@ -199,6 +205,8 @@ const days = [
         actions: [
           ...venue("Grand Central Terminal"),
         ],
+        votable: true,
+        voteId: "thu-grand-central",
       },
       {
         time: "10:00 AM",
@@ -284,6 +292,8 @@ const days = [
         actions: [
           ...venue("Junior's Times Square 1515 Broadway"),
         ],
+        votable: true,
+        voteId: "thu-juniors",
       },
     ],
   },
@@ -323,6 +333,8 @@ const days = [
         actions: [
           ...venue("Levain Bakery 167 W 74th"),
         ],
+        votable: true,
+        voteId: "fri-levain",
       },
       {
         time: "12:00 PM",
@@ -340,6 +352,8 @@ const days = [
           { label: "🗺️ Jack's Wife Freda", href: gmap("Jack's Wife Freda SoHo"), type: "" },
           { label: "🗺️ Lucky Strike", href: gmap("Lucky Strike SoHo Grand"), type: "" },
         ],
+        votable: true,
+        voteId: "fri-soho-lunch",
       },
       {
         time: "1:30 PM",
@@ -403,6 +417,8 @@ const days = [
         actions: [
           ...venue("Washington Street DUMBO Manhattan Bridge view"),
         ],
+        votable: true,
+        voteId: "sat-dumbo-photo",
       },
       {
         time: "12:00 PM",
@@ -425,6 +441,8 @@ const days = [
           ...venue("Doyers Street New York"),
           { label: "🗺️ Canal Street market", href: gmap("Canal Street market New York"), type: "" },
         ],
+        votable: true,
+        voteId: "sat-doyers-canal",
       },
       {
         time: "3:00 PM",
@@ -452,6 +470,8 @@ const days = [
           ...venue("Ferrara Bakery", "Ferrara Bakery 195 Grand St Little Italy"),
           { label: "🌐 ferraracafe.com", href: "https://ferrarabakery.com/", type: "chip-pink" },
         ],
+        votable: true,
+        voteId: "sat-ferrara",
       },
       {
         time: "6:00 PM",
@@ -485,6 +505,8 @@ const days = [
           { label: "🗺️ Ess-a-Bagel", href: gmap("Ess-a-Bagel 3rd Avenue 51st"), type: "" },
           { label: "🗺️ The Smith NoMad", href: gmap("The Smith NoMad New York"), type: "" },
         ],
+        votable: true,
+        voteId: "sun-brunch",
       },
       {
         time: "12:00 PM",
@@ -524,6 +546,8 @@ const days = [
         actions: [
           ...venue("Whitehall Terminal Staten Island Ferry"),
         ],
+        votable: true,
+        voteId: "sun-ferry",
       },
       {
         time: "9:00 PM",
@@ -533,6 +557,8 @@ const days = [
           ...venue("Black Tap Crazy Shakes Midtown", "Black Tap 136 W 55th St"),
           { label: "🌐 blacktap.com", href: "https://blacktap.com/", type: "chip-pink" },
         ],
+        votable: true,
+        voteId: "sun-blacktap",
       },
     ],
   },
@@ -1292,11 +1318,12 @@ const weather = [
               </div>
               <div class="day-card-body">
                 <ul class="day-timeline">
-                  {d.events.map((e) => (
-                    <li class="day-event">
+                  {d.events.map((e: any) => (
+                    <li class={`day-event ${e.votable ? "day-event-votable" : ""}`}>
                       <div>
                         <span class="day-event-time">{e.time}</span>
                         <span class="day-event-title">{e.title}</span>
+                        {e.votable && <span class="day-event-vote-tag">🗳️ vote</span>}
                       </div>
                       {e.detail && <div class="day-event-detail">{e.detail}</div>}
                       {e.actions && (
@@ -1305,6 +1332,16 @@ const weather = [
                             <a class={`chip ${a.type || ""}`} href={a.href}>
                               {a.label}
                             </a>
+                          ))}
+                        </div>
+                      )}
+                      {e.votable && e.voteId && (
+                        <div class="vote-row" data-option-id={e.voteId}>
+                          <span class="vote-label">Vote:</span>
+                          {VOTERS.map((v) => (
+                            <button class="vote-btn" data-voter={v} data-option={e.voteId}>
+                              {v.charAt(0).toUpperCase() + v.slice(1)}
+                            </button>
                           ))}
                         </div>
                       )}
@@ -1336,6 +1373,7 @@ const weather = [
             <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
               <a class="chip" href={gmap("Gershwin Theatre 222 W 51st St")}>🗺️ Gershwin Theatre</a>
               <a class="chip chip-grey" href={amap("Gershwin Theatre 222 W 51st St")}>🍎 Apple Maps</a>
+              <a class="chip chip-grey" href={tiktok("Wicked Gershwin Theatre")}>🎵 TikTok</a>
               <a class="chip chip-pink" href="https://wickedthemusical.com/">🌐 Show site</a>
             </div>
           </div>
@@ -1357,6 +1395,7 @@ const weather = [
               <a class="chip" href={gmap("Yankee Stadium Bronx")}>🗺️ Yankee Stadium</a>
               <a class="chip chip-grey" href={amap("Yankee Stadium Bronx")}>🍎 Apple Maps</a>
               <a class="chip" href={transit("Yankee Stadium 1 E 161st St Bronx")}>🚇 From hotel</a>
+              <a class="chip chip-grey" href={tiktok("Yankee Stadium Bronx")}>🎵 TikTok</a>
               <a class="chip chip-pink" href="https://www.tickpick.com/mlb/new-york-yankees-tickets/">🎟️ TickPick</a>
               <a class="chip chip-pink" href="https://seatgeek.com/new-york-yankees-tickets/6-7-2026-bronx-new-york-yankee-stadium/mlb/17691552">🎟️ SeatGeek</a>
             </div>
@@ -1436,6 +1475,7 @@ const weather = [
                   <a class="chip" href={gmap(opt.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(opt.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(opt.map)}>🚇 From hotel</a>
+                  <a class="chip chip-grey" href={tiktok(opt.map)}>🎵 TikTok</a>
                 </div>
               )}
               <div class="vote-row" data-option-id={opt.id}>
@@ -1465,6 +1505,7 @@ const weather = [
                     <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
                     <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
                     <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
+                    <a class="chip chip-grey" href={tiktok(a.map)}>🎵 TikTok</a>
                   </div>
                 )}
                 <div class="vote-row" data-option-id={a.id}>
@@ -1495,6 +1536,7 @@ const weather = [
                     <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
                     <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
                     <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
+                    <a class="chip chip-grey" href={tiktok(a.map)}>🎵 TikTok</a>
                   </div>
                 )}
                 <div class="vote-row" data-option-id={a.id}>
@@ -1525,6 +1567,7 @@ const weather = [
                     <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
                     <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
                     <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
+                    <a class="chip chip-grey" href={tiktok(a.map)}>🎵 TikTok</a>
                   </div>
                 )}
                 <div class="vote-row" data-option-id={a.id}>
@@ -1567,6 +1610,7 @@ const weather = [
                   <a class="chip" href={gmap(d.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(d.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(d.map)}>🚇 From hotel</a>
+                  <a class="chip chip-grey" href={tiktok(d.map)}>🎵 TikTok</a>
                 </div>
                 <div class="vote-row" data-option-id={d.id}>
                   <span class="vote-label">Vote:</span>
@@ -1598,6 +1642,7 @@ const weather = [
                   <a class="chip" href={gmap(s.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(s.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(s.map)}>🚇 From hotel</a>
+                  <a class="chip chip-grey" href={tiktok(s.map)}>🎵 TikTok</a>
                 </div>
                 <div class="vote-row" data-option-id={s.id}>
                   <span class="vote-label">Vote:</span>
