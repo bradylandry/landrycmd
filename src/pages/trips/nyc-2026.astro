@@ -13,15 +13,18 @@ const transit = (dest: string, origin: string = HOTEL) =>
   `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}&travelmode=transit`;
 const walk = (dest: string, origin: string) =>
   `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}&travelmode=walking`;
+const tiktok = (q: string) =>
+  `https://www.tiktok.com/search?q=${encodeURIComponent(q)}`;
 const tel = (n: string) => `tel:${n.replace(/[^+\d]/g, "")}`;
 
-// shorthand: every venue gets google + apple + transit-from-hotel by default
+// shorthand: every venue gets google + apple + transit-from-hotel + TikTok by default
 const venue = (name: string, query?: string) => {
   const q = query || name;
   return [
     { label: `🗺️ ${name}`, href: gmap(q), type: "" },
     { label: `🍎 Apple Maps`, href: amap(q), type: "chip-grey" },
     { label: `🚇 From hotel`, href: transit(q), type: "" },
+    { label: `🎵 TikTok`, href: tiktok(q), type: "chip-grey" },
   ];
 };
 
@@ -877,6 +880,45 @@ const shoppingOptions = [
   },
 ];
 
+const foodExperienceVotes = [
+  {
+    id: "food-magnolia",
+    title: "🧁 Magnolia Bakery",
+    detail: "Banana pudding fame (Sex and the City). Two locations: Bleecker St West Village (the original, fits Fri SoHo → West Village swing) OR Rockefeller Center (fits Thu Top of the Rock + 5th Ave flow). ~$8/pudding. Vote yes if anyone wants the iconic banana pudding stop.",
+    when: "Thu Rockefeller OR Fri Bleecker",
+    badge: "ICONIC NYC TREAT",
+    badgeClass: "badge-yellow",
+    map: "Magnolia Bakery Bleecker Street",
+  },
+  {
+    id: "food-jellycat-diner",
+    title: "🥞 Jellycat Diner (FAO Schwarz)",
+    detail: "Plush food 'served' diner-style at FAO Schwarz Rockefeller Plaza. Huge TikTok phenomenon — staff 'cook' your plush burger / pancake stack / dim sum, plate it on a tray, slide it to you. Free to walk through; pay only if you buy a plush ($30-60). Ideal for Emrie + Karsyn. Naturally fits Thu 5th Ave / Rockefeller flow.",
+    when: "Thu 5th Ave / Rockefeller area",
+    badge: "TIKTOK FAMOUS",
+    badgeClass: "badge-pink",
+    map: "Jellycat Diner FAO Schwarz Rockefeller",
+  },
+  {
+    id: "experience-cut-cropped",
+    title: "💎 Cut & Cropped — permanent bracelet",
+    detail: "SoHo permanent-jewelry experience where they weld a chain bracelet onto your wrist (no clasp — you keep it on indefinitely). Big TikTok trend; perfect tactile souvenir for Blake + Karsyn + Stacy. ~$50-100 per bracelet depending on chain. Some studios take reservations, some are walk-in.",
+    when: "Fri SoHo afternoon",
+    badge: "FOR THE GIRLS",
+    badgeClass: "badge-purple",
+    map: "Cut Cropped permanent jewelry SoHo NYC",
+  },
+  {
+    id: "food-larte",
+    title: "🍨 L'Arte del Gelato (vs Anita Gelato)",
+    detail: "Italian gelato — closest location to SoHo is 75 7th Ave South (West Village, ~10 min walk west of SoHo). Also famous Chelsea Market cart. Head-to-head with Anita Gelato (current default Friday gelato stop in SoHo proper). Vote which you'd rather hit Fri afternoon.",
+    when: "Fri SoHo / West Village",
+    badge: "VS ANITA",
+    badgeClass: "badge-green",
+    map: "L'Arte del Gelato 75 7th Ave South",
+  },
+];
+
 const bonusPhotoOps = [
   {
     name: "🚢 Free Staten Island Ferry at sunset",
@@ -1561,6 +1603,38 @@ const weather = [
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
                     <button class="vote-btn" data-voter={v} data-option={s.id}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- FOOD + EXPERIENCE VOTES -->
+        <h3 class="alt-heading">🍰 Food + experience stops — vote yes/no on each</h3>
+        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
+          Sweet stops + TikTok-famous experiences. Vote your name on every one you'd actually do.
+        </p>
+        <div class="alt-stack">
+          {foodExperienceVotes.map((f) => (
+            <div class="alt-row">
+              <span class={`alt-badge ${f.badgeClass}`}>{f.badge}</span>
+              <div class="alt-row-body">
+                <div class="alt-row-title">{f.title}</div>
+                <div class="alt-row-detail">{f.detail}</div>
+                <div class="alt-row-energy">When: <strong>{f.when}</strong></div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
+                  <a class="chip" href={gmap(f.map)}>🗺️ Google Maps</a>
+                  <a class="chip chip-grey" href={amap(f.map)}>🍎 Apple Maps</a>
+                  <a class="chip" href={transit(f.map)}>🚇 From hotel</a>
+                  <a class="chip chip-grey" href={tiktok(f.map)}>🎵 TikTok</a>
+                </div>
+                <div class="vote-row" data-option-id={f.id}>
+                  <span class="vote-label">Vote:</span>
+                  {VOTERS.map((v) => (
+                    <button class="vote-btn" data-voter={v} data-option={f.id}>
                       {v.charAt(0).toUpperCase() + v.slice(1)}
                     </button>
                   ))}
