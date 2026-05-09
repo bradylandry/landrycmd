@@ -1832,43 +1832,29 @@ const weather = [
       }
     });
 
-    // ---- TIKTOK: try app first on mobile, fall back to web in new tab ----
+    // ---- TIKTOK: rewrite chip URLs to use the app's custom scheme ----
+    // iOS 16+ has deprecated iframe-based scheme launches and is increasingly
+    // strict about JS-driven location changes. The pattern that still works
+    // reliably: a direct anchor with href="tiktok://..." opened in a new tab.
+    // Safari will hand the URL to the OS, which opens the app if installed,
+    // or shows an error in the new tab if not (user closes the empty tab,
+    // trip page is preserved).
+    //
+    // We rewrite the chip's href on page load to keep the existing markup
+    // simple. If the user is on desktop, we leave the web URL so the chip
+    // works there too (custom schemes do nothing on desktop).
     const isMobileForTikTok = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobileForTikTok) {
-      document.addEventListener("click", (e) => {
-        const a = e.target && e.target.closest && e.target.closest("a.chip");
-        if (!a) return;
-        const href = a.getAttribute("href") || "";
-        if (!href.includes("tiktok.com/search")) return;
-
+      document.querySelectorAll('a.chip[href*="tiktok.com/search"]').forEach((a) => {
         try {
-          const url = new URL(href);
+          const url = new URL(a.href);
           const q = url.searchParams.get("q");
           if (!q) return;
-          e.preventDefault();
-
-          // Watch for visibility change — if document hides within ~1s, app launched
-          let didOpen = false;
-          const onHide = () => { if (document.hidden) didOpen = true; };
-          document.addEventListener("visibilitychange", onHide);
-
-          // Attempt app via hidden iframe (silent if app not installed; iOS may
-          // still show a system prompt depending on Safari version)
-          const iframe = document.createElement("iframe");
-          iframe.style.display = "none";
-          iframe.src = `tiktok://search?q=${encodeURIComponent(q)}`;
-          document.body.appendChild(iframe);
-
-          setTimeout(() => {
-            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
-            document.removeEventListener("visibilitychange", onHide);
-            if (!didOpen) {
-              // App didn't grab — open web TikTok in a new tab so the trip page stays put
-              window.open(href, "_blank", "noopener,noreferrer");
-            }
-          }, 1000);
+          // Swap href to the app deep-link scheme; target="_blank" already set above
+          a.setAttribute("href", `tiktok://search?q=${encodeURIComponent(q)}`);
+          a.dataset.tiktokWebFallback = url.toString();
         } catch {
-          // any failure — let the default new-tab behavior handle it
+          // leave as-is
         }
       });
     }
