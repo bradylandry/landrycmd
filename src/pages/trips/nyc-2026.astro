@@ -1832,32 +1832,16 @@ const weather = [
       }
     });
 
-    // ---- TIKTOK: rewrite chip URLs to use the app's custom scheme ----
-    // iOS 16+ has deprecated iframe-based scheme launches and is increasingly
-    // strict about JS-driven location changes. The pattern that still works
-    // reliably: a direct anchor with href="tiktok://..." opened in a new tab.
-    // Safari will hand the URL to the OS, which opens the app if installed,
-    // or shows an error in the new tab if not (user closes the empty tab,
-    // trip page is preserved).
-    //
-    // We rewrite the chip's href on page load to keep the existing markup
-    // simple. If the user is on desktop, we leave the web URL so the chip
-    // works there too (custom schemes do nothing on desktop).
-    const isMobileForTikTok = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobileForTikTok) {
-      document.querySelectorAll('a.chip[href*="tiktok.com/search"]').forEach((a) => {
-        try {
-          const url = new URL(a.href);
-          const q = url.searchParams.get("q");
-          if (!q) return;
-          // Swap href to the app deep-link scheme; target="_blank" already set above
-          a.setAttribute("href", `tiktok://search?q=${encodeURIComponent(q)}`);
-          a.dataset.tiktokWebFallback = url.toString();
-        } catch {
-          // leave as-is
-        }
-      });
-    }
+    // ---- TIKTOK: web URL only, opens in new tab ----
+    // We previously tried iframe-based and direct anchor tiktok:// scheme launches.
+    // Both have material issues:
+    //   - iframe approach is being deprecated by iOS 16+ and silently fails
+    //   - direct tiktok:// scheme shows "Cannot open page" error for users without the app
+    //   - TikTok intentionally doesn't register /search universal-link paths in their
+    //     apple-app-site-association — only their ad URLs reliably deep-link
+    // The web URL with target="_blank" (set above) is what we ship. On mobile,
+    // TikTok's site shows an "Open in app" banner if the app is installed, which
+    // gives users a one-tap path to the app. Trip page stays in the original tab.
 
     // ---- VOTING ----
     let voteState = {}; // { optionId: [voter, voter, ...] }
