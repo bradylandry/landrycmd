@@ -1771,18 +1771,31 @@ const weather = [
     }
 
     async function castVote(optionId, voter) {
-      // optimistic update
+      // optimistic update — flip locally first so the UI is instant
       const list = voteState[optionId] || [];
       const had = list.includes(voter);
+      const nextVoted = !had;
       voteState[optionId] = had
         ? list.filter((v) => v !== voter)
         : [...list, voter];
       applyVoteState();
+
+      // Use action: "set"/"unset" (idempotent) instead of "toggle".
+      // Toggle is server-side state-dependent, so a double-click race could
+      // un-do the vote. set/unset always lands on the same final state.
+      // keepalive: true tells the browser this request MUST complete even if
+      // the user switches apps mid-flight — fixes iOS Safari killing in-flight
+      // POSTs when the tab is backgrounded.
       try {
         const res = await fetch("/api/trips/vote", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ optionId, voter, action: "toggle" }),
+          body: JSON.stringify({
+            optionId,
+            voter,
+            action: nextVoted ? "set" : "unset",
+          }),
+          keepalive: true,
         });
         const data = await res.json();
         if (!data.ok) {
