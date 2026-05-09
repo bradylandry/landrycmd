@@ -1832,16 +1832,61 @@ const weather = [
       }
     });
 
-    // ---- TIKTOK: web URL only, opens in new tab ----
-    // We previously tried iframe-based and direct anchor tiktok:// scheme launches.
-    // Both have material issues:
-    //   - iframe approach is being deprecated by iOS 16+ and silently fails
-    //   - direct tiktok:// scheme shows "Cannot open page" error for users without the app
-    //   - TikTok intentionally doesn't register /search universal-link paths in their
-    //     apple-app-site-association — only their ad URLs reliably deep-link
-    // The web URL with target="_blank" (set above) is what we ship. On mobile,
-    // TikTok's site shows an "Open in app" banner if the app is installed, which
-    // gives users a one-tap path to the app. Trip page stays in the original tab.
+    // ---- TIKTOK: use the platform-specific custom scheme to open the app ----
+    // Critical detail from the TikTok-Scheme reference (github.com/Oct1a/TikTok-Scheme):
+    //   - iOS internal scheme is `aweme://` (the app's legacy name), NOT `tiktok://`
+    //   - Android uses `tiktok://`
+    // Previous attempts using `tiktok://` on iOS silently failed because iOS
+    // didn't recognize that scheme as a registered handler.
+    //
+    // Strategy:
+    //   1. On page load, rewrite the TikTok chip href to the platform's app scheme.
+    //      Stash the web URL in data-tiktok-web-fallback for the fallback handler.
+    //   2. The chip's default new-tab behavior (target="_blank" already set) opens
+    //      the scheme URL in a new tab. iOS hands the URL to the OS, which opens
+    //      the app if installed.
+    //   3. Click handler watches for `visibilitychange` — if the page hides within
+    //      1.5s of the tap, the app launched and we leave it alone. If the page
+    //      stays visible (no app installed → new tab shows error), we open the
+    //      web URL in a fresh tab as a fallback so the user still gets results.
+    const isIOSForTikTok = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isAndroidForTikTok = /Android/i.test(navigator.userAgent);
+    if (isIOSForTikTok || isAndroidForTikTok) {
+      const scheme = isIOSForTikTok ? "aweme" : "tiktok";
+      document.querySelectorAll('a.chip[href*="tiktok.com/search"]').forEach((a) => {
+        try {
+          const url = new URL(a.href);
+          const q = url.searchParams.get("q");
+          if (!q) return;
+          a.dataset.tiktokWebFallback = a.href;
+          a.setAttribute("href", `${scheme}://search?keyword=${encodeURIComponent(q)}`);
+        } catch {
+          // leave as-is if URL parsing fails
+        }
+      });
+
+      // Fallback: if app didn't launch within 1.5s of tapping a TikTok chip,
+      // open the web URL in a new tab so the user still gets search results.
+      document.addEventListener("click", (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+        const a = target.closest && target.closest("a.chip[data-tiktok-web-fallback]");
+        if (!a) return;
+        const webUrl = a.dataset.tiktokWebFallback;
+        if (!webUrl) return;
+
+        let didLaunch = false;
+        const onHide = () => { if (document.hidden) didLaunch = true; };
+        document.addEventListener("visibilitychange", onHide);
+
+        setTimeout(() => {
+          document.removeEventListener("visibilitychange", onHide);
+          if (!didLaunch) {
+            window.open(webUrl, "_blank", "noopener,noreferrer");
+          }
+        }, 1500);
+      });
+    }
 
     // ---- VOTING ----
     let voteState = {}; // { optionId: [voter, voter, ...] }
