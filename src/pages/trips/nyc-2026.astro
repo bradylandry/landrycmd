@@ -1822,6 +1822,57 @@ const weather = [
       });
     });
 
+    // ---- CHIP LINKS: open in new tab so scroll position is preserved ----
+    document.querySelectorAll("a.chip").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      // tel: links invoke dialer in place — leave them; everything else opens in new tab
+      if (href.startsWith("http")) {
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+      }
+    });
+
+    // ---- TIKTOK: try app first on mobile, fall back to web in new tab ----
+    const isMobileForTikTok = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobileForTikTok) {
+      document.addEventListener("click", (e) => {
+        const a = e.target && e.target.closest && e.target.closest("a.chip");
+        if (!a) return;
+        const href = a.getAttribute("href") || "";
+        if (!href.includes("tiktok.com/search")) return;
+
+        try {
+          const url = new URL(href);
+          const q = url.searchParams.get("q");
+          if (!q) return;
+          e.preventDefault();
+
+          // Watch for visibility change — if document hides within ~1s, app launched
+          let didOpen = false;
+          const onHide = () => { if (document.hidden) didOpen = true; };
+          document.addEventListener("visibilitychange", onHide);
+
+          // Attempt app via hidden iframe (silent if app not installed; iOS may
+          // still show a system prompt depending on Safari version)
+          const iframe = document.createElement("iframe");
+          iframe.style.display = "none";
+          iframe.src = `tiktok://search?q=${encodeURIComponent(q)}`;
+          document.body.appendChild(iframe);
+
+          setTimeout(() => {
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+            document.removeEventListener("visibilitychange", onHide);
+            if (!didOpen) {
+              // App didn't grab — open web TikTok in a new tab so the trip page stays put
+              window.open(href, "_blank", "noopener,noreferrer");
+            }
+          }, 1000);
+        } catch {
+          // any failure — let the default new-tab behavior handle it
+        }
+      });
+    }
+
     // ---- VOTING ----
     let voteState = {}; // { optionId: [voter, voter, ...] }
 
@@ -1903,8 +1954,8 @@ const weather = [
       // Toggle is server-side state-dependent, so a double-click race could
       // un-do the vote. set/unset always lands on the same final state.
       // keepalive: true tells the browser this request MUST complete even if
-      // the user switches apps mid-flight — fixes iOS Safari killing in-flight
-      // POSTs when the tab is backgrounded.
+      // the user switches apps mid-flight — keeps the server-side write alive
+      // when iOS Safari backgrounds the tab.
       try {
         const res = await fetch("/api/trips/vote", {
           method: "POST",
@@ -1918,14 +1969,17 @@ const weather = [
         });
         const data = await res.json();
         if (!data.ok) {
-          // rollback
-          voteState[optionId] = list;
-          applyVoteState();
+          // server rejected — re-sync from authoritative state
+          loadVotes();
         }
       } catch (e) {
-        // rollback on network failure
-        voteState[optionId] = list;
-        applyVoteState();
+        // Fetch rejected. With keepalive, the server may have STILL received
+        // and processed the request — re-sync from server instead of rolling
+        // back to a stale closure variable. This fixes the iOS Safari case
+        // where the POST lands in Redis but the response can't reach the
+        // backgrounded tab; on return, loadVotes() shows the correct state
+        // and we don't overwrite it with the pre-vote list.
+        loadVotes();
       }
     }
 
