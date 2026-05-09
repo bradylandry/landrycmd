@@ -14,13 +14,16 @@ export const GET: APIRoute = async () => {
     );
   }
 
-  // we store one Redis hash at VOTE_KEY where each field is `${optionId}:${voter}` => "1"
-  // hgetall returns Record<string, string>
-  const raw = (await redis.hgetall(VOTE_KEY)) as Record<string, string> | null;
+  // We store one Redis hash at VOTE_KEY where each field is `${optionId}:${voter}` => "1".
+  // The @upstash/redis SDK auto-parses values that look like JSON, so the string "1" we wrote
+  // comes back as the NUMBER 1 on read. Accept both forms in the filter — anything truthy is
+  // a vote (we hdel when unvoting, so non-existent fields are the "no vote" state).
+  const raw = (await redis.hgetall(VOTE_KEY)) as Record<string, unknown> | null;
   const votes: Record<string, string[]> = {};
   if (raw) {
     for (const [field, value] of Object.entries(raw)) {
-      if (value !== "1") continue;
+      // Accept either "1" (string) or 1 (number) — Upstash type-coerces "1" → 1 on read
+      if (value !== "1" && value !== 1) continue;
       const sep = field.lastIndexOf(":");
       if (sep < 0) continue;
       const optionId = field.slice(0, sep);
