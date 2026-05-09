@@ -13,18 +13,15 @@ const transit = (dest: string, origin: string = HOTEL) =>
   `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}&travelmode=transit`;
 const walk = (dest: string, origin: string) =>
   `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}&travelmode=walking`;
-const tiktok = (q: string) =>
-  `https://www.tiktok.com/search?q=${encodeURIComponent(q)}`;
 const tel = (n: string) => `tel:${n.replace(/[^+\d]/g, "")}`;
 
-// shorthand: every venue gets google + apple + transit-from-hotel + TikTok by default
+// shorthand: every venue gets google + apple + transit-from-hotel by default
 const venue = (name: string, query?: string) => {
   const q = query || name;
   return [
     { label: `🗺️ ${name}`, href: gmap(q), type: "" },
     { label: `🍎 Apple Maps`, href: amap(q), type: "chip-grey" },
     { label: `🚇 From hotel`, href: transit(q), type: "" },
-    { label: `🎵 TikTok`, href: tiktok(q), type: "chip-grey" },
   ];
 };
 
@@ -1373,7 +1370,6 @@ const weather = [
             <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
               <a class="chip" href={gmap("Gershwin Theatre 222 W 51st St")}>🗺️ Gershwin Theatre</a>
               <a class="chip chip-grey" href={amap("Gershwin Theatre 222 W 51st St")}>🍎 Apple Maps</a>
-              <a class="chip chip-grey" href={tiktok("Wicked Gershwin Theatre")}>🎵 TikTok</a>
               <a class="chip chip-pink" href="https://wickedthemusical.com/">🌐 Show site</a>
             </div>
           </div>
@@ -1395,7 +1391,6 @@ const weather = [
               <a class="chip" href={gmap("Yankee Stadium Bronx")}>🗺️ Yankee Stadium</a>
               <a class="chip chip-grey" href={amap("Yankee Stadium Bronx")}>🍎 Apple Maps</a>
               <a class="chip" href={transit("Yankee Stadium 1 E 161st St Bronx")}>🚇 From hotel</a>
-              <a class="chip chip-grey" href={tiktok("Yankee Stadium Bronx")}>🎵 TikTok</a>
               <a class="chip chip-pink" href="https://www.tickpick.com/mlb/new-york-yankees-tickets/">🎟️ TickPick</a>
               <a class="chip chip-pink" href="https://seatgeek.com/new-york-yankees-tickets/6-7-2026-bronx-new-york-yankee-stadium/mlb/17691552">🎟️ SeatGeek</a>
             </div>
@@ -1475,7 +1470,6 @@ const weather = [
                   <a class="chip" href={gmap(opt.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(opt.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(opt.map)}>🚇 From hotel</a>
-                  <a class="chip chip-grey" href={tiktok(opt.map)}>🎵 TikTok</a>
                 </div>
               )}
               <div class="vote-row" data-option-id={opt.id}>
@@ -1505,7 +1499,6 @@ const weather = [
                     <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
                     <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
                     <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
-                    <a class="chip chip-grey" href={tiktok(a.map)}>🎵 TikTok</a>
                   </div>
                 )}
                 <div class="vote-row" data-option-id={a.id}>
@@ -1536,7 +1529,6 @@ const weather = [
                     <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
                     <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
                     <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
-                    <a class="chip chip-grey" href={tiktok(a.map)}>🎵 TikTok</a>
                   </div>
                 )}
                 <div class="vote-row" data-option-id={a.id}>
@@ -1567,7 +1559,6 @@ const weather = [
                     <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
                     <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
                     <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
-                    <a class="chip chip-grey" href={tiktok(a.map)}>🎵 TikTok</a>
                   </div>
                 )}
                 <div class="vote-row" data-option-id={a.id}>
@@ -1610,7 +1601,6 @@ const weather = [
                   <a class="chip" href={gmap(d.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(d.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(d.map)}>🚇 From hotel</a>
-                  <a class="chip chip-grey" href={tiktok(d.map)}>🎵 TikTok</a>
                 </div>
                 <div class="vote-row" data-option-id={d.id}>
                   <span class="vote-label">Vote:</span>
@@ -1642,7 +1632,6 @@ const weather = [
                   <a class="chip" href={gmap(s.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(s.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(s.map)}>🚇 From hotel</a>
-                  <a class="chip chip-grey" href={tiktok(s.map)}>🎵 TikTok</a>
                 </div>
                 <div class="vote-row" data-option-id={s.id}>
                   <span class="vote-label">Vote:</span>
@@ -1674,7 +1663,6 @@ const weather = [
                   <a class="chip" href={gmap(f.map)}>🗺️ Google Maps</a>
                   <a class="chip chip-grey" href={amap(f.map)}>🍎 Apple Maps</a>
                   <a class="chip" href={transit(f.map)}>🚇 From hotel</a>
-                  <a class="chip chip-grey" href={tiktok(f.map)}>🎵 TikTok</a>
                 </div>
                 <div class="vote-row" data-option-id={f.id}>
                   <span class="vote-label">Vote:</span>
@@ -1831,19 +1819,6 @@ const weather = [
         a.rel = "noopener noreferrer";
       }
     });
-
-    // ---- TIKTOK: web URL only ----
-    // Tested both `tiktok://` (Android scheme) and `aweme://` (per the
-    // Oct1a/TikTok-Scheme reference, supposedly the iOS scheme) — both produced
-    // "Safari cannot open the page because the address is invalid" on iPhone,
-    // meaning iOS doesn't recognize either as a registered handler. TikTok has
-    // either changed their URL schemes or never exposed a public search deep-link.
-    //
-    // Production apps that need reliable TikTok app launches use third-party
-    // deep-link services (URLgenius, Branch.io). For this page, we ship the web
-    // URL with target="_blank" — universally reliable, and TikTok web shows an
-    // "Open in app" banner that gives a one-tap path to the app for users who
-    // have it installed.
 
     // ---- VOTING ----
     let voteState = {}; // { optionId: [voter, voter, ...] }
