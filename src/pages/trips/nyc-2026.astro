@@ -229,6 +229,25 @@ const days = [
         ],
       },
       {
+        time: "11:15 AM",
+        title: "🐰 Jellycat Diner @ FAO Schwarz (reservation required)",
+        detail: "Themed plush-toy shopping experience at FAO Schwarz Rockefeller (1st floor, 30 Rockefeller Plaza). 'Order' Jellycat Amuseables (plush burgers, hot dogs, pizza, bagels styled like NYC food) from a diner counter — staff theatrically 'prepares' them. Karsyn + Emrie will lose it. ~30 min experience (10-min entry window + browsing). Plushies ~$70 each (each kid can pick one, or share). RESERVATION REQUIRED — book free on faoschwarz.com — and FAO Schwarz is right on your 5th Ave walk.",
+        actions: [
+          ...venue("FAO Schwarz Rockefeller Plaza", "FAO Schwarz 30 Rockefeller Plaza"),
+          { label: "🎟️ Reservations (free)", href: "https://faoschwarz.com/pages/reservations", type: "chip-pink" },
+        ],
+      },
+      {
+        time: "12:00 PM",
+        title: "🛍️ 5th Avenue (Apple Cube, Tiffany's, Bergdorf, Plaza)",
+        detail: "Continue 5th Ave after FAO Schwarz: Apple Fifth Avenue Cube (the famous glass cube, open 24/7), Tiffany & Co. flagship (Breakfast at Tiffany's + Gossip Girl), Bergdorf Goodman (luxury department store), Plaza Hotel (Eloise / Home Alone 2). ~1 hour.",
+        actions: [
+          { label: "🗺️ Apple 5th Ave", href: gmap("Apple Fifth Avenue Cube"), type: "" },
+          { label: "🗺️ Tiffany & Co", href: gmap("Tiffany & Co. 5th Avenue flagship"), type: "" },
+          { label: "🗺️ Plaza Hotel", href: gmap("Plaza Hotel New York"), type: "" },
+        ],
+      },
+      {
         time: "1:00 PM",
         title: "🥪 Lunch (Bryant Park area)",
         detail: "Pret, Bryant Park Grill, or 5th Ave delis.",
@@ -239,16 +258,12 @@ const days = [
       },
       {
         time: "2:00 PM",
-        title: "🛍️ 5th Avenue + Times Square shopping",
-        detail: "The famous shopping corridor: Saks Fifth Avenue (luxury department store, iconic Christmas windows in winter), Rockefeller Center (skating rink in winter, plaza), FAO Schwarz (the giant toy store with the floor piano from the movie 'Big'), Apple Fifth Avenue Cube (the famous glass cube, open 24/7), Tiffany & Co. flagship (Breakfast at Tiffany's + Gossip Girl), Bergdorf Goodman (luxury department store), Plaza Hotel (Eloise / Home Alone 2). Then walk back through Times Square — M&M's World (3 floors of M&Ms), Disney Store, Hershey's, Forever 21 (open 24/7).",
+        title: "🍬 Times Square theme shops",
+        detail: "Walk south from Bryant Park into Times Square. The touristy theme stores: M&M's World (3 floors of M&Ms), Disney Store, Hershey's Chocolate World, Forever 21 (open 24/7). Kids love the chaos. ~45 min.",
         actions: [
-          { label: "🗺️ Saks 5th Ave", href: gmap("Saks Fifth Avenue New York"), type: "" },
-          { label: "🗺️ FAO Schwarz", href: gmap("FAO Schwarz Rockefeller"), type: "" },
-          { label: "🗺️ Apple 5th Ave", href: gmap("Apple Fifth Avenue Cube"), type: "" },
-          { label: "🗺️ Tiffany & Co", href: gmap("Tiffany & Co. 5th Avenue flagship"), type: "" },
-          { label: "🗺️ Plaza Hotel", href: gmap("Plaza Hotel New York"), type: "" },
           { label: "🗺️ Times Square", href: gmap("Times Square New York"), type: "" },
           { label: "🗺️ M&M's World", href: gmap("M&M's World Times Square"), type: "" },
+          { label: "🗺️ Disney Store", href: gmap("Disney Store Times Square"), type: "" },
         ],
       },
       {
@@ -605,6 +620,7 @@ const reservations = [
   { item: "🎭 Wicked at Gershwin", date: "Jun 4 · 7pm", status: "booked", cost: "—", conf: "TF88GC3" },
   { item: "⚾ Yankees vs Red Sox", date: "Jun 7 · 1:35pm", status: "todo", cost: "~$450", conf: "—" },
   { item: "✨ SUMMIT One Vanderbilt", date: "Jun 4 · 9:45am", status: "todo", cost: "~$220-340", conf: "—" },
+  { item: "🐰 Jellycat Diner @ FAO Schwarz", date: "Jun 4 · 11:15am", status: "todo", cost: "free reservation, ~$70/plush", conf: "—" },
   { item: "🍝 Becco dinner", date: "Jun 4 · 4:30pm", status: "todo", cost: "~$250", conf: "—" },
   { item: "🚲 Bike rental — Central Park", date: "Jun 5 · 9:15am", status: "todo", cost: "~$175", conf: "—" },
   { item: "🥟 Nom Wah dim sum", date: "Jun 6 · 3pm", status: "todo", cost: "~$100", conf: "—" },
