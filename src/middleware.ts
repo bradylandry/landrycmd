@@ -4,15 +4,22 @@ const COOKIE_NAME = "trip_auth";
 const PROTECTED_PREFIX = "/trips/";
 const LOGIN_PATH = "/trips/login";
 
-const SECRET = import.meta.env.TRIP_SECRET || "dev-secret-change-me";
+const SECRET = import.meta.env.TRIP_SECRET || "";
 
-async function verifyToken(token: string): Promise<boolean> {
-  const [payload, sig] = token.split(".");
+// exported so API routes can authenticate requests independently of middleware route-matching
+export async function verifyToken(token: string): Promise<boolean> {
+  // token format: `${issuedAt}:${expiresAt}.${sig}`
+  const lastDot = token.lastIndexOf(".");
+  if (lastDot < 0) return false;
+  const payload = token.slice(0, lastDot);
+  const sig = token.slice(lastDot + 1);
   if (!payload || !sig) return false;
 
   try {
     const expected = await sign(payload, SECRET);
-    return expected === sig;
+    if (expected !== sig) return false;
+    const expiresAt = parseInt(payload.split(":")[1] ?? "0", 10);
+    return expiresAt > 0 && Date.now() < expiresAt;
   } catch {
     return false;
   }
@@ -40,8 +47,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // only gate /trips/* routes (excluding the login page itself)
   if (!pathname.startsWith(PROTECTED_PREFIX)) return next();
   if (pathname === LOGIN_PATH || pathname === LOGIN_PATH + "/") return next();
-  if (pathname.startsWith("/trips/api/")) return next();
 
+  // Catch misconfigured deployments before auth logic runs
+  if (!SECRET) {
+    console.error("TRIP_SECRET env var is required but not set");
+    return new Response("Server misconfiguration", { status: 500 });
+  }
   const token = context.cookies.get(COOKIE_NAME)?.value;
   if (!token) {
     return context.redirect(LOGIN_PATH + "?next=" + encodeURIComponent(pathname));
@@ -55,5 +66,4 @@ export const onRequest = defineMiddleware(async (context, next) => {
   return next();
 });
 
-// exported so the auth API route can reuse the same signing logic
 export { sign, COOKIE_NAME };

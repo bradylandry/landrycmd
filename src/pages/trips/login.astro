@@ -38,7 +38,8 @@ export const prerender = false;
 
   <script is:inline define:vars={{ }}>
     const params = new URLSearchParams(location.search);
-    const next = params.get("next") || "/trips/nyc-2026";
+    const rawNext = params.get("next") || "";
+    const next = (rawNext.startsWith("/") && !rawNext.startsWith("//")) ? rawNext : "/trips/nyc-2026";
 
     const display = document.getElementById("pinDisplay");
     const keypad = document.getElementById("keypad");

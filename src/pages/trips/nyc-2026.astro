@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { VOTERS } from "../../lib/redis";
 export const prerender = false;
 
 // ===== Map / link helpers =====
@@ -611,7 +612,6 @@ const reservations = [
 ];
 
 // ===== Alternates & Swaps =====
-const VOTERS = ["brady", "stacy", "blake", "karsyn", "emrie"] as const;
 
 const sundayAlternates = [
   {

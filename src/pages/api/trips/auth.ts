@@ -1,33 +1,42 @@
 import type { APIRoute } from "astro";
 import { sign, COOKIE_NAME } from "../../../middleware";
+import { getRedis } from "../../../lib/redis";
 
 export const prerender = false;
 
-const PIN = import.meta.env.TRIP_PIN || "0000";
-const SECRET = import.meta.env.TRIP_SECRET || "dev-secret-change-me";
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+const PIN = import.meta.env.TRIP_PIN || "";
+const SECRET = import.meta.env.TRIP_SECRET || "";
 
-// in-memory rate limit (resets when serverless instance recycles)
-const attempts = new Map<string, { count: number; resetAt: number }>();
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
+const TOKEN_TTL_MS = COOKIE_MAX_AGE * 1000;
 const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 60_000; // 1 minute
+const WINDOW_SEC = 60;
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = attempts.get(ip);
-  if (!entry || entry.resetAt < now) {
-    attempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+async function checkRateLimit(ip: string): Promise<boolean> {
+  const redis = getRedis();
+  if (!redis) {
+    // Redis unavailable — fall back to allow but log so it's visible in function logs
+    console.warn("Rate limiter: Redis unavailable, skipping limit check for", ip);
     return true;
   }
-  if (entry.count >= MAX_ATTEMPTS) return false;
-  entry.count += 1;
-  return true;
+  const key = `ratelimit:auth:${ip}`;
+  const count = await redis.incr(key);
+  if (count === 1) await redis.expire(key, WINDOW_SEC);
+  return count <= MAX_ATTEMPTS;
 }
 
 export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
+  if (!PIN || !SECRET) {
+    console.error("TRIP_PIN or TRIP_SECRET env var is not set");
+    return new Response(JSON.stringify({ ok: false, error: "Server misconfiguration" }), {
+      status: 500,
+      headers: { "content-type": "application/json" },
+    });
+  }
+
   const ip = clientAddress || "unknown";
 
-  if (!checkRateLimit(ip)) {
+  if (!(await checkRateLimit(ip))) {
     return new Response(
       JSON.stringify({ ok: false, error: "Too many attempts. Wait a minute." }),
       { status: 429, headers: { "content-type": "application/json" } },
@@ -52,9 +61,11 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
     });
   }
 
-  const issued = Date.now().toString();
-  const sig = await sign(issued, SECRET);
-  const token = `${issued}.${sig}`;
+  const issuedAt = Date.now();
+  const expiresAt = issuedAt + TOKEN_TTL_MS;
+  const payload = `${issuedAt}:${expiresAt}`;
+  const sig = await sign(payload, SECRET);
+  const token = `${payload}.${sig}`;
 
   cookies.set(COOKIE_NAME, token, {
     httpOnly: true,

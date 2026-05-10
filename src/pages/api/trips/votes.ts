@@ -1,16 +1,25 @@
 import type { APIRoute } from "astro";
 import { getRedis, VOTE_KEY } from "../../../lib/redis";
+import { verifyToken, COOKIE_NAME } from "../../../middleware";
 
 export const prerender = false;
 
 // GET /api/trips/votes
 // returns { ok: true, votes: { [optionId]: [voter, voter, ...] } }
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ cookies }) => {
+  const token = cookies.get(COOKIE_NAME)?.value;
+  if (!token || !(await verifyToken(token))) {
+    return new Response(JSON.stringify({ ok: false, error: "Not authenticated" }), {
+      status: 401,
+      headers: { "content-type": "application/json" },
+    });
+  }
+
   const redis = getRedis();
   if (!redis) {
     return new Response(
-      JSON.stringify({ ok: false, error: "Redis not configured", votes: {} }),
-      { status: 200, headers: { "content-type": "application/json" } },
+      JSON.stringify({ ok: false, error: "Redis not configured" }),
+      { status: 503, headers: { "content-type": "application/json" } },
     );
   }
 
