@@ -123,63 +123,75 @@ const days = [
     id: "wed",
     day: "WED",
     date: "JUN 3",
-    theme: "Liberty + 9/11 + Chinatown lunch",
-    color: "var(--mta-1)",
-    glyph: glyphs.liberty,
+    theme: "Brooklyn Bridge + 9/11 Memorial",
+    color: "var(--mta-4)",
+    glyph: glyphs.bridge,
     events: [
       {
-        time: "8:30 AM",
-        title: "🚇 Subway 4/5 → Bowling Green (or 1 to South Ferry)",
-        detail: "Battery Park ferry terminal.",
+        time: "9:30 AM",
+        title: "🥞 Slow start — brunch in NoMad",
+        detail: "After the late Tuesday arrival, sleep in. Brunch in the hotel area before heading downtown.",
         actions: [
-          ...venue("Battery Park", "Battery Park New York"),
+          { label: "🗺️ Jack's Wife Freda NoMad", href: gmap("Jack's Wife Freda NoMad 226 5th Ave"), type: "" },
+          { label: "🗺️ Eataly Flatiron", href: gmap("Eataly Flatiron New York"), type: "" },
         ],
       },
       {
-        time: "9:30 AM",
-        title: "🗽 Statue of Liberty + Ellis Island",
-        detail: "Pedestal Reserve tickets booked in advance. ~3 hours total. Pedestal interior + Ellis Island immigration museum.",
+        time: "11:00 AM",
+        title: "🚇 Subway → Brooklyn Bridge entrance",
+        detail: "4/5/6 to Brooklyn Bridge - City Hall.",
         actions: [
-          ...venue("Statue of Liberty"),
-          { label: "🎟️ Pedestal tickets", href: "https://www.cityexperiences.com/new-york/city-cruises/statue/", type: "chip-pink" },
+          ...venue("Brooklyn Bridge Manhattan entrance", "Brooklyn Bridge Manhattan entrance City Hall"),
         ],
+      },
+      {
+        time: "11:30 AM",
+        title: "🌉 Walk Brooklyn Bridge → DUMBO",
+        detail: "New June 2026 redesign separates bikes from pedestrians for the first time. ~1 hour with photo stops at the towers + iconic DUMBO under-bridge views on the Brooklyn side.",
       },
       {
         time: "1:00 PM",
-        title: "🥟 Lunch in Chinatown",
-        detail: "15-min walk north from ferry terminal. Two great picks — both kid-pleasers, both casual: (1) Joe's Shanghai (9 Pell St) — famous for xiao long bao (soup dumplings: dumplings filled with broth that explodes when you bite them), kids find this hilarious; (2) Xi'an Famous Foods (multiple locations) — fast-casual hand-pulled noodles, lamb burgers, spicy cumin lamb. Anthony Bourdain made both famous.",
+        title: "🍕 Juliana's Pizza lunch (DUMBO, Brooklyn)",
+        detail: "Coal-fired pizzeria in DUMBO neighborhood ('Down Under the Manhattan Bridge Overpass'), 19 Old Fulton St. Founded by Patsy Grimaldi. NOTE: there's a 'Grimaldi's' right next door that's a different restaurant — Juliana's is the original (Patsy's), Grimaldi's took over his old space when he sold the name. Go to Juliana's.",
         actions: [
-          ...venue("Joe's Shanghai", "Joe's Shanghai Chinatown 9 Pell St"),
-          { label: "🗺️ Xi'an Famous Foods", href: gmap("Xi'an Famous Foods Manhattan"), type: "" },
-          { label: "🚶 Walk from Battery Park", href: walk("Joe's Shanghai 9 Pell St", "Battery Park New York"), type: "" },
+          ...venue("Juliana's Pizza DUMBO", "Juliana's Pizza 19 Old Fulton St Brooklyn"),
         ],
-        votable: true,
-        voteId: "wed-chinatown-lunch",
       },
       {
         time: "2:30 PM",
-        title: "🍩 Doughnut Plant — cult NYC donuts",
-        detail: "Iconic Lower East Side donut shop founded 1994. 379 Grand St, ~10 min walk between Chinatown lunch and 9/11 Memorial. Famous for square jelly donuts and seasonal flavors (crème brûlée, tres leches, blackout). Quick grab-and-go, eat walking. ~$4-5/donut.",
+        title: "📸 DUMBO Manhattan Bridge view (Washington St)",
+        detail: "The famous shot you've seen on every NYC postcard: Manhattan Bridge framed perfectly between two brick buildings on Washington St & Water St. 5-min photo stop. Optional Time Out Market (Brooklyn food hall) browse.",
         actions: [
-          ...venue("Doughnut Plant", "Doughnut Plant 379 Grand St"),
+          ...venue("Washington Street DUMBO Manhattan Bridge view"),
+          { label: "🗺️ Time Out Market DUMBO", href: gmap("Time Out Market DUMBO Brooklyn"), type: "" },
         ],
-        votable: true,
-        voteId: "wed-doughnut-plant",
       },
       {
         time: "3:00 PM",
-        title: "🕊️ 9/11 Memorial & Museum",
-        detail: "Heavy and emotional. Set expectations with Emrie. Plan ~2-3 hours.",
+        title: "🚇 Subway back to Lower Manhattan",
+        detail: "F train York → East Broadway, or A/C to Fulton. ~10 min.",
+      },
+      {
+        time: "3:30 PM",
+        title: "🕊️ 9/11 Memorial — outdoor only",
+        detail: "Walk the outdoor reflecting pools at Ground Zero. ~45 min. Skipping the indoor museum (heavy, ~2-3 hrs additional) — Stacy and Brady decided the outdoor experience is enough for this family. Free, no ticket needed for outdoor memorial.",
         actions: [
-          ...venue("9/11 Memorial Museum"),
-          { label: "🎟️ Tickets", href: "https://www.911memorial.org/visit/tickets", type: "chip-pink" },
-          { label: "🚶 Walk from Chinatown", href: walk("9/11 Memorial Museum", "Joe's Shanghai 9 Pell St"), type: "" },
+          ...venue("9/11 Memorial", "9/11 Memorial Plaza"),
+          { label: "🚶 Walk from Fulton St", href: walk("9/11 Memorial Plaza", "Fulton Street Subway Station NYC"), type: "" },
         ],
       },
       {
-        time: "6:00 PM",
+        time: "4:30 PM",
+        title: "🍩 Doughnut Plant — cult NYC donuts",
+        detail: "Iconic Lower East Side donut shop founded 1994. 379 Grand St, ~10 min walk or short subway from 9/11. Famous for square jelly donuts and seasonal flavors (crème brûlée, tres leches, blackout). Quick grab-and-go, eat walking. ~$4-5/donut.",
+        actions: [
+          ...venue("Doughnut Plant", "Doughnut Plant 379 Grand St"),
+        ],
+      },
+      {
+        time: "5:30 PM",
         title: "🚇 Subway back to NoMad → easy dinner",
-        detail: "Eataly Flatiron (food hall, picky-eater friendly), The Smith NoMad, or order in.",
+        detail: "Eataly Flatiron (Italian food hall, picky-eater friendly), The Smith NoMad (American brasserie), or order in.",
         actions: [
           { label: "🍝 Eataly Flatiron", href: "https://www.eataly.com/us_en/stores/nyc-flatiron/", type: "chip-pink" },
           { label: "🗺️ Eataly", href: gmap("Eataly Flatiron New York"), type: "" },
@@ -207,13 +219,13 @@ const days = [
         voteId: "thu-grand-central",
       },
       {
-        time: "10:00 AM",
-        title: "🌆 Top of the Rock (or SUMMIT — see Alternates section)",
-        detail: "Observation deck on the 70th floor of Rockefeller Center. Classic open-air NYC skyline view (the Empire State Building IS in the photo). Timed entry · ~$42/pp. Walk via Bryant Park (10 min from Grand Central). NOTE: SUMMIT One Vanderbilt is a serious alternative — same neighborhood, mirror rooms + glass floor, see Alternates.",
+        time: "9:45 AM",
+        title: "✨ SUMMIT One Vanderbilt — locked in",
+        detail: "Newest NYC observation experience (opened 2021). Mirror rooms (the AIR art installation) multiply the skyline on floor + ceiling + walls — Insta gold for Karsyn + Blake. Levitation Skyboxes = glass platforms protruding 1,000 ft over Manhattan (Emrie can SEE the street through her feet). Ascent = external all-glass elevator riding up the building's facade to 1,210 ft (highest deck in NYC). Best view of Empire State + Chrysler from any deck. LITERALLY next door to Grand Central — walk out the Vanderbilt Ave exit and you're at the entrance. ~$44-68/pp depending on Ascent add-on.",
         actions: [
-          ...venue("Top of the Rock NYC"),
-          { label: "🚶 Walk from Grand Central", href: walk("Top of the Rock NYC", "Grand Central Terminal"), type: "" },
-          { label: "🎟️ Tickets", href: "https://www.rockefellercenter.com/tickets/top-of-the-rock-observation-deck", type: "chip-pink" },
+          ...venue("SUMMIT One Vanderbilt", "Summit One Vanderbilt 45 East 42nd"),
+          { label: "🎟️ Buy tickets", href: "https://summitov.com/tickets/", type: "chip-pink" },
+          { label: "🚶 Walk from Grand Central", href: walk("Summit One Vanderbilt 45 East 42nd", "Grand Central Terminal"), type: "" },
         ],
       },
       {
@@ -388,51 +400,29 @@ const days = [
     id: "sat",
     day: "SAT",
     date: "JUN 6",
-    theme: "Brooklyn Bridge · DUMBO · Chinatown · Little Italy",
+    theme: "Chinatown + Little Italy",
     color: "var(--mta-4)",
     glyph: glyphs.bridge,
     events: [
       {
         time: "10:00 AM",
-        title: "🚇 Subway → Brooklyn Bridge",
-        detail: "4/5/6 to Brooklyn Bridge - City Hall.",
+        title: "🥞 Late brunch in NoMad",
+        detail: "Sleep in. Saturday is the only true 'easy' day — light morning, downtown sweep in the afternoon, pack tonight.",
         actions: [
-          ...venue("Brooklyn Bridge Manhattan entrance", "Brooklyn Bridge Manhattan entrance City Hall"),
+          { label: "🗺️ Jack's Wife Freda NoMad", href: gmap("Jack's Wife Freda NoMad 226 5th Ave"), type: "" },
+          { label: "🗺️ Eataly Flatiron", href: gmap("Eataly Flatiron New York"), type: "" },
         ],
       },
       {
-        time: "10:30 AM",
-        title: "🌉 Walk Brooklyn Bridge → DUMBO",
-        detail: "New June 2026 redesign separates bikes from pedestrians. Photo stops at the towers + iconic under-bridge views in DUMBO.",
-        actions: [
-          { label: "📸 DUMBO Washington St view", href: gmap("Washington Street DUMBO Brooklyn Bridge view"), type: "chip-purple" },
-        ],
-      },
-      {
-        time: "11:30 AM",
-        title: "📸 Iconic DUMBO photo — Manhattan Bridge view from Washington St",
-        detail: "The famous shot you've seen on every NYC postcard: Manhattan Bridge framed perfectly between two brick buildings. Walk to Washington St & Water St in DUMBO. 5-min photo stop on the way to lunch.",
-        actions: [
-          ...venue("Washington Street DUMBO Manhattan Bridge view"),
-        ],
-        votable: true,
-        voteId: "sat-dumbo-photo",
-      },
-      {
-        time: "12:00 PM",
-        title: "🍕 Juliana's Pizza (Brooklyn)",
-        detail: "Coal-fired pizzeria in DUMBO neighborhood ('Down Under the Manhattan Bridge Overpass'), 19 Old Fulton St. Founded by Patsy Grimaldi. NOTE: there's a 'Grimaldi's' right next door that's a different restaurant — Juliana's is the original (Patsy's), Grimaldi's took over his old space when he sold the name. Go to Juliana's.",
-        actions: [
-          ...venue("Juliana's Pizza DUMBO", "Juliana's Pizza 19 Old Fulton St Brooklyn"),
-        ],
-      },
-      {
-        time: "1:30 PM",
+        time: "12:30 PM",
         title: "🚇 Subway → Chinatown",
-        detail: "F train from York St → East Broadway. ~10 min.",
+        detail: "B/D from Herald Sq to Grand St, or 6 to Canal St. ~25 min.",
+        actions: [
+          ...venue("Chinatown Manhattan"),
+        ],
       },
       {
-        time: "2:00 PM",
+        time: "1:00 PM",
         title: "🏮 Doyers St + Canal St (Chinatown)",
         detail: "Doyers Street is a historic curved one-block alley in Chinatown with red lanterns strung overhead — one of the most photographed spots in NYC, also Nom Wah is here. Canal Street is the famous market street running through Chinatown — lined with vendors selling cheap sunglasses, fake designer bags, fans, magnets, every kind of NYC kitsch. Kids love the chaos.",
         actions: [
@@ -600,9 +590,8 @@ const reservations = [
   { item: "✈️ Flights JFK→LFT", date: "Jun 8", status: "booked", cost: "—", conf: "DL 2227 / 5308" },
   { item: "🏨 Hotel — The Evelyn", date: "Jun 2-8", status: "booked", cost: "—", conf: "—" },
   { item: "🎭 Wicked at Gershwin", date: "Jun 4 · 7pm", status: "booked", cost: "—", conf: "TF88GC3" },
-  { item: "🗽 Statue of Liberty Pedestal", date: "Jun 3 · AM", status: "todo", cost: "~$120", conf: "—" },
   { item: "⚾ Yankees vs Red Sox", date: "Jun 7 · 1:35pm", status: "todo", cost: "~$450", conf: "—" },
-  { item: "🌆 Top of the Rock", date: "Jun 4 · 10am", status: "todo", cost: "~$210", conf: "—" },
+  { item: "✨ SUMMIT One Vanderbilt", date: "Jun 4 · 9:45am", status: "todo", cost: "~$220-340", conf: "—" },
   { item: "🎨 MoMA (optional)", date: "Jun 4 · 11:30am", status: "optional", cost: "~$90", conf: "—" },
   { item: "🍝 Becco dinner", date: "Jun 4 · 4:30pm", status: "todo", cost: "~$250", conf: "—" },
   { item: "🚲 Bike rental — Central Park", date: "Jun 5 · 9:15am", status: "todo", cost: "~$175", conf: "—" },
@@ -1565,47 +1554,6 @@ const weather = [
                   <span class="vote-label">Vote:</span>
                   {VOTERS.map((v) => (
                     <button class="vote-btn" data-voter={v} data-option={a.id}>
-                      {v.charAt(0).toUpperCase() + v.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- OBSERVATION DECKS -->
-        <h3 class="alt-heading">🌆 Observation deck — which one for Thursday?</h3>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
-          Three serious options. SUMMIT One Vanderbilt is the newest + has the mirror rooms + glass floor everyone's been seeing on TikTok, and it's literally next door to Grand Central. Pick one — doing two is overkill.
-        </p>
-        <div class="alt-stack">
-          {observationDecks.map((d) => (
-            <div class="alt-row">
-              <span class={`alt-badge ${d.badgeClass}`}>{d.badge}</span>
-              <div class="alt-row-body">
-                <div class="alt-row-title">{d.title}</div>
-                <div class="alt-row-detail">{d.detail}</div>
-                <div class="alt-row-energy">When: <strong>{d.when}</strong></div>
-                <div class="alt-pros-cons" style="margin-top:0.5rem;">
-                  <div class="alt-pros">
-                    <div class="alt-pc-label">✅ Pros</div>
-                    <ul>{d.pros.map((p) => <li>{p}</li>)}</ul>
-                  </div>
-                  <div class="alt-cons">
-                    <div class="alt-pc-label">⚠️ Cons</div>
-                    <ul>{d.cons.map((c) => <li>{c}</li>)}</ul>
-                  </div>
-                </div>
-                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                  <a class="chip" href={gmap(d.map)}>🗺️ Google Maps</a>
-                  <a class="chip chip-grey" href={amap(d.map)}>🍎 Apple Maps</a>
-                  <a class="chip" href={transit(d.map)}>🚇 From hotel</a>
-                </div>
-                <div class="vote-row" data-option-id={d.id}>
-                  <span class="vote-label">Vote:</span>
-                  {VOTERS.map((v) => (
-                    <button class="vote-btn" data-voter={v} data-option={d.id}>
                       {v.charAt(0).toUpperCase() + v.slice(1)}
                     </button>
                   ))}
