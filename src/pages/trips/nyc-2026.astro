@@ -246,11 +246,11 @@ const days = [
       },
       {
         time: "1:00 PM",
-        title: "🥪 Lunch (Bryant Park area)",
-        detail: "Pret, Bryant Park Grill, or 5th Ave delis.",
+        title: "🌮 Los Tacos No. 1 lunch (Times Square)",
+        detail: "Iconic NYC taqueria at 229 W 43rd St (between 7th & 8th Ave) — between Bryant Park and Times Square shops, perfect on your route. Anthony Bourdain favorite. Order the adobada (al pastor with pineapple) and carne asada tacos. Counter service, no seating — eat at standing counters or take outside. ~$3.50-7 per taco, ~$60-100 total for 5. Fast: in-and-out 30-40 min.",
         actions: [
-          ...venue("Bryant Park New York"),
-          { label: "🗺️ Bryant Park Grill", href: gmap("Bryant Park Grill New York"), type: "" },
+          ...venue("Los Tacos No. 1 Times Square", "Los Tacos No. 1 229 W 43rd St"),
+          { label: "🌐 lostacos1.com", href: "https://www.lostacos1.com/location/los-tacos-times-square/", type: "chip-pink" },
         ],
       },
       {
@@ -381,14 +381,12 @@ const days = [
       },
       {
         time: "1:15 PM",
-        title: "🥗 Lunch in SoHo",
-        detail: "Jack's Wife Freda or street food.",
+        title: "🍕 Prince Street Pizza (SoHo legend)",
+        detail: "Cult NYC pizza at 27 Prince St — famous for square Sicilian slices with cup-and-char pepperoni ('SoHo Squares'). Often viral on TikTok. Counter service, mostly grab-and-eat (very small standing room inside). $5-8/slice, ~$60-80 total for 5. Quick stop on your SoHo shopping route.",
         actions: [
-          { label: "🗺️ Jack's Wife Freda", href: gmap("Jack's Wife Freda SoHo"), type: "" },
-          { label: "🗺️ Lucky Strike", href: gmap("Lucky Strike SoHo Grand"), type: "" },
+          ...venue("Prince Street Pizza", "Prince Street Pizza 27 Prince St SoHo"),
+          { label: "🌐 princestpizzanyc.com", href: "https://www.princestpizzanyc.com/", type: "chip-pink" },
         ],
-        votable: true,
-        voteId: "fri-soho-lunch",
       },
       {
         time: "1:30 PM",
