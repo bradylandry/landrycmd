@@ -229,15 +229,6 @@ const days = [
         ],
       },
       {
-        time: "11:30 AM",
-        title: "🎨 MoMA — Museum of Modern Art (optional)",
-        detail: "Famous modern art gallery on 53rd & 5th. The big-name pieces everyone recognizes: Van Gogh's Starry Night, Andy Warhol's Campbell's Soup cans, Salvador Dalí's melting clocks, Picasso's Demoiselles. Hit floors 4-5 only and you see all the icons in 90 min. Adults $30, kids under 16 free. Skip if Blake/Stacy shrug at art.",
-        actions: [
-          ...venue("Museum of Modern Art NYC"),
-          { label: "🎟️ MoMA tickets", href: "https://www.moma.org/tickets/", type: "chip-pink" },
-        ],
-      },
-      {
         time: "1:00 PM",
         title: "🥪 Lunch (Bryant Park area)",
         detail: "Pret, Bryant Park Grill, or 5th Ave delis.",
@@ -261,30 +252,43 @@ const days = [
         ],
       },
       {
-        time: "3:30 PM",
+        time: "2:45 PM",
         title: "🧁 Magnolia Bakery (Rockefeller location)",
-        detail: "Cult NYC bakery made famous by Sex and the City. The move is the BANANA PUDDING (in mini cups, eat walking) — kids will know it from TikTok. 1240 6th Ave at Rockefeller Center, on your 5th Ave route. Quick 10-min stop. ~$6-8 per banana pudding cup.",
+        detail: "Cult NYC bakery made famous by Sex and the City. The move is the BANANA PUDDING (mini cups, eat walking) — kids will know it from TikTok. 1240 6th Ave at Rockefeller Center. Quick 10-min stop.",
         actions: [
           ...venue("Magnolia Bakery Rockefeller", "Magnolia Bakery 1240 6th Ave"),
         ],
       },
       {
-        time: "4:30 PM",
-        title: "🍝 Becco — pre-Wicked Italian dinner",
-        detail: "Italian restaurant on Restaurant Row (W 46th, between 8th & 9th Ave), owned by celebrity chef Lidia Bastianich. The reason to go: $36.95/pp 'Sinfonia di Pasta' tasting menu — Caesar salad or antipasto + UNLIMITED tableside service of three rotating daily pasta dishes. Kids who like pasta = unlimited refills. 5 blocks from Gershwin Theatre.",
+        time: "3:00 PM",
+        title: "🚇 Subway back to hotel (R/W 49 St → 28 St)",
+        detail: "~15 min ride.",
+      },
+      {
+        time: "3:15-4:45 PM",
+        title: "🏨 Hotel pit stop — 1.5 hr getting ready",
+        detail: "Back at The Evelyn. Shower, change into Wicked outfits, hair + makeup. Wicked is the dress-up moment of the trip. 1.5 hours is enough for everyone to refresh properly.",
+      },
+      {
+        time: "4:45 PM",
+        title: "🚇 Subway to Gershwin block",
+        detail: "R/W from 28 St → 49 St (or 50 St on the 1). ~15 min total.",
+      },
+      {
+        time: "5:15 PM",
+        title: "🍽️ Pre-Wicked dinner — TBD (on or near Gershwin block)",
+        detail: "Restaurant decision pending. Candidates being considered: Becco (355 W 46th, Italian, $36.95 unlimited pasta tasting, 5 blocks from theater), Azalea Ristorante (224 W 51st, Italian, next door to Gershwin), Victor's Café (236 W 52nd, Cuban, 1 block from Gershwin), Carmine's (200 W 44th, family-style Italian). Pick before trip — call ahead and request pre-theater service for 7pm curtain.",
         actions: [
-          ...venue("Becco NYC", "Becco 355 W 46th New York"),
-          { label: "📞 (212) 397-7597", href: tel("+12123977597"), type: "chip-yellow" },
-          { label: "🍽️ OpenTable", href: "https://www.opentable.com/r/becco-new-york", type: "chip-pink" },
+          { label: "🍽️ Becco — OpenTable", href: "https://www.opentable.com/r/becco-new-york", type: "chip-pink" },
+          { label: "🍽️ Carmine's — OpenTable", href: "https://www.opentable.com/carmines-44th-street-nyc", type: "chip-pink" },
         ],
       },
       {
-        time: "6:30 PM",
+        time: "6:45 PM",
         title: "🚶 Walk to Gershwin Theatre",
-        detail: "5 blocks · 222 W 51st St · Box Office TF88GC3 · Order #206502940-7757062 · 5 tickets.",
+        detail: "222 W 51st St · Box Office TF88GC3 · Order #206502940-7757062 · 5 tickets. Walking distance depends on which restaurant — anywhere from 1-5 blocks.",
         actions: [
           ...venue("Gershwin Theatre", "Gershwin Theatre 222 W 51st St"),
-          { label: "🚶 Walk from Becco", href: walk("Gershwin Theatre 222 W 51st St", "Becco 355 W 46th New York"), type: "" },
         ],
       },
       {
@@ -601,7 +605,6 @@ const reservations = [
   { item: "🎭 Wicked at Gershwin", date: "Jun 4 · 7pm", status: "booked", cost: "—", conf: "TF88GC3" },
   { item: "⚾ Yankees vs Red Sox", date: "Jun 7 · 1:35pm", status: "todo", cost: "~$450", conf: "—" },
   { item: "✨ SUMMIT One Vanderbilt", date: "Jun 4 · 9:45am", status: "todo", cost: "~$220-340", conf: "—" },
-  { item: "🎨 MoMA (optional)", date: "Jun 4 · 11:30am", status: "optional", cost: "~$90", conf: "—" },
   { item: "🍝 Becco dinner", date: "Jun 4 · 4:30pm", status: "todo", cost: "~$250", conf: "—" },
   { item: "🚲 Bike rental — Central Park", date: "Jun 5 · 9:15am", status: "todo", cost: "~$175", conf: "—" },
   { item: "🥟 Nom Wah dim sum", date: "Jun 6 · 3pm", status: "todo", cost: "~$100", conf: "—" },
@@ -730,26 +733,7 @@ const wednesdayAlternates = [
   },
 ];
 
-const thursdayAlternates = [
-  {
-    title: "Path A — With MoMA",
-    detail: "Grand Central → Top of the Rock → MoMA (floors 4-5 only, hard cap 60-75 min) → 5th Ave → Times Square → Becco. Less shopping time.",
-    energy: "Tight",
-    id: "thu-with-moma",
-    map: "Museum of Modern Art NYC",
-    badge: "ART LOVERS",
-    badgeClass: "badge-purple",
-  },
-  {
-    id: "thu-no-moma",
-    map: "5th Avenue 50th Street New York",
-    title: "Path B — No MoMA, more shopping",
-    detail: "Grand Central → Top of the Rock → 5th Ave (Saks, FAO Schwarz, Apple Cube) → lunch → Tiffany's, Bergdorf, Plaza → Times Square (M&M's, Disney Store, Forever 21) → Becco. Recommended if Blake/Stacy shrug at art.",
-    energy: "Medium",
-    badge: "RECOMMENDED",
-    badgeClass: "badge-green",
-  },
-];
+const thursdayAlternates = [];
 
 const saturdayAlternates = [
   {
@@ -991,7 +975,7 @@ const rainBackup = [
 
 const meltdownCuts = [
   { day: "Wednesday", cut: "Skip Ellis Island second leg (just Liberty), shorten 9/11 to outdoor only, taxi back instead of subway" },
-  { day: "Thursday", cut: "Skip MoMA, skip lingering at Rockefeller plaza, Uber back after Wicked instead of subway" },
+  { day: "Thursday", cut: "Skip lingering at Rockefeller plaza, Uber back after Wicked instead of subway" },
   { day: "Friday", cut: "Don't try to 'see all' of Central Park (lower loop only), if tired skip SoHo entirely" },
   { day: "Saturday", cut: "Skip DUMBO lunch (just photos), walk only halfway across Brooklyn Bridge" },
   { day: "Sunday", cut: "Don't linger after game, subway straight back, dinner = takeout if needed" },
@@ -1062,7 +1046,6 @@ const weather = [
       <a href="#sat">Sat</a>
       <a href="#sun">⚾ Sun</a>
       <a href="#mon">Mon</a>
-      <a href="#alternates">🔀 Alternates</a>
       <a href="#reservations">📋 Bookings</a>
     </nav>
 
@@ -1330,16 +1313,6 @@ const weather = [
                           ))}
                         </div>
                       )}
-                      {e.votable && e.voteId && (
-                        <div class="vote-row" data-option-id={e.voteId}>
-                          <span class="vote-label">Vote:</span>
-                          {VOTERS.map((v) => (
-                            <button class="vote-btn" data-voter={v} data-option={e.voteId}>
-                              {v.charAt(0).toUpperCase() + v.slice(1)}
-                            </button>
-                          ))}
-                        </div>
-                      )}
                     </li>
                   ))}
                 </ul>
@@ -1423,247 +1396,6 @@ const weather = [
             ))}
           </tbody>
         </table>
-      </section>
-
-      <!-- ALTERNATES -->
-      <section class="trip-section" id="alternates">
-        <h2><span class="section-icon">🔀</span> Alternates &amp; Swaps — vote with the family</h2>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1.25rem; font-size:0.9rem;">
-          Every option we considered. Click your name on any option you'd be happy with — vote for as many as you like.
-          Live tallies refresh automatically. Defaults are what's currently in the day-by-day plan above.
-        </p>
-        <div class="vote-summary" id="voteSummary" aria-live="polite">
-          <span class="vote-summary-loading">Loading votes…</span>
-        </div>
-
-        <!-- SUNDAY -->
-        <h3 class="alt-heading">⚾ Sunday 6/7 — Anchor Event (the big decision)</h3>
-        <div class="alt-grid">
-          {sundayAlternates.map((opt) => (
-            <article class="alt-card">
-              <div class="alt-card-head">
-                <span class={`alt-badge ${opt.badgeClass}`}>{opt.badge}</span>
-                <div class="alt-card-cost">{opt.cost}</div>
-              </div>
-              <div class="alt-card-title">{opt.title}</div>
-              <div class="alt-card-meta">{opt.venue} · {opt.when}</div>
-              <div class="alt-card-stats">
-                <span><strong>Energy:</strong> {opt.energy}</span>
-                <span><strong>Memorable:</strong> {opt.memorable}</span>
-                <span><strong>Fit:</strong> {opt.fit}</span>
-              </div>
-              <div class="alt-pros-cons">
-                <div class="alt-pros">
-                  <div class="alt-pc-label">✅ Pros</div>
-                  <ul>{opt.pros.map((p) => <li>{p}</li>)}</ul>
-                </div>
-                <div class="alt-cons">
-                  <div class="alt-pc-label">⚠️ Cons</div>
-                  <ul>{opt.cons.map((c) => <li>{c}</li>)}</ul>
-                </div>
-              </div>
-              {opt.note && <div class="alt-note">💡 {opt.note}</div>}
-              {opt.map && (
-                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                  <a class="chip" href={gmap(opt.map)}>🗺️ Google Maps</a>
-                  <a class="chip chip-grey" href={amap(opt.map)}>🍎 Apple Maps</a>
-                  <a class="chip" href={transit(opt.map)}>🚇 From hotel</a>
-                </div>
-              )}
-              <div class="vote-row" data-option-id={opt.id}>
-                <span class="vote-label">Vote:</span>
-                {VOTERS.map((v) => (
-                  <button class="vote-btn" data-voter={v} data-option={opt.id}>
-                    {v.charAt(0).toUpperCase() + v.slice(1)}
-                  </button>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <!-- WEDNESDAY -->
-        <h3 class="alt-heading">🗽 Wednesday 6/3 — Lower Manhattan intensity</h3>
-        <div class="alt-stack">
-          {wednesdayAlternates.map((a) => (
-            <div class="alt-row">
-              <span class={`alt-badge ${a.badgeClass}`}>{a.badge}</span>
-              <div class="alt-row-body">
-                <div class="alt-row-title">{a.title}</div>
-                <div class="alt-row-detail">{a.detail}</div>
-                <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
-                {a.map && (
-                  <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                    <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
-                    <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
-                    <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
-                  </div>
-                )}
-                <div class="vote-row" data-option-id={a.id}>
-                  <span class="vote-label">Vote:</span>
-                  {VOTERS.map((v) => (
-                    <button class="vote-btn" data-voter={v} data-option={a.id}>
-                      {v.charAt(0).toUpperCase() + v.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- THURSDAY -->
-        <h3 class="alt-heading">🎭 Thursday 6/4 — MoMA or no MoMA</h3>
-        <div class="alt-stack">
-          {thursdayAlternates.map((a) => (
-            <div class="alt-row">
-              <span class={`alt-badge ${a.badgeClass}`}>{a.badge}</span>
-              <div class="alt-row-body">
-                <div class="alt-row-title">{a.title}</div>
-                <div class="alt-row-detail">{a.detail}</div>
-                <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
-                {a.map && (
-                  <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                    <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
-                    <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
-                    <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
-                  </div>
-                )}
-                <div class="vote-row" data-option-id={a.id}>
-                  <span class="vote-label">Vote:</span>
-                  {VOTERS.map((v) => (
-                    <button class="vote-btn" data-voter={v} data-option={a.id}>
-                      {v.charAt(0).toUpperCase() + v.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- SATURDAY -->
-        <h3 class="alt-heading">🌉 Saturday 6/6 — Food pacing</h3>
-        <div class="alt-stack">
-          {saturdayAlternates.map((a) => (
-            <div class="alt-row">
-              <span class={`alt-badge ${a.badgeClass}`}>{a.badge}</span>
-              <div class="alt-row-body">
-                <div class="alt-row-title">{a.title}</div>
-                <div class="alt-row-detail">{a.detail}</div>
-                <div class="alt-row-energy">Energy: <strong>{a.energy}</strong></div>
-                {a.map && (
-                  <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                    <a class="chip" href={gmap(a.map)}>🗺️ Google Maps</a>
-                    <a class="chip chip-grey" href={amap(a.map)}>🍎 Apple Maps</a>
-                    <a class="chip" href={transit(a.map)}>🚇 From hotel</a>
-                  </div>
-                )}
-                <div class="vote-row" data-option-id={a.id}>
-                  <span class="vote-label">Vote:</span>
-                  {VOTERS.map((v) => (
-                    <button class="vote-btn" data-voter={v} data-option={a.id}>
-                      {v.charAt(0).toUpperCase() + v.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- SHOPPING -->
-        <h3 class="alt-heading">🛍️ Shopping decisions — vote yes/no on each</h3>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
-          Vote your name on every shop you actually want to do. Defaults are what's currently in the day-by-day plan.
-        </p>
-        <div class="alt-stack">
-          {shoppingOptions.map((s) => (
-            <div class="alt-row">
-              <span class={`alt-badge ${s.badgeClass}`}>{s.badge}</span>
-              <div class="alt-row-body">
-                <div class="alt-row-title">{s.title}</div>
-                <div class="alt-row-detail">{s.detail}</div>
-                <div class="alt-row-energy">When: <strong>{s.when}</strong></div>
-                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                  <a class="chip" href={gmap(s.map)}>🗺️ Google Maps</a>
-                  <a class="chip chip-grey" href={amap(s.map)}>🍎 Apple Maps</a>
-                  <a class="chip" href={transit(s.map)}>🚇 From hotel</a>
-                </div>
-                <div class="vote-row" data-option-id={s.id}>
-                  <span class="vote-label">Vote:</span>
-                  {VOTERS.map((v) => (
-                    <button class="vote-btn" data-voter={v} data-option={s.id}>
-                      {v.charAt(0).toUpperCase() + v.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- FOOD + EXPERIENCE VOTES -->
-        <h3 class="alt-heading">🍰 Food + experience stops — vote yes/no on each</h3>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
-          Sweet stops + TikTok-famous experiences. Vote your name on every one you'd actually do.
-        </p>
-        <div class="alt-stack">
-          {foodExperienceVotes.map((f) => (
-            <div class="alt-row">
-              <span class={`alt-badge ${f.badgeClass}`}>{f.badge}</span>
-              <div class="alt-row-body">
-                <div class="alt-row-title">{f.title}</div>
-                <div class="alt-row-detail">{f.detail}</div>
-                <div class="alt-row-energy">When: <strong>{f.when}</strong></div>
-                <div style="display:flex; flex-wrap:wrap; gap: 0.4rem;">
-                  <a class="chip" href={gmap(f.map)}>🗺️ Google Maps</a>
-                  <a class="chip chip-grey" href={amap(f.map)}>🍎 Apple Maps</a>
-                  <a class="chip" href={transit(f.map)}>🚇 From hotel</a>
-                </div>
-                <div class="vote-row" data-option-id={f.id}>
-                  <span class="vote-label">Vote:</span>
-                  {VOTERS.map((v) => (
-                    <button class="vote-btn" data-voter={v} data-option={f.id}>
-                      {v.charAt(0).toUpperCase() + v.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- RAIN BACKUP -->
-        <h3 class="alt-heading">🌧️ Rain Backup — Indoor Pivots</h3>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
-          If heavy rain hits, swap one of these in. Statue of Liberty + Brooklyn Bridge + bike day are the rain-sensitive ones.
-        </p>
-        <div class="alt-stack">
-          {rainBackup.map((r) => (
-            <div class="alt-row">
-              <div class="alt-row-body">
-                <div class="alt-row-title">{r.name}</div>
-                <div class="alt-row-detail">{r.detail}</div>
-                <a class="chip" href={gmap(r.map)}>🗺️ Map</a>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <!-- MELTDOWN PROTOCOL -->
-        <h3 class="alt-heading">🚨 Meltdown Protocol — what to cut first</h3>
-        <p style="color:var(--text-dim); margin-top:-0.5rem; margin-bottom:1rem; font-size:0.9rem;">
-          If kids hit 6/10 tired, here's what to drop per day. Saves the day from spiraling.
-        </p>
-        <div class="meltdown-grid">
-          {meltdownCuts.map((m) => (
-            <div class="meltdown-card">
-              <div class="meltdown-day">{m.day}</div>
-              <div class="meltdown-cut">{m.cut}</div>
-            </div>
-          ))}
-        </div>
       </section>
 
       <!-- LOGISTICS NOTES -->
@@ -1775,133 +1507,6 @@ const weather = [
         a.target = "_blank";
         a.rel = "noopener noreferrer";
       }
-    });
-
-    // ---- VOTING ----
-    let voteState = {}; // { optionId: [voter, voter, ...] }
-
-    function applyVoteState() {
-      // update each vote button's "voted" class + each row's tally
-      document.querySelectorAll(".vote-btn").forEach((btn) => {
-        const opt = btn.dataset.option;
-        const voter = btn.dataset.voter;
-        const list = voteState[opt] || [];
-        if (list.includes(voter)) {
-          btn.classList.add("voted");
-        } else {
-          btn.classList.remove("voted");
-        }
-      });
-      // for each vote-row, append a tally count
-      document.querySelectorAll(".vote-row").forEach((row) => {
-        const opt = row.dataset.optionId;
-        const list = voteState[opt] || [];
-        let tally = row.querySelector(".vote-tally");
-        if (!tally) {
-          tally = document.createElement("span");
-          tally.className = "vote-tally";
-          row.appendChild(tally);
-        }
-        tally.textContent =
-          list.length === 0
-            ? "no votes"
-            : list.length === 1
-              ? "1 vote"
-              : `${list.length} votes`;
-      });
-      renderSummary();
-    }
-
-    function renderSummary() {
-      const summary = document.getElementById("voteSummary");
-      if (!summary) return;
-      const totals = Object.entries(voteState)
-        .filter(([_, list]) => list.length > 0)
-        .sort((a, b) => b[1].length - a[1].length);
-      if (totals.length === 0) {
-        summary.innerHTML = '<span class="vote-summary-empty">No votes yet — click your name on any option to vote.</span>';
-        return;
-      }
-      const [topId, topVoters] = totals[0];
-      const titleEl = document.querySelector(`[data-option-id="${topId}"]`)
-        ?.closest(".alt-card, .alt-row")
-        ?.querySelector(".alt-card-title, .alt-row-title");
-      const topTitle = titleEl ? titleEl.textContent.trim() : topId;
-      const others = totals.length - 1;
-      summary.innerHTML = `<span class="vote-summary-leader">🏆 Leader: <strong>${topTitle}</strong> · ${topVoters.length} ${topVoters.length === 1 ? "vote" : "votes"} (${topVoters.join(", ")})</span>${others > 0 ? `<span class="vote-summary-other"> · ${others} other ${others === 1 ? "option has" : "options have"} votes</span>` : ""}`;
-    }
-
-    async function loadVotes() {
-      try {
-        const res = await fetch("/api/trips/votes", { cache: "no-store" });
-        const data = await res.json();
-        if (data.ok) {
-          voteState = data.votes || {};
-          applyVoteState();
-        }
-      } catch (e) {
-        // silent — user might be offline
-      }
-    }
-
-    async function castVote(optionId, voter) {
-      // optimistic update — flip locally first so the UI is instant
-      const list = voteState[optionId] || [];
-      const had = list.includes(voter);
-      const nextVoted = !had;
-      voteState[optionId] = had
-        ? list.filter((v) => v !== voter)
-        : [...list, voter];
-      applyVoteState();
-
-      // Use action: "set"/"unset" (idempotent) instead of "toggle".
-      // Toggle is server-side state-dependent, so a double-click race could
-      // un-do the vote. set/unset always lands on the same final state.
-      // keepalive: true tells the browser this request MUST complete even if
-      // the user switches apps mid-flight — keeps the server-side write alive
-      // when iOS Safari backgrounds the tab.
-      try {
-        const res = await fetch("/api/trips/vote", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            optionId,
-            voter,
-            action: nextVoted ? "set" : "unset",
-          }),
-          keepalive: true,
-        });
-        const data = await res.json();
-        if (!data.ok) {
-          // server rejected — re-sync from authoritative state
-          loadVotes();
-        }
-      } catch (e) {
-        // Fetch rejected. With keepalive, the server may have STILL received
-        // and processed the request — re-sync from server instead of rolling
-        // back to a stale closure variable. This fixes the iOS Safari case
-        // where the POST lands in Redis but the response can't reach the
-        // backgrounded tab; on return, loadVotes() shows the correct state
-        // and we don't overwrite it with the pre-vote list.
-        loadVotes();
-      }
-    }
-
-    document.querySelectorAll(".vote-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const opt = btn.dataset.option;
-        const voter = btn.dataset.voter;
-        if (opt && voter) castVote(opt, voter);
-      });
-    });
-
-    // initial load + auto-refresh every 30s while page is visible
-    loadVotes();
-    setInterval(() => {
-      if (!document.hidden) loadVotes();
-    }, 30000);
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) loadVotes();
     });
   </script>
 </Layout>
