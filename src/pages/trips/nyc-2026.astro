@@ -317,11 +317,11 @@ const days = [
     events: [
       {
         time: "9:00 AM",
-        title: "🚇 Subway → Columbus Circle",
-        detail: "B/D/A/C or 1 train. Pre-reserve bikes (Citi Bike is 16+ only — kids can't use it).",
+        title: "🚇 Subway → Columbus Circle (rent bikes)",
+        detail: "B/D/A/C or 1 train to 59 St-Columbus Circle. Walk to a Central Park bike rental shop. **Verified policies**: no minimum age (kids of any age OK as long as they can ride), adult signs one liability waiver for all 3 girls, helmets included free (NYC law requires helmets for under 14, so Karsyn + Emrie must wear them). Citi Bike is 16+ only with active age verification — DON'T use the blue stations.",
         actions: [
           ...venue("Columbus Circle New York"),
-          { label: "🚲 Bike Rent NYC", href: "https://www.bikerentnyc.com/", type: "chip-pink" },
+          { label: "🚲 Bike Rent NYC ($15 adult / $12 kid hourly)", href: "https://www.bikerentnyc.com/", type: "chip-pink" },
           { label: "🚲 Unlimited Biking", href: "https://www.unlimitedbiking.com/", type: "chip-pink" },
         ],
       },
@@ -348,14 +348,23 @@ const days = [
       },
       {
         time: "12:00 PM",
+        title: "📸 Met steps photo (Gossip Girl spot)",
+        detail: "FREE — you don't need to pay admission to take the photo. The grand front steps of the Metropolitan Museum of Art at 5th Ave & 82nd St are where Blair Waldorf and the GG crew sat with their lunch boxes (Season 1, Episode 1 — Karsyn will know it). Iconic NYC moment. ~20 min stop. Cross-park from Columbus Circle via M86 crosstown bus or quick walk through Central Park.",
+        actions: [
+          ...venue("Met Museum steps", "Metropolitan Museum of Art steps 5th Ave 82nd"),
+          { label: "🚶 Walk from Levain", href: walk("Metropolitan Museum of Art 1000 5th Ave", "Levain Bakery 167 W 74th"), type: "" },
+        ],
+      },
+      {
+        time: "12:45 PM",
         title: "🚇 Subway down to SoHo",
-        detail: "C/E to Spring or 6 to Spring. ~25 min.",
+        detail: "4/5/6 from 86 St → Bleecker St (transfer to 6) → Spring St. ~25 min.",
         actions: [
           ...venue("SoHo Manhattan"),
         ],
       },
       {
-        time: "12:30 PM",
+        time: "1:15 PM",
         title: "🥗 Lunch in SoHo",
         detail: "Jack's Wife Freda or street food.",
         actions: [
