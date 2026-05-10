@@ -209,22 +209,19 @@ const days = [
     glyph: glyphs.theater,
     events: [
       {
-        time: "9:00 AM",
+        time: "8:45 AM",
         title: "🚉 Grand Central Terminal",
-        detail: "Iconic 1913 train station at 42nd & Park. Free to walk through. Two unmissable things: (1) the Whispering Gallery — diagonal corner archway on the lower level by the Oyster Bar where you whisper into one corner and someone hears you crystal-clear at the opposite corner across the room, (2) the Zodiac ceiling in the main concourse — gold constellations on teal. Karsyn might recognize from Gossip Girl Season 1 Episode 1. ~45 min total.",
+        detail: "Iconic 1913 train station at 42nd & Park. Free to walk through. Two unmissable things: (1) the Whispering Gallery — diagonal corner archway on the lower level by the Oyster Bar where you whisper into one corner and someone hears you crystal-clear at the opposite corner across the room, (2) the Zodiac ceiling in the main concourse — gold constellations on teal. Karsyn might recognize from Gossip Girl Season 1 Episode 1. ~40 min total — need to be at SUMMIT by 9:30 AM.",
         actions: [
           ...venue("Grand Central Terminal"),
         ],
-        votable: true,
-        voteId: "thu-grand-central",
       },
       {
-        time: "9:45 AM",
-        title: "✨ SUMMIT One Vanderbilt — locked in",
-        detail: "Newest NYC observation experience (opened 2021). Mirror rooms (the AIR art installation) multiply the skyline on floor + ceiling + walls — Insta gold for Karsyn + Blake. Levitation Skyboxes = glass platforms protruding 1,000 ft over Manhattan (Emrie can SEE the street through her feet). Ascent = external all-glass elevator riding up the building's facade to 1,210 ft (highest deck in NYC). Best view of Empire State + Chrysler from any deck. LITERALLY next door to Grand Central — walk out the Vanderbilt Ave exit and you're at the entrance. ~$44-68/pp depending on Ascent add-on.",
+        time: "9:30 AM",
+        title: "✨ SUMMIT One Vanderbilt — ✅ BOOKED",
+        detail: "✅ TICKETS BOUGHT for 9:30 AM entry. Newest NYC observation experience (opened 2021). Mirror rooms (the AIR art installation) multiply the skyline on floor + ceiling + walls — Insta gold for Karsyn + Blake. Levitation Skyboxes = glass platforms protruding 1,000 ft over Manhattan (Emrie can SEE the street through her feet). Ascent = external all-glass elevator riding up the building's facade to 1,210 ft (highest deck in NYC). Best view of Empire State + Chrysler from any deck. LITERALLY next door to Grand Central — walk out the Vanderbilt Ave exit and you're at the entrance.",
         actions: [
           ...venue("SUMMIT One Vanderbilt", "Summit One Vanderbilt 45 East 42nd"),
-          { label: "🎟️ Buy tickets", href: "https://summitov.com/tickets/", type: "chip-pink" },
           { label: "🚶 Walk from Grand Central", href: walk("Summit One Vanderbilt 45 East 42nd", "Grand Central Terminal"), type: "" },
         ],
       },
@@ -619,7 +616,7 @@ const reservations = [
   { item: "🏨 Hotel — The Evelyn", date: "Jun 2-8", status: "booked", cost: "—", conf: "—" },
   { item: "🎭 Wicked at Gershwin", date: "Jun 4 · 7pm", status: "booked", cost: "—", conf: "TF88GC3" },
   { item: "⚾ Yankees vs Red Sox", date: "Jun 7 · 1:35pm", status: "booked", cost: "—", conf: "Sec 430 Row 8 Seats 13-17" },
-  { item: "✨ SUMMIT One Vanderbilt", date: "Jun 4 · 9:45am", status: "todo", cost: "~$220-340", conf: "—" },
+  { item: "✨ SUMMIT One Vanderbilt", date: "Jun 4 · 9:30am", status: "booked", cost: "—", conf: "—" },
   { item: "🐰 Jellycat Diner @ FAO Schwarz", date: "Jun 4 · 11:15am", status: "todo", cost: "free reservation, ~$70/plush", conf: "—" },
   { item: "🍝 Becco dinner", date: "Jun 4 · 4:30pm", status: "todo", cost: "~$250", conf: "—" },
   { item: "🚲 Bike rental — Central Park", date: "Jun 5 · 9:15am", status: "todo", cost: "~$175", conf: "—" },
