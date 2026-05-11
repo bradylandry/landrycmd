@@ -78,7 +78,31 @@ const glyphs = {
 };
 
 // ===== Days =====
-const days = [
+interface DayAction {
+  label: string;
+  href: string;
+  type?: string;
+}
+
+interface DayEvent {
+  time: string;
+  title: string;
+  detail?: string;
+  votable?: boolean;
+  actions?: DayAction[];
+}
+
+interface Day {
+  id: string;
+  day: string;
+  date: string;
+  theme: string;
+  color: string;
+  glyph: string;
+  events: DayEvent[];
+}
+
+const days: Day[] = [
   {
     id: "tue",
     day: "TUE",
@@ -1307,7 +1331,7 @@ const weather = [
               </div>
               <div class="day-card-body">
                 <ul class="day-timeline">
-                  {d.events.map((e: any) => (
+                  {d.events.map((e) => (
                     <li class={`day-event ${e.votable ? "day-event-votable" : ""}`}>
                       <div>
                         <span class="day-event-time">{e.time}</span>
@@ -1317,7 +1341,7 @@ const weather = [
                       {e.detail && <div class="day-event-detail">{e.detail}</div>}
                       {e.actions && (
                         <div class="day-event-actions">
-                          {e.actions.map((a: any) => (
+                          {e.actions.map((a) => (
                             <a class={`chip ${a.type || ""}`} href={a.href}>
                               {a.label}
                             </a>
