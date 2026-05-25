@@ -15,9 +15,8 @@ const WINDOW_SEC = 60;
 async function checkRateLimit(ip: string): Promise<boolean> {
   const redis = getRedis();
   if (!redis) {
-    // Redis unavailable — fall back to allow but log so it's visible in function logs
-    console.warn("Rate limiter: Redis unavailable, skipping limit check for", ip);
-    return true;
+    console.error("Rate limiter: Redis unavailable, denying request for", ip);
+    return false;
   }
   const key = `ratelimit:auth:${ip}`;
   const count = await redis.incr(key);

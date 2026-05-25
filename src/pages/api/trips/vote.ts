@@ -63,15 +63,20 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     await redis.hdel(VOTE_KEY, field);
     voted = false;
   } else {
-    // toggle
-    const current = await redis.hget(VOTE_KEY, field);
-    if (current === "1") {
-      await redis.hdel(VOTE_KEY, field);
-      voted = false;
-    } else {
-      await redis.hset(VOTE_KEY, { [field]: "1" });
-      voted = true;
-    }
+    // Atomic toggle via Lua — eliminates TOCTOU between concurrent requests
+    const result = await redis.eval(
+      `local c = redis.call('HGET', KEYS[1], ARGV[1])
+       if c == '1' then
+         redis.call('HDEL', KEYS[1], ARGV[1])
+         return 0
+       else
+         redis.call('HSET', KEYS[1], ARGV[1], '1')
+         return 1
+       end`,
+      [VOTE_KEY],
+      [field],
+    ) as number;
+    voted = result === 1;
   }
 
   return new Response(JSON.stringify({ ok: true, voted }), {
