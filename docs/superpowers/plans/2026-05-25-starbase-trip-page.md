@@ -1,0 +1,854 @@
+# Starbase 2026 Trip Page Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Build a single static Astro page at `/trips/starbase-2026` with itinerary, launch info, camp setup, packing list, gear shopping list, things to do, and Austin comedy night details.
+
+**Architecture:** One fully static Astro file (`prerender = true`). All content hardcoded. Reuses existing `trip.css` for all styling. Inline `<script>` handles countdown timer and localStorage-backed checkboxes for packing and shopping lists.
+
+**Tech Stack:** Astro 4.x, TypeScript, existing `trip.css`, `localStorage` API
+
+---
+
+## File Map
+
+| Action | Path | Responsibility |
+|--------|------|---------------|
+| Create | `src/pages/trips/starbase-2026.astro` | Entire page — data, markup, inline script |
+| Read (reference) | `src/pages/trips/nyc-2026.astro` | Pattern reference for day cards, hero, nav |
+| Read (reference) | `src/styles/trip.css` | Available CSS classes |
+
+---
+
+### Task 1: Scaffold the page shell
+
+**Files:**
+- Create: `src/pages/trips/starbase-2026.astro`
+
+- [ ] **Step 1: Create the file with frontmatter, layout import, and page wrapper**
+
+```astro
+---
+import Layout from "../../layouts/Layout.astro";
+export const prerender = true;
+---
+
+<Layout title="Starbase 2026 🚀 · landrycmd" description="Brady, Adam, and Carlos hit Boca Chica for Starship Flight 13 and Austin comedy.">
+  <div class="trip-page">
+
+    <!-- scroll progress bar -->
+    <div class="scroll-progress" id="scroll-bar"></div>
+
+    <!-- HERO -->
+    <div class="trip-hero" id="top">
+      <div class="particles">
+        <div class="particle p1" style="--x:10%;--d:8s;--delay:0s"></div>
+        <div class="particle p2" style="--x:25%;--d:12s;--delay:2s"></div>
+        <div class="particle p3" style="--x:45%;--d:9s;--delay:1s"></div>
+        <div class="particle p4" style="--x:65%;--d:11s;--delay:3s"></div>
+        <div class="particle p5" style="--x:80%;--d:10s;--delay:0.5s"></div>
+        <div class="particle" style="--x:90%;--d:13s;--delay:2.5s"></div>
+      </div>
+      <div class="trip-hero-inner">
+        <p class="hero-eyebrow">GUYS TRIP · JUNE 2026</p>
+        <h1>Starbase 🚀</h1>
+        <p class="dates">Brady · Adam · Carlos &nbsp;·&nbsp; Jun 19–23 · Boca Chica → Austin</p>
+        <div class="countdown" id="countdown">
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-days">--</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-hours">--</span>
+            <span class="countdown-label">Hrs</span>
+          </div>
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-mins">--</span>
+            <span class="countdown-label">Min</span>
+          </div>
+          <div class="countdown-segment">
+            <span class="countdown-num" id="cd-secs">--</span>
+            <span class="countdown-label">Sec</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY NAV -->
+    <nav class="quick-nav">
+      <a href="#schedule">🗓 Schedule</a>
+      <a href="#launch">🚀 Launch</a>
+      <a href="#camp">⛺ Camp</a>
+      <a href="#packing">🎒 Packing</a>
+      <a href="#gear">🛒 Gear to Buy</a>
+      <a href="#todo">📍 Things To Do</a>
+      <a href="#austin">🎤 Austin</a>
+      <a href="#logistics">⚠️ Logistics</a>
+    </nav>
+
+    <div class="trip-wrap">
+      <!-- sections go here -->
+    </div>
+
+  </div>
+</Layout>
+```
+
+- [ ] **Step 2: Start dev server and verify the shell renders**
+
+```bash
+cd /Users/bradylandry/automation/github/landrycmd && npm run dev
+```
+
+Open `http://localhost:4321/trips/starbase-2026` — should see hero with animated title gradient, sticky nav, no errors in console.
+
+- [ ] **Step 3: Commit**
+
+```bash
+cd /Users/bradylandry/automation/github/landrycmd
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: scaffold starbase-2026 trip page shell"
+```
+
+---
+
+### Task 2: Countdown timer script
+
+**Files:**
+- Modify: `src/pages/trips/starbase-2026.astro` — add `<script>` before `</Layout>`
+
+- [ ] **Step 1: Add inline script for countdown and scroll progress**
+
+Add this before the closing `</Layout>` tag:
+
+```html
+<script>
+  // Countdown to launch window — Jun 21, 2026 08:00 AM CDT (UTC-5)
+  const TARGET = new Date('2026-06-21T13:00:00Z').getTime();
+  function tick() {
+    const diff = TARGET - Date.now();
+    if (diff <= 0) {
+      document.getElementById('countdown')!.innerHTML = '<span style="color:var(--trip-green);font-weight:700;font-size:1.2rem">🚀 LAUNCH WINDOW OPEN</span>';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const pad = (n: number) => String(n).padStart(2, '0');
+    (document.getElementById('cd-days') as HTMLElement).textContent = String(d);
+    (document.getElementById('cd-hours') as HTMLElement).textContent = pad(h);
+    (document.getElementById('cd-mins') as HTMLElement).textContent = pad(m);
+    (document.getElementById('cd-secs') as HTMLElement).textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Scroll progress bar
+  const bar = document.getElementById('scroll-bar') as HTMLElement;
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    bar.style.transform = `scaleX(${pct})`;
+  }, { passive: true });
+
+  // Day card scroll-reveal
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => e.target.classList.toggle('visible', e.isIntersecting)),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.day-card').forEach(el => observer.observe(el));
+</script>
+```
+
+- [ ] **Step 2: Verify countdown shows correct days in browser**
+
+`http://localhost:4321/trips/starbase-2026` — countdown digits should be counting down to Jun 21, 2026.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: add countdown timer and scroll progress to starbase page"
+```
+
+---
+
+### Task 3: Schedule section — day cards
+
+**Files:**
+- Modify: `src/pages/trips/starbase-2026.astro` — replace `<!-- sections go here -->` comment with schedule section
+
+- [ ] **Step 1: Add the TypeScript data interfaces and day data in the frontmatter (`---` block)**
+
+Add after `export const prerender = true;`:
+
+```typescript
+const gmap = (q: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const amap = (q: string) =>
+  `https://maps.apple.com/?q=${encodeURIComponent(q)}`;
+
+interface DayEvent {
+  time: string;
+  title: string;
+  detail?: string;
+  actions?: { label: string; href: string; type?: string }[];
+}
+interface Day {
+  id: string;
+  day: string;
+  date: string;
+  theme: string;
+  color: string;
+  events: DayEvent[];
+}
+
+const days: Day[] = [
+  {
+    id: "thu",
+    day: "THU",
+    date: "JUN 19",
+    theme: "Drive down · Setup camp",
+    color: "var(--trip-accent)",
+    events: [
+      { time: "Morning", title: "🚗 Depart Lafayette", detail: "~7 hr drive to Boca Chica. Fill up water jugs before leaving." },
+      { time: "Afternoon", title: "🛒 Walmart stop — Brownsville", detail: "Last chance for ice, firewood, forgotten supplies.", actions: [{ label: "🗺️ Brownsville Walmart", href: gmap("Walmart Supercenter Brownsville TX") }] },
+      { time: "4–6 PM", title: "⛺ Drive onto Boca Chica Beach", detail: "Deflate tires to ~20 PSI before sand. Find a spot above tide line, set up tents and canopy." },
+      { time: "Evening", title: "🔥 Camp dinner + first night", detail: "Cook on camp stove. Watch sunset over the Gulf. SpaceX facility lit up at night is worth stepping out to look at." },
+    ],
+  },
+  {
+    id: "fri",
+    day: "FRI",
+    date: "JUN 20",
+    theme: "Beach day · Starbase area",
+    color: "var(--trip-orange)",
+    events: [
+      { time: "Morning", title: "☕ Camp breakfast", detail: "Coffee on the beach. Check RocketLaunch.Live for any launch window updates." },
+      { time: "Mid-morning", title: "🚶 Walk the SpaceX perimeter", detail: "Highway 4 runs past the launch and production facilities. You can see the Starship stack from the road.", actions: [{ label: "🗺️ Starbase", href: gmap("SpaceX Starbase Boca Chica Texas") }] },
+      { time: "Afternoon", title: "🏖 Beach time", detail: "Swim, fish, explore. Stay hydrated — UV index at Boca Chica is brutal." },
+      { time: "Evening", title: "🍜 Brownsville dinner run", detail: "Drive into Brownsville for tacos or BBQ, refill ice.", actions: [{ label: "🗺️ Brownsville", href: gmap("best tacos Brownsville TX") }] },
+    ],
+  },
+  {
+    id: "sat",
+    day: "SAT",
+    date: "JUN 21",
+    theme: "🚀 Launch day → Austin",
+    color: "var(--trip-yellow)",
+    events: [
+      { time: "Early AM", title: "⚠️ Stage early — road closes before window", detail: "Highway 4 closes hours before launch. Be on the beach or at your viewing spot before the closure. Check road status the night before." },
+      { time: "TBD", title: "🚀 Starship Flight 13 launch window", detail: "Exact time TBD — watch RocketLaunch.Live. The sound and shockwave hit Boca Chica Beach hard. You will feel it.", actions: [{ label: "🔴 RocketLaunch.Live", href: "https://www.rocketlaunch.live/?filter=spacex", type: "chip-pink" }] },
+      { time: "Post-launch", title: "🗑 Break camp · Air up tires", detail: "Pack everything out — zero trash left on beach. Inflate tires back to road PSI before hitting Hwy 4." },
+      { time: "Afternoon", title: "🚗 Drive to Austin", detail: "~5.5 hrs. Grab lunch in Corpus Christi on the way." },
+      { time: "6:00 PM", title: "🎤 Joe Gatto — Cap City Comedy Club", detail: "Doors open ~5:30 PM. 3412 Red River St, Austin.", actions: [{ label: "🗺️ Cap City Comedy", href: gmap("Cap City Comedy Club Austin TX") }, { label: "🎟 Tickets", href: "https://www.capcitycomedy.com/events", type: "chip-pink" }] },
+    ],
+  },
+  {
+    id: "sun",
+    day: "SUN",
+    date: "JUN 22",
+    theme: "Austin day",
+    color: "var(--trip-green)",
+    events: [
+      { time: "Morning", title: "🥓 Austin breakfast", detail: "Juan in a Million, Veracruz All Natural, or Kerby Lane.", actions: [{ label: "🗺️ Juan in a Million", href: gmap("Juan in a Million Austin TX") }] },
+      { time: "Afternoon", title: "🎸 Explore Austin", detail: "6th Street, South Congress, Barton Springs. Grab a swim at Barton Springs Pool if hot.", actions: [{ label: "🗺️ Barton Springs", href: gmap("Barton Springs Pool Austin TX") }] },
+      { time: "Evening", title: "🍺 Rainey Street or 6th Street bars", detail: "Rainey St is more laid back — container bars, good vibe.", actions: [{ label: "🗺️ Rainey Street", href: gmap("Rainey Street Austin TX") }] },
+    ],
+  },
+  {
+    id: "mon",
+    day: "MON",
+    date: "JUN 23",
+    theme: "Drive home",
+    color: "var(--trip-purple)",
+    events: [
+      { time: "Morning", title: "☕ Last Austin breakfast", detail: "Wherever — then hit the road." },
+      { time: "Mid-morning", title: "🚗 Austin → Lafayette", detail: "~5 hr drive. Stop in Houston or Lake Charles if needed." },
+      { time: "Afternoon", title: "🏠 Home", detail: "Trip done." },
+    ],
+  },
+];
+```
+
+- [ ] **Step 2: Add the schedule section HTML inside `.trip-wrap`**
+
+```html
+<!-- SCHEDULE -->
+<section class="trip-section" id="schedule">
+  <h2><span class="section-icon">🗓</span> Schedule</h2>
+  <div class="days-stack">
+    {days.map((day) => (
+      <div class="day-card" style={`--day-color:${day.color}`}>
+        <div class="day-card-head">
+          <div class="day-card-date">
+            <span class="day-card-day">{day.day}</span>
+            <span class="day-card-num">{day.date}</span>
+          </div>
+          <span class="day-card-theme">{day.theme}</span>
+        </div>
+        <div class="day-card-body">
+          <ul class="day-timeline">
+            {day.events.map((ev) => (
+              <li class="day-event">
+                <span class="day-event-time">{ev.time}</span>
+                <span class="day-event-title">{ev.title}</span>
+                {ev.detail && <div class="day-event-detail">{ev.detail}</div>}
+                {ev.actions && (
+                  <div class="day-event-actions">
+                    {ev.actions.map((a) => (
+                      <a href={a.href} target="_blank" rel="noopener" class={`chip ${a.type || ''}`}>{a.label}</a>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+```
+
+- [ ] **Step 3: Verify in browser — 5 day cards render with timeline events**
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: add schedule section with 5 day cards"
+```
+
+---
+
+### Task 4: Launch Watch + Camp Setup sections
+
+**Files:**
+- Modify: `src/pages/trips/starbase-2026.astro` — add two sections after schedule
+
+- [ ] **Step 1: Add Launch Watch section after the schedule section**
+
+```html
+<!-- LAUNCH WATCH -->
+<section class="trip-section" id="launch">
+  <h2><span class="section-icon">🚀</span> Launch Watch — Starship Flight 13</h2>
+  <div class="highlight-card" style="background:linear-gradient(135deg,#0a0e1a 0%,#0d1a2a 100%);border-color:rgba(251,146,60,0.4);">
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(251,146,60,0.12),transparent 60%);pointer-events:none"></div>
+    <div class="highlight-content">
+      <p class="highlight-title" style="color:var(--trip-orange)">Flight 13 · Starship V3</p>
+      <p style="color:var(--text-dim);font-size:0.9rem;margin:0 0 1.25rem">Second flight of Starship V3. Suborbital test from Orbital Launch Pad 2. Launch window targeting Jun 2026 — exact date/time TBD. Watch the tracker for the official window announcement.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem">
+        <a href="https://www.rocketlaunch.live/?filter=spacex" target="_blank" rel="noopener" class="chip chip-pink">🔴 RocketLaunch.Live — live tracker</a>
+        <a href="https://spaceflightnow.com/launch-schedule/" target="_blank" rel="noopener" class="chip">📋 Spaceflight Now schedule</a>
+      </div>
+      <div class="hotel-meta">
+        <div class="hotel-meta-item">
+          <div class="hotel-meta-label">Best viewing spot</div>
+          Boca Chica Beach — you're 2–4 miles from the pad. Shockwave and sound arrive a few seconds after liftoff.
+        </div>
+        <div class="hotel-meta-item">
+          <div class="hotel-meta-label">Road closure</div>
+          Highway 4 closes miles from the site, often 3–6 hrs before the window opens. <strong>Be staged on the beach before closure.</strong>
+        </div>
+        <div class="hotel-meta-item">
+          <div class="hotel-meta-label">Window announcement</div>
+          SpaceX typically announces the window 1–2 weeks out. Check the trackers weekly starting Jun 1.
+        </div>
+        <div class="hotel-meta-item">
+          <div class="hotel-meta-label">What to bring</div>
+          Binoculars, ear protection (optional but recommended), chairs, drinks. Phone for video — it's loud enough to feel in your chest.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMP SETUP -->
+<section class="trip-section" id="camp">
+  <h2><span class="section-icon">⛺</span> Camp Setup</h2>
+  <div class="flights-grid">
+    <div class="flight-card" style="border-color:rgba(56,189,248,0.3)">
+      <div class="flight-card-head">
+        <span>Primary</span>
+        <span class="flight-num">Boca Chica Beach</span>
+      </div>
+      <p style="font-size:0.9rem;color:var(--text-dim);margin:0 0 1rem;line-height:1.6">Free primitive camping directly on the sand. Drive onto hard-packed sand, set up wherever. Zero facilities — fully self-sufficient required.</p>
+      <div class="flight-meta">
+        <span>🚗 Drive on beach (deflate to ~20 PSI)</span>
+        <span>💧 No water</span>
+        <span>🚽 No restrooms</span>
+        <span>🗑 Pack out all trash</span>
+        <span>💸 Free</span>
+      </div>
+      <div style="margin-top:0.75rem">
+        <a href="https://maps.apple.com/?q=26.0318,-97.1573" target="_blank" rel="noopener" class="chip chip-grey">📍 Beach coordinates</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Boca+Chica+Beach+Texas" target="_blank" rel="noopener" class="chip" style="margin-left:0.4rem">🗺️ Google Maps</a>
+      </div>
+    </div>
+    <div class="flight-card">
+      <div class="flight-card-head">
+        <span>Backup</span>
+        <span class="flight-num">Rocket Ranch</span>
+      </div>
+      <p style="font-size:0.9rem;color:var(--text-dim);margin:0 0 1rem;line-height:1.6">A few miles from SpaceX on the Rio Grande. Primitive sites but clean restrooms and showers available. Short drive to beach.</p>
+      <div class="flight-meta">
+        <span>🚿 Restrooms + showers</span>
+        <span>🌊 Short drive to ocean</span>
+        <span>💸 Small fee</span>
+      </div>
+      <div style="margin-top:0.75rem">
+        <a href="https://www.rocketranchbocachica.com/" target="_blank" rel="noopener" class="chip chip-pink">🌐 rocketranchbocachica.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+- [ ] **Step 2: Verify both sections render — launch card with orange glow, two camp cards**
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: add launch watch and camp setup sections"
+```
+
+---
+
+### Task 5: Packing list with localStorage checkboxes
+
+**Files:**
+- Modify: `src/pages/trips/starbase-2026.astro`
+
+- [ ] **Step 1: Add packing list data in the frontmatter**
+
+Add after the `days` array:
+
+```typescript
+interface CheckItem { id: string; name: string; detail?: string; critical?: boolean; }
+interface CheckCategory { label: string; icon: string; color: string; items: CheckItem[]; }
+
+const packingList: CheckCategory[] = [
+  {
+    label: "Camping Core", icon: "⛺", color: "var(--trip-accent)",
+    items: [
+      { id: "tent", name: "Tents (×2)", detail: "Footprint/ground cloth under each" },
+      { id: "pad", name: "Sleeping pads (×3)", detail: "No sleeping bag needed — June TX is 85-95°F at night" },
+      { id: "headlamp", name: "Headlamps + extra batteries" },
+      { id: "chairs", name: "Camp chairs (×3)" },
+      { id: "table", name: "Folding camp table" },
+    ],
+  },
+  {
+    label: "Shade — Critical", icon: "☀️", color: "var(--trip-orange)",
+    items: [
+      { id: "canopy", name: "10×10 canopy / beach shelter", detail: "Non-negotiable — direct sun is brutal", critical: true },
+      { id: "umbrella", name: "Beach umbrellas (×2)" },
+      { id: "stakes", name: "Heavy sand stakes / sand bags", detail: "Standard stakes pull out of loose sand" },
+    ],
+  },
+  {
+    label: "Water & Sanitation", icon: "💧", color: "var(--trip-yellow)",
+    items: [
+      { id: "water", name: "Water jugs — 20+ gallons", detail: "2 gal/person/day × 3 guys × 3 days", critical: true },
+      { id: "toilet", name: "Portable toilet (Luggable Loo)", detail: "No facilities on beach — required", critical: true },
+      { id: "wastebags", name: "Waste bags + kitty litter" },
+      { id: "sanitizer", name: "Hand sanitizer + biodegradable soap" },
+      { id: "wipes", name: "Baby wipes (primary shower)" },
+    ],
+  },
+  {
+    label: "Kitchen", icon: "🍳", color: "var(--trip-green)",
+    items: [
+      { id: "stove", name: "Camp stove + fuel canisters (×2)" },
+      { id: "cooler", name: "Large cooler + ice" },
+      { id: "cookware", name: "Pot, pan, utensils, plates, cups" },
+      { id: "trash", name: "Trash bags (pack everything out)" },
+      { id: "coffee", name: "Coffee setup (percolator or pour-over)" },
+    ],
+  },
+  {
+    label: "Beach / Sun", icon: "🏖", color: "var(--trip-pink)",
+    items: [
+      { id: "sunscreen", name: "Sunscreen SPF 50+ — lots", critical: true },
+      { id: "hats", name: "Wide-brim hats" },
+      { id: "uvshirts", name: "UV shirts / rashguards" },
+      { id: "deet", name: "DEET bug spray", detail: "Mosquitoes and no-see-ums near the Rio Grande are serious", critical: true },
+      { id: "aftersun", name: "After-sun / aloe" },
+      { id: "sunglasses", name: "Sunglasses" },
+    ],
+  },
+  {
+    label: "Austin Night", icon: "🎤", color: "var(--trip-purple)",
+    items: [
+      { id: "austin-clothes", name: "One clean change of clothes each" },
+      { id: "deodorant", name: "Deodorant + freshen-up kit" },
+      { id: "tickets", name: "Comedy show tickets downloaded offline" },
+      { id: "realshoes", name: "Shoes that aren't sandy sandals" },
+    ],
+  },
+];
+```
+
+- [ ] **Step 2: Add packing list section HTML**
+
+```html
+<!-- PACKING LIST -->
+<section class="trip-section" id="packing">
+  <h2><span class="section-icon">🎒</span> Packing List</h2>
+  <div style="display:flex;flex-direction:column;gap:1.5rem">
+    {packingList.map((cat) => (
+      <div>
+        <div class="alt-heading" style={`color:${cat.color};border-color:${cat.color}`}>{cat.icon} {cat.label}</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem">
+          {cat.items.map((item) => (
+            <label class="logistics-tip" style="display:flex;align-items:flex-start;gap:0.85rem;cursor:pointer">
+              <input
+                type="checkbox"
+                data-key={`starbase-pack-${item.id}`}
+                style="width:18px;height:18px;border-radius:4px;margin-top:2px;accent-color:var(--trip-accent);flex-shrink:0;cursor:pointer"
+              />
+              <div>
+                <span style="font-weight:600;font-size:0.9rem">{item.name}</span>
+                {item.critical && <span style="font-size:0.62rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:999px;margin-left:0.4rem;background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.3)">CRITICAL</span>}
+                {item.detail && <div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.15rem">{item.detail}</div>}
+              </div>
+            </label>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+  <div style="margin-top:1rem;font-size:0.78rem;color:var(--text-dim);text-align:right">
+    <button id="reset-pack" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:0.78rem;text-decoration:underline">reset packing list</button>
+  </div>
+</section>
+```
+
+- [ ] **Step 3: Add checkbox persistence to the inline `<script>`**
+
+Add inside the existing `<script>` tag (before the closing `</script>`):
+
+```javascript
+  // Checkbox persistence
+  function initCheckboxes(prefix: string, resetBtnId: string) {
+    document.querySelectorAll<HTMLInputElement>(`input[data-key^="${prefix}"]`).forEach(cb => {
+      cb.checked = localStorage.getItem(cb.dataset.key!) === '1';
+      cb.addEventListener('change', () => {
+        localStorage.setItem(cb.dataset.key!, cb.checked ? '1' : '0');
+      });
+    });
+    document.getElementById(resetBtnId)?.addEventListener('click', () => {
+      document.querySelectorAll<HTMLInputElement>(`input[data-key^="${prefix}"]`).forEach(cb => {
+        localStorage.removeItem(cb.dataset.key!);
+        cb.checked = false;
+      });
+    });
+  }
+  initCheckboxes('starbase-pack-', 'reset-pack');
+  initCheckboxes('starbase-buy-', 'reset-buy');
+```
+
+- [ ] **Step 4: Verify checkboxes persist across page reloads**
+
+Check a box, reload the page — box should still be checked.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: add packing list with localStorage persistence"
+```
+
+---
+
+### Task 6: Gear to Buy section
+
+**Files:**
+- Modify: `src/pages/trips/starbase-2026.astro`
+
+- [ ] **Step 1: Add shopping list data in frontmatter**
+
+Add after `packingList`:
+
+```typescript
+interface BuyItem { id: string; name: string; detail?: string; price: string; critical?: boolean; link?: string; }
+interface BuyCategory { label: string; icon: string; color: string; items: BuyItem[]; }
+
+const gearList: BuyCategory[] = [
+  {
+    label: "Shelter & Sleep", icon: "⛺", color: "var(--trip-accent)",
+    items: [
+      { id: "tent", name: "2-Person Tent (×2)", detail: "Coleman Sundome or similar — good ventilation for TX heat", price: "~$60 ea", link: "https://www.amazon.com/s?k=2+person+camping+tent" },
+      { id: "pad", name: "Self-Inflating Sleeping Pad (×3)", detail: "No sleeping bag needed in June TX heat, just a pad", price: "~$35 ea", link: "https://www.amazon.com/s?k=self+inflating+sleeping+pad" },
+      { id: "footprint", name: "Footprint / Ground Cloth (×2)", detail: "Protects tent floor from wet sand", price: "~$15 ea" },
+    ],
+  },
+  {
+    label: "Shade — Critical", icon: "☀️", color: "var(--trip-orange)",
+    items: [
+      { id: "canopy", name: "10×10 Canopy / Beach Shelter", detail: "Non-negotiable — get one with sand bag weights or side walls", price: "~$50–80", critical: true, link: "https://www.amazon.com/s?k=10x10+beach+canopy" },
+      { id: "umbrella", name: "Beach Umbrella (×2)", detail: "Portable backup shade away from canopy", price: "~$25 ea" },
+      { id: "sandstakes", name: "Heavy Sand Stakes / Sand Bags", detail: "Standard stakes pull out of loose sand", price: "~$15" },
+    ],
+  },
+  {
+    label: "Water & Sanitation", icon: "💧", color: "var(--trip-yellow)",
+    items: [
+      { id: "waterjugs", name: "7-Gallon Water Jugs (×3+)", detail: "2 gal/person/day × 3 guys × 3 days = 18+ gallons. No water on the beach.", price: "~$12 ea", critical: true, link: "https://www.walmart.com/search?q=7+gallon+water+jug" },
+      { id: "toilet", name: "Portable Toilet (Luggable Loo)", detail: "Required — no facilities on Boca Chica Beach", price: "~$30", critical: true, link: "https://www.amazon.com/s?k=luggable+loo" },
+      { id: "wastebags", name: "Waste Bags + Kitty Litter", detail: "Odor control for portable toilet", price: "~$15" },
+    ],
+  },
+  {
+    label: "Kitchen", icon: "🍳", color: "var(--trip-green)",
+    items: [
+      { id: "stove", name: "Camp Stove (2-burner) + Fuel", detail: "Coleman classic. Bring 2 fuel canisters.", price: "~$50" },
+      { id: "cooler", name: "60-Qt Cooler", detail: "RTIC or Yeti-style holds ice longer in TX heat", price: "~$60–200" },
+      { id: "table", name: "Folding Camp Table", price: "~$30" },
+      { id: "chairs", name: "Camp Chairs (×3)", price: "~$20 ea" },
+    ],
+  },
+  {
+    label: "Vehicle / Beach Driving", icon: "🚗", color: "var(--trip-purple)",
+    items: [
+      { id: "compressor", name: "Portable Air Compressor", detail: "Deflate to ~20 PSI on sand, re-inflate before pavement. 12V plug-in.", price: "~$40", critical: true, link: "https://www.amazon.com/s?k=12v+portable+air+compressor" },
+      { id: "towstrap", name: "Tow Strap", detail: "In case someone gets stuck in soft sand", price: "~$20" },
+    ],
+  },
+];
+
+const gearTotal = "~$600–750";
+const gearPerPerson = "~$200–250";
+```
+
+- [ ] **Step 2: Add Gear to Buy section HTML after the packing section**
+
+```html
+<!-- GEAR TO BUY -->
+<section class="trip-section" id="gear">
+  <h2><span class="section-icon">🛒</span> Gear to Buy</h2>
+  <div style="display:flex;flex-direction:column;gap:1.5rem">
+    {gearList.map((cat) => (
+      <div>
+        <div class="alt-heading" style={`color:${cat.color};border-color:${cat.color}`}>{cat.icon} {cat.label}</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem">
+          {cat.items.map((item) => (
+            <label class="logistics-tip" style="display:flex;align-items:flex-start;gap:0.85rem;cursor:pointer">
+              <input
+                type="checkbox"
+                data-key={`starbase-buy-${item.id}`}
+                style="width:18px;height:18px;border-radius:4px;margin-top:2px;accent-color:var(--trip-green);flex-shrink:0;cursor:pointer"
+              />
+              <div style="flex:1">
+                <span style="font-weight:600;font-size:0.9rem">{item.name}</span>
+                {item.critical && <span style="font-size:0.62rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:999px;margin-left:0.4rem;background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.3)">REQUIRED</span>}
+                {item.detail && <div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.15rem">{item.detail}</div>}
+                {item.link && <a href={item.link} target="_blank" rel="noopener" class="chip" style="margin-top:0.35rem;display:inline-flex">🔗 Shop</a>}
+              </div>
+              <span style="font-size:0.8rem;color:var(--trip-yellow);font-weight:600;flex-shrink:0;margin-top:2px">{item.price}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+  <div style="margin-top:1.5rem;background:linear-gradient(135deg,rgba(56,189,248,0.08),rgba(236,72,153,0.06));border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+    <div>
+      <div style="font-size:0.75rem;color:var(--text-dim)">Estimated total (if starting from scratch)</div>
+      <div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.15rem">Split 3 ways</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:1.3rem;font-weight:800;color:var(--trip-yellow)">{gearTotal}</div>
+      <div style="font-size:0.8rem;color:var(--text-dim)">{gearPerPerson} each</div>
+    </div>
+  </div>
+  <div style="margin-top:0.75rem;font-size:0.78rem;color:var(--text-dim);text-align:right">
+    <button id="reset-buy" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:0.78rem;text-decoration:underline">reset shopping list</button>
+  </div>
+</section>
+```
+
+- [ ] **Step 3: Verify shopping list renders with prices and shop links**
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: add gear shopping list with localStorage checkboxes"
+```
+
+---
+
+### Task 7: Things To Do + Austin + Logistics sections
+
+**Files:**
+- Modify: `src/pages/trips/starbase-2026.astro`
+
+- [ ] **Step 1: Add the three remaining sections after gear**
+
+```html
+<!-- THINGS TO DO -->
+<section class="trip-section" id="todo">
+  <h2><span class="section-icon">📍</span> Things To Do</h2>
+  <div class="alt-heading" style="color:var(--trip-orange);border-color:var(--trip-orange)">🌊 Boca Chica / Brownsville Area</div>
+  <div class="alt-grid" style="margin-bottom:2rem">
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">SpaceX Starbase perimeter drive</span></div>
+      <div class="alt-card-meta">Hwy 4 runs directly past the launch facilities and production buildings. The Starship stack is visible from the road. Best at sunrise or evening.</div>
+      <div class="day-event-actions"><a href="https://www.google.com/maps/search/?api=1&query=SpaceX+Starbase+Boca+Chica+Texas" target="_blank" rel="noopener" class="chip chip-orange">🗺️ Google Maps</a></div>
+    </div>
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">Boca Chica Beach</span></div>
+      <div class="alt-card-meta">Swim, fish, explore. Southernmost beach in Texas where the Rio Grande meets the Gulf. Very remote — usually just a handful of people.</div>
+      <div class="day-event-actions"><a href="https://www.google.com/maps/search/?api=1&query=Boca+Chica+Beach+Texas" target="_blank" rel="noopener" class="chip">🗺️ Google Maps</a></div>
+    </div>
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">Brownsville — Tacos</span></div>
+      <div class="alt-card-meta">Brownsville has great authentic Mexican food. Los Norteños and Taqueria El Pato are local favorites. 15 min from the beach.</div>
+      <div class="day-event-actions"><a href="https://www.google.com/maps/search/?api=1&query=best+tacos+Brownsville+TX" target="_blank" rel="noopener" class="chip">🗺️ Find tacos</a></div>
+    </div>
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">South Padre Island</span></div>
+      <div class="alt-card-meta">~40 min north of Boca Chica. More developed beach with bars, restaurants, and water sports if you want a change of scene.</div>
+      <div class="day-event-actions"><a href="https://www.google.com/maps/search/?api=1&query=South+Padre+Island+Texas" target="_blank" rel="noopener" class="chip">🗺️ Google Maps</a></div>
+    </div>
+  </div>
+
+  <div class="alt-heading" style="color:var(--trip-purple);border-color:var(--trip-purple)">🎸 Austin</div>
+  <div class="alt-grid">
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">Cap City Comedy Club</span></div>
+      <div class="alt-card-meta">Joe Gatto + Jamie Lissow, Jun 21. 3412 Red River St. Doors ~5:30 PM, show at 6 PM.</div>
+      <div class="day-event-actions">
+        <a href="https://www.capcitycomedy.com/events" target="_blank" rel="noopener" class="chip chip-pink">🎟 Tickets</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Cap+City+Comedy+Club+Austin+TX" target="_blank" rel="noopener" class="chip">🗺️ Maps</a>
+      </div>
+    </div>
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">Comedy Mothership</span></div>
+      <div class="alt-card-meta">Joe Rogan's club on 6th St. Check lineup for Jun 21–22. Usually top-tier headliners.</div>
+      <div class="day-event-actions">
+        <a href="https://comedymothership.com/shows" target="_blank" rel="noopener" class="chip chip-purple">🎟 Shows</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Comedy+Mothership+Austin+TX" target="_blank" rel="noopener" class="chip">🗺️ Maps</a>
+      </div>
+    </div>
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">Rainey Street</span></div>
+      <div class="alt-card-meta">Container bars, outdoor patios, less chaotic than 6th St. Bungalow, Icenhauer's, and Craft Pride are solid stops.</div>
+      <div class="day-event-actions"><a href="https://www.google.com/maps/search/?api=1&query=Rainey+Street+Austin+TX" target="_blank" rel="noopener" class="chip">🗺️ Maps</a></div>
+    </div>
+    <div class="alt-card">
+      <div class="alt-card-head"><span class="alt-card-title">Barton Springs Pool</span></div>
+      <div class="alt-card-meta">Natural spring-fed pool, 68°F year-round. Perfect if it's 100° in Austin. $5 entry.</div>
+      <div class="day-event-actions"><a href="https://www.google.com/maps/search/?api=1&query=Barton+Springs+Pool+Austin+TX" target="_blank" rel="noopener" class="chip">🗺️ Maps</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUSTIN COMEDY NIGHT -->
+<section class="trip-section" id="austin">
+  <h2><span class="section-icon">🎤</span> Austin — Comedy Night</h2>
+  <div class="highlight-card wicked-card" style="background:linear-gradient(135deg,#1a0533 0%,#1a0a00 100%);border-color:rgba(251,146,60,0.4)">
+    <div class="sparkle-layer">
+      <div class="sparkle" style="--x:10%;--y:20%;--d:3s;--delay:0s"></div>
+      <div class="sparkle" style="--x:80%;--y:15%;--d:4s;--delay:1s"></div>
+      <div class="sparkle" style="--x:50%;--y:70%;--d:3.5s;--delay:0.5s"></div>
+      <div class="sparkle" style="--x:90%;--y:60%;--d:5s;--delay:2s"></div>
+    </div>
+    <div class="highlight-content">
+      <p style="font-size:0.75rem;letter-spacing:0.2em;color:var(--trip-orange);margin:0 0 0.5rem;font-weight:700">CAP CITY COMEDY CLUB · JUN 21</p>
+      <h3 class="highlight-title" style="color:var(--trip-yellow);font-size:1.8rem;margin:0 0 0.5rem">Joe Gatto</h3>
+      <p style="color:var(--text-dim);font-size:0.9rem;margin:0 0 1.25rem">Impractical Jokers. Show at 6:00 PM. Jamie Lissow also performing that night (4 PM show — could hit both).</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
+        <a href="https://gametime.co/comedy/joe-gatto-tickets/6-21-2026-austin-tx-cap-city-comedy-club/events/69d79bd95d266d8d8fd4946a" target="_blank" rel="noopener" class="chip chip-yellow">🎟 Joe Gatto tickets</a>
+        <a href="https://www.capcitycomedy.com/events" target="_blank" rel="noopener" class="chip chip-pink">🎟 Full Cap City lineup</a>
+        <a href="https://comedymothership.com/shows" target="_blank" rel="noopener" class="chip chip-purple">🎤 Comedy Mothership backup</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Cap+City+Comedy+Club+Austin+TX" target="_blank" rel="noopener" class="chip">🗺️ Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGISTICS -->
+<section class="trip-section" id="logistics">
+  <h2><span class="section-icon">⚠️</span> Logistics & Tips</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem">
+    <div class="logistics-tip">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--trip-yellow);margin-bottom:0.5rem">🚗 Beach Tire Pressure</div>
+      <p style="font-size:0.88rem;color:var(--text);margin:0;line-height:1.6">Deflate to <strong>~20 PSI</strong> before driving on sand. Re-inflate to normal road PSI before hitting pavement. A 12V compressor takes ~3 min per tire.</p>
+    </div>
+    <div class="logistics-tip">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--trip-accent);margin-bottom:0.5rem">💧 Water Math</div>
+      <p style="font-size:0.88rem;color:var(--text);margin:0;line-height:1.6"><strong>2 gallons per person per day</strong> minimum for drinking + cooking. 3 guys × 3 days = 18+ gallons. Fill before leaving Lafayette and top off in Brownsville.</p>
+    </div>
+    <div class="logistics-tip">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--trip-red);margin-bottom:0.5rem">🛂 Border Patrol Checkpoints</div>
+      <p style="font-size:0.88rem;color:var(--text);margin:0;line-height:1.6">Highway 4 and roads near Boca Chica have BP checkpoints. <strong>Bring IDs.</strong> Routine stop, nothing to worry about — just be ready.</p>
+    </div>
+    <div class="logistics-tip">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--trip-orange);margin-bottom:0.5rem">🚀 Road Closure Timing</div>
+      <p style="font-size:0.88rem;color:var(--text);margin:0;line-height:1.6">SpaceX closes Hwy 4 <strong>3–6 hours before the launch window opens.</strong> Stage on the beach before closure. Check closure status the evening before on the Cameron County Sheriff's Twitter/X.</p>
+    </div>
+    <div class="logistics-tip">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--trip-green);margin-bottom:0.5rem">🦟 Bug Defense</div>
+      <p style="font-size:0.88rem;color:var(--text);margin:0;line-height:1.6">No-see-ums and mosquitoes near the Rio Grande are aggressive at dawn and dusk. <strong>DEET 30%+.</strong> Bug coils help around camp. Close tent zippers immediately.</p>
+    </div>
+    <div class="logistics-tip">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--trip-pink);margin-bottom:0.5rem">🌡 Heat</div>
+      <p style="font-size:0.88rem;color:var(--text);margin:0;line-height:1.6">Boca Chica in June: <strong>95–100°F</strong> during the day, 80s at night. Shade is survival, not comfort. Drink water constantly even if not thirsty.</p>
+    </div>
+  </div>
+</section>
+```
+
+- [ ] **Step 2: Verify all sections render — no TypeScript errors, all links present**
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/pages/trips/starbase-2026.astro
+git commit -m "feat: add things to do, austin comedy night, and logistics sections"
+```
+
+---
+
+### Task 8: Build, verify, and deploy
+
+**Files:**
+- No file changes — build and deploy only
+
+- [ ] **Step 1: Run production build**
+
+```bash
+cd /Users/bradylandry/automation/github/landrycmd && npm run build
+```
+
+Expected: build completes with no errors. `dist/trips/starbase-2026/index.html` exists.
+
+- [ ] **Step 2: Preview production build locally**
+
+```bash
+npm run preview
+```
+
+Open `http://localhost:4321/trips/starbase-2026`. Verify:
+- Countdown timer ticking
+- All 8 sections present and styled correctly
+- Sticky nav jump links work
+- Packing/shopping checkboxes persist on reload
+- All external links open correctly
+- No console errors
+
+- [ ] **Step 3: Push to main — Vercel auto-deploys**
+
+```bash
+git push origin main
+```
+
+- [ ] **Step 4: Verify live at `https://landrycmd.com/trips/starbase-2026`**
+
+Check countdown, checkboxes, all sections. Confirm `noindex` meta tag is present (trips pages are private per Layout.astro).
+
+---
