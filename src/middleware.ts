@@ -3,6 +3,7 @@ import { defineMiddleware } from "astro:middleware";
 const COOKIE_NAME = "trip_auth";
 const PROTECTED_PREFIX = "/trips/";
 const LOGIN_PATH = "/trips/login";
+const PUBLIC_TRIPS = ["/trips/starbase-2026"];
 
 const SECRET = import.meta.env.TRIP_SECRET || "";
 
@@ -47,6 +48,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // only gate /trips/* routes (excluding the login page itself)
   if (!pathname.startsWith(PROTECTED_PREFIX)) return next();
   if (pathname === LOGIN_PATH || pathname === LOGIN_PATH + "/") return next();
+  if (PUBLIC_TRIPS.some(p => pathname === p || pathname === p + "/")) return next();
 
   // Catch misconfigured deployments before auth logic runs
   if (!SECRET) {
