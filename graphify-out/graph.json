@@ -1,0 +1,3897 @@
+{
+  "nodes": [
+    {
+      "id": "astro_config",
+      "label": "astro.config.mjs",
+      "file_type": "code",
+      "source_file": "astro.config.mjs",
+      "source_location": "L1"
+    },
+    {
+      "id": "package",
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1"
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2"
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3"
+    },
+    {
+      "id": "package_private",
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4"
+    },
+    {
+      "id": "package_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5"
+    },
+    {
+      "id": "package_engines",
+      "label": "engines",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6"
+    },
+    {
+      "id": "package_engines_node",
+      "label": "node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7"
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9"
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10"
+    },
+    {
+      "id": "package_scripts_start",
+      "label": "start",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11"
+    },
+    {
+      "id": "package_scripts_build",
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12"
+    },
+    {
+      "id": "package_scripts_preview",
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13"
+    },
+    {
+      "id": "package_scripts_astro",
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14"
+    },
+    {
+      "id": "package_dependencies",
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16"
+    },
+    {
+      "id": "package_dependencies_astrojs_mdx",
+      "label": "@astrojs/mdx",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17"
+    },
+    {
+      "id": "package_dependencies_astrojs_rss",
+      "label": "@astrojs/rss",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18"
+    },
+    {
+      "id": "package_dependencies_astrojs_vercel",
+      "label": "@astrojs/vercel",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19"
+    },
+    {
+      "id": "package_dependencies_upstash_redis",
+      "label": "@upstash/redis",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20"
+    },
+    {
+      "id": "package_dependencies_astro",
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21"
+    },
+    {
+      "id": "content_config",
+      "label": "config.ts",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "content_config_writing",
+      "label": "writing",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "content_config_collections",
+      "label": "collections",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_env_d",
+      "label": "env.d.ts",
+      "file_type": "code",
+      "source_file": "src/env.d.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_env_d_importmetaenv",
+      "label": "ImportMetaEnv",
+      "file_type": "code",
+      "source_file": "src/env.d.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "layouts_layout_canonical",
+      "label": "canonical",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L11"
+    },
+    {
+      "id": "users_bradylandry_automation_github_landrycmd_src_styles_global_css",
+      "label": "../styles/global.css",
+      "file_type": "code",
+      "source_file": "src/styles/global.css",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "lib_redis",
+      "label": "redis.ts",
+      "file_type": "code",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_redis_getredis",
+      "label": "getRedis()",
+      "file_type": "code",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "lib_redis_voters",
+      "label": "VOTERS",
+      "file_type": "code",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L31"
+    },
+    {
+      "id": "lib_redis_voter",
+      "label": "Voter",
+      "file_type": "code",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L32"
+    },
+    {
+      "id": "lib_redis_isvoter",
+      "label": "isVoter()",
+      "file_type": "code",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L34"
+    },
+    {
+      "id": "src_middleware",
+      "label": "middleware.ts",
+      "file_type": "code",
+      "source_file": "src/middleware.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_middleware_public_trips",
+      "label": "PUBLIC_TRIPS",
+      "file_type": "code",
+      "source_file": "src/middleware.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_middleware_verifytoken",
+      "label": "verifyToken()",
+      "file_type": "code",
+      "source_file": "src/middleware.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_middleware_sign",
+      "label": "sign()",
+      "file_type": "code",
+      "source_file": "src/middleware.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_middleware_onrequest",
+      "label": "onRequest",
+      "file_type": "code",
+      "source_file": "src/middleware.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "trips_auth",
+      "label": "auth.ts",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "trips_auth_checkratelimit",
+      "label": "checkRateLimit()",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L15"
+    },
+    {
+      "id": "trips_auth_post",
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L27"
+    },
+    {
+      "id": "trips_vote",
+      "label": "vote.ts",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "trips_vote_post",
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "trips_votes",
+      "label": "votes.ts",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "trips_votes_get",
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "pages_index",
+      "label": "index.astro",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "pages_index_products",
+      "label": "products",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L4"
+    },
+    {
+      "id": "pages_index_opensource",
+      "label": "openSource",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L39"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "pages_privacy",
+      "label": "privacy.astro",
+      "file_type": "code",
+      "source_file": "src/pages/privacy.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "pages_rss_xml",
+      "label": "rss.xml.ts",
+      "file_type": "code",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "pages_rss_xml_get",
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "pages_terms",
+      "label": "terms.astro",
+      "file_type": "code",
+      "source_file": "src/pages/terms.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "trips_login",
+      "label": "login.astro",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "trips_login_display",
+      "label": "display",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L44"
+    },
+    {
+      "id": "trips_login_keypad",
+      "label": "keypad",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L45"
+    },
+    {
+      "id": "trips_login_error",
+      "label": "error",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L46"
+    },
+    {
+      "id": "trips_login_dots",
+      "label": "dots",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L47"
+    },
+    {
+      "id": "trips_login_render",
+      "label": "render()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L52"
+    },
+    {
+      "id": "trips_login_clearerror",
+      "label": "clearError()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L59"
+    },
+    {
+      "id": "trips_login_submit",
+      "label": "submit()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L64"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "trips_nyc_2026",
+      "label": "nyc-2026.astro",
+      "file_type": "code",
+      "source_file": "src/pages/trips/nyc-2026.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "users_bradylandry_automation_github_landrycmd_src_lib_redis",
+      "label": "../../lib/redis",
+      "file_type": "code",
+      "source_file": "src/lib/redis",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "trips_starbase_2026",
+      "label": "starbase-2026.astro",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "trips_starbase_2026_gmap",
+      "label": "gmap()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L5"
+    },
+    {
+      "id": "trips_starbase_2026_amap",
+      "label": "amap()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L7"
+    },
+    {
+      "id": "trips_starbase_2026",
+      "label": "[]",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L25"
+    },
+    {
+      "id": "trips_starbase_2026_tick",
+      "label": "tick()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L564"
+    },
+    {
+      "id": "trips_starbase_2026_bar",
+      "label": "bar",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L589"
+    },
+    {
+      "id": "trips_starbase_2026_observer",
+      "label": "observer",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L598"
+    },
+    {
+      "id": "trips_starbase_2026_initcheckboxes",
+      "label": "initCheckboxes()",
+      "file_type": "code",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L605"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "writing_slug",
+      "label": "[...slug].astro",
+      "file_type": "code",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "writing_slug_formatdate",
+      "label": "formatDate()",
+      "file_type": "code",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L17"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "astro_content",
+      "label": "astro:content",
+      "file_type": "code",
+      "source_file": "astro:content",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "astro",
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "writing_index",
+      "label": "index.astro",
+      "file_type": "code",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L1"
+    },
+    {
+      "id": "writing_index_posts",
+      "label": "posts",
+      "file_type": "code",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L5"
+    },
+    {
+      "id": "writing_index_formatdate",
+      "label": "formatDate()",
+      "file_type": "code",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L8"
+    },
+    {
+      "id": "layouts_layout",
+      "label": "../../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "astro_content",
+      "label": "astro:content",
+      "file_type": "code",
+      "source_file": "astro:content",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "tsconfig",
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L1"
+    },
+    {
+      "id": "tsconfig_extends",
+      "label": "extends",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L2"
+    },
+    {
+      "id": "tsconfig_include",
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L3"
+    },
+    {
+      "id": "tsconfig_exclude",
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L4"
+    },
+    {
+      "id": "readme",
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "readme_landrycmd",
+      "label": "landrycmd",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "readme_stack",
+      "label": "Stack",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "readme_development",
+      "label": "Development",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L11"
+    },
+    {
+      "id": "readme_adding_a_writing_post",
+      "label": "Adding a writing post",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "readme_deployment",
+      "label": "Deployment",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L36"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page",
+      "label": "2026-05-25-starbase-trip-page.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_starbase_2026_trip_page_implementation_plan",
+      "label": "Starbase 2026 Trip Page Implementation Plan",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_file_map",
+      "label": "File Map",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L13"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_1_scaffold_the_page_shell",
+      "label": "Task 1: Scaffold the page shell",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L23"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_2_countdown_timer_script",
+      "label": "Task 2: Countdown timer script",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L115"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_3_schedule_section_day_cards",
+      "label": "Task 3: Schedule section — day cards",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L176"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_4_launch_watch_camp_setup_sections",
+      "label": "Task 4: Launch Watch + Camp Setup sections",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L325"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_5_packing_list_with_localstorage_checkboxes",
+      "label": "Task 5: Packing list with localStorage checkboxes",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L419"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_6_gear_to_buy_section",
+      "label": "Task 6: Gear to Buy section",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L566"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_7_things_to_do_austin_logistics_sections",
+      "label": "Task 7: Things To Do + Austin + Logistics sections",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L684"
+    },
+    {
+      "id": "plans_2026_05_25_starbase_trip_page_task_8_build_verify_and_deploy",
+      "label": "Task 8: Build, verify, and deploy",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L817"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design",
+      "label": "2026-05-25-starbase-trip-design.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "label": "Starbase 2026 Trip Page — Design Spec",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design_route_file",
+      "label": "Route & File",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L3"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design_approach",
+      "label": "Approach",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design_sections_scroll_order",
+      "label": "Sections (scroll order)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design_checkbox_persistence",
+      "label": "Checkbox Persistence",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "specs_2026_05_25_starbase_trip_design_dates",
+      "label": "Dates",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L27"
+    },
+    {
+      "id": "writing_hello",
+      "label": "hello.md",
+      "file_type": "document",
+      "source_file": "src/content/writing/hello.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai",
+      "label": "second-brain-for-my-ai.md",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_most_second_brain_content_is_about_humans",
+      "label": "Most second-brain content is about humans",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L18"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_structure_for_machines_not_for_you",
+      "label": "Structure for machines, not for you",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_the_braindump_ritual",
+      "label": "The `/braindump` ritual",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_when_the_vault_talks_back",
+      "label": "When the vault talks back",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L79"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_onboarding_evolved_away_from_itself",
+      "label": "Onboarding evolved away from itself",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L89"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_the_6_lens_research_system",
+      "label": "The 6-lens research system",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L97"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_the_compounding_effect",
+      "label": "The compounding effect",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L119"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_ai_agnostic_on_purpose",
+      "label": "AI-agnostic on purpose",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L133"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_why_i_open_sourced_the_structure",
+      "label": "Why I open-sourced the structure",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L143"
+    },
+    {
+      "id": "writing_second_brain_for_my_ai_the_actual_takeaway",
+      "label": "The actual takeaway",
+      "file_type": "document",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L153"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro",
+      "label": "shipping-on-claude-pro.md",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_hardware",
+      "label": "The hardware",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L14"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_brain_claude_pro_20_mo",
+      "label": "The brain: Claude Pro ($20/mo)",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_what_claude_pro_is_for_vs_what_gets_delegated",
+      "label": "What Claude Pro is for vs. what gets delegated",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_local_workhorse_mac_mini_qwen3_coder",
+      "label": "The local workhorse: Mac mini + Qwen3-Coder",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L44"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_free_cloud_tier_groq_cerebras_nvidia_nim",
+      "label": "The free cloud tier: Groq, Cerebras, NVIDIA NIM",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L55"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_glue_claude_code_s_extension_model",
+      "label": "The glue: Claude Code's extension model",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L70"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_actual_delegation_pattern",
+      "label": "The actual delegation pattern",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L82"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_how_this_actually_saves_money",
+      "label": "How this actually saves money",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L118"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_footguns_the_harness_doesn_t_catch",
+      "label": "Footguns the harness doesn't catch",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L135"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_what_this_doesn_t_replace",
+      "label": "What this doesn't replace",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L147"
+    },
+    {
+      "id": "writing_shipping_on_claude_pro_the_actual_takeaway",
+      "label": "The actual takeaway",
+      "file_type": "document",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L155"
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "links": [
+    {
+      "source": "astro_config",
+      "target": "config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "astro.config.mjs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "astro_config",
+      "target": "mdx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "astro.config.mjs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "astro_config",
+      "target": "serverless",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "astro.config.mjs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_private",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_engines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "package_engines",
+      "target": "package_engines_node",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_start",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astrojs_mdx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies_astrojs_mdx",
+      "target": "astrojs_mdx",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astrojs_rss",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies_astrojs_rss",
+      "target": "astrojs_rss",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astrojs_vercel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies_astrojs_vercel",
+      "target": "astrojs_vercel",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_upstash_redis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies_upstash_redis",
+      "target": "upstash_redis",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies_astro",
+      "target": "astro",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "content_config",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "content_config",
+      "target": "content_config_writing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "content_config",
+      "target": "content_config_collections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_env_d",
+      "target": "src_env_d_importmetaenv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/env.d.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "layouts_layout",
+      "target": "layouts_layout_canonical",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "layouts_layout",
+      "target": "users_bradylandry_automation_github_landrycmd_src_styles_global_css",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro"
+    },
+    {
+      "source": "lib_redis",
+      "target": "redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_getredis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_voters",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_voter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_isvoter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "astro_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_public_trips",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_verifytoken",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_sign",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_onrequest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware_verifytoken",
+      "target": "src_middleware_sign",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "src_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "src_middleware_sign",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "src_middleware_cookie_name",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "lib_redis_getredis",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "trips_auth_checkratelimit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "trips_auth_post",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth_post",
+      "target": "trips_auth_checkratelimit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis_getredis",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis_vote_key",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis_isvoter",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "src_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "src_middleware_verifytoken",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "src_middleware_cookie_name",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "trips_vote_post",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "lib_redis_getredis",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "lib_redis_vote_key",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "src_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "src_middleware_verifytoken",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "src_middleware_cookie_name",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "trips_votes_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_index",
+      "target": "pages_index_products",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_index",
+      "target": "pages_index_opensource",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_index",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro"
+    },
+    {
+      "source": "pages_privacy",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/privacy.astro"
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "rss",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "pages_rss_xml_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_terms",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/terms.astro"
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_display",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_keypad",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_error",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_dots",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_render",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_clearerror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_submit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login_submit",
+      "target": "trips_login_clearerror",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login_submit",
+      "target": "trips_login_render",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro"
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "lib_redis_voters",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro"
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "users_bradylandry_automation_github_landrycmd_src_lib_redis",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro"
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_gmap",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_amap",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_tick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L564",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_bar",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L589",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_observer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L598",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_initcheckboxes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L605",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro"
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_slug",
+      "target": "writing_slug_formatdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_slug",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro"
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro"
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro"
+    },
+    {
+      "source": "writing_index",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_index",
+      "target": "writing_index_posts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_index",
+      "target": "writing_index_formatdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_index",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro"
+    },
+    {
+      "source": "writing_index",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_extends",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "tsconfig",
+      "target": "ref_astro_tsconfigs_strict",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_include",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "tsconfig_include",
+      "target": "ref_astro_types_d_ts",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "tsconfig_include",
+      "target": "ref",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_exclude",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tsconfig_exclude",
+      "target": "ref_dist",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "readme",
+      "target": "readme_landrycmd",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_stack",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_development",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_adding_a_writing_post",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_deployment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page",
+      "target": "plans_2026_05_25_starbase_trip_page_starbase_2026_trip_page_implementation_plan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_starbase_2026_trip_page_implementation_plan",
+      "target": "plans_2026_05_25_starbase_trip_page_file_map",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_1_scaffold_the_page_shell",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_2_countdown_timer_script",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_3_schedule_section_day_cards",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_4_launch_watch_camp_setup_sections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L325",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_5_packing_list_with_localstorage_checkboxes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L419",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_6_gear_to_buy_section",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L566",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_7_things_to_do_austin_logistics_sections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L684",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_8_build_verify_and_deploy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L817",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design",
+      "target": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_route_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_approach",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_sections_scroll_order",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_checkbox_persistence",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_dates",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_most_second_brain_content_is_about_humans",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_structure_for_machines_not_for_you",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_braindump_ritual",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_when_the_vault_talks_back",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_onboarding_evolved_away_from_itself",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_6_lens_research_system",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_compounding_effect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_ai_agnostic_on_purpose",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_why_i_open_sourced_the_structure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_actual_takeaway",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_hardware",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_brain_claude_pro_20_mo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_what_claude_pro_is_for_vs_what_gets_delegated",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_local_workhorse_mac_mini_qwen3_coder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_free_cloud_tier_groq_cerebras_nvidia_nim",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_glue_claude_code_s_extension_model",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_actual_delegation_pattern",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_how_this_actually_saves_money",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_footguns_the_harness_doesn_t_catch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_what_this_doesn_t_replace",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_actual_takeaway",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth_checkratelimit",
+      "target": "lib_redis_getredis",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth_post",
+      "target": "src_middleware_sign",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote_post",
+      "target": "src_middleware_verifytoken",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote_post",
+      "target": "lib_redis_getredis",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote_post",
+      "target": "lib_redis_isvoter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes_get",
+      "target": "src_middleware_verifytoken",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes_get",
+      "target": "lib_redis_getredis",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_private",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_engines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "package_engines",
+      "target": "package_engines_node",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_start",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "package",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astrojs_mdx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astrojs_rss",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astrojs_vercel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_upstash_redis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "package_dependencies_astro",
+      "target": "astro",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "content_config",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "content_config",
+      "target": "content_config_writing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "content_config",
+      "target": "content_config_collections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_env_d",
+      "target": "src_env_d_importmetaenv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/env.d.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "layouts_layout",
+      "target": "layouts_layout_canonical",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "layouts_layout",
+      "target": "users_bradylandry_automation_github_landrycmd_src_styles_global_css",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro"
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_getredis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_voters",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_voter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_redis",
+      "target": "lib_redis_isvoter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/redis.ts",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_public_trips",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_verifytoken",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_sign",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware",
+      "target": "src_middleware_onrequest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "src_middleware_verifytoken",
+      "target": "src_middleware_sign",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/middleware.ts",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "src_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "src_middleware_sign",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "lib_redis_getredis",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "trips_auth_checkratelimit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth",
+      "target": "trips_auth_post",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth_post",
+      "target": "trips_auth_checkratelimit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis_getredis",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "lib_redis_isvoter",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "src_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "src_middleware_verifytoken",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote",
+      "target": "trips_vote_post",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "lib_redis_getredis",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "src_middleware",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "src_middleware_verifytoken",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes",
+      "target": "trips_votes_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_index",
+      "target": "pages_index_products",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_index",
+      "target": "pages_index_opensource",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_index",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro"
+    },
+    {
+      "source": "pages_privacy",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/privacy.astro"
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_rss_xml",
+      "target": "pages_rss_xml_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/rss.xml.ts",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "pages_terms",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/terms.astro"
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_display",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_keypad",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_error",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_dots",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_render",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_clearerror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "trips_login_submit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login_submit",
+      "target": "trips_login_clearerror",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login_submit",
+      "target": "trips_login_render",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_login",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/login.astro"
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "lib_redis",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "lib_redis_voters",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro"
+    },
+    {
+      "source": "trips_nyc_2026",
+      "target": "users_bradylandry_automation_github_landrycmd_src_lib_redis",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/nyc-2026.astro"
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_gmap",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_amap",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_tick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L564",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_bar",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L589",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_observer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L598",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "trips_starbase_2026_initcheckboxes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro",
+      "source_location": "L605",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_starbase_2026",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/trips/starbase-2026.astro"
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_slug",
+      "target": "writing_slug_formatdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_slug",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro"
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro"
+    },
+    {
+      "source": "writing_slug",
+      "target": "astro",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/[...slug].astro"
+    },
+    {
+      "source": "writing_index",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_index",
+      "target": "writing_index_posts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_index",
+      "target": "writing_index_formatdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_index",
+      "target": "layouts_layout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro"
+    },
+    {
+      "source": "writing_index",
+      "target": "astro_content",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/writing/index.astro"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_extends",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_include",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_exclude",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "readme",
+      "target": "readme_landrycmd",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_stack",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_development",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_adding_a_writing_post",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landrycmd",
+      "target": "readme_deployment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page",
+      "target": "plans_2026_05_25_starbase_trip_page_starbase_2026_trip_page_implementation_plan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_starbase_2026_trip_page_implementation_plan",
+      "target": "plans_2026_05_25_starbase_trip_page_file_map",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_1_scaffold_the_page_shell",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_2_countdown_timer_script",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_3_schedule_section_day_cards",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_4_launch_watch_camp_setup_sections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L325",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_5_packing_list_with_localstorage_checkboxes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L419",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_6_gear_to_buy_section",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L566",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_7_things_to_do_austin_logistics_sections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L684",
+      "weight": 1.0
+    },
+    {
+      "source": "plans_2026_05_25_starbase_trip_page_file_map",
+      "target": "plans_2026_05_25_starbase_trip_page_task_8_build_verify_and_deploy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-05-25-starbase-trip-page.md",
+      "source_location": "L817",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design",
+      "target": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_route_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_approach",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_sections_scroll_order",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_checkbox_persistence",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "specs_2026_05_25_starbase_trip_design_starbase_2026_trip_page_design_spec",
+      "target": "specs_2026_05_25_starbase_trip_design_dates",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-05-25-starbase-trip-design.md",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_most_second_brain_content_is_about_humans",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_structure_for_machines_not_for_you",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_braindump_ritual",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_when_the_vault_talks_back",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_onboarding_evolved_away_from_itself",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_6_lens_research_system",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_compounding_effect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_ai_agnostic_on_purpose",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_why_i_open_sourced_the_structure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_second_brain_for_my_ai",
+      "target": "writing_second_brain_for_my_ai_the_actual_takeaway",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/second-brain-for-my-ai.md",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_hardware",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_brain_claude_pro_20_mo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_what_claude_pro_is_for_vs_what_gets_delegated",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_local_workhorse_mac_mini_qwen3_coder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_free_cloud_tier_groq_cerebras_nvidia_nim",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_glue_claude_code_s_extension_model",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_actual_delegation_pattern",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_how_this_actually_saves_money",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_footguns_the_harness_doesn_t_catch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_what_this_doesn_t_replace",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "writing_shipping_on_claude_pro",
+      "target": "writing_shipping_on_claude_pro_the_actual_takeaway",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/writing/shipping-on-claude-pro.md",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth_checkratelimit",
+      "target": "lib_redis_getredis",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_auth_post",
+      "target": "src_middleware_sign",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/auth.ts",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote_post",
+      "target": "src_middleware_verifytoken",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote_post",
+      "target": "lib_redis_getredis",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_vote_post",
+      "target": "lib_redis_isvoter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/vote.ts",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes_get",
+      "target": "src_middleware_verifytoken",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "trips_votes_get",
+      "target": "lib_redis_getredis",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/api/trips/votes.ts",
+      "source_location": "L18",
+      "weight": 1.0
+    }
+  ]
+}

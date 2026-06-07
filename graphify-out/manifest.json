@@ -1,0 +1,142 @@
+{
+  "astro.config.mjs": {
+    "mtime": 1779924357.7141497,
+    "ast_hash": "d4e881f8840741f57ed08e69b5b6a8d1",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1779924357.7148497,
+    "ast_hash": "0cfc0386f851d11ae4cb49542f5c35ab",
+    "semantic_hash": ""
+  },
+  "src/content/config.ts": {
+    "mtime": 1779924357.7150888,
+    "ast_hash": "06691c7039f15595e698773df7b673f4",
+    "semantic_hash": ""
+  },
+  "src/env.d.ts": {
+    "mtime": 1779924357.7156134,
+    "ast_hash": "f03f88f84ddf9005e4283d6e1328372c",
+    "semantic_hash": ""
+  },
+  "src/layouts/Layout.astro": {
+    "mtime": 1779924357.7157164,
+    "ast_hash": "972f2cf4e1d33f31d02a7c8cc948e1a2",
+    "semantic_hash": ""
+  },
+  "src/lib/redis.ts": {
+    "mtime": 1779924357.7158034,
+    "ast_hash": "82b3270179dc844914597eba1bb855c9",
+    "semantic_hash": ""
+  },
+  "src/middleware.ts": {
+    "mtime": 1779924357.7158546,
+    "ast_hash": "b31fad5fc570b7cdbb8b928c45ead25c",
+    "semantic_hash": ""
+  },
+  "src/pages/api/trips/auth.ts": {
+    "mtime": 1779924357.7159941,
+    "ast_hash": "73c93047b3b21629c9ed26a1447572df",
+    "semantic_hash": ""
+  },
+  "src/pages/api/trips/vote.ts": {
+    "mtime": 1779924357.7160475,
+    "ast_hash": "dd7e43d94d9d69345ea52db2eda3d623",
+    "semantic_hash": ""
+  },
+  "src/pages/api/trips/votes.ts": {
+    "mtime": 1779924357.716097,
+    "ast_hash": "6d543e4d7d9ebb974d1b00482457a7b2",
+    "semantic_hash": ""
+  },
+  "src/pages/index.astro": {
+    "mtime": 1779924357.71619,
+    "ast_hash": "0ccf9f0f20bde338b718e74688cd423f",
+    "semantic_hash": ""
+  },
+  "src/pages/privacy.astro": {
+    "mtime": 1779924357.7162743,
+    "ast_hash": "cca4542b15139ddc3a37c47c67ba541e",
+    "semantic_hash": ""
+  },
+  "src/pages/rss.xml.ts": {
+    "mtime": 1779924357.7163463,
+    "ast_hash": "01c0ae2894cf88aea597c60a17acfb4c",
+    "semantic_hash": ""
+  },
+  "src/pages/terms.astro": {
+    "mtime": 1779924357.7165265,
+    "ast_hash": "e101227188320e4f2a366906384fd771",
+    "semantic_hash": ""
+  },
+  "src/pages/trips/login.astro": {
+    "mtime": 1779924357.716751,
+    "ast_hash": "d4fbd82fec8682b9d4e3ac3c7db86710",
+    "semantic_hash": ""
+  },
+  "src/pages/trips/nyc-2026.astro": {
+    "mtime": 1779924357.7171636,
+    "ast_hash": "e1ea2f9ffb405b2b9723fdb3f92d96c7",
+    "semantic_hash": ""
+  },
+  "src/pages/trips/starbase-2026.astro": {
+    "mtime": 1779924357.717325,
+    "ast_hash": "6a283018bdc272c301c2080f857ff375",
+    "semantic_hash": ""
+  },
+  "src/pages/writing/[...slug].astro": {
+    "mtime": 1779924357.7175477,
+    "ast_hash": "3efb0e4c234516383ca940cbc4d39080",
+    "semantic_hash": ""
+  },
+  "src/pages/writing/index.astro": {
+    "mtime": 1779924357.7176538,
+    "ast_hash": "85c8ce28f9fb898f581d54fbf48137fd",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "mtime": 1779924357.718269,
+    "ast_hash": "1d3613ac08bdda17e2b82251613dbc21",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1779924357.7140925,
+    "ast_hash": "91bf673718285ff155ef0e6405cfb262",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-05-25-starbase-trip-page.md": {
+    "mtime": 1779924357.71435,
+    "ast_hash": "e5a0e479f2813c78c468369a67a4afd2",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-05-25-starbase-trip-design.md": {
+    "mtime": 1779924357.7144575,
+    "ast_hash": "0afa5920188d0de6221b78f162762b7f",
+    "semantic_hash": ""
+  },
+  "public/robots.txt": {
+    "mtime": 1779924357.7149816,
+    "ast_hash": "bcaf254f6caf257698896375be29cab2",
+    "semantic_hash": ""
+  },
+  "src/content/writing/hello.md": {
+    "mtime": 1779924357.7152038,
+    "ast_hash": "e5fcc43b16bad219339952e115a04d81",
+    "semantic_hash": ""
+  },
+  "src/content/writing/second-brain-for-my-ai.md": {
+    "mtime": 1779924357.7152927,
+    "ast_hash": "983c023ac8115cecfe95952ff44be33b",
+    "semantic_hash": ""
+  },
+  "src/content/writing/shipping-on-claude-pro.md": {
+    "mtime": 1779924357.7155287,
+    "ast_hash": "fde52a03ef0739ee31014f796f96099e",
+    "semantic_hash": ""
+  },
+  "public/favicon.svg": {
+    "mtime": 1779924357.7149305,
+    "ast_hash": "a4e7e1efda8eeab6ba02177fed057cc9",
+    "semantic_hash": ""
+  }
+}
