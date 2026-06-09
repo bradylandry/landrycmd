@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const notes = (await getCollection("notes", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+---
+
+<Layout
+  title="Notes | landrycmd"
+  description="Raw notes, theses, and thinking-out-loud published from Obsidian."
+>
+  <section>
+    <h1>Notes</h1>
+    <p class="muted">
+      Raw notes and thinking-out-loud — published directly from Obsidian.
+      Less polished than <a href="/writing/">Writing</a>, more frequent.
+    </p>
+
+    {
+      notes.length === 0 && (
+        <p class="subtle">No notes yet.</p>
+      )
+    }
+
+    {
+      notes.length > 0 && (
+        <ul class="post-list">
+          {notes.map((note) => (
+            <li>
+              <a href={`/notes/${note.slug}/`}>{note.data.title}</a>
+              <span class="meta">
+                {formatDate(note.data.date)}
+                {note.data.tags.length > 0 && (
+                  <> &nbsp;·&nbsp; {note.data.tags.join(", ")}</>
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</Layout>

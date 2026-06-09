@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async () => {
+  const notes = await getCollection("notes", ({ data }) => !data.draft);
+  return notes.map((note) => ({
+    params: { slug: note.slug },
+    props: { note },
+  }));
+}) satisfies GetStaticPaths;
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+---
+
+<Layout
+  title={`${note.data.title} | landrycmd`}
+  description={note.data.description ?? note.data.title}
+>
+  <article class="prose">
+    <p class="meta" style="margin-bottom: 0.25rem;">
+      <a href="/notes/" style="color: var(--muted); text-decoration: none;">← Notes</a>
+    </p>
+    <h1>{note.data.title}</h1>
+    <p class="meta">
+      {formatDate(note.data.date)}
+      {note.data.tags.length > 0 && (
+        <>
+          &nbsp;·&nbsp;
+          {note.data.tags.join(", ")}
+        </>
+      )}
+    </p>
+    <Content />
+  </article>
+</Layout>
