@@ -35,6 +35,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   }
 
   const optionId = (body.optionId || "").trim();
+  // NOTE: `voter` is taken from the request body and is NOT bound to the auth
+  // token. This is intentional. The app uses a single shared family PIN — there
+  // is no per-user identity in the token to bind against. Any authenticated
+  // family member can cast/clear a vote on behalf of any other family member
+  // (brady, stacy, blake, karsyn, emrie). This is acceptable for a private
+  // family trip-planning app where everyone shares the same credential. If
+  // per-user identity is ever required, issue per-user tokens (encode the voter
+  // name as a signed claim at login) and reject requests where body.voter does
+  // not match the token claim.
   const voter = (body.voter || "").trim().toLowerCase();
   const action = body.action || "toggle";
 

@@ -15,8 +15,10 @@ const WINDOW_SEC = 60;
 async function checkRateLimit(ip: string): Promise<boolean> {
   const redis = getRedis();
   if (!redis) {
-    console.error("Rate limiter: Redis unavailable, denying request for", ip);
-    return false;
+    // Fail open — the rate limiter being down must not lock out every user.
+    // Log so the outage is visible; let the attempt through.
+    console.error("Rate limiter: Redis unavailable, failing open for", ip);
+    return true;
   }
   const key = `ratelimit:auth:${ip}`;
   const count = await redis.incr(key);
@@ -33,7 +35,17 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
     });
   }
 
-  const ip = clientAddress || "unknown";
+  // Never collapse all clients into a shared sentinel key — that turns the
+  // limiter into a DoS vector (5 requests lock everyone out) and a bypass
+  // (rotate IPs while sharing one bucket). Fail the request instead.
+  if (!clientAddress) {
+    console.error("clientAddress not provided by adapter — cannot rate-limit");
+    return new Response(JSON.stringify({ ok: false, error: "Server error" }), {
+      status: 500,
+      headers: { "content-type": "application/json" },
+    });
+  }
+  const ip = clientAddress;
 
   if (!(await checkRateLimit(ip))) {
     return new Response(

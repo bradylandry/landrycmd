@@ -9,6 +9,10 @@ const SECRET = import.meta.env.TRIP_SECRET || "";
 
 // exported so API routes can authenticate requests independently of middleware route-matching
 export async function verifyToken(token: string): Promise<boolean> {
+  // Guard independently of the middleware's SECRET check — callers (vote.ts,
+  // votes.ts) import this directly. With an empty SECRET, sign(payload, "")
+  // produces predictable signatures that could be forged externally.
+  if (!SECRET) return false;
   // token format: `${issuedAt}:${expiresAt}.${sig}`
   const lastDot = token.lastIndexOf(".");
   if (lastDot < 0) return false;
