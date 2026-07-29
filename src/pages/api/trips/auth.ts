@@ -12,13 +12,27 @@ const TOKEN_TTL_MS = COOKIE_MAX_AGE * 1000;
 const MAX_ATTEMPTS = 5;
 const WINDOW_SEC = 60;
 
+// In-process fallback counter used when Redis is unavailable or erroring.
+// Keyed by IP; value is { count, expiresAt }.
+const fallbackCounts = new Map<string, { count: number; expiresAt: number }>();
+
+function fallbackRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = fallbackCounts.get(ip);
+  if (!entry || now > entry.expiresAt) {
+    fallbackCounts.set(ip, { count: 1, expiresAt: now + WINDOW_SEC * 1000 });
+    return true;
+  }
+  entry.count += 1;
+  return entry.count <= MAX_ATTEMPTS;
+}
+
 async function checkRateLimit(ip: string): Promise<boolean> {
   const redis = getRedis();
   if (!redis) {
-    // Fail open — the rate limiter being down must not lock out every user.
-    // Log so the outage is visible; let the attempt through.
-    console.error("Rate limiter: Redis unavailable, failing open for", ip);
-    return true;
+    // Redis not configured — use in-process counter so rate limiting still applies.
+    console.error("Rate limiter: Redis unavailable, using in-process fallback for", ip);
+    return fallbackRateLimit(ip);
   }
   try {
     const key = `ratelimit:auth:${ip}`;
@@ -26,8 +40,10 @@ async function checkRateLimit(ip: string): Promise<boolean> {
     if (count === 1) await redis.expire(key, WINDOW_SEC);
     return count <= MAX_ATTEMPTS;
   } catch (err) {
-    console.error("Rate limiter: Redis request failed, failing open for", ip, err);
-    return true;
+    // Redis is configured but erroring — fall back to in-process counter rather
+    // than failing open, so a Redis outage cannot uncork brute-force attempts.
+    console.error("Rate limiter: Redis request failed, using in-process fallback for", ip, err);
+    return fallbackRateLimit(ip);
   }
 }
 
