@@ -20,10 +20,15 @@ async function checkRateLimit(ip: string): Promise<boolean> {
     console.error("Rate limiter: Redis unavailable, failing open for", ip);
     return true;
   }
-  const key = `ratelimit:auth:${ip}`;
-  const count = await redis.incr(key);
-  if (count === 1) await redis.expire(key, WINDOW_SEC);
-  return count <= MAX_ATTEMPTS;
+  try {
+    const key = `ratelimit:auth:${ip}`;
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, WINDOW_SEC);
+    return count <= MAX_ATTEMPTS;
+  } catch (err) {
+    console.error("Rate limiter: Redis request failed, failing open for", ip, err);
+    return true;
+  }
 }
 
 export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
