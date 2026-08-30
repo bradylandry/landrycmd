@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import NetworkHero from "../components/NetworkHero.astro";
+import RoleIcon from "../components/RoleIcon.astro";
 
 const products = [
   {
@@ -51,19 +53,33 @@ const openSource = [
     article: "/writing/second-brain-for-my-ai",
   },
 ];
+
+const experience = [
+  { role: "Data Center Sustaining Engineer", org: "Cox Communications · National Data Center", period: "2021 – Present", icon: "arista" },
+  { role: "Backbone Integration Engineer", org: "Cox Communications", period: "2018 – 2021", icon: "mx2020" },
+  { role: "Regional Network Operations Engineer", org: "Cox Communications · Metro", period: "2012 – 2018", icon: "asr9k" },
+  { role: "Access Engineering", org: "Cox Communications", period: "2011 – 2012", icon: "switch" },
+  { role: "RF & IP Network Engineer", org: "AirTap · Skyrider · Detel Wireless", period: "2005 – 2011", icon: "rf" },
+];
 ---
 
 <Layout title="landrycmd | Brady Landry">
-  <section class="hero">
-    <h1>landrycmd</h1>
-    <p class="tagline">
-      Independent software shop run by Brady Landry. AI infrastructure,
-      algorithmic trading, and mobile health apps.
-    </p>
+  <section class="hero hero-net">
+    <NetworkHero />
+    <div class="hero-content">
+      <h1>landrycmd</h1>
+      <p class="tagline">
+        <span class="prompt">&gt;</span>Independent software shop run by Brady
+        Landry. AI infrastructure, algorithmic trading, and mobile health
+        apps.<span class="cursor"></span>
+      </p>
+    </div>
   </section>
 
   <section id="products">
+    <p class="kicker">// products</p>
     <h2>Products</h2>
+    <div class="node-list">
     {
       products.map((p) => (
         <div class="project">
@@ -87,10 +103,13 @@ const openSource = [
         </div>
       ))
     }
+    </div>
   </section>
 
   <section id="open-source">
+    <p class="kicker">// open source</p>
     <h2>Open source</h2>
+    <div class="node-list">
     {
       openSource.map((r) => (
         <div class="project">
@@ -111,23 +130,29 @@ const openSource = [
         </div>
       ))
     }
+    </div>
   </section>
 
   <section id="about">
+    <p class="kicker">// about</p>
     <h2>About</h2>
     <p>
-      Brady Landry is a senior network engineer with a decade in ISP-scale
-      infrastructure. His day job is building production MCP servers and
-      Claude sub-agents for an enterprise network-operations org: 11 servers
-      across the ops stack, 30+ agents enforcing IAC standards, used daily
-      for config review, change impact analysis, and migration planning.
+      Brady Landry is a network and systems architect with 20 years designing,
+      automating, and operating mission-critical infrastructure, 15 of them at
+      Cox Communications' National Data Center, where he leads Arista SP Fabric
+      migrations, Infrastructure-as-Code standards, and an AI-driven network
+      automation platform (nearly 20 MCP servers and 30+ Claude sub-agents used
+      daily for config review, change-impact analysis, and migration planning).
+      His earlier career was hands-on RF, microwave, and satellite network
+      engineering.
     </p>
     <p>
-      landrycmd is the AI engineering lab he runs outside that work. It
-      hosts production tools (Jarvis, the trading platform), open-source
-      frameworks (jarvis-ops, second-brain-template), and writing on the
-      architectural patterns that hold up in real systems.
+      landrycmd is the independent AI lab he runs outside that work: production
+      tools (Jarvis, the trading platform), open-source frameworks (jarvis-ops,
+      second-brain-template), and writing on the architectural patterns that
+      hold up in real systems.
     </p>
+    <p class="muted">Open to select architecture, AI, and solutions roles.</p>
     <p>
       <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
       &nbsp;·&nbsp;
@@ -139,7 +164,30 @@ const openSource = [
     </p>
   </section>
 
+  <section id="experience">
+    <p class="kicker">// experience</p>
+    <h2>Experience</h2>
+    <div class="node-list icons">
+    {
+      experience.map((e) => (
+        <div class="project">
+          <RoleIcon type={e.icon} />
+          <div class="project-head">
+            <h3>{e.role}</h3>
+            <span class="muted">{e.org}</span>
+            <span class="links">{e.period}</span>
+          </div>
+        </div>
+      ))
+    }
+    </div>
+    <p class="muted">
+      Full history and early career: <a href="/resume">résumé →</a>
+    </p>
+  </section>
+
   <section id="writing">
+    <p class="kicker">// writing</p>
     <h2>Writing</h2>
     <p class="muted">
       Long-form pieces on infrastructure, AI tooling, and shipping side

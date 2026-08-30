@@ -1,0 +1,79 @@
+---
+// Site-wide decorative background: faint lines with packets that bounce
+// back and forth (SVG animateMotion, keyPoints 0;1;0). No JS.
+// Fixed behind all content, pointer-events none, reduced-motion aware.
+---
+
+<div class="net-bg" aria-hidden="true">
+  <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <g class="bg-lines">
+      <line x1="0" y1="90" x2="1200" y2="90" />
+      <line x1="0" y1="250" x2="1200" y2="250" />
+      <line x1="0" y1="430" x2="1200" y2="430" />
+      <line x1="0" y1="600" x2="1200" y2="600" />
+      <line x1="0" y1="730" x2="1200" y2="730" />
+      <line x1="200" y1="0" x2="200" y2="800" />
+      <line x1="1000" y1="0" x2="1000" y2="800" />
+      <path d="M0,800 L480,0" />
+      <path d="M1200,760 L760,0" />
+    </g>
+
+    <circle r="3" class="pkt">
+      <animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M0,90 L1200,90" />
+    </circle>
+    <circle r="3" class="pkt pkt-v">
+      <animateMotion dur="8s" begin="-3s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M0,250 L1200,250" />
+    </circle>
+    <circle r="3" class="pkt">
+      <animateMotion dur="13s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M0,430 L1200,430" />
+    </circle>
+    <circle r="3" class="pkt pkt-v">
+      <animateMotion dur="9s" begin="-5s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M0,600 L1200,600" />
+    </circle>
+    <circle r="3" class="pkt">
+      <animateMotion dur="11s" begin="-2s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M0,730 L1200,730" />
+    </circle>
+    <circle r="3" class="pkt pkt-v">
+      <animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M200,0 L200,800" />
+    </circle>
+    <circle r="3" class="pkt">
+      <animateMotion dur="14s" begin="-4s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M1000,0 L1000,800" />
+    </circle>
+    <circle r="3" class="pkt pkt-v">
+      <animateMotion dur="12s" begin="-6s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" path="M0,800 L480,0" />
+    </circle>
+  </svg>
+</div>
+
+<style>
+  .net-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .net-bg svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .bg-lines line,
+  .bg-lines path {
+    stroke: var(--accent);
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.05;
+  }
+  .pkt {
+    fill: var(--accent);
+    opacity: 0.5;
+    filter: drop-shadow(0 0 5px var(--accent-glow));
+  }
+  .pkt-v {
+    fill: var(--accent-voice);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pkt { display: none; }
+  }
+</style>

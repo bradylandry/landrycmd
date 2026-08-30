@@ -1,0 +1,85 @@
+---
+// Decorative animated network topology for the hero.
+// Pure inline SVG + CSS (SMIL for packets). No JS, no dependencies.
+// Respects prefers-reduced-motion.
+---
+
+<div class="net-hero" aria-hidden="true">
+  <svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid slice" class="net-svg">
+    <g class="net-links">
+      <line x1="80" y1="60" x2="260" y2="120" />
+      <line x1="260" y1="120" x2="180" y2="210" />
+      <line x1="260" y1="120" x2="440" y2="70" />
+      <line x1="440" y1="70" x2="620" y2="130" />
+      <line x1="440" y1="70" x2="560" y2="200" />
+      <line x1="620" y1="130" x2="740" y2="60" />
+      <line x1="620" y1="130" x2="560" y2="200" />
+    </g>
+
+    <circle r="3" class="packet">
+      <animateMotion dur="4.5s" repeatCount="indefinite"
+        path="M80,60 L260,120 L440,70 L620,130 L740,60" />
+    </circle>
+    <circle r="3" class="packet packet-2">
+      <animateMotion dur="6s" repeatCount="indefinite"
+        path="M180,210 L260,120 L440,70 L560,200" />
+    </circle>
+
+    <g class="net-nodes">
+      <circle cx="80" cy="60" r="5" />
+      <circle cx="260" cy="120" r="6" />
+      <circle cx="180" cy="210" r="5" />
+      <circle cx="440" cy="70" r="7" />
+      <circle cx="620" cy="130" r="6" />
+      <circle cx="560" cy="200" r="5" />
+      <circle cx="740" cy="60" r="5" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .net-hero {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    mask-image: radial-gradient(120% 100% at 70% 30%, black 35%, transparent 80%);
+    -webkit-mask-image: radial-gradient(120% 100% at 70% 30%, black 35%, transparent 80%);
+  }
+  .net-svg {
+    width: 100%;
+    height: 100%;
+  }
+  .net-links line {
+    stroke: var(--accent);
+    stroke-width: 1;
+    opacity: 0.16;
+  }
+  .net-nodes circle {
+    fill: var(--accent);
+    opacity: 0.45;
+    animation: nodePulse 3.6s ease-in-out infinite;
+  }
+  .net-nodes circle:nth-child(even) {
+    animation-delay: 1.2s;
+  }
+  .net-nodes circle:nth-child(3n) {
+    fill: var(--accent-voice);
+    animation-delay: 0.6s;
+  }
+  .packet {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+  }
+  .packet-2 {
+    fill: var(--accent-voice);
+  }
+  @keyframes nodePulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.85; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .net-nodes circle { animation: none; opacity: 0.5; }
+    .packet { display: none; }
+  }
+</style>

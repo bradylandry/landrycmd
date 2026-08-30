@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import NetworkBackground from "../components/NetworkBackground.astro";
 
 interface Props {
   title: string;
@@ -40,12 +41,14 @@ const isPrivate = noindex || Astro.url.pathname.startsWith("/trips/");
     <title>{title}</title>
   </head>
   <body>
+    <NetworkBackground />
     <header class="site-header">
       <div class="site-header-inner">
         <a href="/" class="brand">landrycmd</a>
         <nav>
           <a href="/#products">Products</a>
           <a href="/#about">About</a>
+          <a href="/resume">Résumé</a>
           <a href="/writing/">Writing</a>
           <a href="/notes/">Notes</a>
         </nav>

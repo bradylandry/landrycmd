@@ -271,3 +271,188 @@ article.prose .meta {
     gap: 0.75rem;
   }
 }
+
+/* ── Network-map theme ─────────────────────────────────────────── */
+
+/* accent hairline under the header */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(90deg, transparent, var(--accent-glow), transparent) border-box;
+}
+
+/* keep page content above the fixed network background */
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* monospace section kicker: `// products` */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  opacity: 0.85;
+  margin: 3rem 0 0.35rem;
+}
+.kicker + h2 {
+  margin-top: 0;
+}
+
+/* hero prompt + blinking cursor */
+.hero-net {
+  position: relative;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero-net .hero-content {
+  position: relative;
+  z-index: 1;
+}
+.hero .tagline .prompt {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  margin-right: 0.4rem;
+}
+.hero .tagline .cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.05em;
+  translate: 0 2px;
+  margin-left: 4px;
+  background: var(--accent);
+  animation: caretBlink 1.1s steps(1) infinite;
+}
+@keyframes caretBlink {
+  50% { opacity: 0; }
+}
+
+/* node-rail: turns a list of .project / .role into a topology path */
+.node-list {
+  position: relative;
+  margin-top: 1rem;
+}
+.node-list > .project,
+.node-list > .role {
+  position: relative;
+  padding-left: 1.75rem;
+  border-bottom: none;
+  margin: 0;
+}
+.node-list > .project {
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+}
+.node-list > .role {
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+}
+/* the link line (spine) */
+.node-list > .project::before,
+.node-list > .role::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.node-list > *:first-child::before {
+  top: 1.35rem;
+}
+.node-list > *:last-child::before {
+  bottom: auto;
+  height: 1.35rem;
+}
+/* the node dot */
+.node-list > .project::after,
+.node-list > .role::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.15rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.node-list > .project:hover::after,
+.node-list > .role:hover::after {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* icon-as-node variant: a larger device panel replaces the plain dot */
+.node-list.icons > .project::before,
+.node-list.icons > .role::before,
+.node-list.icons > .project::after,
+.node-list.icons > .role::after {
+  display: none;
+}
+.node-list.icons > .project,
+.node-list.icons > .role {
+  padding-left: 4.5rem;
+  min-height: 3.6rem;
+}
+.role-icon {
+  position: absolute;
+  left: 0;
+  top: 0.8rem;
+  width: 52px;
+  height: 52px;
+  padding: 6px;
+  color: var(--accent);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  line-height: 0;
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.role-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.node-list.icons > .project:hover .role-icon,
+.node-list.icons > .role:hover .role-icon {
+  color: var(--accent-voice);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* blinking status LEDs on device icons */
+.role-icon .led {
+  stroke: none;
+  fill: var(--green);
+  animation: ledBlink 1.5s steps(1, end) infinite;
+}
+.role-icon .led-a {
+  fill: var(--yellow);
+}
+.role-icon .leds .led:nth-child(2n) {
+  animation-delay: 0.4s;
+}
+.role-icon .leds .led:nth-child(3n) {
+  animation-delay: 0.85s;
+}
+.role-icon .leds .led:nth-child(4n) {
+  animation-delay: 1.15s;
+}
+@keyframes ledBlink {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .role-icon .led { animation: none; opacity: 0.9; }
+}
