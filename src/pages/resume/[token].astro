@@ -1,0 +1,91 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ResumeContent from "../../components/ResumeContent.astro";
+import {
+  findApplication,
+  recordHit,
+  looksAutomated,
+  ENGAGE_DELAY_MS,
+} from "../../lib/applications";
+
+export const prerender = false;
+
+const { token } = Astro.params;
+const app = token && token.trim() ? findApplication(token) : undefined;
+
+if (!app) {
+  return new Response("Not found", { status: 404 });
+}
+
+const ua = Astro.request.headers.get("user-agent") ?? undefined;
+
+// Fire-and-forget: tracking must never delay or break the résumé render.
+await recordHit(app.token, {
+  at: Date.now(),
+  kind: "open",
+  ip: Astro.clientAddress,
+  ua,
+  ref: Astro.request.headers.get("referer") ?? undefined,
+  country: Astro.request.headers.get("x-vercel-ip-country") ?? undefined,
+  bot: looksAutomated(ua),
+});
+---
+
+<Layout
+  title="Résumé | Brady Landry"
+  description="Brady Landry, network and systems architect."
+  noindex={true}
+>
+  <ResumeContent preparedFor={app.company} disclosed={app.disclosed ?? false} />
+</Layout>
+
+<script define:vars={{ token: app.token, delay: ENGAGE_DELAY_MS }}>
+  // The engagement beacon. Link scanners fetch HTML but do not run JS, so a
+  // hit here means a real browser kept the page open. Only fires once, only
+  // while the tab is actually visible, and is best-effort throughout.
+  (function () {
+    let sent = false;
+    let elapsed = 0;
+    let last = Date.now();
+
+    function send() {
+      if (sent) return;
+      sent = true;
+      try {
+        const body = JSON.stringify({ token });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(
+            "/api/track",
+            new Blob([body], { type: "application/json" }),
+          );
+        } else {
+          fetch("/api/track", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+            keepalive: true,
+          }).catch(function () {});
+        }
+      } catch (e) {
+        /* never surface tracking failures to the visitor */
+      }
+    }
+
+    // Count only foreground time, so a background tab does not register.
+    setInterval(function () {
+      const now = Date.now();
+      if (document.visibilityState === "visible") elapsed += now - last;
+      last = now;
+      if (elapsed >= delay) send();
+    }, 1000);
+
+    // Meaningful scroll is a strong human signal; send early if it happens.
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (window.scrollY > 400) send();
+      },
+      { passive: true },
+    );
+  })();
+</script>

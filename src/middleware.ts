@@ -1,7 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
 
 const COOKIE_NAME = "trip_auth";
-const PROTECTED_PREFIX = "/trips/";
+// Routes behind the shared PIN. /applications exposes tracked-link analytics,
+// so it must never be publicly readable.
+const PROTECTED_PREFIXES = ["/trips/", "/applications"];
 const LOGIN_PATH = "/trips/login";
 const PUBLIC_TRIPS = ["/trips/starbase-2026"];
 
@@ -49,8 +51,8 @@ async function sign(payload: string, secret: string): Promise<string> {
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
-  // only gate /trips/* routes (excluding the login page itself)
-  if (!pathname.startsWith(PROTECTED_PREFIX)) return next();
+  // only gate protected routes (excluding the login page itself)
+  if (!PROTECTED_PREFIXES.some((p) => pathname.startsWith(p))) return next();
   if (pathname === LOGIN_PATH || pathname === LOGIN_PATH + "/") return next();
   if (PUBLIC_TRIPS.some(p => pathname === p || pathname === p + "/")) return next();
 

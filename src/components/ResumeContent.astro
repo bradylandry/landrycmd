@@ -1,0 +1,308 @@
+---
+import RoleIcon from "./RoleIcon.astro";
+
+interface Props {
+  preparedFor?: string;
+  /**
+   * Name the firm. ONLY ever true on unlisted, noindex /r/<token> routes sent
+   * directly to an employer. The public /resume must never set this.
+   */
+  disclosed?: boolean;
+}
+const { preparedFor, disclosed = false } = Astro.props;
+
+const summary =
+  "Network and systems architect with 20 years designing and deploying Cisco and multivendor infrastructure for Cox Communications' National Data Center, now applying the same operational discipline to production AI systems: remote MCP servers with per-user identity, agent orchestration, and retrieval over enterprise document stores. Deep hands-on experience across enterprise networking, data center, and security, plus Infrastructure-as-Code automation. Known for turning complex requirements into clear architectures and reliable, automated delivery.";
+
+const skills = [
+  {
+    label: "Networking & Routing",
+    items: "BGP, OSPF, IS-IS, MPLS, LDP, RSVP, EVPN, VXLAN, VRRP, LACP, QoS, BFD",
+  },
+  {
+    label: "Platforms",
+    items: "Cisco NX-OS / IOS-XR / IOS-XE (Nexus 9K, ASR 9K, NCS 5K, Catalyst), Arista EOS, Juniper Junos, Palo Alto PAN-OS",
+  },
+  {
+    label: "Data Center & Security",
+    items: "Spine/leaf data center fabric, BGP EVPN/VXLAN, large-scale data center migration, firewall policy design, network segmentation, multivendor interoperability",
+  },
+  {
+    label: "Automation & Cloud",
+    items: "Ansible, Python, YAML, Jinja2, Git, AWX, CloudVision (CVP); Azure (Container Apps, Container Registry, Key Vault, Managed Identity, Entra ID) and Microsoft 365; working knowledge of AWS and Google Cloud",
+  },
+  {
+    label: "Applied AI",
+    items: "LLM/RAG assistants, retrieval over Microsoft Graph with semantic search, eval harnesses and eval-driven development, model routing and prompt caching for cost control; Claude, Gemini, GPT, plus open-weight models via Ollama / NVIDIA NIM",
+  },
+  {
+    label: "Agents & MCP",
+    items: "MCP server design (remote Streamable HTTP and stdio, tool schema design), OAuth 2.1 / Entra ID per-user authorization, agent orchestration with Claude Code skills, subagents, and hooks; Azure Container Apps, Azure AI Foundry, Microsoft Agent Framework",
+  },
+];
+
+const experience = [
+  {
+    role: disclosed
+      ? "Co-Founder & Technical Solutions Lead"
+      : "Independent AI & Infrastructure Engineer",
+    org: disclosed ? "ACADIANA TEK LLC · landrycmd" : "landrycmd",
+    period: "2026 – Present",
+    icon: "agent",
+    bullets: [
+      "Designed and shipped remote MCP servers on Azure Container Apps using per-user Microsoft Entra OAuth, replacing shared static API tokens with individually revocable, identity-scoped access.",
+      "Built a reusable agent chassis: a common tool, authorization, and telemetry layer that new agent deployments inherit rather than reimplement.",
+      "Built a retrieval layer over a Microsoft 365 document library (Graph API + semantic search), exposed to LLM clients as governed read and write tools.",
+      "Wrote a static-analysis security auditor for MCP server packages that produces a capability map, risk findings, and a 0–10 score without executing the audited code.",
+      "Published open-source AI infrastructure: mcp-audit, jarvis-trading-mcp, and second-brain-template.",
+      ...(disclosed
+        ? [
+            "Co-founded a two-person AI consulting practice delivering these systems to clients under contract, owning discovery, scoping, architecture, delivery, and support.",
+          ]
+        : []),
+    ],
+  },
+  {
+    role: "Data Center Sustaining Engineer",
+    org: "Cox Communications · National Data Center",
+    period: "2021 – Present",
+    icon: "arista",
+    bullets: [
+      "Built an AI-driven network automation platform integrating Claude with custom MCP servers across ServiceNow, Nautobot, AWX, Forward Networks, and IPControl, replacing manual change workflows across the national data center.",
+      "Designed the Infrastructure-as-Code pipeline for the Arista data center fabric (Ansible + YAML); wrote the standards and validation framework the broader engineering team adopted.",
+      "Led the national data center migration from legacy platforms to an Arista spine/leaf fabric across BGP, IS-IS, EVPN/VXLAN, QoS, LACP, and VRRP, spanning Arista, Juniper, and Cisco in one estate.",
+      "Led the migration of 60+ routers into a new regional data center in New Orleans with zero downtime, owning architecture, cutover planning, and implementation.",
+      "Built a Retrieval-Augmented Generation (RAG) knowledge base (Microsoft Graph API + semantic search) for source-linked runbooks and change documentation.",
+      "Redesigned the Firewall Rule Request workflow, reducing a critical operational backlog by 80%.",
+      "Established Ansible automation standards and automated MOP generation, cutting deployment time and giving the operations team a repeatable playbook.",
+      "Wrote Python and Ansible automation to streamline device onboarding into the MINT inventory system, keeping it in sync with the IaC inventory across large-scale data center migrations.",
+      "Led code testing on Juniper QFX using the IXIA platform for packet generation and validation of network performance under load.",
+    ],
+  },
+  {
+    role: "Backbone Integration Engineer",
+    org: "Cox Communications",
+    period: "2018 – 2021",
+    icon: "mx2020",
+    bullets: [
+      "Led A10 Networks carrier-grade NAT deployments across every regional data center using Ansible-generated configurations.",
+      "Upgraded code across every Juniper MX router on the national IP backbone; led Cisco NCS upgrades across all regional caching centers.",
+      "Deployed Juniper PTX10k and Cisco Nexus switches across regional data centers, plus MPC9 line cards in MX2010 chassis.",
+      "Co-authored the Ansible automation standards for the national IP backbone; ran failover testing; provided Tier IV escalation support.",
+    ],
+  },
+  {
+    role: "Regional Network Operations Engineer",
+    org: "Cox Communications · Metro",
+    period: "2012 – 2018",
+    icon: "asr9k",
+    bullets: [
+      "Led the IGP conversion from OSPF to IS-IS across Greater Louisiana.",
+      "Led re-IP and standardization projects across Greater Louisiana, New Orleans, the Gulf Coast, Gainesville, and Macon.",
+      "Led multiple teams on 7609 → ASR 9k and ASR 9k → Nexus 9k migrations; deployed NCS 5k routers.",
+    ],
+  },
+  {
+    role: "Access Engineering",
+    org: "Cox Communications",
+    period: "2011 – 2012",
+    icon: "switch",
+    bullets: [
+      "Led the DOCSIS 3.0 / CMTS upgrade to improve cable-modem service across the GLA market.",
+      "Implemented corporate network standards for emerging technologies (L2 MPLS, IPv6).",
+      "Owned problem resolution for Cox Business and residential customers.",
+    ],
+  },
+];
+
+const early = [
+  {
+    role: "Network Engineer",
+    org: "AirTap Communications · Lafayette, LA",
+    period: "2010 – 2011",
+    icon: "rf",
+    bullets: [
+      "Designed IP-routed and MPLS technologies over a complex microwave infrastructure.",
+      "Obtained ARIN public IP allocations and BGP ASN; implemented multihomed BGP.",
+      "Operated VoIP (Cisco Call Manager / PRI), 11 GHz licensed microwave, 3.65 GHz WiMAX, and iDirect satellite systems.",
+    ],
+  },
+  {
+    role: "Network Administrator",
+    org: "Vision Logistics",
+    period: "2008 – 2010",
+    icon: "datacenter",
+    bullets: [
+      "Built and supported 80 virtual servers on VMware 4.0 (Citrix, Exchange 2007, SharePoint, Windows 2008 Domain Controllers).",
+      "Led the Exchange 2007 deployment and migration.",
+    ],
+  },
+  {
+    role: "Network & RF Engineer",
+    org: "Skyrider Communications · West Monroe, LA",
+    period: "2007 – 2008",
+    icon: "rf",
+    bullets: [
+      "Designed and installed IP-routed networks (BGP, OSPF, Spanning Tree, VPN) for redundancy and load balancing.",
+      "Deployed and maintained licensed and unlicensed wireless networks.",
+    ],
+  },
+  {
+    role: "Network & RF Engineer",
+    org: "Detel Wireless · Hessmer, LA",
+    period: "2005 – 2007",
+    icon: "rf",
+    bullets: [
+      "Project manager for the Lafayette and Evangeline Parish school-district network maintenance contracts.",
+      "Deployed and maintained microwave links; supported New Orleans recovery efforts.",
+    ],
+  },
+  {
+    role: "Computer Technician 2",
+    org: "Iberia Parish School Board · New Iberia, LA",
+    period: "2003 – 2005",
+    icon: "desktop",
+    bullets: [
+      "Supported ~5,000 computers and 36 servers across the parish school district.",
+      "Maintained computer labs running Windows 2000 Server.",
+      "Upgraded servers from Windows NT to Windows 2000.",
+      "Supported Novell labs running IPX/SPX networking.",
+      "Resolved day-to-day desktop support tickets.",
+    ],
+  },
+];
+---
+
+  <section class="hero">
+    <h1>Brady Landry</h1>
+    <p class="tagline"><span class="prompt">&gt;</span>Network & Systems Architect · Louisiana, USA<span class="cursor"></span></p>
+    {preparedFor && <p class="prepared-for">Prepared for {preparedFor}</p>}
+    <p class="contact-line">Lafayette, LA &nbsp;·&nbsp; (504) 444-9010 &nbsp;·&nbsp; bjlandry@gmail.com &nbsp;·&nbsp; landrycmd.com</p>
+    <p class="links">
+      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:support@landrycmd.com">Email</a>
+    </p>
+  </section>
+
+  <section id="summary">
+    <p class="kicker">// summary</p>
+    <h2>Summary</h2>
+    <p>{summary}</p>
+  </section>
+
+  <section id="skills">
+    <p class="kicker">// skills</p>
+    <h2>Skills</h2>
+    {
+      skills.map((s) => (
+        <p class="skill-row">
+          <strong>{s.label}:</strong> {s.items}
+        </p>
+      ))
+    }
+  </section>
+
+  <section id="experience">
+    <p class="kicker">// experience</p>
+    <h2>Experience</h2>
+    <div class="node-list icons">
+    {
+      experience.map((e) => (
+        <div class="role">
+          <RoleIcon type={e.icon} />
+          <div class="project-head">
+            <h3>{e.role}</h3>
+            <span class="muted">{e.org}</span>
+            <span class="links">{e.period}</span>
+          </div>
+          <ul>
+            {e.bullets.map((b) => (
+              <li>{b}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+    </div>
+  </section>
+
+  <section id="early-career">
+    <details>
+      <summary>Early career (2003 – 2011)</summary>
+      <div class="node-list icons">
+      {
+        early.map((e) => (
+          <div class="role">
+            <RoleIcon type={e.icon} />
+            <div class="project-head">
+              <h3>{e.role}</h3>
+              <span class="muted">{e.org}</span>
+              <span class="links">{e.period}</span>
+            </div>
+            {e.bullets.length > 0 && (
+              <ul>
+                {e.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))
+      }
+      </div>
+    </details>
+  </section>
+
+  <section id="education">
+    <p class="kicker">// education</p>
+    <h2>Education & Training</h2>
+    <p class="skill-row">
+      <strong>Louisiana Technical College</strong>, Network Administration (2000 – 2002)
+    </p>
+    <p class="skill-row">
+      <strong>Certifications:</strong> CCNA, CCNP (expired 2022)
+    </p>
+  </section>
+
+<style>
+  .skill-row {
+    margin: 0.4rem 0;
+    line-height: 1.5;
+  }
+  .role {
+    margin: 0;
+  }
+  .role ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.2rem;
+  }
+  .role li {
+    margin: 0.3rem 0;
+    line-height: 1.5;
+  }
+  details {
+    margin-top: 0.5rem;
+  }
+  details summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.4rem 0;
+  }
+  details[open] summary {
+    margin-bottom: 0.5rem;
+  }
+  .contact-line {
+    margin: 0.4rem 0 0;
+    font-size: 0.9rem;
+  }
+  .prepared-for {
+    margin: 0.4rem 0 0;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.85rem;
+    color: var(--accent);
+    opacity: 0.85;
+  }
+</style>

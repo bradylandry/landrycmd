@@ -2,3 +2,10 @@ User-agent: *
 Allow: /
 Disallow: /trips/
 Disallow: /api/trips/
+Disallow: /applications
+
+# Tokenized résumé links (/resume/<company>-<random>) are intentionally NOT
+# disallowed here. They carry noindex,nofollow,noarchive, and a robots.txt
+# Disallow would stop crawlers from ever reading that tag, which is what causes
+# URL-only indexing when a page gets linked. A blanket "Disallow: /resume/"
+# would also deindex the public résumé, which is served at /resume/.

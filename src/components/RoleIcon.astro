@@ -1,7 +1,7 @@
 ---
 // Role glyph used as the node marker on experience rails.
 // Device types (arista / mx2020 / asr9k) render with blinking status LEDs.
-// type: arista | mx2020 | asr9k | switch | rf | datacenter | desktop
+// type: arista | mx2020 | asr9k | switch | rf | datacenter | desktop | agent
 const { type } = Astro.props;
 ---
 
@@ -93,6 +93,19 @@ const { type } = Astro.props;
       <rect x="3" y="14" width="18" height="6" rx="1.5" />
       <line x1="7" y1="7" x2="7.01" y2="7" />
       <line x1="7" y1="17" x2="7.01" y2="17" />
+    </svg>
+  )}
+  {type === "agent" && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="12" x2="5" y2="6" />
+      <line x1="12" y1="12" x2="19" y2="8" />
+      <line x1="12" y1="12" x2="7" y2="19" />
+      <line x1="12" y1="12" x2="18" y2="18" />
+      <circle cx="5" cy="6" r="1.5" />
+      <circle cx="19" cy="8" r="1.5" />
+      <circle cx="7" cy="19" r="1.5" />
+      <circle cx="18" cy="18" r="1.5" />
+      <circle class="core" cx="12" cy="12" r="3.2" />
     </svg>
   )}
   {type === "desktop" && (

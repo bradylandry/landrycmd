@@ -47,7 +47,7 @@ This is where the Mac mini and the free APIs earn their keep.
 
 I run it via Ollama (the easy path) and call it from inside Claude Code as a subagent or via a simple OpenAI-compatible HTTP wrapper. Two patterns I use it for constantly:
 
-1. **Background loops.** My [jarvis-ops triage framework](https://github.com/bradylandry/jarvis-ops) runs monitoring checks every 60 seconds and uses the local model to investigate anomalies that don't match a known runbook entry. Free, infinite calls, no rate limit.
+1. **Background loops.** My jarvis-ops triage framework runs monitoring checks every 60 seconds and uses the local model to investigate anomalies that don't match a known runbook entry. Free, infinite calls, no rate limit.
 2. **Code generation that doesn't need to be perfect.** Strategy boilerplate, test fixtures, peptide data entries. I prompt the local model first, then have Claude review the output. Two-pass: cheap generate, expensive review. The economics of that flip is what makes the whole thing work.
 
 [Ollama now ships with MLX acceleration](https://9to5mac.com/2026/03/31/ollama-adopts-mlx-for-faster-ai-performance-on-apple-silicon-macs/) on Apple Silicon, which roughly doubles throughput on Macs vs. their previous llama.cpp backend.
@@ -113,7 +113,7 @@ I keep my subagents in a `jarvis-ops/agents/` directory and symlink them into `~
 
 Notice the model split: structured generation goes to NIM (Kimi has the best instruction-following I've tested for code at the free tier), and high-volume / fast-feedback tasks go local (review every diff, every commit message, all running constantly with no tolerance for rate limits).
 
-The whole `agents/` directory is in [bradylandry/jarvis-ops](https://github.com/bradylandry/jarvis-ops/tree/main/agents) if you want to lift the format. Each file is ~50 lines and contains everything Claude needs to dispatch correctly: when to use the agent, what model, which tools it can touch, and the project conventions it must follow.
+The whole `agents/` directory lives in jarvis-ops if you want to lift the format. Each file is ~50 lines and contains everything Claude needs to dispatch correctly: when to use the agent, what model, which tools it can touch, and the project conventions it must follow.
 
 ## How this actually saves money
 

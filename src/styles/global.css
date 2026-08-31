@@ -453,6 +453,17 @@ main,
   0%, 100% { opacity: 0.2; }
   50% { opacity: 1; }
 }
+
+.role-icon .core {
+  fill: var(--accent-glow);
+  animation: corePulse 3.2s ease-in-out infinite;
+}
+@keyframes corePulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.7; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .role-icon .led { animation: none; opacity: 0.9; }
+  .role-icon .core { animation: none; opacity: 0.45; }
 }

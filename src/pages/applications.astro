@@ -1,0 +1,148 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  APPLICATIONS,
+  getHits,
+  shortUA,
+  type Hit,
+} from "../lib/applications";
+
+export const prerender = false;
+
+function fmt(ts: number): string {
+  return new Date(ts).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/Chicago",
+  });
+}
+
+const rows = await Promise.all(
+  APPLICATIONS.map(async (app) => {
+    const hits = await getHits(app.token);
+    const engaged = hits.filter((h) => h.kind === "engaged" && !h.bot);
+    const opens = hits.filter((h) => h.kind === "open");
+    const human = opens.filter((h) => !h.bot);
+    return { app, hits, engaged, opens, human };
+  }),
+);
+---
+
+<Layout title="Applications | landrycmd" noindex={true}>
+  <section class="hero">
+    <h1>Applications</h1>
+    <p class="tagline">
+      <span class="prompt">&gt;</span>Tracked résumé links<span class="cursor"></span>
+    </p>
+  </section>
+
+  <section>
+    <p class="kicker">// tracked links</p>
+    {
+      rows.map(({ app, hits, engaged, opens, human }) => (
+        <div class="app-card">
+          <div class="project-head">
+            <h3>{app.company}</h3>
+            <span class="muted">{app.role}</span>
+            <span class="links">sent {app.sent}</span>
+          </div>
+
+          <p class="app-url">
+            <code>https://landrycmd.com/resume/{app.token}</code>
+          </p>
+
+          <p class="counts">
+            <strong>{engaged.length}</strong> engaged
+            &nbsp;·&nbsp; {human.length} human opens
+            &nbsp;·&nbsp; <span class="muted">{opens.length} total opens</span>
+          </p>
+
+          {hits.length === 0 ? (
+            <p class="muted">No hits yet.</p>
+          ) : (
+            <div class="hit-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>When</th>
+                    <th>Kind</th>
+                    <th>Country</th>
+                    <th>IP</th>
+                    <th>User agent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {hits.map((h: Hit) => (
+                    <tr class={h.bot ? "bot" : h.kind === "engaged" ? "engaged" : ""}>
+                      <td>{fmt(h.at)}</td>
+                      <td>{h.bot ? "automated" : h.kind}</td>
+                      <td>{h.country ?? "-"}</td>
+                      <td>{h.ip ?? "-"}</td>
+                      <td class="ua">{shortUA(h.ua)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ))
+    }
+  </section>
+
+  <section>
+    <p class="muted">
+      "Engaged" means a real browser held the page in the foreground for 12
+      seconds or scrolled past 400px. Mail scanners fetch HTML but do not run
+      JavaScript, so they appear as opens and never as engaged. Read the
+      engaged column; treat opens as noise.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .app-card {
+    margin: 0 0 2rem;
+  }
+  .app-url code {
+    font-size: 0.85rem;
+    word-break: break-all;
+  }
+  .counts {
+    margin: 0.5rem 0;
+  }
+  .counts strong {
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+  .hit-scroll {
+    overflow-x: auto;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.8rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 0.3rem 0.6rem 0.3rem 0;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--rule, rgba(127, 127, 127, 0.2));
+  }
+  tr.bot {
+    opacity: 0.4;
+  }
+  tr.engaged td {
+    color: var(--accent);
+  }
+  td.ua {
+    white-space: normal;
+    word-break: break-word;
+    min-width: 18rem;
+  }
+</style>
