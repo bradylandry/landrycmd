@@ -49,9 +49,14 @@ const rows = await Promise.all(
             <span class="links">{app.status} · {app.sent}{app.req ? ` · req ${app.req}` : ""}</span>
           </div>
 
-          <p class="app-url">
-            <code>https://landrycmd.com/resume/{app.token}</code>
-          </p>
+          {app.token ? (
+            <p class="app-url">
+              <code>https://landrycmd.com/resume/{app.token}</code>
+            </p>
+          ) : (
+            <p class="muted">No tracked link (recorded before tracking existed).</p>
+          )}
+          {app.note && <p class="muted">{app.note}</p>}
 
           <p class="counts">
             <strong>{engaged.length}</strong> engaged

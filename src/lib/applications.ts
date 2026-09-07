@@ -23,7 +23,11 @@ import { getRedis } from "./redis";
  */
 
 export interface Application {
-  token: string;
+  /**
+   * Tracked-link token. Omit for historical entries recorded before the
+   * tracking system existed; those are records only, with no live URL.
+   */
+  token?: string;
   company: string;
   role: string;
   /** ISO date the link was sent, or the date it was prepared if not yet sent */
@@ -32,6 +36,8 @@ export interface Application {
   status: "prepared" | "applied" | "rejected";
   /** Requisition number, so a re-application is obvious */
   req?: string;
+  /** Free-text outcome or context */
+  note?: string;
   url?: string;
   /** Name ACADIANA TEK on this application's résumé. Unlisted routes only. */
   disclosed?: boolean;
@@ -47,9 +53,26 @@ export const APPLICATIONS: Application[] = [
     url: "https://jobs.exxonmobil.com/job/Spring-IT-Network-Engineer-Expert-TX-77389/1424527100/",
     disclosed: true,
   },
+  {
+    company: "Cisco",
+    role: "Solutions Engineer, US Commercial, Louisiana",
+    req: "2018825",
+    sent: "2026-08-11",
+    status: "rejected",
+    note: "Rejected 2026-08-28. Applied with the pre-sales résumé and the Cisco-specific cover letter.",
+  },
+  {
+    company: "NVIDIA",
+    role: "Senior Network Engineer",
+    req: "JR2002991",
+    sent: "2025-10-03",
+    status: "applied",
+    note: "Application confirmed received; no outcome on record.",
+  },
 ];
 
 export function findApplication(token: string): Application | undefined {
+  if (!token) return undefined;
   return APPLICATIONS.find((a) => a.token === token);
 }
 
