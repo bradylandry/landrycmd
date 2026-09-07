@@ -26,8 +26,12 @@ export interface Application {
   token: string;
   company: string;
   role: string;
-  /** ISO date the link was sent, for reading the timeline */
+  /** ISO date the link was sent, or the date it was prepared if not yet sent */
   sent: string;
+  /** "prepared" = link exists but nothing submitted yet. Keep this honest. */
+  status: "prepared" | "applied" | "rejected";
+  /** Requisition number, so a re-application is obvious */
+  req?: string;
   url?: string;
   /** Name ACADIANA TEK on this application's résumé. Unlisted routes only. */
   disclosed?: boolean;
@@ -39,6 +43,7 @@ export const APPLICATIONS: Application[] = [
     company: "ExxonMobil",
     role: "IT Network Engineer - Expert (Spring, TX)",
     sent: "2026-08-30",
+    status: "prepared",
     url: "https://jobs.exxonmobil.com/job/Spring-IT-Network-Engineer-Expert-TX-77389/1424527100/",
     disclosed: true,
   },

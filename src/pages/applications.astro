@@ -46,7 +46,7 @@ const rows = await Promise.all(
           <div class="project-head">
             <h3>{app.company}</h3>
             <span class="muted">{app.role}</span>
-            <span class="links">sent {app.sent}</span>
+            <span class="links">{app.status} · {app.sent}{app.req ? ` · req ${app.req}` : ""}</span>
           </div>
 
           <p class="app-url">
