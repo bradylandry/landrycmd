@@ -45,6 +45,17 @@ export interface Application {
 
 export const APPLICATIONS: Application[] = [
   {
+    token: "nokia-wfkwth",
+    company: "Nokia",
+    role: "Technical Sales Engineer, Tier 1 Service Provider Solutions",
+    req: "38075",
+    sent: "2026-09-07",
+    status: "prepared",
+    url: "https://jobs.nokia.com/en/sites/CX_1/job/38075",
+    disclosed: true,
+    note: "Pre-sales. Hybrid, US, exact location unconfirmed. Strong match on Tier 1 backbone and mobile backhaul; optical is the gap.",
+  },
+  {
     token: "exxon-39fi23",
     company: "ExxonMobil",
     role: "IT Network Engineer - Expert (Spring, TX)",
