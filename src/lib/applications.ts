@@ -49,7 +49,7 @@ export const APPLICATIONS: Application[] = [
     company: "Oracle",
     role: "Network Developer 4, OCI AI Infrastructure Network Operations",
     sent: "2026-09-09",
-    status: "prepared",
+    status: "applied",
     url: "https://www.linkedin.com/jobs/view/4426464795/",
     disclosed: true,
     note: "Listed Chesapeake VA but posted as remote per the live listing (not visible in scraped text, confirm in writing before accepting). $102.3k-$209.5k. Strong technical match; RDMA/RoCE is the gap. If remote holds, this avoids the May 2027 relocation constraint entirely.",
