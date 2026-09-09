@@ -52,7 +52,7 @@ export const APPLICATIONS: Application[] = [
     status: "prepared",
     url: "https://www.linkedin.com/jobs/view/4426464795/",
     disclosed: true,
-    note: "Chesapeake VA, $102.3k-$209.5k. Strong technical match; RDMA/RoCE is the gap. Location is outside the relocation analysis and conflicts with the May 2027 constraint.",
+    note: "Listed Chesapeake VA but posted as remote per the live listing (not visible in scraped text, confirm in writing before accepting). $102.3k-$209.5k. Strong technical match; RDMA/RoCE is the gap. If remote holds, this avoids the May 2027 relocation constraint entirely.",
   },
   {
     company: "RapidScale (Charter / Spectrum)",
