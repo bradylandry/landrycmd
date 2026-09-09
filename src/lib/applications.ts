@@ -56,7 +56,7 @@ export const APPLICATIONS: Application[] = [
     status: "applied",
     url: "https://www.linkedin.com/jobs/view/4426464795/",
     disclosed: true,
-    note: "Listed Chesapeake VA but posted as remote per the live listing (not visible in scraped text, confirm in writing before accepting). $102.3k-$209.5k. Strong technical match; RDMA/RoCE is the gap. If remote holds, this avoids the May 2027 relocation constraint entirely.",
+    note: "Remote, United States, full-time. Confirmed from the live listing: LinkedIn shows a Remote chip and the location reads United States, not Chesapeake. Reposted the same day it was applied to. $102.3k-$209.5k plus bonus and equity. Closest technical match of the search; RDMA/RoCE is the only real gap. Being remote, it avoids the May 2027 relocation constraint entirely. Still get remote status into any written offer.",
   },
   {
     company: "RapidScale (Charter / Spectrum)",
