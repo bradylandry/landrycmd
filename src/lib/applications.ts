@@ -45,6 +45,16 @@ export interface Application {
 
 export const APPLICATIONS: Application[] = [
   {
+    token: "oracle-zsm2ln",
+    company: "Oracle",
+    role: "Network Developer 4, OCI AI Infrastructure Network Operations",
+    sent: "2026-09-09",
+    status: "prepared",
+    url: "https://www.linkedin.com/jobs/view/4426464795/",
+    disclosed: true,
+    note: "Chesapeake VA, $102.3k-$209.5k. Strong technical match; RDMA/RoCE is the gap. Location is outside the relocation analysis and conflicts with the May 2027 constraint.",
+  },
+  {
     company: "RapidScale (Charter / Spectrum)",
     role: "Senior AI Solutions Architect",
     sent: "2026-09-09",
