@@ -32,8 +32,12 @@ export interface Application {
   role: string;
   /** ISO date the link was sent, or the date it was prepared if not yet sent */
   sent: string;
-  /** "prepared" = link exists but nothing submitted yet. Keep this honest. */
-  status: "prepared" | "applied" | "rejected";
+  /**
+   * "prepared" = documents exist, nothing submitted yet.
+   * "held"     = deliberately not submitting, with the reason in `note`.
+   * Keep this honest; the tracker is worthless if it overstates.
+   */
+  status: "prepared" | "held" | "applied" | "rejected";
   /** Requisition number, so a re-application is obvious */
   req?: string;
   /** Free-text outcome or context */
@@ -77,7 +81,8 @@ export const APPLICATIONS: Application[] = [
     company: "ExxonMobil",
     role: "IT Network Engineer - Expert (Spring, TX)",
     sent: "2026-08-30",
-    status: "prepared",
+    status: "held",
+    note: "Held 2026-09-09. Spring TX is onsite, and a move before May 2027 costs Blake her senior season, her graduating class and likely her TOPS award. Documents and tracked link are built if that calculus changes after May 2027.",
     url: "https://jobs.exxonmobil.com/job/Spring-IT-Network-Engineer-Expert-TX-77389/1424527100/",
     disclosed: true,
   },
