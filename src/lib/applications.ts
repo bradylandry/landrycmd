@@ -45,6 +45,13 @@ export interface Application {
 
 export const APPLICATIONS: Application[] = [
   {
+    company: "RapidScale (Charter / Spectrum)",
+    role: "Senior AI Solutions Architect",
+    sent: "2026-09-09",
+    status: "applied",
+    note: "Internal application: RapidScale came under Charter with the Aug 2026 Cox merger, so the reader is the current employer. Documents omit the firm entirely (disclosure: forbidden). No tracked link, deliberately.",
+  },
+  {
     token: "nokia-wfkwth",
     company: "Nokia",
     role: "Technical Sales Engineer, Tier 1 Service Provider Solutions",
