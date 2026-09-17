@@ -66,6 +66,9 @@ python3 -c "import secrets,string;a=string.ascii_lowercase+string.digits;\
 ```
 
 Hits land in Redis under `app:hits:<token>` and are viewable at `/applications`,
-which sits behind the same PIN as `/trips/*`. Read the "engaged" count, not
-"opens": corporate mail scanners fetch the HTML but do not run JavaScript, so
-only engaged reflects a human.
+which is gated by its own `APPS_PIN` — deliberately not the `TRIP_PIN` handed
+out to family for trip voting, since this page renders the private notes on
+every application. Leaving `APPS_PIN` unset falls back to `TRIP_PIN`, so set it
+in Vercel to actually separate the two. Read the "engaged" count, not "opens":
+corporate mail scanners fetch the HTML but do not run JavaScript, so only
+engaged reflects a human.

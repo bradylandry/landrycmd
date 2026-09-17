@@ -52,6 +52,7 @@ export const APPLICATIONS: Application[] = [
     token: "oracle-zsm2ln",
     company: "Oracle",
     role: "Network Developer 4, OCI AI Infrastructure Network Operations",
+    req: "336300",
     sent: "2026-09-09",
     status: "applied",
     url: "https://www.linkedin.com/jobs/view/4426464795/",
