@@ -45,6 +45,8 @@ export interface Application {
   url?: string;
   /** Name ACADIANA TEK on this application's résumé. Unlisted routes only. */
   disclosed?: boolean;
+  /** Public /resume is network. Nokia TSE packets use presales. */
+  variant?: "network" | "presales";
 }
 
 export const APPLICATIONS: Application[] = [
@@ -74,6 +76,7 @@ export const APPLICATIONS: Application[] = [
     status: "applied",
     url: "https://jobs.nokia.com/en/sites/CX_1/job/38075",
     disclosed: true,
+    variant: "presales",
     note: "Pre-sales. Hybrid, US, exact location unconfirmed. Strong match on Tier 1 backbone and mobile backhaul; optical is the gap.",
   },
   {

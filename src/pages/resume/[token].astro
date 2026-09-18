@@ -36,7 +36,7 @@ await recordHit(app.token, {
   description="Brady Landry, network and systems architect."
   noindex={true}
 >
-  <ResumeContent preparedFor={app.company} disclosed={app.disclosed ?? false} />
+  <ResumeContent preparedFor={app.company} disclosed={app.disclosed ?? false} variant={app.variant ?? "network"} />
 </Layout>
 
 <script define:vars={{ token: app.token, delay: ENGAGE_DELAY_MS }}>
