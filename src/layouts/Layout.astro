@@ -8,7 +8,7 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description = "Independent software shop. AI infrastructure, algorithmic trading, and mobile health apps. Run by Brady Landry.", noindex = false } = Astro.props;
+const { title, description = "Public AI lab: production agents, MCP servers, and retrieval systems. Run by Brady Landry, a network architect with 20 years in service-provider infrastructure.", noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const isPrivate = noindex || Astro.url.pathname.startsWith("/trips/");
 ---
@@ -46,8 +46,8 @@ const isPrivate = noindex || Astro.url.pathname.startsWith("/trips/");
       <div class="site-header-inner">
         <a href="/" class="brand">landrycmd</a>
         <nav>
-          <a href="/#products">Products</a>
           <a href="/#about">About</a>
+          <a href="/#lab">Lab</a>
           <a href="/resume">Résumé</a>
           <a href="/writing/">Writing</a>
         </nav>

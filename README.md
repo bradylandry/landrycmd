@@ -1,6 +1,8 @@
 # landrycmd
 
-Source for [landrycmd.com](https://landrycmd.com), an independent software shop run by Brady Landry. AI infrastructure, algorithmic trading, and mobile health apps.
+Source for [landrycmd.com](https://landrycmd.com), Brady Landry's public AI lab.
+The Cox/Spectrum automation platform stays internal; this site is the work you
+can inspect: agents, MCP servers, and retrieval systems.
 
 ## Stack
 

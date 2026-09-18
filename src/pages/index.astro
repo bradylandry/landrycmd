@@ -3,127 +3,87 @@ import Layout from "../layouts/Layout.astro";
 import NetworkHero from "../components/NetworkHero.astro";
 import RoleIcon from "../components/RoleIcon.astro";
 
-const products = [
-  {
-    name: "Jarvis Quant",
-    tagline: "Algorithmic trading platform",
-    description:
-      "A 21-strategy paper-trading system with dual-portfolio A/B testing between algorithmic and LLM-driven decision engines. FastAPI + APScheduler, Kelly-sized positions, Bayesian confidence scoring, and a weekly AI reviewer that scores strategies against each other.",
-    live: "https://trading.landrycmd.com",
-    github: null,
-  },
+const lab = [
   {
     name: "Jarvis",
-    tagline: "Personal AI assistant: voice, chat, iOS",
+    tagline: "Multi-model agent, 20+ tools, Azure",
     description:
-      "Multi-model orchestration across DeepSeek R1 (NVIDIA NIM), Gemini Live, Grok Vision, and others. 20+ tools spanning calendar, email, trading, smart home, and journal. FastAPI backend + Expo iOS app + Firestore sync, deployed on Azure.",
+      "The public stand-in for production agent work I cannot publish from a service-provider data center. Per-user identity, tool orchestration across calendar, email, and ops systems, and model routing across DeepSeek R1 (NVIDIA NIM), Gemini Live, Grok Vision, Claude, and GPT. FastAPI on Azure, Expo iOS, Firestore sync.",
     live: "https://jarvis.landrycmd.com",
     github: null,
   },
   {
-    name: "PeptideTracker",
-    tagline: "Health-tracking mobile + web app",
+    name: "Jarvis Quant",
+    tagline: "Agent orchestration testbed",
     description:
-      "Peptide reconstitution math, dose logging with injection-site rotation, inventory tracking, and shareable protocols for community reach. Firebase Auth + Firestore + Expo (iOS + web). Live at peptidetrackers.com.",
-    live: "https://peptidetrackers.com",
+      "A 21-strategy paper-trading lab used to test the same problems a customer AI deployment hits: dual-portfolio A/B testing, cost-aware model routing, eval loops, and a weekly reviewer that scores strategies against each other. Not a product pitch. A working harness.",
+    live: "https://trading.landrycmd.com",
     github: null,
   },
+];
+
+const shipped = [
   {
     name: "ACT Prep",
-    tagline: "Test-prep app built for Louisiana's TOPS scholarship",
+    tagline: "Shipped app · act.landrycmd.com",
     description:
-      "Adaptive ACT exam prep optimized for the score thresholds that unlock Louisiana's TOPS scholarship ($44K+ over four years). Built on the FSRS spaced-repetition algorithm with an AI tutor for personalized study paths. Firebase Auth + Expo web, live at act.landrycmd.com.",
+      "Adaptive ACT prep for Louisiana TOPS thresholds, FSRS spaced repetition, AI tutor. Proof I will take a system to a real user, not stop at a demo.",
     live: "https://act.landrycmd.com",
-    github: null,
+  },
+  {
+    name: "PeptideTracker",
+    tagline: "Shipped app · peptidetrackers.com",
+    description:
+      "Mobile and web logging with auth, inventory, and shareable protocols. Same reason: live users, not a slide.",
+    live: "https://peptidetrackers.com",
   },
 ];
 
 const openSource = [
   {
+    name: "mcp-audit",
+    description:
+      "Static-analysis security auditor for MCP server packages. Capability map, risk findings, and a score without executing the audited code. The artifact I can show when a customer asks what a third-party agent is allowed to do.",
+    repo: "https://github.com/bradylandry/mcp-audit",
+  },
+  {
+    name: "jarvis-trading-mcp",
+    description:
+      "Remote MCP server for the trading lab: Streamable HTTP, per-user authorization, tool schemas. The public cousin of the MCP servers I run against internal systems at work.",
+    repo: "https://github.com/bradylandry/jarvis-trading-mcp",
+  },
+  {
     name: "second-brain-template",
     description:
-      "AI-friendly personal knowledge vault template. Works with Claude Code, Cursor, Continue.dev, Claude Projects, or any AI. Includes /braindump workflow and 6-lens research system.",
+      "Markdown vault that AI tools can read and write. Folder contracts, frontmatter, /braindump. The write-up is the best explanation of how I actually work.",
     repo: "https://github.com/bradylandry/second-brain-template",
     article: "/writing/second-brain-for-my-ai",
   },
 ];
 
 const experience = [
-  { role: "Data Center Sustaining Engineer", org: "Cox Communications · National Data Center", period: "2021 – Present", icon: "arista" },
-  { role: "Backbone Integration Engineer", org: "Cox Communications", period: "2018 – 2021", icon: "mx2020" },
-  { role: "Regional Network Operations Engineer", org: "Cox Communications · Metro", period: "2012 – 2018", icon: "asr9k" },
-  { role: "Access Engineering", org: "Cox Communications", period: "2011 – 2012", icon: "switch" },
+  { role: "Technical Solutions Lead", org: "Independent practice · landrycmd", period: "2026 – Present", icon: "agent" },
+  { role: "Senior Data Center Network Engineer", org: "Spectrum (formerly Cox Communications) · National Data Center", period: "2021 – Present", icon: "arista" },
+  { role: "Senior Backbone Network Engineer", org: "Cox Communications", period: "2018 – 2021", icon: "mx2020" },
+  { role: "Senior Network Engineer", org: "Cox Communications · Metro", period: "2012 – 2018", icon: "asr9k" },
+  { role: "Network Operations Engineer", org: "Cox Communications", period: "2011 – 2012", icon: "switch" },
   { role: "RF & IP Network Engineer", org: "AirTap · Skyrider · Detel Wireless", period: "2005 – 2011", icon: "rf" },
 ];
 ---
 
-<Layout title="landrycmd | Brady Landry">
+<Layout
+  title="landrycmd | Brady Landry"
+  description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the Cox tools stay internal, so this is the work you can inspect."
+>
   <section class="hero hero-net">
     <NetworkHero />
     <div class="hero-content">
       <h1>landrycmd</h1>
       <p class="tagline">
-        <span class="prompt">&gt;</span>Independent software shop run by Brady
-        Landry. AI infrastructure, algorithmic trading, and mobile health
-        apps.<span class="cursor"></span>
+        <span class="prompt">&gt;</span>Public AI lab for a network architect
+        who cannot publish the systems he built at work. MCP servers, agents,
+        and retrieval you can click.<span class="cursor"></span>
       </p>
-    </div>
-  </section>
-
-  <section id="products">
-    <p class="kicker">// products</p>
-    <h2>Products</h2>
-    <div class="node-list">
-    {
-      products.map((p) => (
-        <div class="project">
-          <div class="project-head">
-            <h3>{p.name}</h3>
-            <span class="muted">{p.tagline}</span>
-            <span class="links">
-              {p.live && (
-                <a href={p.live} rel="noopener">
-                  Live →
-                </a>
-              )}
-              {p.github && (
-                <a href={p.github} rel="noopener">
-                  GitHub →
-                </a>
-              )}
-            </span>
-          </div>
-          <p class="project-desc">{p.description}</p>
-        </div>
-      ))
-    }
-    </div>
-  </section>
-
-  <section id="open-source">
-    <p class="kicker">// open source</p>
-    <h2>Open source</h2>
-    <div class="node-list">
-    {
-      openSource.map((r) => (
-        <div class="project">
-          <div class="project-head">
-            <h3>{r.name}</h3>
-            <span class="links">
-              <a href={r.repo} rel="noopener">
-                Repo →
-              </a>
-              {r.article && (
-                <a href={r.article}>
-                  Article →
-                </a>
-              )}
-            </span>
-          </div>
-          <p class="project-desc">{r.description}</p>
-        </div>
-      ))
-    }
     </div>
   </section>
 
@@ -131,61 +91,137 @@ const experience = [
     <p class="kicker">// about</p>
     <h2>About</h2>
     <p>
-      Brady Landry is a network and systems architect with 20 years designing,
-      automating, and operating mission-critical infrastructure, 15 of them at
-      Cox Communications' National Data Center, where he leads Arista SP Fabric
-      migrations, Infrastructure-as-Code standards, and an AI-driven network
-      automation platform (nearly 20 MCP servers and 30+ Claude sub-agents used
-      daily for config review, change-impact analysis, and migration planning).
-      His earlier career was hands-on RF, microwave, and satellite network
-      engineering.
+      Brady Landry designs and operates Tier 1 service provider and data center
+      networks: 20 years in, 15 of them at Cox Communications across the
+      national IP backbone, regional data centers, and metro. Day job is Arista
+      spine and leaf, Infrastructure-as-Code standards, and an AI automation
+      platform wired into the tools engineers actually use. None of that
+      internal platform can live on this site.
     </p>
     <p>
-      landrycmd is the independent AI lab he runs outside that work: production
-      tools (Jarvis, the trading platform, jarvis-ops), the open-source
-      second-brain-template, and writing on the architectural patterns that
-      hold up in real systems.
+      landrycmd is the home lab that stands in for it. Same problems, public
+      artifacts: remote MCP servers with per-user Microsoft Entra identity on
+      Azure, an agent chassis other deployments inherit, retrieval over document
+      stores, and a static-analysis auditor for third-party agent packages. If
+      you are here from a résumé, this is the evidence behind the AI bullets.
     </p>
-    <p class="muted">Open to select architecture, AI, and solutions roles.</p>
+    <p class="muted">
+      Open to technical sales, architecture, and solutions roles where that mix
+      is the job.
+    </p>
     <p>
       <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
       &nbsp;·&nbsp;
-      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener"
-        >LinkedIn</a
-      >
+      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
       &nbsp;·&nbsp;
-      <a href="mailto:support@landrycmd.com">Email</a>
+      <a href="mailto:bjlandry@gmail.com">Email</a>
+      &nbsp;·&nbsp;
+      <a href="/resume">Résumé</a>
     </p>
+  </section>
+
+  <section id="lab">
+    <p class="kicker">// lab</p>
+    <h2>What you can inspect</h2>
+    <div class="node-list">
+      {
+        lab.map((p) => (
+          <div class="project">
+            <div class="project-head">
+              <h3>{p.name}</h3>
+              <span class="muted">{p.tagline}</span>
+              <span class="links">
+                {p.live && (
+                  <a href={p.live} rel="noopener">
+                    Live →
+                  </a>
+                )}
+              </span>
+            </div>
+            <p class="project-desc">{p.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="open-source">
+    <p class="kicker">// open source</p>
+    <h2>Open source</h2>
+    <div class="node-list">
+      {
+        openSource.map((r) => (
+          <div class="project">
+            <div class="project-head">
+              <h3>{r.name}</h3>
+              <span class="links">
+                <a href={r.repo} rel="noopener">
+                  Repo →
+                </a>
+                {r.article && <a href={r.article}>Article →</a>}
+              </span>
+            </div>
+            <p class="project-desc">{r.description}</p>
+          </div>
+        ))
+      }
+    </div>
   </section>
 
   <section id="experience">
     <p class="kicker">// experience</p>
     <h2>Experience</h2>
     <div class="node-list icons">
-    {
-      experience.map((e) => (
-        <div class="project">
-          <RoleIcon type={e.icon} />
-          <div class="project-head">
-            <h3>{e.role}</h3>
-            <span class="muted">{e.org}</span>
-            <span class="links">{e.period}</span>
+      {
+        experience.map((e) => (
+          <div class="project">
+            <RoleIcon type={e.icon} />
+            <div class="project-head">
+              <h3>{e.role}</h3>
+              <span class="muted">{e.org}</span>
+              <span class="links">{e.period}</span>
+            </div>
           </div>
-        </div>
-      ))
-    }
+        ))
+      }
     </div>
     <p class="muted">
-      Full history and early career: <a href="/resume">résumé →</a>
+      Full history: <a href="/resume">résumé →</a>
     </p>
+  </section>
+
+  <section id="also">
+    <p class="kicker">// also shipping</p>
+    <h2>Also live</h2>
+    <p class="muted">
+      Not the reason this lab exists. Evidence that things leave the bench.
+    </p>
+    <div class="node-list">
+      {
+        shipped.map((p) => (
+          <div class="project">
+            <div class="project-head">
+              <h3>{p.name}</h3>
+              <span class="muted">{p.tagline}</span>
+              <span class="links">
+                <a href={p.live} rel="noopener">
+                  Live →
+                </a>
+              </span>
+            </div>
+            <p class="project-desc">{p.description}</p>
+          </div>
+        ))
+      }
+    </div>
   </section>
 
   <section id="writing">
     <p class="kicker">// writing</p>
     <h2>Writing</h2>
     <p class="muted">
-      Long-form pieces on infrastructure, AI tooling, and shipping side
-      products. <a href="/writing/">Read all →</a>
+      How the vault, the agents, and the cheap-stack workflow actually run.
+      <a href="/writing/">Read all →</a>
     </p>
   </section>
 </Layout>
