@@ -6,8 +6,8 @@ export const prerender = false;
 <Layout title="Trip Login">
   <div class="login-page">
     <div class="login-card">
-      <div class="login-title">🗽 Family Trip</div>
-      <div class="login-subtitle">Enter the 4-digit code</div>
+      <div class="login-title" id="loginTitle">🗽 Family Trip</div>
+      <div class="login-subtitle" id="loginSubtitle">Enter the 4-digit code</div>
 
       <div class="pin-display" id="pinDisplay">
         <div class="pin-dot"></div>
@@ -40,6 +40,13 @@ export const prerender = false;
     const rawNext = params.get("next") || "";
     const next = (rawNext.startsWith("/") && !rawNext.startsWith("//")) ? rawNext : "/trips/nyc-2026";
 
+    // /applications has its own code, so tell the server which one to check.
+    const scope = next.startsWith("/applications") ? "apps" : "trips";
+    if (scope === "apps") {
+      document.getElementById("loginTitle").textContent = "\u{1F512} Applications";
+      document.getElementById("loginSubtitle").textContent = "Enter the applications code";
+    }
+
     const display = document.getElementById("pinDisplay");
     const keypad = document.getElementById("keypad");
     const error = document.getElementById("pinError");
@@ -68,7 +75,7 @@ export const prerender = false;
         const res = await fetch("/api/trips/auth", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ pin }),
+          body: JSON.stringify({ pin, scope }),
         });
         const data = await res.json();
         if (data.ok) {
