@@ -1,0 +1,183 @@
+/* Flashcard decks. Loaded only by /decks pages. */
+
+.deck-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.deck-page h1 {
+  margin-bottom: 0;
+}
+
+.deck-page .deck-lead {
+  margin: 0;
+}
+
+.deck-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.deck-counter {
+  margin: 0;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+.deck-progress {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.deck-progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.card {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1200px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-inner {
+  display: grid;
+  min-height: 16.5rem;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.45s ease;
+}
+
+.card.is-flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+  min-height: 16.5rem;
+  padding: 1.5rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-face[data-face="front"] {
+  transform: rotateY(0deg);
+}
+
+.card-face[data-face="back"] {
+  transform: rotateY(180deg);
+  border-color: var(--accent);
+}
+
+.face-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.face-text {
+  display: block;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.card:focus-visible .card-inner {
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+}
+
+.card:active .card-face {
+  border-color: var(--accent);
+}
+
+.deck-hint {
+  margin: 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.deck-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.deck-controls button {
+  min-height: 3.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.deck-controls .shuffle {
+  grid-column: 1 / -1;
+}
+
+.deck-controls button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.deck-controls button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.deck-controls button:disabled {
+  color: var(--text-dim);
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (min-width: 720px) {
+  .card-face {
+    padding: 2rem 1.75rem;
+  }
+
+  .face-text {
+    font-size: 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-inner,
+  .deck-progress-fill {
+    transition: none;
+  }
+}

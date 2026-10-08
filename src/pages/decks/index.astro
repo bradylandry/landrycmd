@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getDecks } from "../../lib/decks";
+
+const decks = getDecks();
+---
+
+<Layout
+  title="Decks | landrycmd"
+  description="Flashcard decks. Open one and tap a card to flip it."
+>
+  <section>
+    <h1>Decks</h1>
+    <p class="muted">
+      Study sets you can share. Open a deck and tap a card to flip it.
+    </p>
+
+    {
+      decks.length === 0 && <p class="subtle">No decks yet.</p>
+    }
+
+    {
+      decks.length > 0 && (
+        <ul class="writing-list">
+          {decks.map((deck) => (
+            <li>
+              <a href={`/decks/${deck.id}`}>{deck.title}</a>
+              <span class="date">
+                {`${deck.course} · ${deck.cards.length} ${deck.cards.length === 1 ? "card" : "cards"}`}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</Layout>
