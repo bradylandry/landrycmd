@@ -41,6 +41,21 @@ tags: [tag-1, tag-2]
 
 Save → `npm run dev` shows it at `/writing/<filename>/`. On push, Vercel auto-builds and deploys.
 
+## Adding a flashcard deck
+
+Drop a JSON file in `src/data/decks/`. It is picked up automatically and listed at `/decks`. Shape:
+
+```json
+{
+  "id": "course-unit-topic",
+  "title": "Course — Unit: Topic",
+  "course": "Course",
+  "cards": [{ "front": "Question", "back": "Answer" }]
+}
+```
+
+`id` becomes the share URL (`/decks/<id>`). Only `id`, `title`, `course`, and `cards` are allowed; each card has `front` and `back`.
+
 ## Deployment
 
 Vercel auto-deploys on push to `main`. Preview deploys on PRs.

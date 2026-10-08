@@ -1,0 +1,27 @@
+{
+  "id": "biology-ii-unit-3-integumentary",
+  "title": "Biology II — Unit 3: Integumentary System",
+  "course": "Biology II",
+  "cards": [
+    {"front": "List the 5 layers of the epidermis, deep to superficial.", "back": "Stratum basale → spinosum → granulosum → lucidum → corneum."},
+    {"front": "What type of epithelium makes up the epidermis?", "back": "Keratinized stratified squamous epithelium — layered flat cells whose surface cells are filled with keratin."},
+    {"front": "Name the 4 cell types of the epidermis and what each does.", "back": "Keratinocytes (produce keratin — about 90% of epidermal cells) • Melanocytes (produce the pigment melanin) • Langerhans / dendritic cells (immune defense) • Merkel / tactile cells (touch sensation)."},
+    {"front": "What are desmosomes and why do they matter in skin?", "back": "Strong junctions that bind neighboring keratinocytes together; they resist stretching and shearing so the skin doesn't tear apart."},
+    {"front": "Name the 2 layers of the dermis and the tissue each is made of.", "back": "Papillary layer — areolar (loose) connective tissue. Reticular layer — dense irregular connective tissue."},
+    {"front": "Name 4 cell types found in the dermis and their functions.", "back": "Fibroblasts (make collagen and elastin fibers) • Macrophages (engulf debris and pathogens) • Mast cells (release histamine during inflammation) • Adipocytes (fat storage and insulation)."},
+    {"front": "What are dermal papillae and what do they do?", "back": "Fingerlike projections of the papillary dermis reaching up into the epidermis. They form fingerprints, anchor the two layers together, and increase surface area for nutrient exchange."},
+    {"front": "What is keratin — where is it found and what does it do?", "back": "A tough, waterproof fibrous protein. Found in the outer epidermis, hair, and nails. Protects against abrasion, water loss, and microbes."},
+    {"front": "What are lines of cleavage, and why do surgeons care about them?", "back": "Tension lines (Langer's lines) following the predominant direction of collagen fibers in the reticular dermis. Incisions made parallel to them gape less and scar less; cuts across them scar more."},
+    {"front": "Name the 2 main types of skin glands — what does each secrete and how?", "back": "Sebaceous (oil) glands — secrete sebum by holocrine secretion (the whole cell ruptures), usually emptying into hair follicles. Sweat (sudoriferous) glands — secrete sweat by merocrine secretion (exocytosis)."},
+    {"front": "What are the 2 types of sweat glands and how do they differ?", "back": "Eccrine — widespread over the body; watery sweat for cooling (thermoregulation). Apocrine — armpits and groin; thicker, milky secretion activated at puberty; associated with body odor."},
+    {"front": "Name the parts of a hair and the overall functions of hair.", "back": "Parts: shaft (above the skin), root (below), follicle, bulb, papilla, arrector pili muscle, sebaceous gland. Functions: protection (scalp, nostrils, eyelashes), sensory touch, and heat retention."},
+    {"front": "What does the arrector pili muscle do?", "back": "A tiny smooth muscle attached to each hair follicle. When it contracts it pulls the hair upright — goosebumps — trapping a layer of air for insulation."},
+    {"front": "Name the parts of a nail — which are visible and which are hidden?", "back": "Visible: nail plate (body), free edge, lunula (pale half-moon), cuticle (eponychium). Hidden: nail matrix (the growth zone under the base), nail bed, nail fold."},
+    {"front": "What are the functions of nails?", "back": "Protect the fingertips and toes, improve grip and fine manipulation, and aid scratching."},
+    {"front": "What is the ABCDE rule for spotting a mole that could be cancerous (melanoma)?", "back": "A — Asymmetry (the two halves don't match) • B — Border irregular or blurred • C — Color varied or multiple colors • D — Diameter over ~6 mm (about a pencil eraser) • E — Evolving (changing size, shape, or color)."},
+    {"front": "Describe a first-degree burn.", "back": "Epidermis only. Red, painful, no blisters — like a mild sunburn. Heals in days without scarring."},
+    {"front": "Describe a second-degree burn.", "back": "Epidermis plus part of the dermis. Red, very painful, blisters form. Heals in weeks and may scar."},
+    {"front": "Describe a third-degree (full-thickness) burn.", "back": "Destroys the epidermis and the full dermis. Skin looks white, charred, or leathery; surprisingly little pain at first because nerve endings are destroyed. Requires skin grafting."},
+    {"front": "What is the rule of nines and what is it used for?", "back": "A method to estimate the percentage of body surface burned in adults: head 9%, each arm 9%, each leg 18%, front torso 18%, back torso 18%, groin 1%. Used to assess severity and guide fluid replacement."}
+  ]
+}

@@ -1,0 +1,92 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/decks.css";
+import { getDecks, serializeCards, type Deck } from "../../lib/decks";
+
+export function getStaticPaths() {
+  return getDecks().map((deck) => ({
+    params: { id: deck.id },
+    props: { deck },
+  }));
+}
+
+interface Props {
+  deck: Deck;
+}
+
+const { deck } = Astro.props;
+const total = deck.cards.length;
+const first = deck.cards[0];
+const startLabel = `Card 1 of ${total}`;
+---
+
+<Layout
+  title={`${deck.title} | landrycmd`}
+  description={`${deck.course} flashcards: ${deck.title}. ${total} cards. Tap a card to flip it.`}
+>
+  <section
+    class="deck-page"
+    data-deck-player
+    data-cards={serializeCards(deck.cards)}
+  >
+    <h1>{deck.title}</h1>
+    <p class="muted deck-lead">
+      {deck.course}
+      &nbsp;·&nbsp;
+      {total} {total === 1 ? "card" : "cards"}
+      &nbsp;·&nbsp;
+      <a href="/decks">All decks</a>
+    </p>
+
+    <div class="deck-progress-wrap">
+      <p class="deck-counter" data-counter>{startLabel}</p>
+      <div
+        class="deck-progress"
+        data-progress
+        role="progressbar"
+        aria-label="Deck progress"
+        aria-valuemin="1"
+        aria-valuemax={total}
+        aria-valuenow="1"
+        aria-valuetext={startLabel}
+      >
+        <div class="deck-progress-fill" data-progress-fill style={`width: ${(1 / total) * 100}%`}></div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="card"
+      data-card
+      aria-pressed="false"
+      aria-label={`${first.front} Question. Activate to flip.`}
+    >
+      <span class="card-inner">
+        <span class="card-face" data-face="front">
+          <span class="face-label">Question</span>
+          <span class="face-text" data-front>{first.front}</span>
+        </span>
+        <span class="card-face" data-face="back" aria-hidden="true">
+          <span class="face-label">Answer</span>
+          <span class="face-text" data-back>{first.back}</span>
+        </span>
+      </span>
+    </button>
+
+    <p class="deck-hint">Tap the card to flip</p>
+
+    <div class="deck-controls">
+      <button type="button" data-prev disabled>Previous</button>
+      <button type="button" data-next disabled={total === 1}>Next</button>
+      <button type="button" class="shuffle" data-shuffle>Shuffle</button>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { mountDeckPlayer } from "../../scripts/deck-player";
+
+  document.querySelectorAll<HTMLElement>("[data-deck-player]").forEach((root) => {
+    mountDeckPlayer(root);
+  });
+</script>
