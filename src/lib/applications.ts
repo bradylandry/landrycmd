@@ -1,4 +1,11 @@
+import {
+  findApplication as findLoadedApplication,
+  loadApplications as parseApplications,
+  type ApplicationsLoad,
+} from "./private-config.mjs";
 import { getRedis } from "./redis";
+
+export type { ApplicationsLoad };
 
 /**
  * Per-application tracked résumé links.
@@ -43,74 +50,21 @@ export interface Application {
   /** Free-text outcome or context */
   note?: string;
   url?: string;
-  /** Name ACADIANA TEK on this application's résumé. Unlisted routes only. */
+  /** Name the firm on this application's résumé. Unlisted routes only. */
   disclosed?: boolean;
-  /** Public /resume is network. Nokia TSE packets use presales. */
+  /** Public /resume is network. Some packets use presales. */
   variant?: "network" | "presales";
 }
 
-export const APPLICATIONS: Application[] = [
-  {
-    token: "oracle-zsm2ln",
-    company: "Oracle",
-    role: "Network Developer 4, OCI AI Infrastructure Network Operations",
-    req: "336300",
-    sent: "2026-09-09",
-    status: "applied",
-    url: "https://www.linkedin.com/jobs/view/4426464795/",
-    disclosed: true,
-    note: "Remote, United States, full-time. Confirmed from the live listing: LinkedIn shows a Remote chip and the location reads United States, not Chesapeake. Reposted the same day it was applied to. $102.3k-$209.5k plus bonus and equity. Closest technical match of the search; RDMA/RoCE is the only real gap. Being remote, it avoids the May 2027 relocation constraint entirely. Still get remote status into any written offer.",
-  },
-  {
-    company: "RapidScale (Charter / Spectrum)",
-    role: "Senior AI Solutions Architect",
-    sent: "2026-09-09",
-    status: "applied",
-    note: "Internal application: RapidScale came under Charter with the Aug 2026 Cox merger, so the reader is the current employer. Documents omit the firm entirely (disclosure: forbidden). No tracked link, deliberately.",
-  },
-  {
-    token: "nokia-wfkwth",
-    company: "Nokia",
-    role: "Technical Sales Engineer, Tier 1 Service Provider Solutions",
-    req: "38075",
-    sent: "2026-09-09",
-    status: "applied",
-    url: "https://jobs.nokia.com/en/sites/CX_1/job/38075",
-    disclosed: true,
-    variant: "presales",
-    note: "Pre-sales. Hybrid, US, exact location unconfirmed. Strong match on Tier 1 backbone and mobile backhaul; optical is the gap.",
-  },
-  {
-    token: "exxon-39fi23",
-    company: "ExxonMobil",
-    role: "IT Network Engineer - Expert (Spring, TX)",
-    sent: "2026-08-30",
-    status: "held",
-    note: "Held 2026-09-09. Spring TX is onsite, and a move before May 2027 costs Blake her senior season, her graduating class and likely her TOPS award. Documents and tracked link are built if that calculus changes after May 2027.",
-    url: "https://jobs.exxonmobil.com/job/Spring-IT-Network-Engineer-Expert-TX-77389/1424527100/",
-    disclosed: true,
-  },
-  {
-    company: "Cisco",
-    role: "Solutions Engineer, US Commercial, Louisiana",
-    req: "2018825",
-    sent: "2026-08-11",
-    status: "rejected",
-    note: "Rejected 2026-08-28. Applied with the pre-sales résumé and the Cisco-specific cover letter.",
-  },
-  {
-    company: "NVIDIA",
-    role: "Senior Network Engineer",
-    req: "JR2002991",
-    sent: "2025-10-03",
-    status: "applied",
-    note: "Application confirmed received; no outcome on record.",
-  },
-];
+export function loadApplications(raw?: string): ApplicationsLoad {
+  return parseApplications(raw);
+}
 
-export function findApplication(token: string): Application | undefined {
-  if (!token) return undefined;
-  return APPLICATIONS.find((a) => a.token === token);
+export function findApplication(
+  token: string,
+  applications?: Application[],
+): Application | undefined {
+  return findLoadedApplication(token, applications);
 }
 
 export const ENGAGE_DELAY_MS = 12000;
@@ -147,8 +101,7 @@ export function looksAutomated(ua: string | undefined): boolean {
 
 /**
  * Record a hit. Never throws and never blocks the render: if Redis is down or
- * unconfigured the page still serves. (The trip rate-limiter had to grow an
- * in-process fallback for exactly this reason, see commits 2799512 / c021021.)
+ * unconfigured the page still serves.
  */
 export async function recordHit(token: string, hit: Hit): Promise<void> {
   const redis = getRedis();

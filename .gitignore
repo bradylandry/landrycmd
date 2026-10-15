@@ -10,6 +10,9 @@ node_modules/
 .env.local
 .env.production
 
+# Private application and résumé data. Loaded into .env by scripts/load-private.mjs.
+private/
+
 # macOS
 .DS_Store
 

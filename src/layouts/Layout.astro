@@ -10,7 +10,7 @@ interface Props {
 
 const { title, description = "Public AI lab: production agents, MCP servers, and retrieval systems. Run by Brady Landry, a network architect with 20 years in service-provider infrastructure.", noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const isPrivate = noindex || Astro.url.pathname.startsWith("/trips/");
+const isPrivate = noindex;
 ---
 
 <!DOCTYPE html>

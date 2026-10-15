@@ -1,13 +1,12 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-export const prerender = false;
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Trip Login">
+<Layout title="Applications" noindex={true}>
   <div class="login-page">
     <div class="login-card">
-      <div class="login-title" id="loginTitle">🗽 Family Trip</div>
-      <div class="login-subtitle" id="loginSubtitle">Enter the 4-digit code</div>
+      <div class="login-title" id="loginTitle">🔒 Applications</div>
+      <div class="login-subtitle" id="loginSubtitle">Enter the applications code</div>
 
       <div class="pin-display" id="pinDisplay">
         <div class="pin-dot"></div>
@@ -35,17 +34,10 @@ export const prerender = false;
     </div>
   </div>
 
-  <script is:inline define:vars={{ }}>
+  <script is:inline>
     const params = new URLSearchParams(location.search);
     const rawNext = params.get("next") || "";
-    const next = (rawNext.startsWith("/") && !rawNext.startsWith("//")) ? rawNext : "/trips/nyc-2026";
-
-    // /applications has its own code, so tell the server which one to check.
-    const scope = next.startsWith("/applications") ? "apps" : "trips";
-    if (scope === "apps") {
-      document.getElementById("loginTitle").textContent = "\u{1F512} Applications";
-      document.getElementById("loginSubtitle").textContent = "Enter the applications code";
-    }
+    const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/applications";
 
     const display = document.getElementById("pinDisplay");
     const keypad = document.getElementById("keypad");
@@ -72,10 +64,10 @@ export const prerender = false;
       submitting = true;
       clearError();
       try {
-        const res = await fetch("/api/trips/auth", {
+        const res = await fetch("/api/auth", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ pin, scope }),
+          body: JSON.stringify({ pin }),
         });
         const data = await res.json();
         if (data.ok) {
@@ -88,7 +80,6 @@ export const prerender = false;
           error.textContent = data.error || "Wrong code";
           pin = "";
           render();
-          // shake animation reset
           display.style.animation = "none";
           display.offsetHeight;
           display.style.animation = "shake 0.3s ease";
@@ -116,7 +107,6 @@ export const prerender = false;
       if (pin.length === 4) setTimeout(submit, 150);
     });
 
-    // keyboard support
     window.addEventListener("keydown", (e) => {
       if (submitting) return;
       if (/^\d$/.test(e.key) && pin.length < 4) {
@@ -132,6 +122,127 @@ export const prerender = false;
   </script>
 </Layout>
 
-<style>
-  @import "../../styles/trip.css";
+<style is:global>
+  .login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.12), transparent 70%),
+      var(--bg);
+  }
+
+  .login-card {
+    background: rgba(33, 38, 45, 0.7);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(56, 189, 248, 0.15);
+  }
+
+  .login-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    background: linear-gradient(135deg, #fff, #38bdf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .login-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+  }
+
+  .pin-display {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pin-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(56, 189, 248, 0.4);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .pin-dot.filled {
+    background: #38bdf8;
+    border-color: #38bdf8;
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+    transform: scale(1.1);
+  }
+
+  .pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .pin-key {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1rem 0;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .pin-key:hover {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: #38bdf8;
+    transform: translateY(-2px);
+  }
+
+  .pin-key:active {
+    transform: scale(0.95);
+    background: rgba(56, 189, 248, 0.2);
+  }
+
+  .pin-key.empty {
+    visibility: hidden;
+  }
+
+  .pin-key.delete {
+    font-size: 1.2rem;
+  }
+
+  .pin-error {
+    margin-top: 1rem;
+    color: #ef4444;
+    font-size: 0.85rem;
+    min-height: 1.2rem;
+    animation: shake 0.3s ease;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-6px);
+    }
+    75% {
+      transform: translateX(6px);
+    }
+  }
+
+  .pin-success {
+    color: #10b981 !important;
+  }
 </style>

@@ -3,18 +3,31 @@ import Layout from "../../layouts/Layout.astro";
 import ResumeContent from "../../components/ResumeContent.astro";
 import {
   findApplication,
+  loadApplications,
   recordHit,
   looksAutomated,
   ENGAGE_DELAY_MS,
 } from "../../lib/applications";
+import { loadAcadianaTekCopy } from "../../lib/resume";
 
 export const prerender = false;
 
-const { token } = Astro.params;
-const app = token && token.trim() ? findApplication(token) : undefined;
+const loaded = loadApplications();
+if (!loaded.ok) {
+  console.error("APPLICATIONS_JSON unavailable:", loaded.reason);
+  return new Response("Server misconfiguration", { status: 500 });
+}
 
-if (!app) {
+const { token } = Astro.params;
+const app = token && token.trim() ? findApplication(token, loaded.applications) : undefined;
+
+if (!app || !app.token) {
   return new Response("Not found", { status: 404 });
+}
+
+if (app.disclosed && !loadAcadianaTekCopy()) {
+  console.error("RESUME_ACADIANATEK_JSON unavailable");
+  return new Response("Server misconfiguration", { status: 500 });
 }
 
 const ua = Astro.request.headers.get("user-agent") ?? undefined;
