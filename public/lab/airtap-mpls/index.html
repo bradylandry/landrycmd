@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AirTap MPLS</title>
+<style>
+:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
+header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
+button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{max-width:1200px;margin:0 auto;padding:0 24px 32px}
+.view{display:grid;grid-template-columns:1fr 320px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+@media(max-width:860px){.view{grid-template-columns:1fr}}
+svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.side h2{margin:0 0 6px;font-size:1.1rem}.side p{color:var(--mut);margin:0 0 10px}.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--card);color:var(--acc);margin-bottom:8px}
+pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}
+.back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
+.block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
+.block+.block{border-top:1px dashed var(--line);margin-top:28px;padding-top:28px}
+.lbl{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.04em;margin:0 0 4px}
+.block h2{margin:0 0 8px;font-size:1.25rem}
+.block .lede{color:var(--mut);margin:0 0 4px;max-width:70ch}
+.block .lede b{color:var(--txt);font-weight:600}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;padding:0;list-style:none}
+.tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
+footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
+.edge{fill:none;stroke-width:2.2;stroke-linecap:round}
+.edge.a{stroke:#f59e0b;opacity:.4}
+.edge.b{stroke:#22d3ee;opacity:.4}
+.edge.n{stroke:#8b949e;opacity:.55}
+.edge.hi{opacity:1;stroke-width:2.8}
+.flow.vrf-a{stroke:#f59e0b}
+.flow.vrf-b{stroke:#22d3ee}
+.node{cursor:pointer}.node rect{fill:var(--bg);stroke:var(--acc2);stroke-width:2}
+.node:hover rect,.node.sel rect,.node.core rect{stroke:var(--acc)}
+.node text{fill:var(--txt);font-size:12px;text-anchor:middle}.node .sub{fill:var(--mut);font-size:10px}
+.col{font-family:var(--mono);font-size:11px;fill:var(--mut);text-anchor:middle}
+.pt{font-family:var(--mono);font-size:10px;fill:var(--mut)}
+.vlab{font-family:var(--mono);font-size:10px;text-anchor:middle}
+.vlab.a{fill:#f59e0b}.vlab.b{fill:#22d3ee}
+.legend{display:flex;gap:14px;flex-wrap:wrap;list-style:none;padding:10px 0 0;margin:0;color:var(--mut);font-size:.8rem}
+.legend i{display:inline-block;width:18px;height:0;border-top:3px solid;margin:0 6px 0 0;vertical-align:middle}
+.legend .a{border-color:#f59e0b}.legend .b{border-color:#22d3ee}.legend .n{border-color:#f8fafc}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:8px;margin-top:12px}
+.ch{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 8px}
+.ch b{display:block;font-family:var(--mono);color:var(--acc);font-size:.95rem}
+.ch .mhz{display:block;color:var(--txt);font-family:var(--mono);font-size:.78rem;margin:2px 0 8px}
+.ch em{display:block;font-style:normal;color:var(--mut);font-size:.75rem}
+</style>
+<link rel="stylesheet" href="/lab/wire.css"></head><body>
+<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>AirTap MPLS</h1>
+<p>Gulf of Mexico rigs, point-to-point microwave, and a per-customer VRF across Time Warner and AT&amp;T fiber. AirTap Communications, 2010–2011. Names and sites are generalized.</p>
+<div class="metrics"><div><b>2010–2011</b><span>AirTap Communications</span></div><div><b>VRF</b><span>one routing table per customer</span></div><div><b>2</b><span>multihomed BGP egresses</span></div><div><b>7</b><span>3.65 GHz sector channels</span></div></div></header>
+<main>
+<section class="block">
+<p class="lbl">01 &middot; the path</p>
+<h2>One VRF per customer, from the rig to their data center</h2>
+<p class="lede">Offshore rigs landed on Cisco 7200s over <b>point-to-point microwave</b>. From there the traffic crossed <b>Time Warner and AT&amp;T fiber MPLS</b> into 7200s running <b>BGP and EIGRP</b>. Each customer stayed in its own VRF &mdash; amber for Customer A, cyan for Customer B &mdash; and that VRF continued to the customer data center. Two egress points carried <b>multihomed BGP</b> out to the internet.</p>
+<ul class="tags"><li>MPLS</li><li>BGP</li><li>EIGRP</li><li>VRF</li><li>Cisco 7200</li><li>licensed microwave</li></ul>
+<p class="lede">The full Gulf of Mexico wireless network spans about 3,200 site points and 38 point-to-point links on the Google Earth planning map; the diagram below is a simplified, representative subset.</p>
+<div class="view" id="v1">
+ <div>
+  <svg id="topo" viewBox="0 0 920 360" role="img" aria-label="Representative subset. Three offshore rigs reach Site A and Site B over four point-to-point microwave links, into Cisco 7200s, then Time Warner and AT&amp;T fiber MPLS, then core 7200s running BGP and EIGRP with a separate VRF per customer, then each customer data center. Two internet egress points use multihomed BGP."></svg>
+  <ul class="legend" aria-hidden="true"><li><i class="a"></i>Customer A VRF</li><li><i class="b"></i>Customer B VRF</li><li><i class="n"></i>multihomed BGP</li></ul>
+ </div>
+ <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">VRF per customer</h2><p id="wDesc">Follow a color. Amber stays in Customer A from the rig, across the microwave, the fiber, and the core 7200s, and into that customer&rsquo;s data center. Cyan does the same for Customer B. The white dashes are the two internet egresses.</p><pre id="wEx">rig → microwave → 7200
+→ Time Warner / AT&amp;T MPLS
+→ 7200 · BGP + EIGRP
+→ customer data center
+egress: 2 · multihomed BGP</pre></aside>
+</div>
+</section>
+<section class="block">
+<p class="lbl">02 &middot; sector frequency plan</p>
+<h2>About seven channels at 3.65 GHz, reused</h2>
+<p class="lede">WiMAX sectors at the landing sites shared one plan of about seven channels in the <b>3.65 GHz</b> band, 3650–3700 MHz. The same channel comes back at Site A and Site B on sectors that do not face each other. The centers below are a representative reuse pattern, not a survey file.</p>
+<div class="plan" role="table" aria-label="Seven representative 3.65 GHz channels reused at Site A and Site B">
+ <div class="ch"><b>CH1</b><span class="mhz">3653 MHz</span><em>Site A · sector 1</em><em>Site B · sector 3</em></div>
+ <div class="ch"><b>CH2</b><span class="mhz">3660 MHz</span><em>Site A · sector 2</em><em>Site B · sector 1</em></div>
+ <div class="ch"><b>CH3</b><span class="mhz">3667 MHz</span><em>Site A · sector 3</em><em>Site B · sector 2</em></div>
+ <div class="ch"><b>CH4</b><span class="mhz">3674 MHz</span><em>Site A · sector 1</em><em>Site B · sector 3</em></div>
+ <div class="ch"><b>CH5</b><span class="mhz">3681 MHz</span><em>Site A · sector 2</em><em>Site B · sector 1</em></div>
+ <div class="ch"><b>CH6</b><span class="mhz">3688 MHz</span><em>Site A · sector 3</em><em>Site B · sector 2</em></div>
+ <div class="ch"><b>CH7</b><span class="mhz">3695 MHz</span><em>Site A · sector 1</em><em>Site B · sector 2</em></div>
+</div>
+</section>
+</main>
+<footer>Portfolio demo · illustrative architecture, no proprietary details</footer>
+<script src="/lab/wire.js"></script>
+<script>
+const S='http://www.w3.org/2000/svg';
+const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+const topo=document.getElementById('topo');
+const eg=mk('g',{},topo),ng=mk('g',{},topo),fg=mk('g',{},topo);
+
+const nodes=[
+ {id:'r1',x:10,y:38,w:100,h:36,l:'Rig 1',s:'offshore',vrf:'a'},
+ {id:'r2',x:10,y:90,w:100,h:36,l:'Rig 2',s:'offshore',vrf:'a'},
+ {id:'r3',x:10,y:222,w:100,h:36,l:'Rig 3',s:'offshore',vrf:'b'},
+ {id:'sa',x:180,y:32,w:120,h:120,l:'Site A',s:'Cisco 7200',vrf:'a'},
+ {id:'sb',x:180,y:216,w:120,h:48,l:'Site B',s:'Cisco 7200',vrf:'b'},
+ {id:'tw',x:370,y:38,w:120,h:36,l:'Time Warner',s:'fiber MPLS',vrf:'a'},
+ {id:'att',x:370,y:222,w:120,h:36,l:'AT&T',s:'fiber MPLS',vrf:'b'},
+ {id:'core',x:560,y:32,w:150,h:232,l:'Core 7200s',s:'BGP + EIGRP',vrf:'core',core:true},
+ {id:'ca',x:780,y:36,w:130,h:40,l:'Customer A',s:'data center',vrf:'a'},
+ {id:'cb',x:780,y:220,w:130,h:40,l:'Customer B',s:'data center',vrf:'b'},
+ {id:'e1',x:560,y:312,w:70,h:36,l:'Egress 1',s:'BGP',vrf:'n'},
+ {id:'e2',x:640,y:312,w:70,h:36,l:'Egress 2',s:'BGP',vrf:'n'}
+];
+
+const INFO={
+ r1:{t:'Customer A',l:'Rig 1',d:'An offshore rig on Customer A’s VRF. Traffic leaves over a licensed point-to-point microwave hop to the Site A 7200.',e:'vrf: Customer A\nlink: PTP microwave\nnext: Site A · Cisco 7200'},
+ r2:{t:'Customer A',l:'Rig 2',d:'A second Customer A rig, on its own microwave hop into the same Site A 7200. It shares that customer’s VRF with Rig 1.',e:'vrf: Customer A\nlink: PTP microwave\nnext: Site A · Cisco 7200'},
+ r3:{t:'Customer B',l:'Rig 3',d:'An offshore rig on Customer B’s VRF. A separate microwave hop lands it on the Site B 7200, so the two customers never share a routing table.',e:'vrf: Customer B\nlink: PTP microwave\nnext: Site B · Cisco 7200'},
+ sa:{t:'Microwave landing',l:'Site A',d:'Cisco 7200 at Site A. Rig 1 and Rig 2 come in over point-to-point microwave. Customer A’s VRF continues onto the Time Warner fiber MPLS.',e:'router: Cisco 7200\nvrf in: Customer A\nnext: Time Warner fiber MPLS'},
+ sb:{t:'Microwave landing',l:'Site B',d:'Cisco 7200 at Site B. Rig 3 comes in over point-to-point microwave, and a fourth microwave hop ties Site B back to Site A. Customer B’s VRF continues onto AT&T fiber.',e:'router: Cisco 7200\nvrf in: Customer B\nnext: AT&T fiber MPLS'},
+ tw:{t:'Fiber MPLS',l:'Time Warner',d:'Time Warner fiber MPLS between the landing 7200 and the core. Customer A’s VRF stays on its own color across this provider.',e:'provider: Time Warner\nservice: fiber MPLS\nvrf: Customer A'},
+ att:{t:'Fiber MPLS',l:'AT&T',d:'AT&T fiber MPLS, the second provider into the same core 7200s. Customer B’s VRF crosses this fiber without joining Customer A.',e:'provider: AT&T\nservice: fiber MPLS\nvrf: Customer B'},
+ core:{t:'BGP + EIGRP',l:'Core 7200s',d:'The 7200s that ran BGP and EIGRP. Each customer kept its own VRF through this hop. Both colors cross the same routers and stay separated, then each VRF is handed to that customer’s data center. Under the routers, two egresses announce multihomed BGP.',e:'control: BGP + EIGRP\nvrf: one per customer\negress: Egress 1 and Egress 2'},
+ ca:{t:'Customer A',l:'Customer A data center',d:'Customer A’s VRF extended over the MPLS connection they needed, end to end from the offshore rig to their own data center.',e:'vrf: Customer A\nhandoff: MPLS\nfrom: core 7200s'},
+ cb:{t:'Customer B',l:'Customer B data center',d:'Customer B’s VRF on its own MPLS handoff into their data center. The cyan packets never enter Customer A’s table.',e:'vrf: Customer B\nhandoff: MPLS\nfrom: core 7200s'},
+ e1:{t:'Multihomed BGP',l:'Egress 1',d:'One of the two internet egress points. BGP is multihomed: this path and Egress 2 are both live.',e:'protocol: BGP\nrole: internet egress\npair: Egress 2'},
+ e2:{t:'Multihomed BGP',l:'Egress 2',d:'The second internet egress. Multihomed BGP leaves the network through both egresses, separate from the customer VRFs.',e:'protocol: BGP\nrole: internet egress\npair: Egress 1'}
+};
+
+function col(x,y,t){const n=mk('text',{class:'col',x,y},ng);n.textContent=t}
+col(60,18,'rigs');
+col(240,18,'7200 landing');
+col(430,18,'fiber MPLS');
+col(635,18,'BGP + EIGRP');
+col(845,18,'customer');
+
+const links=[];
+function wire(d,vrf,owners){
+ const edge=mk('path',{class:'edge '+vrf,d},eg);
+ const flow=labWire.overlay(edge,fg);
+ labWire.set(flow,true);
+ if(vrf==='a'||vrf==='b') flow.classList.add('vrf-'+vrf);
+ links.push({edge,vrf,owners});
+}
+
+/* Four point-to-point microwave hops: Rig 1 and Rig 2 into Site A, Rig 3 into Site B, and Site A to Site B. */
+wire('M110 56 H180','a',['r1','sa']);
+wire('M110 108 H180','a',['r2','sa']);
+wire('M110 240 H180','b',['r3','sb']);
+wire('M240 152 V216','n',['sa','sb']);
+const ptp=mk('text',{class:'pt',x:248,y:188},ng);ptp.textContent='PTP';
+
+/* Fiber MPLS, then the core 7200s, then each customer's data center. */
+wire('M300 56 H370','a',['sa','tw']);
+wire('M490 56 H560','a',['tw','core']);
+wire('M570 56 H700','a',['core']);
+wire('M710 56 H780','a',['core','ca']);
+wire('M300 240 H370','b',['sb','att']);
+wire('M490 240 H560','b',['att','core']);
+wire('M570 240 H700','b',['core']);
+wire('M710 240 H780','b',['core','cb']);
+
+/* Two internet egresses, multihomed BGP. */
+wire('M595 264 V312','n',['core','e1']);
+wire('M675 264 V312','n',['core','e2']);
+
+function box(n){
+ const g=mk('g',{class:n.core?'node core':'node',transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-label':n.l},ng);
+ mk('rect',{width:n.w,height:n.h,rx:8},g);
+ if(n.core){
+  const t=mk('text',{x:n.w/2,y:118},g);t.textContent=n.l;
+  const s=mk('text',{class:'sub',x:n.w/2,y:136},g);s.textContent=n.s;
+  const a=mk('text',{class:'vlab a',x:n.w/2,y:78},g);a.textContent='Customer A VRF';
+  const b=mk('text',{class:'vlab b',x:n.w/2,y:228},g);b.textContent='Customer B VRF';
+ }else{
+  const t=mk('text',{x:n.w/2,y:n.s?n.h/2-1:n.h/2+4},g);t.textContent=n.l;
+  if(n.s){const s=mk('text',{class:'sub',x:n.w/2,y:n.h/2+13},g);s.textContent=n.s}
+ }
+ return g;
+}
+
+const drawn=[];
+function choose(id){
+ const node=nodes.filter(n=>n.id===id)[0];
+ drawn.forEach(n=>n.g.classList.toggle('sel',n.id===id));
+ links.forEach(l=>{
+  const on=!id||l.owners.indexOf(id)!==-1||(node&&node.vrf!=='n'&&node.vrf!=='core'&&l.vrf===node.vrf)||(id==='core'&&l.vrf!=='n')||((id==='e1'||id==='e2')&&l.vrf==='n');
+  l.edge.classList.toggle('hi',on);
+ });
+ const meta=INFO[id]||{t:'Overview',l:'VRF per customer',d:'Follow a color. Amber stays in Customer A from the rig, across the microwave, the fiber, and the core 7200s, and into that customer’s data center. Cyan does the same for Customer B. The white dashes are the two internet egresses.',e:'rig → microwave → 7200\n→ Time Warner / AT&T MPLS\n→ 7200 · BGP + EIGRP\n→ customer data center\negress: 2 · multihomed BGP'};
+ document.getElementById('wTag').textContent=meta.t;
+ document.getElementById('wTitle').textContent=meta.l;
+ document.getElementById('wDesc').textContent=meta.d;
+ document.getElementById('wEx').textContent=meta.e;
+}
+nodes.forEach(n=>{
+ const g=box(n);
+ drawn.push({id:n.id,g});
+ const go=()=>choose(n.id);
+ g.addEventListener('mouseenter',go);
+ g.addEventListener('click',go);
+ g.addEventListener('focus',go);
+ g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
+});
+topo.addEventListener('mouseleave',()=>choose(null));
+choose(null);
+</script></body></html>
