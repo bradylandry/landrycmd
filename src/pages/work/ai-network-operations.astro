@@ -1,0 +1,127 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const title = "AI Network Operations Platform (MCP) | landrycmd";
+const description =
+  "Case study of the AI Network Operations Platform (MCP): 28 MCP servers, about 573 tools, and 44 agents. A standalone page, separate from the firewall rule request work.";
+---
+
+<Layout title={title} description={description}>
+  <article class="prose">
+    <p class="kicker">// case study</p>
+    <h1>AI Network Operations Platform (MCP)</h1>
+    <p class="meta">Network operations · standalone case study</p>
+
+    <p>
+      This is the public account of the AI Network Operations Platform (MCP):
+      custom MCP servers that let agents carry network-operations work that
+      used to be done by hand. It is its own page. It is not a tab, a section,
+      or a diagram inside the firewall rule request work.
+    </p>
+
+    <ul class="scale">
+      <li><strong>28</strong> MCP servers</li>
+      <li><strong>~573</strong> tools</li>
+      <li><strong>44</strong> agents</li>
+    </ul>
+
+    <figure class="platform-figure">
+      <svg
+        viewBox="0 0 640 160"
+        role="img"
+        aria-label="Diagram of the AI Network Operations Platform (MCP): 28 MCP servers connect to about 573 tools, which connect to 44 agents."
+      >
+        <title>AI Network Operations Platform (MCP)</title>
+        <desc>
+          A straight row of three nodes. 28 MCP servers lead to about 573
+          tools, which lead to 44 agents.
+        </desc>
+        <line x1="168" y1="48" x2="250" y2="48" />
+        <line x1="390" y1="48" x2="472" y2="48" />
+        <g>
+          <rect x="24" y="24" width="144" height="48" rx="8" />
+          <text x="96" y="54">28 servers</text>
+        </g>
+        <g>
+          <rect x="248" y="24" width="144" height="48" rx="8" />
+          <text x="320" y="54">~573 tools</text>
+        </g>
+        <g>
+          <rect x="472" y="24" width="144" height="48" rx="8" />
+          <text x="544" y="54">44 agents</text>
+        </g>
+      </svg>
+      <figcaption>
+        AI Network Operations Platform (MCP): 28 MCP servers, about 573 tools,
+        and 44 agents, drawn in a straight row.
+      </figcaption>
+    </figure>
+
+    <h2>What it is</h2>
+    <p>
+      The platform integrates Claude with custom MCP servers across the
+      operations tools engineers already use, including ServiceNow, Nautobot,
+      AWX, Forward Networks, and IPControl. Those servers replace manual change
+      workflows. The counts above are the scale of that platform: 28 MCP
+      servers, about 573 tools, and 44 agents.
+    </p>
+
+    <h2>What this page is not</h2>
+    <p>
+      The firewall rule request redesign is a separate résumé item. This page
+      does not repeat it, and it does not host that work as a tab. Internal
+      runbooks stay off this site.
+    </p>
+
+    <p>
+      <a href="/resume">Résumé →</a>
+    </p>
+  </article>
+</Layout>
+
+<style>
+  .scale {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .scale li {
+    margin: 0;
+    color: var(--text);
+  }
+  .scale strong {
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+  }
+  .platform-figure {
+    margin: 0 0 2rem;
+  }
+  .platform-figure svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .platform-figure line {
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    opacity: 0.7;
+  }
+  .platform-figure rect {
+    fill: var(--bg-elev);
+    stroke: var(--border);
+  }
+  .platform-figure text {
+    fill: var(--text);
+    font-size: 14px;
+    font-family: var(--font-mono);
+    text-anchor: middle;
+  }
+  .platform-figure figcaption {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+</style>

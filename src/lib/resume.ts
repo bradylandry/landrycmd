@@ -93,7 +93,7 @@ const coxDc: ResumeRole = {
     "Led the national data center migration from legacy platforms to an Arista spine/leaf fabric across BGP, IS-IS, EVPN/VXLAN, QoS, LACP, and VRRP, spanning Arista, Juniper, and Cisco in one estate.",
     "Led the migration of 60+ routers into a new regional data center in New Orleans with zero downtime, owning architecture, cutover planning, and implementation.",
     "Designed the Infrastructure-as-Code pipeline for the Arista fabric using Ansible and YAML-based declarative configuration; wrote the standards and validation framework the broader engineering team adopted.",
-    "Built an AI-driven network automation platform integrating Claude with custom MCP servers across ServiceNow, Nautobot, AWX, Forward Networks, and IPControl, replacing manual change workflows.",
+    "Built the AI Network Operations Platform (MCP): 28 MCP servers, about 573 tools, and 44 agents, integrating Claude with custom MCP servers across ServiceNow, Nautobot, AWX, Forward Networks, and IPControl and replacing manual change workflows.",
     "Built a Retrieval-Augmented Generation knowledge base on Microsoft Graph API with semantic search, giving engineering and operations source-linked runbooks and change documentation.",
     "Redesigned the Firewall Rule Request workflow through process and systems analysis, reducing a critical operational backlog by 80 percent.",
     "Designed network architecture for Internet-only Wi-Fi across corporate and field offices, and solutions for Avaya SBC on Juniper spine and leaf and 5G Fixed Wireless Access deployments.",
