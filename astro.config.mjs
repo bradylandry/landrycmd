@@ -7,5 +7,5 @@ export default defineConfig({
   output: "hybrid",
   adapter: vercel(),
   integrations: [mdx()],
-  // hybrid: pages are static by default; trip pages opt in to SSR via `export const prerender = false`
+  // hybrid: pages are static by default; on-demand routes opt in via `export const prerender = false`
 });

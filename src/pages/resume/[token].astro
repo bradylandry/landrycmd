@@ -3,18 +3,32 @@ import Layout from "../../layouts/Layout.astro";
 import ResumeContent from "../../components/ResumeContent.astro";
 import {
   findApplication,
+  loadApplications,
   recordHit,
   looksAutomated,
   ENGAGE_DELAY_MS,
 } from "../../lib/applications";
+import { loadDisclosedRole } from "../../lib/resume";
 
 export const prerender = false;
 
-const { token } = Astro.params;
-const app = token && token.trim() ? findApplication(token) : undefined;
+const loaded = loadApplications();
+if (!loaded.ok) {
+  console.error("APPLICATIONS_JSON unavailable:", loaded.reason);
+  return new Response("Server misconfiguration", { status: 500 });
+}
 
-if (!app) {
+const { token } = Astro.params;
+const app = token && token.trim() ? findApplication(token, loaded.applications) : undefined;
+
+if (!app || !app.token) {
   return new Response("Not found", { status: 404 });
+}
+
+const disclosedRole = app.disclosed ? loadDisclosedRole() : null;
+if (app.disclosed && !disclosedRole) {
+  console.error("DISCLOSED_ROLE_JSON unavailable");
+  return new Response("Server misconfiguration", { status: 500 });
 }
 
 const ua = Astro.request.headers.get("user-agent") ?? undefined;
@@ -36,7 +50,12 @@ await recordHit(app.token, {
   description="Brady Landry, network and systems architect."
   noindex={true}
 >
-  <ResumeContent preparedFor={app.company} disclosed={app.disclosed ?? false} variant={app.variant ?? "network"} />
+  <ResumeContent
+    preparedFor={app.company}
+    disclosed={app.disclosed ?? false}
+    variant={app.variant ?? "network"}
+    disclosedRole={disclosedRole}
+  />
 </Layout>
 
 <script define:vars={{ token: app.token, delay: ENGAGE_DELAY_MS }}>

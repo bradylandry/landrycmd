@@ -20,10 +20,10 @@ npm run build
 npm run preview
 ```
 
-The site runs without any environment variables, but private routes fail
-closed and tracking records nothing. See `.env.example` for what each one
-affects. `.vercel/` is gitignored, so a fresh clone needs `vercel link`
-before `vercel env pull` will work.
+The public site runs without any environment variables. `/applications` and
+tracked résumé links fail closed until their env vars are set, and tracking
+records nothing without Redis. See `.env.example`. `.vercel/` is gitignored,
+so a fresh clone needs `vercel link` before `vercel env pull` will work.
 
 ## Adding a writing post
 
@@ -72,10 +72,18 @@ VM, not Vercel.
 `/resume/<token>` renders the résumé, records the visit, and can name the firm
 on versions sent directly to an employer. The public `/resume` never does.
 
-To add an application, append an entry to `APPLICATIONS` in
-`src/lib/applications.ts`. Tokens must carry a random suffix; a guessable
-namespace would let anyone enumerate which companies were applied to, since
-unknown tokens 404 and known ones 200. Generate one with:
+Application records and the disclosed résumé lines are not in this repository.
+They are read at runtime from `APPLICATIONS_JSON` and `DISCLOSED_ROLE_JSON`.
+Put the JSON in gitignored files under `private/`, then load the local `.env`:
+
+```bash
+node scripts/load-private.mjs
+```
+
+Set the same variables in the Vercel project before deploying. The file shape
+is documented in `scripts/load-private.mjs`. Tokens must carry a random suffix;
+a guessable namespace would let anyone enumerate which companies were applied
+to, since unknown tokens 404 and known ones 200. Generate one with:
 
 ```bash
 python3 -c "import secrets,string;a=string.ascii_lowercase+string.digits;\
@@ -83,9 +91,7 @@ python3 -c "import secrets,string;a=string.ascii_lowercase+string.digits;\
 ```
 
 Hits land in Redis under `app:hits:<token>` and are viewable at `/applications`,
-which is gated by its own `APPS_PIN` — deliberately not the `TRIP_PIN` handed
-out to family for trip voting, since this page renders the private notes on
-every application. Leaving `APPS_PIN` unset falls back to `TRIP_PIN`, so set it
-in Vercel to actually separate the two. Read the "engaged" count, not "opens":
-corporate mail scanners fetch the HTML but do not run JavaScript, so only
-engaged reflects a human.
+which is gated by `APPS_PIN`. `APPS_SECRET` signs that cookie (`TRIP_SECRET` is
+still accepted when `APPS_SECRET` is unset). Read the
+"engaged" count, not "opens": corporate mail scanners fetch the HTML but do
+not run JavaScript, so only engaged reflects a human.

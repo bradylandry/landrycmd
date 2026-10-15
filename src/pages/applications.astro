@@ -1,13 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {
-  APPLICATIONS,
   getHits,
+  loadApplications,
   shortUA,
   type Hit,
 } from "../lib/applications";
 
 export const prerender = false;
+
+const loaded = loadApplications();
+if (!loaded.ok) {
+  console.error("APPLICATIONS_JSON unavailable:", loaded.reason);
+  return new Response("Server misconfiguration", { status: 500 });
+}
 
 function fmt(ts: number): string {
   return new Date(ts).toLocaleString("en-US", {
@@ -20,8 +26,8 @@ function fmt(ts: number): string {
 }
 
 const rows = await Promise.all(
-  APPLICATIONS.map(async (app) => {
-    const hits = await getHits(app.token);
+  loaded.applications.map(async (app) => {
+    const hits = app.token ? await getHits(app.token) : [];
     const engaged = hits.filter((h) => h.kind === "engaged" && !h.bot);
     const opens = hits.filter((h) => h.kind === "open");
     const human = opens.filter((h) => !h.bot);

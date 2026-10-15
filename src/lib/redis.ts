@@ -26,11 +26,3 @@ export function getRedis(): Redis | null {
   }
   return _redis;
 }
-
-export const VOTE_KEY = "trip:nyc-2026:votes";
-export const VOTERS = ["brady", "stacy", "blake", "karsyn", "emrie"] as const;
-export type Voter = (typeof VOTERS)[number];
-
-export function isVoter(v: string): v is Voter {
-  return (VOTERS as readonly string[]).includes(v);
-}

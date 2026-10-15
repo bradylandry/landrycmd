@@ -1,3 +1,10 @@
+import {
+  loadDisclosedRole as readDisclosedRole,
+  type DisclosedRole,
+  type DisclosedRoleCopy,
+} from "./private-config.mjs";
+
+export type { DisclosedRole, DisclosedRoleCopy };
 export type ResumeVariant = "network" | "presales";
 
 export interface ResumeSkill {
@@ -134,49 +141,60 @@ const coxOps: ResumeRole = {
   ],
 };
 
-function independentRole(disclosed: boolean, variant: ResumeVariant): ResumeRole {
+function applyDisclosure(
+  role: ResumeRole,
+  disclosed: boolean,
+  extra: DisclosedRole | undefined,
+): ResumeRole {
+  if (!disclosed || !extra) return role;
+  return {
+    ...role,
+    role: extra.role,
+    org: extra.org,
+    bullets: [...role.bullets, ...extra.bullets],
+  };
+}
+
+function independentRole(
+  disclosed: boolean,
+  variant: ResumeVariant,
+  overlay: DisclosedRoleCopy | null,
+): ResumeRole {
   if (variant === "presales") {
-    return {
-      role: disclosed
-        ? "Co-Founder and Technical Solutions Lead"
-        : "Technical Solutions Lead",
-      org: disclosed ? "ACADIANA TEK LLC" : "Independent consulting practice · landrycmd",
+    return applyDisclosure(
+      {
+        role: "Technical Solutions Lead",
+        org: "Independent consulting practice · landrycmd",
+        period: "2026 – Present",
+        icon: "agent",
+        bullets: [],
+      },
+      disclosed,
+      overlay?.presales,
+    );
+  }
+
+  return applyDisclosure(
+    {
+      role: "Independent AI & Infrastructure Engineer",
+      org: "landrycmd",
       period: "2026 – Present",
       icon: "agent",
       bullets: [
-        "Co-founded an AI consulting practice; led pre-sales and solutioning, translating business drivers into technology roadmaps and setting direction on what to adopt.",
-        "Ran technical discovery across five organizations in four verticals: public accounting, law, wealth management, and industrial distribution.",
-        "Led in-person discovery sessions with managing partners, firm principals, and the client's incumbent MSP, mapping the full environment and surfacing constraints before proposing a solution.",
-        "Delivered a partner-meeting presentation on AI adoption to a CPA firm's leadership, and technical demonstrations to non-technical decision-makers.",
-        "Designed solutions and produced Bills of Materials and Statements of Work with scoped deliverables, cost and labor estimates, to move opportunities to a decision.",
-        "Authored the firm's proposal and contract set (MSA, SOW, NDA), routed through outside counsel for regulated clients.",
-        "Built a working proof of concept against a client's order and inventory systems to de-risk the engagement before any automation commitment.",
-        "Influenced technology selection and built preference for the right platforms, working alongside clients' existing IT providers rather than displacing them.",
-        "Architected private LLM and RAG solutions and led enablement and training, a differentiator that complements core networking and infrastructure work.",
+        "Designed and shipped remote MCP servers on Azure Container Apps using per-user Microsoft Entra OAuth, replacing shared static API tokens with individually revocable, identity-scoped access.",
+        "Built a reusable agent chassis: a common tool, authorization, and telemetry layer that new agent deployments inherit rather than reimplement.",
+        "Built a retrieval layer over a Microsoft 365 document library (Graph API + semantic search), exposed to LLM clients as governed read and write tools.",
+        "Wrote a static-analysis security auditor for MCP server packages that produces a capability map, risk findings, and a 0–10 score without executing the audited code.",
+        "Published open-source AI infrastructure: mcp-audit, jarvis-trading-mcp, and second-brain-template.",
       ],
-    };
-  }
+    },
+    disclosed,
+    overlay?.network,
+  );
+}
 
-  return {
-    role: disclosed
-      ? "Co-Founder & Technical Solutions Lead"
-      : "Independent AI & Infrastructure Engineer",
-    org: disclosed ? "ACADIANA TEK LLC · landrycmd" : "landrycmd",
-    period: "2026 – Present",
-    icon: "agent",
-    bullets: [
-      "Designed and shipped remote MCP servers on Azure Container Apps using per-user Microsoft Entra OAuth, replacing shared static API tokens with individually revocable, identity-scoped access.",
-      "Built a reusable agent chassis: a common tool, authorization, and telemetry layer that new agent deployments inherit rather than reimplement.",
-      "Built a retrieval layer over a Microsoft 365 document library (Graph API + semantic search), exposed to LLM clients as governed read and write tools.",
-      "Wrote a static-analysis security auditor for MCP server packages that produces a capability map, risk findings, and a 0–10 score without executing the audited code.",
-      "Published open-source AI infrastructure: mcp-audit, jarvis-trading-mcp, and second-brain-template.",
-      ...(disclosed
-        ? [
-            "Co-founded a two-person AI consulting practice delivering these systems to clients under contract, owning discovery, scoping, architecture, delivery, and support.",
-          ]
-        : []),
-    ],
-  };
+export function loadDisclosedRole(raw?: string): DisclosedRoleCopy | null {
+  return readDisclosedRole(raw);
 }
 
 const networkDc: ResumeRole = {
@@ -194,9 +212,18 @@ const networkDc: ResumeRole = {
 export function getResume(opts: {
   disclosed?: boolean;
   variant?: ResumeVariant;
+  disclosedRole?: DisclosedRoleCopy | null;
 }): ResumeCopy {
   const disclosed = opts.disclosed ?? false;
   const variant = opts.variant ?? "network";
+  const overlay = !disclosed
+    ? null
+    : opts.disclosedRole !== undefined
+      ? opts.disclosedRole
+      : loadDisclosedRole();
+  if (disclosed && !overlay) {
+    throw new Error("DISCLOSED_ROLE_JSON unavailable");
+  }
 
   if (variant === "presales") {
     return {
@@ -231,7 +258,7 @@ export function getResume(opts: {
         },
       ],
       experience: [
-        independentRole(disclosed, "presales"),
+        independentRole(disclosed, "presales", overlay),
         coxDc,
         coxBackbone,
         coxSenior,
@@ -276,7 +303,7 @@ export function getResume(opts: {
       },
     ],
     experience: [
-      independentRole(disclosed, "network"),
+      independentRole(disclosed, "network", overlay),
       networkDc,
       coxBackbone,
       coxSenior,
