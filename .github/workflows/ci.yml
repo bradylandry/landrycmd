@@ -1,0 +1,68 @@
+# Runs on pull requests and on pushes to main.
+# Node matches package.json engines (`>=22.6`).
+#
+# Private values are never set in CI and must not be added as secrets here.
+# Tests leave APPLICATIONS_JSON, DISCLOSED_ROLE_JSON, APPS_PIN, and
+# APPS_SECRET unset so they can assert the missing-env path. The build step
+# sets those, plus Redis and the publish API, to empty strings. Empty is not
+# data: it only keeps `npm run build` from depending on missing secrets.
+# /applications and disclosed /resume/<token> still fail closed at runtime
+# until the real values are set in Vercel. TRIP_SECRET is only a fallback
+# for APPS_SECRET. Redis and the publish API no-op when empty.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: test and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ">=22.6"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Typecheck
+        run: npx tsc --noEmit -p tsconfig.json
+
+      - name: Astro check
+        run: npx astro check
+
+      # Empty placeholders, not secrets. Tests above run with these unset so
+      # they can assert the missing-env path. The build only needs them
+      # present: static pages do not read the private JSON, and an empty
+      # string is enough for Vite to leave import.meta.env keys defined.
+      # GITHUB_TOKEN is blanked here so the Actions token is not inlined into
+      # publish-note. The real publish token stays in Vercel.
+      - name: Build
+        env:
+          APPLICATIONS_JSON: ""
+          DISCLOSED_ROLE_JSON: ""
+          APPS_PIN: ""
+          APPS_SECRET: ""
+          TRIP_SECRET: ""
+          UPSTASH_REDIS_REST_URL: ""
+          UPSTASH_REDIS_REST_TOKEN: ""
+          KV_REST_API_URL: ""
+          KV_REST_API_TOKEN: ""
+          PUBLISH_API_KEY: ""
+          GITHUB_TOKEN: ""
+        run: npm run build
