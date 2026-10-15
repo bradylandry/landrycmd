@@ -25,21 +25,42 @@ svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px
 ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)}ol li.done{color:var(--txt)}
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}.stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}.after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
 .back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
+
+.block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
+.block+.block{border-top:1px dashed var(--line);margin-top:28px;padding-top:28px}
+.lbl{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.04em;margin:0 0 4px}
+.block h2{margin:0 0 8px;font-size:1.25rem}
+.block .lede{color:var(--mut);margin:0 0 4px;max-width:70ch}
+.block .lede b{color:var(--txt);font-weight:600}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;padding:0;list-style:none}
+.tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
+.view{border-radius:8px}
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 @media(prefers-reduced-motion:reduce){.pulse{display:none}}
 </style></head><body>
-<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>An AI assistant wired to every infrastructure MCP server at once, plus a read-only firewall review agent. Names and systems are generalized.</p><div class="metrics"><div><b>NEEDS NUMBER</b><span>firewall review time</span></div><div><b>NEEDS NUMBER</b><span>firewalls covered</span></div><div><b>NEEDS NUMBER</b><span>ticket backlog</span></div><div><b>NEEDS NUMBER</b><span>tools / agents</span></div></div></header>
-<div class="tabs" role="tablist"><button role="tab" id="t1" aria-controls="v1" aria-selected="true">MCP Spider Web</button><button role="tab" id="t2" aria-controls="v2" aria-selected="false" tabindex="-1">Firewall Request Flow</button></div>
+<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>An AI assistant wired to every infrastructure MCP server at once, plus a read-only firewall review agent. Names and systems are generalized.</p><div class="metrics"><div><b>30–60 → 3–5 min</b><span>firewall review time</span></div><div><b>60+</b><span>firewalls covered</span></div><div><b>200 → ~40</b><span>ticket backlog</span></div><div><b>573 / 44 / 31</b><span>tools / agents / skills</span></div></div></header>
 <main>
-<section class="view" id="v1" role="tabpanel" aria-labelledby="t1">
+<section class="block">
+<p class="lbl">01 &middot; what I built</p>
+<h2>One assistant, every system at once</h2>
+<p class="lede">Network engineers lose hours moving between a dozen consoles to answer one question. I built <b>28 MCP servers</b> that expose those systems &mdash; telemetry, source of truth, config backups, ticketing, IPAM, inventory &mdash; as <b>573 tools</b> an AI assistant can call directly, plus <b>44 agents</b> and <b>31 skills</b> layered on top. I authored 24 of those agents.</p>
+<p class="lede">Below: each outer node is a category of system. Pulses are live requests moving between the assistant and the backends. Hover or select a node to see what it does.</p>
+<ul class="tags"><li>MCP</li><li>Python</li><li>read-only by default</li><li>28 servers</li><li>573 tools</li></ul>
+<div class="view" id="v1">
  <svg id="web" viewBox="-20 0 840 600" role="img" aria-label="MCP server connected to clients and backend services"></svg>
- <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP Server</h2><p id="wDesc">Every server is available at once, so one review pulls the ticket, path traces, config backups and security rules together. Select or hover a node to see its role. Pulses show requests moving between the assistant, the MCP server and backend services.</p><pre id="wEx">servers: NEEDS NUMBER · tools: NEEDS NUMBER · agents: NEEDS NUMBER</pre></aside>
-</section>
-<section class="view" id="v2" role="tabpanel" aria-labelledby="t2" hidden>
+ <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP Server</h2><p id="wDesc">Every server is available at once, so one review pulls the ticket, path traces, config backups and security rules together. Nodes are representative categories, not one per server. Select or hover a node to see its role. Pulses show requests moving between the assistant, the MCP server and backend services.</p><pre id="wEx">28 MCP servers · 573 tools · 44 agents · 31 skills</pre></aside>
+</div></section>
+<section class="block">
+<p class="lbl">02 &middot; what I built</p>
+<h2>A review that used to take an hour, in three minutes</h2>
+<p class="lede">Firewall change requests were reviewed by hand across five disconnected systems &mdash; 30 to 60 minutes each, and easy to get wrong. I built an agent that runs the same eight checks every time: it traces the real path, pulls config for only the firewalls actually in it, and tests the request against the zone policy. It is <b>read-only</b> and always ends at a human.</p>
+<p class="lede">Below: step through a request end to end. The scenario pills inject real failure modes I have hit &mdash; a firewall that does not exist, one that was decommissioned, a source address in a different routing domain &mdash; and the agent blocks instead of approving.</p>
+<ul class="tags"><li>agent framework</li><li>parallel sub-agents</li><li>path tracing</li><li>policy matrix</li><li>human-gated</li></ul>
+<div class="view" id="v2">
  <div><div class="scen" id="scen" role="group" aria-label="Scenario"></div><svg id="flow" viewBox="0 0 800 330" role="img" aria-label="Firewall rule request pipeline"></svg>
  <div class="ctrl"><button id="play">▶ Play</button><button id="prev">◀ Back</button><button id="next">Step ▶</button><button id="reset">↺ Reset</button></div></div>
  <aside class="side" aria-live="polite"><span class="tag" id="fTag">Step 0 / 7</span><h2 id="fTitle">Ready</h2><p id="fDesc">Press Play or Step to follow a firewall rule request from a plain-English ask to an audited change.</p><pre id="fEx">// waiting</pre><ol id="fList"></ol></aside>
-</section>
+</div></section>
 </main>
 <footer>Portfolio demo · illustrative architecture, no proprietary details</footer>
 <script>
@@ -59,11 +80,17 @@ const SV=[['Network Telemetry / Path Analysis','chart','Live path traces and flo
 ['Automation Runner','code','Approved job templates run during change windows.'],
 ['Productivity Graph','chat','Mail, calendar, chat and files for context and notifications.'],
 ['IaC Formatter','code','Normalizes and lints infrastructure-as-code to team standards.'],
+['Validation & Test','check','Automated pre/post change test catalogs and config linting.'],
+['Observability & Telemetry','chart','Log search, time-series metrics and fabric health telemetry.'],
+['Change & Tickets','tick','Engineering change records, facilities tickets and approvals.'],
+['Topology & Diagrams','hub','Generated network diagrams: fabric, link aggregation, path and drift views.'],
+['Capacity & Planning','db','Inventory, spares, port utilisation and growth trends.'],
+['Code & Repos','code','Pull requests, diffs and build status for the infrastructure-as-code repos.'],
 ['Internal Infra Query','shield','Read-only queries against internal infrastructure data.']];
-const N=[{id:'mcp',x:400,y:290,r:58,ic:'bot',l:'MCP Hub / AI Assistant',t:'Core',d:'One assistant with every MCP server connected at once. Tool count: NEEDS NUMBER. Agent count: NEEDS NUMBER. A single review pulls the request, path traces, config backups and security rules together.',e:'servers: NEEDS NUMBER · tools: NEEDS NUMBER · agents: NEEDS NUMBER\nall servers live in one session'},
-{id:'cli',x:90,y:120,ic:'code',l:'Coding Assistant (CLI)',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review the request'},
+const N=[{id:'mcp',x:400,y:290,r:58,ic:'bot',l:'MCP Hub / AI Assistant',t:'Core',d:'One assistant with every MCP server connected at once \u2014 28 servers exposing 573 tools, plus a shared layer of 44 agents and 31 skills. A single review pulls the ticket, path traces, config backups and security rules together. Nodes shown are representative categories, not one per server.',e:'servers: 28 · tools: 573 · agents: 44 · skills: 31\nall servers live in one session'},
+{id:'cli',x:90,y:120,ic:'code',l:'Coding Assistant (CLI)',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review CHG-xxxx'},
 {id:'ide',x:90,y:460,ic:'code',l:'Coding Assistant (IDE)',t:'Client',d:'Editor-integrated assistant using the same tools and agents.',e:'same tools · same agents'}];
-SV.forEach((v,i)=>{const ang=-Math.PI*0.62+i*(Math.PI*1.24/10);N.push({id:'s'+i,x:400+300*Math.cos(ang)+40,y:290+235*Math.sin(ang),ic:v[1],l:v[0],t:'MCP Server',d:v[2],e:'read-only tools exposed via MCP'})});
+SV.forEach((v,i)=>{const ang=-Math.PI*0.62+i*(Math.PI*1.24/(SV.length-1));N.push({id:'s'+i,x:400+300*Math.cos(ang)+40,y:290+235*Math.sin(ang),ic:v[1],l:v[0],t:'MCP Server',d:v[2],e:'read-only tools exposed via MCP'})});
 const S='http://www.w3.org/2000/svg',web=document.getElementById('web');
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
 const eg=mk('g',{},web),ng=mk('g',{},web),pg=mk('g',{},web),edges={};
@@ -79,10 +106,10 @@ const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function pulse(){if(red||document.getElementById('v1').hidden)return;const ks=Object.keys(edges),k=ks[Math.random()*ks.length|0],p=edges[k],L=p.getTotalLength(),c=mk('circle',{class:'pulse',r:5},pg);
  const out=Math.random()<.5,t0=performance.now();(function f(t){const u=Math.min((t-t0)/1400,1),pt=p.getPointAtLength((out?u:1-u)*L);c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y);u<1?requestAnimationFrame(f):c.remove()})(t0)}
 setInterval(pulse,450);
-const F=[{ic:'tick',l:'Intake',d:'A firewall request comes in.',e:'review the request'},
-{ic:'code',l:'Normalize',d:'Hostnames, paired (HA) devices and ports are normalized.',e:'paired devices · tcp/443'},
+const F=[{ic:'tick',l:'Intake',d:'A firewall request or ticket ID comes in.',e:'review ticket <id>'},
+{ic:'code',l:'Normalize',d:'Hostnames, paired (HA) devices and ports are normalized.',e:'fw-a / fw-a-pair · tcp/443'},
 {ic:'chart',l:'Path Verify',d:'A live trace confirms the right firewalls are in the path and the zone of each IP.',e:'src → zone app · dst → zone data\nfirewalls in path: 2'},
-{ic:'db',l:'Config X-Ref',d:'Config backups of zones, objects and rules are pulled by parallel sub-agents: one per firewall, one for the security matrix, one for request context.',e:'sub-agents: one per firewall · matrix · request'},
+{ic:'db',l:'Config X-Ref',d:'Config backups of zones, objects and rules are pulled by parallel sub-agents: one per firewall, one for the security matrix, one for ticket context.',e:'sub-agents: fw-1 · fw-2 · matrix · ticket'},
 {ic:'lock',l:'Policy Check',d:'Zone-to-zone matrix, high-risk protocols, and lessons learned from real incidents.',e:'matrix: allowed · risky proto: none'},
 {ic:'shield',l:'Risk Class',d:'The change is classified Routine, Moderate or High.',e:'risk: Routine'},
 {ic:'check',l:'Verdict',d:'A clear verdict with reasons and evidence.',e:'"No blockers. Approve."'},

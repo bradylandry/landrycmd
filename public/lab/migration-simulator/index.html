@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zero-Downtime Migration Simulator</title>
+<style>
+:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
+header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
+.tabs{display:flex;gap:8px;max-width:1200px;margin:16px auto 0;padding:0 24px}
+.tabs button{background:var(--panel);color:var(--mut);border:1px solid var(--line);padding:10px 18px;border-radius:8px 10px 0 0;cursor:pointer;font:inherit}
+.tabs button[aria-selected=true]{color:var(--txt);border-bottom-color:var(--panel);box-shadow:inset 0 2px 0 var(--acc)}
+button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{max-width:1200px;margin:0 auto;padding:0 24px 32px}
+.view{display:grid;grid-template-columns:1fr 320px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:0 8px 8px 8px;padding:16px}
+.view[hidden]{display:none}@media(max-width:860px){.view{grid-template-columns:1fr}}
+svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.side h2{margin:0 0 6px;font-size:1.1rem}.side p{color:var(--mut);margin:0 0 10px}.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--card);color:var(--acc);margin-bottom:8px}
+.edge{stroke:var(--line);stroke-width:2;fill:none}.edge.hi{stroke:var(--acc)}
+.node{cursor:pointer}.node circle{fill:var(--bg);stroke:var(--acc2);stroke-width:2;transition:.2s}.node:hover circle,.node.sel circle{stroke:var(--acc);fill:#0f172a}
+.node text{fill:var(--txt);font-size:11.5px;text-anchor:middle}.node .ic{stroke:var(--acc);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pulse{fill:var(--acc);filter:drop-shadow(0 0 4px var(--glow))}
+.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}.stage.done rect{stroke:var(--ok)}.stage.cur rect{stroke:var(--acc);fill:#0f172a}
+.stage text{fill:var(--txt);font-size:12px;text-anchor:middle}.stage .ic{stroke:var(--mut);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.stage.cur .ic,.stage.done .ic{stroke:var(--acc)}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ctrl button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
+.ctrl button:hover{border-color:var(--acc)}pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
+ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)}ol li.done{color:var(--txt)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}.stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}.after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
+.back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
+
+.block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
+.block+.block{border-top:1px dashed var(--line);margin-top:28px;padding-top:28px}
+.lbl{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.04em;margin:0 0 4px}
+.block h2{margin:0 0 8px;font-size:1.25rem}
+.block .lede{color:var(--mut);margin:0 0 4px;max-width:70ch}
+.block .lede b{color:var(--txt);font-weight:600}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;padding:0;list-style:none}
+.tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
+.view{border-radius:8px}
+footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
+@media(prefers-reduced-motion:reduce){.pulse{display:none}}
+
+.flow{fill:none;stroke:#f8fafc;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:5 15;opacity:0;transition:opacity .25s}
+.flow.on{opacity:.95;animation:dash 1.05s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-40}}
+@media(prefers-reduced-motion:reduce){.flow.on{animation:none;opacity:.5;stroke-dasharray:5 15}}
+.mline{stroke:var(--line);stroke-width:2.5;fill:none}.mline.live{stroke:var(--acc);filter:drop-shadow(0 0 3px var(--glow))}
+.mline.bridge{stroke:var(--acc2);stroke-dasharray:6 5}.mline.down{stroke:#ef4444;stroke-dasharray:3 4}.mline.idle{opacity:.25}
+.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:8}.box.master rect{stroke:var(--acc);fill:#0f172a}
+.box.backup rect{stroke:var(--mut)}.box.gone rect{stroke:#ef4444;stroke-dasharray:4 4;opacity:.5}
+.box text{fill:var(--txt);font-size:12px;text-anchor:middle}.box .sub{fill:var(--mut);font-size:10px}
+.pri{font-family:var(--mono);font-size:11px;text-anchor:middle}.pri.hi{fill:var(--acc)}.pri.lo{fill:var(--mut)}
+.badge{font-family:var(--mono);font-size:10px;text-anchor:middle;fill:var(--ok)}
+.loss{font-family:var(--mono);font-size:22px;color:var(--ok)}.loss.bad{color:#ef4444}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.cmp div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.cmp b{display:block;font-family:var(--mono);font-size:1.1rem}.cmp span{color:var(--mut);font-size:.78rem}
+.cmp .g b{color:var(--ok)}.cmp .r b{color:#ef4444}
+</style></head><body>
+<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Zero-Downtime Migration Simulator</h1>
+<p>Moving production traffic between vendor platforms by winning a redundancy election instead of cutting over. A method I developed and ran across 14 markets. Names and systems are generalized.</p>
+<div class="metrics"><div><b>0</b><span>packets lost, straddle method</span></div><div><b>14</b><span>markets run this way</span></div><div><b>1 value</b><span>rollback cost at any step</span></div><div><b>6 steps</b><span>one device touched at a time</span></div></div></header>
+<main>
+<section class="block">
+<p class="lbl">01 &middot; the method I built</p>
+<h2>Move traffic by winning an election, not by cutting over</h2>
+<p class="lede">A gateway migration normally means shutting the old device and enabling the new one. That couples the <b>traffic move</b> to the <b>physical move</b>, which is why those windows drop packets and why rollback means re-cabling at 2am.</p>
+<p class="lede">I built a different method: a throwaway L2 bridge puts both vendors&rsquo; routers in one redundancy group, so the new router sits as the deliberate <b>loser</b> of the election carrying zero traffic. Then traffic moves when a priority value changes. Nothing is ever touched while it is forwarding, and rollback at any step is one value. I ran it across 14 markets.</p>
+<p class="lede">Below: switch between <b>Hardcut</b> and <b>Straddle</b> and watch the packets-lost counter. The scenario pills inject real failures &mdash; a gateway MAC that changed, preemption left enabled, an edge-port misconfiguration on the bridge.</p>
+<ul class="tags"><li>VRRP</li><li>Junos</li><li>NX-OS</li><li>EOS</li><li>14 markets</li><li>0 packets lost</li></ul>
+<div class="view" id="v1">
+ <div>
+  <div class="scen" role="group" aria-label="Method"><button id="mHard" aria-pressed="false">Hardcut</button><button id="mStrad" aria-pressed="true">Straddle</button></div>
+  <div class="scen" id="scen" role="group" aria-label="Scenario"></div>
+  <svg id="topo" viewBox="0 0 800 390" role="img" aria-label="Legacy router, temporary bridge and two new core routers"></svg>
+  <div class="ctrl"><button id="play">&#9654; Play</button><button id="prev">&#9664; Back</button><button id="next">Step &#9654;</button><button id="reset">&#8634; Reset</button></div>
+  <div class="cmp"><div class="g"><b id="lossV">0 ms</b><span>traffic lost</span></div><div><b id="rbV">&mdash;</b><span>rollback at this step</span></div></div>
+ </div>
+ <aside class="side" aria-live="polite"><span class="tag" id="sTag">Step 0 / 8</span><h2 id="sTitle">Ready</h2><p id="sDesc">Pick a method, then Play. Straddle pre-stages the new router as the deliberate loser of the election, so traffic moves when a priority value changes &mdash; not when a cable does.</p><pre id="sEx">// waiting</pre><ol id="sList"></ol></aside>
+</div></section>
+</main>
+<footer>Portfolio demo &middot; illustrative architecture, no proprietary details</footer>
+<script>
+const S='http://www.w3.org/2000/svg';
+const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+/* ---------- tabs ---------- */
+document.querySelectorAll('[role=tab]').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('[role=tab]').forEach(x=>{x.setAttribute('aria-selected',x===b);x.tabIndex=x===b?0:-1});
+ document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!==b.getAttribute('aria-controls'))}));
+/* ---------- L3 topology: pairs, aligned, L2 pair spanning below ---------- */
+const topo=document.getElementById('topo');
+const BOX=[
+ {id:'leg1',x:34,y:22,w:150,h:58,l:'Legacy rtr 01',s:'vendor A'},
+ {id:'leg2',x:194,y:22,w:150,h:58,l:'Legacy rtr 02',s:'vendor A'},
+ {id:'na', x:446,y:22,w:150,h:58,l:'New core 01',s:'vendor B'},
+ {id:'nb', x:606,y:22,w:150,h:58,l:'New core 02',s:'vendor B'},
+ {id:'sw1',x:34,y:196,w:350,h:56,l:'L2 switch 01',s:'bridge domain'},
+ {id:'sw2',x:406,y:196,w:350,h:56,l:'L2 switch 02',s:'bridge domain'},
+ {id:'cli1',x:150,y:322,w:140,h:46,l:'Clients A',s:'same VIP'},
+ {id:'cli2',x:330,y:322,w:140,h:46,l:'Clients B',s:'same VIP'},
+ {id:'cli3',x:510,y:322,w:140,h:46,l:'Clients C',s:'same VIP'}];
+const C={leg1:109,leg2:269,na:521,nb:681,sw1:209,sw2:581,cli1:220,cli2:400,cli3:580};
+const lines={};
+const lg=mk('g',{},topo),bg=mk('g',{},topo);
+/* router -> switch uplinks, dual-homed */
+[['leg1','sw1'],['leg1','sw2'],['leg2','sw1'],['leg2','sw2'],
+ ['na','sw1'],['na','sw2'],['nb','sw1'],['nb','sw2']].forEach(([r,s])=>{
+  lines[r+'_'+s]={grp:r,el:mk('path',{class:'mline idle',d:`M${C[r]} 80 L${C[s]} 196`},lg)}});
+/* switch peer link + client downlink */
+lines.peer={grp:'peer',el:mk('path',{class:'mline idle',d:'M384 224 L406 224'},lg)};
+['cli1','cli2','cli3'].forEach(c=>{const s=C[c]<400?'sw1':'sw2';
+ lines[c]={grp:'cli',sw:s,el:mk('path',{class:'mline live',d:`M${C[c]} 322 L${C[s]} 252`},lg)}});
+const fg=mk('g',{},topo);
+for(const k in lines)lines[k].flow=mk('path',{class:'flow',d:lines[k].el.getAttribute('d')},fg);
+const setFlow=(k,on)=>lines[k]&&lines[k].flow.setAttribute('class','flow'+(on?' on':''));
+const boxes={};
+BOX.forEach(b=>{const g=mk('g',{class:'box',transform:`translate(${b.x} ${b.y})`},bg);
+ mk('rect',{width:b.w,height:b.h,rx:8},g);
+ const t1=mk('text',{x:b.w/2,y:24},g);t1.textContent=b.l;
+ const t2=mk('text',{class:'sub',x:b.w/2,y:40},g);t2.textContent=b.s;
+ const pr=mk('text',{class:'pri lo',x:b.w/2,y:54},g);
+ const bd=mk('text',{class:'badge',x:b.w/2,y:-8},g);
+ boxes[b.id]={g,pri:pr,badge:bd}});
+const setGrp=(grp,cls)=>{for(const k in lines)if(lines[k].grp===grp)lines[k].el.setAttribute('class','mline '+cls)};
+/* ---------- step models ---------- */
+const STRAD=[
+ {t:'Legacy 02 goes down',d:'The backup router is taken out of service first. It was carrying no traffic, so nothing moves and nothing is at risk.',e:'legacy 02: DOWN\\nlegacy 01: MASTER (200)\\nisis: adjacency withdrawn\\nbgp: session torn down\\ntraffic: unaffected',set:s=>{s.leg2=0},rb:'re-enable legacy 02'},
+ {t:'New core 02 link established',d:'The replacement comes up into the same L2 domain and joins the group at a priority below the legacy router. BACKUP, carrying nothing.',e:'new 02: BACKUP (50)\\nisis: adjacency UP\\nbgp: ESTABLISHED\\nlegacy 01: MASTER (200)\\nbridge domain: shared',set:s=>{s.leg2=0;s.nb=1},rb:'remove uplink',fail:'edge'},
+ {t:'VRRP moves to new core 02',d:'Priority raised. Same group, same virtual IP, same virtual MAC, so clients never re-ARP. This is the traffic move, and it is one value.',e:'new 02: MASTER (250)\\nlegacy 01: BACKUP\\nisis / bgp: stable\\nclients: no re-ARP',set:s=>{s.leg2=0;s.nb=1;s.master='nb'},rb:'lower priority (instant)',fail:'mac'},
+ {t:'Legacy 01 goes down',d:'Now BACKUP and forwarding nothing, so it can be taken out safely. Half the pair is already replaced and live.',e:'legacy 01: DOWN\\nisis: adjacency withdrawn\\nbgp: session torn down\\nnew 02: MASTER\\ntraffic: unaffected',set:s=>{s.leg2=0;s.nb=1;s.master='nb';s.leg1=0},rb:'re-enable legacy 01',fail:'preempt'},
+ {t:'New core 01 comes up',d:'The second replacement joins the group as BACKUP alongside its pair member.',e:'new 01: BACKUP (200)\\nisis: adjacency UP\\nbgp: ESTABLISHED\\nnew 02: MASTER (250)',set:s=>{s.leg2=0;s.leg1=0;s.nb=1;s.na=1;s.master='nb'},rb:'remove uplink'},
+ {t:'VRRP master switches to new core 01',d:'Mastership settles on the intended primary. The new pair owns the gateway natively, the legacy pair is gone, and no traffic was lost at any point.',e:'new 01: MASTER (250)\\nnew 02: BACKUP (200)\\nisis: 2 adjacencies\\nbgp: 2 established\\ntotal loss: 0 ms',set:s=>{s.leg2=0;s.leg1=0;s.nb=1;s.na=1;s.master='na'},rb:'lower priority (instant)'}];
+const HARD=[
+ {t:'Shut the legacy pair',d:'Both old gateways stop forwarding at once. Clients have no first hop.',e:'legacy 01/02: DOWN\\nclients: blackholed',set:s=>{s.leg1=0;s.leg2=0;s.master='none';s.loss=900},rb:'re-cable and re-enable'},
+ {t:'Enable the new pair',d:'The replacements are brought up cold. Clients must re-ARP for a new gateway MAC.',e:'new 01/02: coming up\\nclients: re-ARP pending',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='none';s.loss=1400},rb:'re-cable and re-enable'},
+ {t:'Convergence',d:'Traffic resumes once ARP caches refresh. The window is whatever the slowest client takes.',e:'new 01: MASTER\\ntotal loss: 1400 ms',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='na'},rb:'full re-cable'}];
+const SCEN={ok:{n:'Clean run'},
+ mac:{n:'Virtual MAC not preserved',at:'mac',why:'The new gateway came up with a different MAC. Clients hold the old one until their ARP cache ages out &mdash; a load balancer took ~28 minutes. Preserving the virtual MAC across the handoff is what designs this failure out.'},
+ preempt:{n:'Preempt left enabled',at:'preempt',why:'Preemption was never disabled, so mastership flapped back to the device being re-cabled mid-move. Always demote deliberately and hold it there.'},
+ edge:{n:'Edge-port config on the bridge',at:'edge',why:'The temporary link was left configured as an edge port. Its BPDU rate-limit tripped and errdisabled the port-channel &mdash; the same latent misconfiguration a later fleet audit found on 540+ port-channels.'}};
+let method='strad',scen='ok',i=0,timer=null;
+const sc=document.getElementById('scen');
+Object.keys(SCEN).forEach(k=>{const b=document.createElement('button');b.textContent=SCEN[k].n;b.setAttribute('aria-pressed',k===scen);
+ b.onclick=()=>{scen=k;[...sc.children].forEach(c=>c.setAttribute('aria-pressed',c===b));reset()};sc.appendChild(b)});
+const el=id=>document.getElementById(id);
+function steps(){return method==='strad'?STRAD:HARD}
+function setMethod(m){method=m;el('mHard').setAttribute('aria-pressed',m==='hard');el('mStrad').setAttribute('aria-pressed',m==='strad');reset()}
+el('mHard').onclick=()=>setMethod('hard');el('mStrad').onclick=()=>setMethod('strad');
+function render(){
+ const L=steps();const s={master:'leg1',loss:0,leg1:1,leg2:1,na:0,nb:0};
+ let failed=null;
+ for(let k=0;k<i;k++){const st=L[k];st.set(s);
+  if(scen!=='ok'&&st.fail===SCEN[scen].at){failed=SCEN[scen];s.loss=Math.max(s.loss,1680);break}}
+ const lineCls=id=>s[id]?(s.master===id?'live':'bridge'):'idle';
+ ['leg1','leg2','na','nb'].forEach(id=>setGrp(id,lineCls(id)));
+ setGrp('peer',(s.na||s.nb)&&(s.leg1||s.leg2)?'bridge':'idle');
+ const flowing=!failed&&s.master!=='none';
+ setGrp('cli',flowing?'live':'down');
+ for(const k in lines)setFlow(k,false);
+ if(flowing){['cli1','cli2','cli3'].forEach(c=>{setFlow(c,true);setFlow(s.master+'_'+lines[c].sw,true)})}
+ const st8=(id,cls,pri,badge)=>{boxes[id].g.setAttribute('class','box '+cls);boxes[id].pri.textContent=pri||'';
+  boxes[id].pri.setAttribute('class','pri '+(cls==='master'?'hi':'lo'));boxes[id].badge.textContent=badge||''};
+ const dev=(id,pri)=>st8(id,s[id]?(s.master===id?'master':'backup'):'gone',s[id]?pri:'',s[id]?(s.master===id?'MASTER':'BACKUP'):'out of service');
+ dev('leg1','priority 200');dev('leg2','priority 100');
+ dev('na',s.master==='na'?'priority 250':'priority 200');
+ dev('nb',s.master==='nb'?'priority 250':'priority 50');
+ const br=(s.na||s.nb)&&(s.leg1||s.leg2);
+ st8('sw1',br?'master':'','',br?'BRIDGING':'');st8('sw2',br?'master':'','',br?'BRIDGING':'');
+ ['cli1','cli2','cli3'].forEach(c=>st8(c,'','',''));
+ const cur=i>0?L[i-1]:null;
+ el('sTag').textContent='Step '+i+' / '+L.length;
+ el('sTitle').innerHTML=failed?'Blocked: '+failed.n:(cur?cur.t:'Ready');
+ el('sDesc').innerHTML=failed?failed.why:(cur?cur.d:'Pick a method, then Play. The pair is replaced one device at a time, and the device being touched is always the one carrying no traffic. Watch the client traffic \u2014 it should never stop.');
+ el('sEx').textContent=cur?cur.e.replace(/\\n/g,'\n'):'// waiting';
+ const lv=el('lossV');lv.textContent=(failed?1680:s.loss)+' ms';
+ lv.parentElement.className=(failed||s.loss)?'r':'g';
+ el('rbV').textContent=cur?cur.rb:'\u2014';
+ const ol=el('sList');ol.innerHTML='';
+ L.forEach((x,k)=>{const li=document.createElement('li');li.innerHTML=x.t;li.className=k<i?'done':(k===i?'cur':'');ol.appendChild(li)});
+}
+function next(){const L=steps();if(i<L.length){i++;render()}else stop()}
+function stop(){clearInterval(timer);timer=null;el('play').innerHTML='&#9654; Play'}
+function reset(){i=0;stop();render()}
+el('next').onclick=()=>{stop();next()};
+el('prev').onclick=()=>{stop();if(i>0){i--;render()}};
+el('reset').onclick=reset;
+el('play').onclick=()=>{if(timer)return stop();el('play').innerHTML='&#10073;&#10073; Pause';timer=setInterval(next,1600)};
+reset();
+</script></body></html>

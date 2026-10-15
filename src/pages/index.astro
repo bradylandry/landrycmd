@@ -28,6 +28,22 @@ const lab = [
     live: "/lab/mcp-simulator/",
     github: null,
   },
+  {
+    name: "Zero-Downtime Migration Simulator",
+    tagline: "Interactive diagram · generalized",
+    description:
+      "The migration method I built and ran across 14 markets: instead of cutting a gateway over, put both vendors' routers in one redundancy group so the new one sits as the deliberate loser, then move traffic by changing a priority value. The pair is replaced one device at a time, always taking out the member carrying no traffic. Toggle hardcut against straddle and watch the packets-lost counter while client traffic keeps flowing. Real failure modes included.",
+    live: "/lab/migration-simulator/",
+    github: null,
+  },
+  {
+    name: "Ring Collapse Simulator",
+    tagline: "Interactive diagram · generalized",
+    description:
+      "A metro re-architecture: two parallel topologies collapsed into one. The video ring was not legacy cruft — it existed because a single-service topology needs almost no QoS. Collapsing it means accepting that burden everywhere. Toggle the sequencing to see why I added hub capacity four months before touching the ring.",
+    live: "/lab/ring-collapse/",
+    github: null,
+  },
 ];
 
 const shipped = [
@@ -102,10 +118,9 @@ const experience = [
       Brady Landry designs and operates Tier 1 service provider and data center
       networks: 20 years in, 15 of them at Cox Communications across the
       national IP backbone, regional data centers, and metro. Day job is Arista
-      spine and leaf, Infrastructure-as-Code standards, and the
-      <a href="/work/ai-network-operations">AI Network Operations Platform (MCP)</a>.
-      The case study is the public account of that platform. Internal runbooks
-      stay off this site.
+      spine and leaf, Infrastructure-as-Code standards, and an AI automation
+      platform wired into the tools engineers actually use. None of that
+      internal platform can live on this site.
     </p>
     <p>
       landrycmd is the home lab that stands in for it. Same problems, public
@@ -126,18 +141,6 @@ const experience = [
       <a href="mailto:bjlandry@gmail.com">Email</a>
       &nbsp;·&nbsp;
       <a href="/resume">Résumé</a>
-    </p>
-  </section>
-
-  <section id="work">
-    <p class="kicker">// case study</p>
-    <h2>AI Network Operations Platform (MCP)</h2>
-    <p>
-      28 MCP servers, about 573 tools, and 44 agents. This case study stands
-      alone. It is not part of the firewall rule request work.
-    </p>
-    <p>
-      <a href="/work/ai-network-operations">Read the case study →</a>
     </p>
   </section>
 
