@@ -40,6 +40,12 @@ jobs:
       - name: Test
         run: npm test
 
+      # .astro/ is gitignored. tsc needs the virtual-module types Astro writes
+      # there (astro:content, astro:middleware, import.meta.env). A fresh
+      # checkout does not have them until sync runs.
+      - name: Generate Astro types
+        run: npx astro sync
+
       - name: Typecheck
         run: npx tsc --noEmit -p tsconfig.json
 
