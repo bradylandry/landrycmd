@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ring Collapse Simulator</title>
+<style>
+:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
+header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
+.tabs{display:flex;gap:8px;max-width:1200px;margin:16px auto 0;padding:0 24px}
+.tabs button{background:var(--panel);color:var(--mut);border:1px solid var(--line);padding:10px 18px;border-radius:8px 10px 0 0;cursor:pointer;font:inherit}
+.tabs button[aria-selected=true]{color:var(--txt);border-bottom-color:var(--panel);box-shadow:inset 0 2px 0 var(--acc)}
+button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{max-width:1200px;margin:0 auto;padding:0 24px 32px}
+.view{display:grid;grid-template-columns:1fr 320px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:0 8px 8px 8px;padding:16px}
+.view[hidden]{display:none}@media(max-width:860px){.view{grid-template-columns:1fr}}
+svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.side h2{margin:0 0 6px;font-size:1.1rem}.side p{color:var(--mut);margin:0 0 10px}.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--card);color:var(--acc);margin-bottom:8px}
+.edge{stroke:var(--line);stroke-width:2;fill:none}.edge.hi{stroke:var(--acc)}
+.node{cursor:pointer}.node circle{fill:var(--bg);stroke:var(--acc2);stroke-width:2;transition:.2s}.node:hover circle,.node.sel circle{stroke:var(--acc);fill:#0f172a}
+.node text{fill:var(--txt);font-size:11.5px;text-anchor:middle}.node .ic{stroke:var(--acc);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pulse{fill:var(--acc);filter:drop-shadow(0 0 4px var(--glow))}
+.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}.stage.done rect{stroke:var(--ok)}.stage.cur rect{stroke:var(--acc);fill:#0f172a}
+.stage text{fill:var(--txt);font-size:12px;text-anchor:middle}.stage .ic{stroke:var(--mut);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.stage.cur .ic,.stage.done .ic{stroke:var(--acc)}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ctrl button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
+.ctrl button:hover{border-color:var(--acc)}pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
+ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)}ol li.done{color:var(--txt)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}.stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}.after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
+.back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
+
+.block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
+.block+.block{border-top:1px dashed var(--line);margin-top:28px;padding-top:28px}
+.lbl{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.04em;margin:0 0 4px}
+.block h2{margin:0 0 8px;font-size:1.25rem}
+.block .lede{color:var(--mut);margin:0 0 4px;max-width:70ch}
+.block .lede b{color:var(--txt);font-weight:600}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;padding:0;list-style:none}
+.tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
+.view{border-radius:8px}
+footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
+@media(prefers-reduced-motion:reduce){.pulse{display:none}}
+
+.mline{stroke:var(--line);stroke-width:2.5;fill:none}.mline.live{stroke:var(--acc);filter:drop-shadow(0 0 3px var(--glow))}
+.mline.bridge{stroke:var(--acc2);stroke-dasharray:6 5}.mline.down{stroke:#ef4444;stroke-dasharray:3 4}.mline.idle{opacity:.25}
+.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:8}.box.master rect{stroke:var(--acc);fill:#0f172a}
+.box.backup rect{stroke:var(--mut)}.box.gone rect{stroke:#ef4444;stroke-dasharray:4 4;opacity:.5}
+.box text{fill:var(--txt);font-size:12px;text-anchor:middle}.box .sub{fill:var(--mut);font-size:10px}
+.pri{font-family:var(--mono);font-size:11px;text-anchor:middle}.pri.hi{fill:var(--acc)}.pri.lo{fill:var(--mut)}
+.badge{font-family:var(--mono);font-size:10px;text-anchor:middle;fill:var(--ok)}
+.loss{font-family:var(--mono);font-size:22px;color:var(--ok)}.loss.bad{color:#ef4444}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.cmp div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.cmp b{display:block;font-family:var(--mono);font-size:1.1rem}.cmp span{color:var(--mut);font-size:.78rem}
+.cmp .g b{color:var(--ok)}.cmp .r b{color:#ef4444}
+
+.rl{fill:none;stroke:var(--line);stroke-width:2.5}
+.rl.uni{stroke:var(--acc)}.rl.mc{stroke:var(--acc2)}
+.rl.fat{stroke-width:7;opacity:.95}.rl.hot{stroke:#ef4444;stroke-width:7}
+.rl.gone{stroke:var(--line);stroke-dasharray:4 5;opacity:.22}
+.nd rect,.nd circle{fill:var(--bg);stroke:var(--acc2);stroke-width:2}
+.nd.hub circle{stroke:var(--acc);stroke-width:2.5}
+.nd.off rect,.nd.off circle{stroke:var(--line);opacity:.25;stroke-dasharray:4 4}
+.nd text{fill:var(--txt);font-size:11px;text-anchor:middle}.nd .sub{fill:var(--mut);font-size:9.5px}
+.area{fill:none;stroke:var(--mut);stroke-width:1.5;stroke-dasharray:7 6;rx:14}
+.area.one{stroke:var(--acc)}
+.alab{font-family:var(--mono);font-size:11px;fill:var(--mut);text-anchor:middle}.alab.one{fill:var(--acc)}
+.qos{font-family:var(--mono);font-size:9px;fill:var(--ok);text-anchor:middle}
+.cap{font-family:var(--mono);font-size:9.5px;fill:var(--mut);text-anchor:middle}.cap.off{opacity:.3}.cap.hot{fill:#ef4444}
+</style></head><body>
+<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Ring Collapse Simulator</h1>
+<p>Consolidating two parallel topologies into one, and the trade that comes with it. A metro re-architecture I designed and ran. Names and systems are generalized.</p>
+<div class="metrics"><div><b>2 &rarr; 1</b><span>routing areas</span></div><div><b>2 &rarr; 1</b><span>topologies to operate</span></div><div><b>36</b><span>revisions of the cost model</span></div><div><b>4 months</b><span>capacity added before collapse</span></div></div></header>
+<main>
+<section class="block">
+<p class="lbl">01 &middot; the decision</p>
+<h2>The ring was not legacy cruft &mdash; it was there for a reason</h2>
+<p class="lede">Each metro market ran <b>two topologies at once</b>: a hub-and-spoke carrying all unicast, and a separate <b>10G ring carrying video multicast only</b>. That looks redundant until you ask why. It kept video off the unicast path, and because the ring carried exactly one service it needed <b>almost no QoS engineering</b> &mdash; there was nothing to protect video from.</p>
+<p class="lede">Collapsing it means accepting that QoS burden on every shared link, forever. The win is one topology to operate instead of two. That is the real trade, and it is invisible if you only count bandwidth.</p>
+<p class="lede">The sequencing is the whole lesson. Capacity went in <b>four months before</b> the ring was touched, and every area 20 network was advertised into area 10 and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
+<ul class="tags"><li>OSPF</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
+<div class="view">
+ <div>
+  <svg id="ring" viewBox="0 0 800 324" role="img" aria-label="Hub and spoke with a parallel multicast ring"></svg>
+  <div class="ctrl"><button id="play">&#9654; Play</button><button id="next">Step &#9654;</button><button id="reset">&#8634; Reset</button></div>
+  <div class="cmp"><div class="g"><b id="utilV">38%</b><span>hub link utilisation</span></div><div class="g"><b id="vidV">clean</b><span>video state</span></div></div>
+ </div>
+ <aside class="side" aria-live="polite"><span class="tag" id="sTag">Step 0 / 3</span><h2 id="sTitle">Before</h2><p id="sDesc">Two topologies, two routing areas. Unicast on the hub-and-spoke, video multicast on its own 10G ring. Press Play.</p><pre id="sEx">// waiting</pre><ol id="sList"></ol></aside>
+</div>
+</section>
+</main>
+<footer>Portfolio demo &middot; illustrative architecture, no proprietary details</footer>
+<script>
+const S='http://www.w3.org/2000/svg';
+const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+const el=i=>document.getElementById(i);
+/* ================= block 01 ================= */
+const sv=el('ring'),lg=mk('g',{},sv),ng=mk('g',{},sv),tg=mk('g',{},sv);
+/* AGG pair on top. Four hubs below, two routers each, side by side with space.
+   ORTHOGONAL ONLY: every link is horizontal or vertical, no diagonals.
+   The ring daisy-chains straight through every router on the row. */
+/* Layout follows the fabric standard where it generalises:
+   S1 01 left of 02, cx strictly increasing.  S2 two gap values, intra (50) < inter (80).
+   P2 the row mirrors about the axis.  P4 bowtie legs cross — the crossing is the information.
+   P5 room for the bowtie: >=50 inside a pair, >=80 between sibling blocks. */
+const AX=400, AGG=[{x:338,y:66,l:'AGG 01'},{x:462,y:66,l:'AGG 02'}];
+const RY=250, H=37, RINGY=242, PAIRY=258;
+const R1=[60,338,616], R2=[184,462,740];
+R1.forEach((a,i)=>{const b=R2[i];
+ mk('rect',{class:'area',x:a-H-10,y:216,width:(b+H+10)-(a-H-10),height:68,rx:12},lg);
+ const h=mk('text',{class:'alab',x:(a+b)/2,y:208},tg);h.textContent='hub '+(i+1)});
+/* Straight homing: 01 to AGG 01, 02 to AGG 02. Not a bowtie — the pairs do not
+   cross, so P4 does not apply here. */
+const uni=[];
+R1.forEach(a=>uni.push(mk('path',{class:'rl uni',d:`M${AGG[0].x} ${AGG[0].y+17} L${a} ${RY-17}`},lg)));
+R2.forEach(b=>uni.push(mk('path',{class:'rl uni',d:`M${AGG[1].x} ${AGG[1].y+17} L${b} ${RY-17}`},lg)));
+/* unicast pair link, 01 <-> 02 inside each hub. Sits in the same gap as the ring,
+   8px below it — the ring rides 8px above the row centre so both fit. */
+R1.forEach((a,i)=>{const b=R2[i];
+ uni.push(mk('path',{class:'rl uni',d:`M${a+H} ${PAIRY} L${b-H} ${PAIRY}`},lg))});
+/* the ring: one straight line THROUGH every router, closed at the AGG pair */
+const ringL=[];
+ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L788 ${RINGY}`},lg));
+ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L12 ${AGG[0].y} L${AGG[0].x-H} ${AGG[0].y}`},lg));
+ringL.push(mk('path',{class:'rl mc',d:`M788 ${RINGY} L788 ${AGG[1].y} L${AGG[1].x+H} ${AGG[1].y}`},lg));
+ringL.push(mk('path',{class:'rl mc',d:`M${AGG[0].x+H} ${AGG[0].y} L${AGG[1].x-H} ${AGG[1].y}`},lg));
+const aLbl10=mk('text',{class:'alab',x:120,y:30},tg);aLbl10.textContent='area 10 \u00b7 unicast';
+const advLbl=mk('text',{class:'qos',x:400,y:18},tg);
+const ringLbl=mk('text',{class:'cap',x:660,y:30},tg);
+ringLbl.textContent='10 Gig ring \u00b7 video only \u00b7 daisy-chained through every router, closed at the AGG pair';
+const caps=R1.map((x,i)=>mk('text',{class:'cap',x:(x+R2[i])/2,y:300},tg));
+const qos=R1.map((x,i)=>mk('text',{class:'qos',x:(x+R2[i])/2,y:312},tg));
+function node(x,y,l,s,cls,shape){const g=mk('g',{class:'nd '+cls,transform:`translate(${x} ${y})`},ng);
+ if(shape==='c')mk('circle',{r:26},g);else mk('rect',{x:-H,y:-17,width:H*2,height:34,rx:6},g);
+ const a=mk('text',{y:s?-2:4},g);a.textContent=l;
+ if(s){const b=mk('text',{class:'sub',y:10},g);b.textContent=s}return g}
+const rgN=AGG.map(a=>node(a.x,a.y,a.l,'',''));
+R1.forEach(x=>node(x,RY,'rtr 01','',''));
+R2.forEach(x=>node(x,RY,'rtr 02','',''));
+const STEPS=[
+{t:'Augment hub capacity',d:'Link aggregation bundles and line cards on the hub uplinks, sized to carry the ring\u2019s video load on top of existing unicast. Nothing has moved yet, and both areas are untouched.',e:'hub uplinks: bundled\nutilisation: 38% -> 22%\narea 10: unicast  area 20: multicast'},
+    {t:'Advertise area 20 into area 10, enable PIM and IGMP',d:'Every area 20 network is advertised into area 10, and PIM and IGMP are enabled on the unicast links so they can carry multicast at all. All of it before a single link is touched \u2014 the ring is still forwarding throughout.',e:'area 20 networks -> area 10\npim sparse-mode: on unicast links\nigmp: enabled\nring: still forwarding\nno traffic has moved'},
+    {t:'Validate traffic and video',d:'Reachability confirmed from the unicast side, then the video check: every multicast group joined and streaming over the new path. Both have to pass before anything is removed.',e:'unicast reachability: ok\nmulticast groups: joined\nvideo: clean on new path'},
+    {t:'Move multicast onto the hub-and-spoke',d:'PIM sparse-mode now runs over the augmented uplinks. QoS policy goes on every shared link \u2014 this is the cost of consolidating two topologies into one.',e:'multicast: on hub uplinks\nqos policy: applied to all\nutilisation: 61%'},
+    {t:'Remove the area 20 links',d:'Only now is the ring decommissioned and area 20 withdrawn. One topology, one area, and every route it carried was already live in area 10 before the links went away.',e:'area 20: removed\nareas: 2 -> 1\ntopologies: 2 -> 1\nvideo: clean'}];
+let i=0,timer=null;
+function render(){
+ const L=STEPS;
+ const aug=i>=1, adv=i>=2, mcMoved=i>=4, ringGone=i>=5;
+ uni.forEach(p=>p.setAttribute('class','rl uni'+(aug?' fat':'')));
+ ringL.forEach(p=>p.setAttribute('class','rl mc'+(ringGone?' gone':'')));
+ rgN.forEach(g=>g.setAttribute('class','nd'+(ringGone?' off':'')));
+ ringLbl.setAttribute('class','cap'+(ringGone?' off':''));
+ ringLbl.textContent=ringGone?'area 20 removed \u00b7 ring decommissioned':'area 20 \u00b7 10 Gig ring \u00b7 video only';
+ aLbl10.textContent=ringGone?'single area':'area 10 \u00b7 unicast';
+ aLbl10.setAttribute('class','alab'+(ringGone?' one':''));
+ advLbl.textContent=adv&&!ringGone?'area 20 networks advertised into area 10':'';
+ caps.forEach(t=>{t.textContent=aug?(mcMoved?'61%':'22%'):'38%';t.setAttribute('class','cap')});
+ qos.forEach(t=>t.textContent=mcMoved?'qos policy':'');
+ const cur=i>0?L[i-1]:null;
+ el('sTag').textContent='Step '+i+' / '+L.length;
+ el('sTitle').textContent=cur?cur.t:'Before';
+ el('sDesc').textContent=cur?cur.d:'Two topologies, two routing areas. Unicast on the hub-and-spoke, video multicast on its own 10G ring. Press Play.';
+ el('sEx').textContent=cur?cur.e:'// waiting';
+ const u=el('utilV'),v=el('vidV');
+ u.textContent=aug?(mcMoved?'61%':'22%'):'38%';
+ u.parentElement.className='g';
+ v.textContent='clean';v.parentElement.className='g';
+ const ol=el('sList');ol.innerHTML='';
+ L.forEach((x,k)=>{const li=document.createElement('li');li.textContent=x.t;li.className=k<i?'done':(k===i?'cur':'');ol.appendChild(li)});
+}
+function stop(){clearInterval(timer);timer=null;el('play').innerHTML='&#9654; Play'}
+function next(){const L=STEPS;if(i<L.length){i++;render()}else stop()}
+function reset(){i=0;stop();render()}
+el('next').onclick=()=>{stop();next()};el('reset').onclick=reset;
+el('play').onclick=()=>{if(timer)return stop();el('play').innerHTML='&#10073;&#10073; Pause';timer=setInterval(next,1700)};
+reset();
+
+</script></body></html>
