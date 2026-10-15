@@ -1,11 +1,17 @@
 import type { APIRoute } from "astro";
 import { getRedis } from "../../lib/redis";
+import { serverEnv } from "../../lib/private-config.mjs";
 import { APPS_COOKIE, sign } from "../../middleware";
 
 export const prerender = false;
 
-const APPS_PIN = process.env.APPS_PIN || import.meta.env.APPS_PIN || "";
-const SECRET = process.env.TRIP_SECRET || import.meta.env.TRIP_SECRET || "";
+function appsPin(): string {
+  return serverEnv("APPS_PIN");
+}
+
+function signingSecret(): string {
+  return serverEnv("APPS_SECRET") || serverEnv("TRIP_SECRET");
+}
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
 const TOKEN_TTL_MS = COOKIE_MAX_AGE * 1000;
@@ -44,8 +50,10 @@ async function checkRateLimit(ip: string): Promise<boolean> {
 }
 
 export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
-  if (!APPS_PIN || !SECRET) {
-    console.error("APPS_PIN or TRIP_SECRET env var is not set");
+  const pinExpected = appsPin();
+  const secret = signingSecret();
+  if (!pinExpected || !secret) {
+    console.error("APPS_PIN or APPS_SECRET env var is not set");
     return new Response(JSON.stringify({ ok: false, error: "Server misconfiguration" }), {
       status: 500,
       headers: { "content-type": "application/json" },
@@ -79,7 +87,7 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   }
 
   const pin = (body.pin || "").trim();
-  if (pin !== APPS_PIN) {
+  if (pin !== pinExpected) {
     return new Response(JSON.stringify({ ok: false, error: "Wrong code" }), {
       status: 401,
       headers: { "content-type": "application/json" },
@@ -89,7 +97,7 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   const issuedAt = Date.now();
   const expiresAt = issuedAt + TOKEN_TTL_MS;
   const payload = `apps:${issuedAt}:${expiresAt}`;
-  const sig = await sign(payload, SECRET);
+  const sig = await sign(payload, secret);
   const token = `${payload}.${sig}`;
 
   cookies.set(APPS_COOKIE, token, {

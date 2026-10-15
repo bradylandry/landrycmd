@@ -7,8 +7,8 @@ import { loadEnv } from "vite";
 import { decodeEnvJson } from "../src/lib/private-config.mjs";
 import { upsertEnv } from "../scripts/load-private.mjs";
 
-function envValue(text, key) {
-  const line = text.split(/\r?\n/).find((entry) => entry.startsWith(`${key}=`));
+function envValue(text: string, key: string) {
+  const line = text.split(/\r?\n/).find((entry: string) => entry.startsWith(`${key}=`));
   assert.ok(line);
   return decodeEnvJson(line.slice(key.length + 1));
 }
@@ -47,7 +47,7 @@ test("quoted values round-trip through Vite env loading", () => {
       note: 'fee $12 and line1\nline2 and say "hi"',
     },
   ]);
-  return mkdtemp(join(tmpdir(), "env-round-")).then(async (dir) => {
+    return mkdtemp(join(tmpdir(), "env-round-")).then(async (dir: string) => {
     try {
       await writeFile(join(dir, ".env"), upsertEnv("", { APPLICATIONS_JSON: payload }));
       const loaded = loadEnv("development", dir, "");
@@ -60,24 +60,24 @@ test("quoted values round-trip through Vite env loading", () => {
 
 test("upsertEnv replaces only the private keys", () => {
   const existing = [
-    "TRIP_SECRET=keep-me",
+    "APPS_SECRET=keep-me",
     "APPLICATIONS_JSON=old",
     "APPS_PIN=also-keep",
     "",
   ].join("\n");
   const next = upsertEnv(existing, {
     APPLICATIONS_JSON: JSON.stringify(apps),
-    RESUME_ACADIANATEK_JSON: JSON.stringify(resume),
+    DISCLOSED_ROLE_JSON: JSON.stringify(resume),
   });
-  assert.match(next, /^TRIP_SECRET=keep-me$/m);
+  assert.match(next, /^APPS_SECRET=keep-me$/m);
   assert.match(next, /^APPS_PIN=also-keep$/m);
   assert.equal(next.includes("APPLICATIONS_JSON=old"), false);
   assert.match(next, /^APPLICATIONS_JSON=/m);
-  assert.match(next, /^RESUME_ACADIANATEK_JSON=/m);
+  assert.match(next, /^DISCLOSED_ROLE_JSON=/m);
   assert.equal(next.includes("SENTINEL_NOTE_SHOULD_NOT_PRINT"), false);
   assert.equal(next.includes("SENTINEL_BULLET_SHOULD_NOT_PRINT"), false);
   assert.match(envValue(next, "APPLICATIONS_JSON"), /SENTINEL_NOTE_SHOULD_NOT_PRINT/);
-  assert.match(envValue(next, "RESUME_ACADIANATEK_JSON"), /SENTINEL_BULLET_SHOULD_NOT_PRINT/);
+  assert.match(envValue(next, "DISCLOSED_ROLE_JSON"), /SENTINEL_BULLET_SHOULD_NOT_PRINT/);
 });
 
 test("loadPrivateFiles writes .env and does not print values", async () => {
@@ -91,14 +91,14 @@ test("loadPrivateFiles writes .env and does not print values", async () => {
       `${JSON.stringify(apps, null, 2)}\n`,
     );
     await writeFile(
-      join(dir, "resume-acadianatek.json"),
+      join(dir, "disclosed-role.json"),
       `${JSON.stringify(resume, null, 2)}\n`,
     );
     await writeFile(join(dir, ".env"), "APPS_PIN=keep\n");
     const code = await loadPrivateFiles({
       dir,
-      log: (line) => logs.push(line),
-      error: (line) => errors.push(line),
+      log: (line: string) => logs.push(line),
+      error: (line: string) => errors.push(line),
     });
     assert.equal(code, 0);
     assert.equal(errors.length, 0);
@@ -111,7 +111,7 @@ test("loadPrivateFiles writes .env and does not print values", async () => {
     assert.equal(env.includes("SENTINEL_NOTE_SHOULD_NOT_PRINT"), false);
     assert.equal(env.includes("SENTINEL_BULLET_SHOULD_NOT_PRINT"), false);
     assert.match(envValue(env, "APPLICATIONS_JSON"), /SENTINEL_NOTE_SHOULD_NOT_PRINT/);
-    assert.match(envValue(env, "RESUME_ACADIANATEK_JSON"), /SENTINEL_BULLET_SHOULD_NOT_PRINT/);
+    assert.match(envValue(env, "DISCLOSED_ROLE_JSON"), /SENTINEL_BULLET_SHOULD_NOT_PRINT/);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

@@ -14,32 +14,32 @@ function isRecord(value) {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 
-// Prefer process.env so a server injects the value at runtime. import.meta.env.NAME
-// is Astro's build-time fallback for local dev, where .env is not copied onto process.env.
-function readMeta(name) {
+let localEnvLoaded = false;
+
+function ensureLocalEnv() {
+  if (localEnvLoaded) return;
+  localEnvLoaded = true;
+  // Runtime read of a gitignored .env. Does not inline values into the build.
+  // Existing process.env entries win, which is what Vercel injects.
+  if (typeof process.loadEnvFile !== "function") return;
   try {
-    const value =
-      name === "APPLICATIONS_JSON"
-        ? import.meta.env.APPLICATIONS_JSON
-        : import.meta.env.RESUME_ACADIANATEK_JSON;
-    return typeof value === "string" ? value : "";
+    process.loadEnvFile();
   } catch {
-    return "";
+    // No local file. Hosted runtimes provide process.env directly.
   }
 }
 
-function readEnv(name) {
-  const fromProcess = process.env[name];
-  if (typeof fromProcess === "string" && fromProcess.trim() !== "") return fromProcess;
-  const fromMeta = readMeta(name);
-  return fromMeta.trim() === "" ? "" : fromMeta;
+export function serverEnv(name) {
+  ensureLocalEnv();
+  const value = process.env[name];
+  return typeof value === "string" ? value : "";
 }
 
 /**
  * @param {string | undefined} raw Caller-supplied JSON. Omit to read APPLICATIONS_JSON.
  */
 export function loadApplications(raw) {
-  const source = raw === undefined ? readEnv("APPLICATIONS_JSON") : raw;
+  const source = raw === undefined ? serverEnv("APPLICATIONS_JSON") : raw;
   if (typeof source !== "string" || source.trim() === "") {
     return { ok: false, reason: "missing" };
   }
@@ -131,10 +131,10 @@ function parseRole(value) {
 }
 
 /**
- * @param {string | undefined} raw Caller-supplied JSON. Omit to read RESUME_ACADIANATEK_JSON.
+ * @param {string | undefined} raw Caller-supplied JSON. Omit to read DISCLOSED_ROLE_JSON.
  */
-export function loadAcadianaTekCopy(raw) {
-  const source = raw === undefined ? readEnv("RESUME_ACADIANATEK_JSON") : raw;
+export function loadDisclosedRole(raw) {
+  const source = raw === undefined ? serverEnv("DISCLOSED_ROLE_JSON") : raw;
   if (typeof source !== "string" || source.trim() === "") return null;
 
   let parsed;

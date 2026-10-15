@@ -1,10 +1,10 @@
 import {
-  loadAcadianaTekCopy as readAcadianaTekCopy,
-  type AcadianaTekCopy,
-  type AcadianaTekRole,
+  loadDisclosedRole as readDisclosedRole,
+  type DisclosedRole,
+  type DisclosedRoleCopy,
 } from "./private-config.mjs";
 
-export type { AcadianaTekCopy, AcadianaTekRole };
+export type { DisclosedRole, DisclosedRoleCopy };
 export type ResumeVariant = "network" | "presales";
 
 export interface ResumeSkill {
@@ -144,7 +144,7 @@ const coxOps: ResumeRole = {
 function applyDisclosure(
   role: ResumeRole,
   disclosed: boolean,
-  extra: AcadianaTekRole | undefined,
+  extra: DisclosedRole | undefined,
 ): ResumeRole {
   if (!disclosed || !extra) return role;
   return {
@@ -158,7 +158,7 @@ function applyDisclosure(
 function independentRole(
   disclosed: boolean,
   variant: ResumeVariant,
-  overlay: AcadianaTekCopy | null,
+  overlay: DisclosedRoleCopy | null,
 ): ResumeRole {
   if (variant === "presales") {
     return applyDisclosure(
@@ -167,17 +167,7 @@ function independentRole(
         org: "Independent consulting practice · landrycmd",
         period: "2026 – Present",
         icon: "agent",
-        bullets: [
-          "Co-founded an AI consulting practice; led pre-sales and solutioning, translating business drivers into technology roadmaps and setting direction on what to adopt.",
-          "Ran technical discovery across five organizations in four verticals: public accounting, law, wealth management, and industrial distribution.",
-          "Led in-person discovery sessions with managing partners, firm principals, and the client's incumbent MSP, mapping the full environment and surfacing constraints before proposing a solution.",
-          "Delivered a partner-meeting presentation on AI adoption to a CPA firm's leadership, and technical demonstrations to non-technical decision-makers.",
-          "Designed solutions and produced Bills of Materials and Statements of Work with scoped deliverables, cost and labor estimates, to move opportunities to a decision.",
-          "Authored the firm's proposal and contract set (MSA, SOW, NDA), routed through outside counsel for regulated clients.",
-          "Built a working proof of concept against a client's order and inventory systems to de-risk the engagement before any automation commitment.",
-          "Influenced technology selection and built preference for the right platforms, working alongside clients' existing IT providers rather than displacing them.",
-          "Architected private LLM and RAG solutions and led enablement and training, a differentiator that complements core networking and infrastructure work.",
-        ],
+        bullets: [],
       },
       disclosed,
       overlay?.presales,
@@ -203,8 +193,8 @@ function independentRole(
   );
 }
 
-export function loadAcadianaTekCopy(raw?: string): AcadianaTekCopy | null {
-  return readAcadianaTekCopy(raw);
+export function loadDisclosedRole(raw?: string): DisclosedRoleCopy | null {
+  return readDisclosedRole(raw);
 }
 
 const networkDc: ResumeRole = {
@@ -222,15 +212,18 @@ const networkDc: ResumeRole = {
 export function getResume(opts: {
   disclosed?: boolean;
   variant?: ResumeVariant;
-  acadianaTek?: AcadianaTekCopy | null;
+  disclosedRole?: DisclosedRoleCopy | null;
 }): ResumeCopy {
   const disclosed = opts.disclosed ?? false;
   const variant = opts.variant ?? "network";
   const overlay = !disclosed
     ? null
-    : opts.acadianaTek !== undefined
-      ? opts.acadianaTek
-      : loadAcadianaTekCopy();
+    : opts.disclosedRole !== undefined
+      ? opts.disclosedRole
+      : loadDisclosedRole();
+  if (disclosed && !overlay) {
+    throw new Error("DISCLOSED_ROLE_JSON unavailable");
+  }
 
   if (variant === "presales") {
     return {

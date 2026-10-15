@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { serverEnv } from "./lib/private-config.mjs";
 
 /**
  * /applications exposes the job search: which companies, which roles, and the
@@ -8,10 +9,13 @@ import { defineMiddleware } from "astro:middleware";
 const APPS_COOKIE = "apps_auth";
 const LOGIN_PATH = "/login";
 
-const SECRET = process.env.TRIP_SECRET || import.meta.env.TRIP_SECRET || "";
+function signingSecret(): string {
+  return serverEnv("APPS_SECRET") || serverEnv("TRIP_SECRET");
+}
 
 export async function verifyToken(token: string): Promise<boolean> {
-  if (!SECRET) return false;
+  const secret = signingSecret();
+  if (!secret) return false;
   const lastDot = token.lastIndexOf(".");
   if (lastDot < 0) return false;
   const payload = token.slice(0, lastDot);
@@ -19,7 +23,7 @@ export async function verifyToken(token: string): Promise<boolean> {
   if (!payload || !sig) return false;
 
   try {
-    const expected = await sign(payload, SECRET);
+    const expected = await sign(payload, secret);
     if (expected !== sig) return false;
 
     const parts = payload.split(":");
@@ -51,8 +55,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
   if (!pathname.startsWith("/applications")) return next();
 
-  if (!SECRET) {
-    console.error("TRIP_SECRET env var is required but not set");
+  const secret = signingSecret();
+  if (!secret) {
+    console.error("APPS_SECRET env var is required but not set");
     return new Response("Server misconfiguration", { status: 500 });
   }
 

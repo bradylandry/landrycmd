@@ -4,9 +4,9 @@
  *
  * Reads:
  *   private/applications.json
- *   private/resume-acadianatek.json
+ *   private/disclosed-role.json
  *
- * Writes APPLICATIONS_JSON and RESUME_ACADIANATEK_JSON into .env.
+ * Writes APPLICATIONS_JSON and DISCLOSED_ROLE_JSON into .env.
  * Does not print the values and does not call Vercel. Set the same keys in
  * the Vercel project by hand before deploying.
  *
@@ -14,7 +14,7 @@
  * status (prepared, held, applied, or rejected). Optional fields: token, req,
  * note, url, disclosed (boolean), variant (network or presales).
  *
- * resume-acadianatek.json:
+ * disclosed-role.json:
  * {
  *   "network": { "role": "", "org": "", "bullets": [] },
  *   "presales": { "role": "", "org": "", "bullets": [] }
@@ -26,7 +26,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { realpathSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadAcadianaTekCopy, loadApplications } from "../src/lib/private-config.mjs";
+import { loadDisclosedRole, loadApplications } from "../src/lib/private-config.mjs";
 
 export function quoteEnv(value) {
   // Base64 avoids dotenv treating $, quotes, and newlines inside JSON as syntax.
@@ -74,9 +74,9 @@ export async function loadPrivateFiles(options = {}) {
     return 1;
   }
   try {
-    resumeRaw = await readFile(join(dir, "resume-acadianatek.json"), "utf8");
+    resumeRaw = await readFile(join(dir, "disclosed-role.json"), "utf8");
   } catch {
-    error("missing resume-acadianatek.json");
+    error("missing disclosed-role.json");
     return 1;
   }
 
@@ -85,9 +85,9 @@ export async function loadPrivateFiles(options = {}) {
     error(`applications.json is ${apps.reason}`);
     return 1;
   }
-  const copy = loadAcadianaTekCopy(resumeRaw);
+  const copy = loadDisclosedRole(resumeRaw);
   if (!copy) {
-    error("resume-acadianatek.json is invalid");
+    error("disclosed-role.json is invalid");
     return 1;
   }
 
@@ -100,14 +100,14 @@ export async function loadPrivateFiles(options = {}) {
 
   const next = upsertEnv(existing, {
     APPLICATIONS_JSON: JSON.stringify(apps.applications),
-    RESUME_ACADIANATEK_JSON: JSON.stringify(copy),
+    DISCLOSED_ROLE_JSON: JSON.stringify(copy),
   });
   await writeFile(envFile, next);
 
   const noun = apps.applications.length === 1 ? "entry" : "entries";
   log("Updated .env");
   log(`APPLICATIONS_JSON: ${apps.applications.length} ${noun}`);
-  log("RESUME_ACADIANATEK_JSON: ok");
+  log("DISCLOSED_ROLE_JSON: ok");
   return 0;
 }
 

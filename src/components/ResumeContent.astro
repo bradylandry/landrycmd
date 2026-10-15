@@ -1,6 +1,11 @@
 ---
 import RoleIcon from "./RoleIcon.astro";
-import { EARLY_CAREER, getResume, type ResumeVariant } from "../lib/resume";
+import {
+  EARLY_CAREER,
+  getResume,
+  type DisclosedRoleCopy,
+  type ResumeVariant,
+} from "../lib/resume";
 
 interface Props {
   preparedFor?: string;
@@ -10,9 +15,15 @@ interface Props {
    */
   disclosed?: boolean;
   variant?: ResumeVariant;
+  /** Already loaded by the token route so this render does not read it again. */
+  disclosedRole?: DisclosedRoleCopy | null;
 }
-const { preparedFor, disclosed = false, variant = "network" } = Astro.props;
-const { headline, summary, skills, experience } = getResume({ disclosed, variant });
+const { preparedFor, disclosed = false, variant = "network", disclosedRole } = Astro.props;
+const { headline, summary, skills, experience } = getResume({
+  disclosed,
+  variant,
+  ...(disclosed ? { disclosedRole: disclosedRole ?? null } : {}),
+});
 ---
 
   <section class="hero">

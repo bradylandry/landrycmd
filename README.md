@@ -73,7 +73,7 @@ VM, not Vercel.
 on versions sent directly to an employer. The public `/resume` never does.
 
 Application records and the disclosed résumé lines are not in this repository.
-They are read at runtime from `APPLICATIONS_JSON` and `RESUME_ACADIANATEK_JSON`.
+They are read at runtime from `APPLICATIONS_JSON` and `DISCLOSED_ROLE_JSON`.
 Put the JSON in gitignored files under `private/`, then load the local `.env`:
 
 ```bash
@@ -91,6 +91,7 @@ python3 -c "import secrets,string;a=string.ascii_lowercase+string.digits;\
 ```
 
 Hits land in Redis under `app:hits:<token>` and are viewable at `/applications`,
-which is gated by `APPS_PIN`. `TRIP_SECRET` signs that cookie. Read the
+which is gated by `APPS_PIN`. `APPS_SECRET` signs that cookie (`TRIP_SECRET` is
+still accepted when `APPS_SECRET` is unset). Read the
 "engaged" count, not "opens": corporate mail scanners fetch the HTML but do
 not run JavaScript, so only engaged reflects a human.

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { findApplication, loadApplications } from "../src/lib/private-config.mjs";
-import { getResume, loadAcadianaTekCopy } from "../src/lib/resume.ts";
+import { getResume, loadDisclosedRole } from "../src/lib/resume.ts";
 
 const sampleApps = JSON.stringify([
   {
@@ -108,7 +108,7 @@ test("public résumé ignores a disclosed overlay", () => {
   const copy = getResume({
     disclosed: false,
     variant: "network",
-    acadianaTek: overlay,
+    disclosedRole: overlay,
   });
   const role = copy.experience[0];
   assert.ok(role);
@@ -122,7 +122,7 @@ test("disclosed résumé appends overlay bullets and keeps the public ones", () 
   const disclosed = getResume({
     disclosed: true,
     variant: "network",
-    acadianaTek: overlay,
+    disclosedRole: overlay,
   });
   const role = disclosed.experience[0];
   assert.ok(role);
@@ -134,52 +134,65 @@ test("disclosed résumé appends overlay bullets and keeps the public ones", () 
   assert.equal(role.bullets.at(-1), "overlay network bullet");
 });
 
-test("presales disclosed overlay replaces only the gated role lines", () => {
-  const undisclosed = getResume({ disclosed: false, variant: "presales" });
+test("public presales résumé has no client-detail bullets", () => {
+  const copy = getResume({ disclosed: false, variant: "presales" });
+  assert.deepEqual(copy.experience[0]?.bullets, []);
+});
+
+test("presales disclosed overlay supplies the only bullets", () => {
   const disclosed = getResume({
     disclosed: true,
     variant: "presales",
-    acadianaTek: overlay,
+    disclosedRole: overlay,
   });
   const role = disclosed.experience[0];
   assert.ok(role);
   assert.equal(role.role, "Overlay Presales Role");
   assert.equal(role.org, "Overlay Presales Org");
-  for (const bullet of undisclosed.experience[0]?.bullets ?? []) {
-    assert.equal(role.bullets.includes(bullet), true);
+  assert.deepEqual(role.bullets, ["overlay presales bullet"]);
+});
+
+test("disclosed résumé fails closed when no overlay is present", () => {
+  assert.throws(
+    () =>
+      getResume({
+        disclosed: true,
+        variant: "presales",
+        disclosedRole: null,
+      }),
+    /DISCLOSED_ROLE_JSON unavailable/,
+  );
+
+  const prev = process.env.DISCLOSED_ROLE_JSON;
+  delete process.env.DISCLOSED_ROLE_JSON;
+  try {
+    assert.throws(
+      () => getResume({ disclosed: true, variant: "network" }),
+      /DISCLOSED_ROLE_JSON unavailable/,
+    );
+  } finally {
+    if (prev === undefined) delete process.env.DISCLOSED_ROLE_JSON;
+    else process.env.DISCLOSED_ROLE_JSON = prev;
   }
-  assert.equal(role.bullets.at(-1), "overlay presales bullet");
 });
 
-test("disclosed résumé without overlay stays on the public lines", () => {
-  const disclosed = getResume({
-    disclosed: true,
-    variant: "presales",
-    acadianaTek: null,
-  });
-  const role = disclosed.experience[0];
-  assert.ok(role);
-  assert.equal(role.role, "Technical Solutions Lead");
-  assert.equal(role.org, "Independent consulting practice · landrycmd");
-});
-
-test("loadAcadianaTekCopy parses JSON and rejects junk", () => {
-  assert.equal(loadAcadianaTekCopy(""), null);
-  assert.equal(loadAcadianaTekCopy("not-json"), null);
-  assert.equal(loadAcadianaTekCopy("{}"), null);
-  const parsed = loadAcadianaTekCopy(JSON.stringify(overlay));
+test("loadDisclosedRole parses JSON and rejects junk", () => {
+  assert.equal(loadDisclosedRole(""), null);
+  assert.equal(loadDisclosedRole("not-json"), null);
+  assert.equal(loadDisclosedRole("{}"), null);
+  const parsed = loadDisclosedRole(JSON.stringify(overlay));
   assert.equal(parsed?.network.role, "Overlay Network Role");
   assert.deepEqual(parsed?.presales.bullets, ["overlay presales bullet"]);
 });
 
-test("loadAcadianaTekCopy reads RESUME_ACADIANATEK_JSON", () => {
-  const prev = process.env.RESUME_ACADIANATEK_JSON;
-  process.env.RESUME_ACADIANATEK_JSON = JSON.stringify(overlay);
+test("loadDisclosedRole reads DISCLOSED_ROLE_JSON", () => {
+  const prev = process.env.DISCLOSED_ROLE_JSON;
+  process.env.DISCLOSED_ROLE_JSON = JSON.stringify(overlay);
   try {
-    assert.equal(loadAcadianaTekCopy()?.presales.org, "Overlay Presales Org");
+    assert.equal(loadDisclosedRole()?.presales.org, "Overlay Presales Org");
   } finally {
-    if (prev === undefined) delete process.env.RESUME_ACADIANATEK_JSON;
-    else process.env.RESUME_ACADIANATEK_JSON = prev;
+    if (prev === undefined) delete process.env.DISCLOSED_ROLE_JSON;
+    else process.env.DISCLOSED_ROLE_JSON = prev;
   }
 });
 

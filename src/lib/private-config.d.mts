@@ -1,3 +1,7 @@
+export function decodeEnvJson(value: string): string;
+
+export function serverEnv(name: string): string;
+
 export interface Application {
   token?: string;
   company: string;
@@ -13,15 +17,15 @@ export interface Application {
   variant?: "network" | "presales";
 }
 
-export interface AcadianaTekRole {
+export interface DisclosedRole {
   role: string;
   org: string;
   bullets: string[];
 }
 
-export interface AcadianaTekCopy {
-  network: AcadianaTekRole;
-  presales: AcadianaTekRole;
+export interface DisclosedRoleCopy {
+  network: DisclosedRole;
+  presales: DisclosedRole;
 }
 
 export type ApplicationsLoad =
@@ -35,4 +39,4 @@ export function findApplication(
   applications?: Application[],
 ): Application | undefined;
 
-export function loadAcadianaTekCopy(raw?: string): AcadianaTekCopy | null;
+export function loadDisclosedRole(raw?: string): DisclosedRoleCopy | null;

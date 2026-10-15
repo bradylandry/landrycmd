@@ -23,7 +23,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     // Only accept tokens we actually issued, so this can't be used to write
     // arbitrary keys into Redis.
     const app = findApplication(token);
-    if (!app) return noContent;
+    if (!app?.token) return noContent;
 
     const ua = request.headers.get("user-agent") ?? undefined;
 
