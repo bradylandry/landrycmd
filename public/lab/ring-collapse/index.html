@@ -64,7 +64,8 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .alab{font-family:var(--mono);font-size:11px;fill:var(--mut);text-anchor:middle}.alab.one{fill:var(--acc)}
 .qos{font-family:var(--mono);font-size:9px;fill:var(--ok);text-anchor:middle}
 .cap{font-family:var(--mono);font-size:9.5px;fill:var(--mut);text-anchor:middle}.cap.off{opacity:.3}.cap.hot{fill:#ef4444}
-</style></head><body>
+</style>
+<link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Ring Collapse Simulator</h1>
 <p>Consolidating two parallel topologies into one, and the trade that comes with it. A metro re-architecture I designed and ran. Names and systems are generalized.</p>
 <div class="metrics"><div><b>2 &rarr; 1</b><span>routing areas</span></div><div><b>2 &rarr; 1</b><span>topologies to operate</span></div><div><b>36</b><span>revisions of the cost model</span></div><div><b>4 months</b><span>capacity added before collapse</span></div></div></header>
@@ -87,6 +88,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 </section>
 </main>
 <footer>Portfolio demo &middot; illustrative architecture, no proprietary details</footer>
+<script src="/lab/wire.js"></script>
 <script>
 const S='http://www.w3.org/2000/svg';
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
@@ -121,6 +123,9 @@ ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L788 ${RINGY}`},lg));
 ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L12 ${hubs[0].y} L${hubs[0].x-H} ${hubs[0].y}`},lg));
 ringL.push(mk('path',{class:'rl mc',d:`M788 ${RINGY} L788 ${hubs[1].y} L${hubs[1].x+H} ${hubs[1].y}`},lg));
 ringL.push(mk('path',{class:'rl mc',d:`M${hubs[0].x+H} ${hubs[0].y} L${hubs[1].x-H} ${hubs[1].y}`},lg));
+const fg=mk('g',{},sv);sv.insertBefore(fg,ng);
+const uniFlow=uni.map(p=>labWire.overlay(p,fg));
+const ringFlow=ringL.map(p=>labWire.overlay(p,fg));
 const aLbl10=mk('text',{class:'alab',x:120,y:30},tg);aLbl10.textContent='first area \u00b7 unicast';
 const advLbl=mk('text',{class:'qos',x:400,y:18},tg);
 const ringLbl=mk('text',{class:'cap',x:660,y:30},tg);
@@ -146,6 +151,8 @@ function render(){
  const aug=i>=1, adv=i>=2, mcMoved=i>=4, ringGone=i>=5;
  uni.forEach(p=>p.setAttribute('class','rl uni'+(aug?' fat':'')));
  ringL.forEach(p=>p.setAttribute('class','rl mc'+(ringGone?' gone':'')));
+ uniFlow.forEach(f=>labWire.set(f,true));
+ ringFlow.forEach(f=>labWire.set(f,!ringGone));
  rgN.forEach(g=>g.setAttribute('class','nd'+(ringGone?' off':'')));
  ringLbl.setAttribute('class','cap'+(ringGone?' off':''));
  ringLbl.textContent=ringGone?'second area removed \u00b7 ring decommissioned':'second area \u00b7 10 Gig ring \u00b7 video only';

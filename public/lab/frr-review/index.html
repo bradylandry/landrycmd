@@ -37,7 +37,8 @@ ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)
 .view{border-radius:8px}
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 @media(prefers-reduced-motion:reduce){.pulse{display:none}}
-</style></head><body>
+</style>
+<link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#work">&larr; work</a><p class="kicker">// lab</p><h1>Firewall Request Review</h1>
 <p>A read-only agent that walks a firewall change request through eight checks and stops at a human. Separate from the MCP hub. Names and systems are generalized.</p>
 <div class="metrics"><div><b>30–60 → 3–5 min</b><span>review time</span></div><div><b>200 → ~40</b><span>ticket backlog</span></div><div><b>60+</b><span>firewalls covered</span></div><div><b>8</b><span>checks, every time</span></div></div>
@@ -57,6 +58,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 </div></section>
 </main>
 <footer>Portfolio demo · illustrative architecture, no proprietary details · <a href="/work/ai-network-operations">case study</a></footer>
+<script src="/lab/wire.js"></script>
 <script>
 const I={bot:'<rect x="-10" y="-7" width="20" height="15" rx="4"/><circle cx="-4" cy="0" r="1.5"/><circle cx="4" cy="0" r="1.5"/><path d="M0-7v-5"/>',
 code:'<path d="M-5-6l-6 6 6 6M5-6l6 6-6 6"/>',hub:'<circle r="5"/><path d="M0-5v-7M0 5v7M-5 0h-7M5 0h7"/>',
@@ -78,7 +80,11 @@ const SC={ok:{n:'Approve',fail:-1},host:{n:'Blocked: unknown firewall',fail:1,wh
 ret:{n:'Blocked: retired firewall',fail:2,why:'Target firewall is retired in asset inventory; traffic no longer crosses it.'},
 vrf:{n:'Blocked: wrong VRF',fail:2,why:'Source IP sits in a different VRF than the request assumes.'}};let scen='ok';
 const flow=document.getElementById('flow'),st=[];flow.setAttribute('viewBox','0 0 800 420');
-mk('path',{class:'edge',d:'M85 95 H715 V235 H85'},flow);const tok=mk('circle',{class:'pulse',r:7,cx:85,cy:95},flow);
+const wires=mk('g',{},flow),packets=mk('g',{},flow),hops=[];
+function stagePos(i){const top=i<4;return {x:top?85+i*210:715-(i-4)*210,y:top?95:235}}
+for(let n=0;n<F.length-1;n++){const a=stagePos(n),b=stagePos(n+1);
+ const edge=mk('path',{class:'edge',d:`M${a.x} ${a.y} L${b.x} ${b.y}`},wires);
+ hops.push(labWire.overlay(edge, packets))}
 F.forEach((s,i)=>{const r=i<4,x=r?85+i*210:715-(i-4)*210,y=r?95:235,g=mk('g',{class:'stage',transform:`translate(${x} ${y})`},flow);
  mk('rect',{x:-70,y:-42,width:140,height:84,rx:8},g);const ic=mk('g',{class:'ic',transform:'translate(0 -12) scale(1.3)'},g);ic.innerHTML=I[s.ic];
  const t=mk('text',{y:28},g);t.textContent=(i+1)+'. '+s.l;st.push({g,x,y});
@@ -90,11 +96,11 @@ let cur=-1,timer=null;const last=()=>SC[scen].fail<0?F.length-1:SC[scen].fail;
 function show(i){const f=SC[scen].fail;cur=Math.max(-1,Math.min(last(),i));
  st.forEach((s,j)=>{s.g.classList.toggle('done',j<cur);s.g.classList.toggle('cur',j===cur&&!(f===j));s.g.classList.toggle('bad',f===j&&cur===j);s.g.classList.toggle('skip',f>=0&&cur===f&&j>f&&j!==6);fList.children[j].className=j<cur?'done':j===cur?'cur':''});
  al.style.opacity=(f<0&&cur===F.length-1)?.8:.35;fTitle.className='';
- if(cur<0){fTag.textContent=`Scenario: ${SC[scen].n}`;fTitle.textContent='Ready';fDesc.textContent='Press Play or Step. The review agent is read-only; it produces a verdict for a human.';fEx.textContent='// waiting';tok.setAttribute('cx',85);tok.setAttribute('cy',95);return}
+ hops.forEach((hop,j)=>labWire.set(hop,cur>0&&j<cur));
+ if(cur<0){fTag.textContent=`Scenario: ${SC[scen].n}`;fTitle.textContent='Ready';fDesc.textContent='Press Play or Step. The review agent is read-only; it produces a verdict for a human.';fEx.textContent='// waiting';return}
  const s=F[cur];fTag.textContent=`Step ${cur+1} / 8 · ${SC[scen].n}`;fTitle.textContent=s.l;fDesc.textContent=s.d;fEx.textContent=s.e;
  if(f===cur){st[6].g.classList.add('bad');fTitle.textContent='Verdict: Blocked';fTitle.className='verdict-bad';fDesc.textContent=`Stopped at ${s.l}. ${SC[scen].why}`;fEx.textContent=`"Blocked — ${SC[scen].why}"`}
- else if(cur===6){fTitle.className='verdict-ok'}
- tok.setAttribute('cx',st[cur].x);tok.setAttribute('cy',st[cur].y-50)}
+ else if(cur===6){fTitle.className='verdict-ok'}}
 function stop(){clearInterval(timer);timer=null;play.textContent='▶ Play'}
 play.onclick=()=>{if(timer)return stop();if(cur>=last())show(-1);play.textContent='❚❚ Pause';show(cur+1);timer=setInterval(()=>{cur>=last()?stop():show(cur+1)},2000)};
 next.onclick=()=>{stop();show(cur+1)};prev.onclick=()=>{stop();show(cur-1)};reset.onclick=()=>{stop();show(-1)};

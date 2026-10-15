@@ -55,6 +55,21 @@ test("the MCP hub and the firewall review are separate labs", async () => {
   assert.equal(/area\s*10|area\s*20/i.test(labs), false);
   assert.equal(labs.includes("540+"), false);
   assert.match(migration, /hundreds of port-channels/);
+
+  const wire = await readFile(new URL("./public/lab/wire.css", root), "utf8");
+  assert.match(wire, /stroke-dasharray:\s*5 15/);
+  assert.match(wire, /stroke-dashoffset:\s*-40/);
+  for (const page of [hub, review, migration, ring]) {
+    assert.match(page, /\/lab\/wire\.css/);
+    assert.match(page, /\/lab\/wire\.js/);
+    assert.match(page, /labWire/);
+  }
+  assert.equal(hub.includes("getPointAtLength"), false);
+  assert.equal(/Math\.cos|Math\.PI/.test(hub), false);
+  assert.match(hub, /clients \/ agents/);
+  assert.match(hub, /servers \/ tools/);
+  assert.equal(review.includes("class:'pulse'"), false);
+  assert.equal(review.includes('class="pulse"'), false);
 });
 
 test("the case study stands alone and Work links both labs", async () => {

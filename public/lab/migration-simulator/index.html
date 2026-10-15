@@ -38,10 +38,6 @@ ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 @media(prefers-reduced-motion:reduce){.pulse{display:none}}
 
-.flow{fill:none;stroke:#f8fafc;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:5 15;opacity:0;transition:opacity .25s}
-.flow.on{opacity:.95;animation:dash 1.05s linear infinite}
-@keyframes dash{to{stroke-dashoffset:-40}}
-@media(prefers-reduced-motion:reduce){.flow.on{animation:none;opacity:.5;stroke-dasharray:5 15}}
 .mline{stroke:var(--line);stroke-width:2.5;fill:none}.mline.live{stroke:var(--acc);filter:drop-shadow(0 0 3px var(--glow))}
 .mline.bridge{stroke:var(--acc2);stroke-dasharray:6 5}.mline.down{stroke:#ef4444;stroke-dasharray:3 4}.mline.idle{opacity:.25}
 .box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:8}.box.master rect{stroke:var(--acc);fill:#0f172a}
@@ -54,7 +50,8 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .cmp div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
 .cmp b{display:block;font-family:var(--mono);font-size:1.1rem}.cmp span{color:var(--mut);font-size:.78rem}
 .cmp .g b{color:var(--ok)}.cmp .r b{color:#ef4444}
-</style></head><body>
+</style>
+<link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Zero-Downtime Migration Simulator</h1>
 <p>Moving production traffic between vendor platforms by winning a redundancy election instead of cutting over. A method I developed and ran across 14 markets. Names and systems are generalized.</p>
 <div class="metrics"><div><b>0</b><span>packets lost, straddle method</span></div><div><b>14</b><span>markets run this way</span></div><div><b>1 value</b><span>rollback cost at any step</span></div><div><b>6 steps</b><span>one device touched at a time</span></div></div></header>
@@ -78,6 +75,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 </div></section>
 </main>
 <footer>Portfolio demo &middot; illustrative architecture, no proprietary details</footer>
+<script src="/lab/wire.js"></script>
 <script>
 const S='http://www.w3.org/2000/svg';
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
@@ -109,8 +107,8 @@ lines.peer={grp:'peer',el:mk('path',{class:'mline idle',d:'M384 224 L406 224'},l
 ['cli1','cli2','cli3'].forEach(c=>{const s=C[c]<400?'sw1':'sw2';
  lines[c]={grp:'cli',sw:s,el:mk('path',{class:'mline live',d:`M${C[c]} 322 L${C[s]} 252`},lg)}});
 const fg=mk('g',{},topo);
-for(const k in lines)lines[k].flow=mk('path',{class:'flow',d:lines[k].el.getAttribute('d')},fg);
-const setFlow=(k,on)=>lines[k]&&lines[k].flow.setAttribute('class','flow'+(on?' on':''));
+for(const k in lines)lines[k].flow=labWire.overlay(lines[k].el, fg);
+const setFlow=(k,on)=>lines[k]&&labWire.set(lines[k].flow, on);
 const boxes={};
 BOX.forEach(b=>{const g=mk('g',{class:'box',transform:`translate(${b.x} ${b.y})`},bg);
  mk('rect',{width:b.w,height:b.h,rx:8},g);
