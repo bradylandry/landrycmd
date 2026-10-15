@@ -84,32 +84,64 @@ export const EARLY_CAREER: ResumeRole[] = [
   },
 ];
 
+const employer = "Charter/Spectrum (formerly Cox Communications)";
+
+const fabricMigration =
+  "Led the national data center migration from legacy platforms to an Arista spine/leaf fabric across BGP, IS-IS, EVPN/VXLAN, QoS, LACP, and VRRP, spanning Arista, Juniper, and Cisco in one estate.";
+const regionalCutover =
+  "Led the migration of 60+ routers into a new regional data center in New Orleans with zero downtime, owning architecture, cutover planning, and implementation.";
+const iacScale =
+  "Ran Infrastructure-as-Code for 440+ devices across 29 sites, cutting deploy time from 4–8 hours to 15–30 minutes with zero automation-caused incidents.";
+const aiPlatform =
+  "Built the AI network-operations platform: 28 MCP servers, about 573 tools, 44 agents, and 31 skills. Authored 23 of the shipping agents, including the firewall review and design agents.";
+const firewallReview =
+  "Built the firewall-request review: backlog from 200 to about 40, and review time from 30–60 minutes to 3–5 minutes.";
+const runbookGenerator =
+  "Built an Ansible runbook generator that replaced hand-written per-market procedures, saving about 20 hours per deployment.";
+const automationLineage =
+  "Eleven-year automation lineage: a spreadsheet config generator in 2014, Ansible in 2019–20, a runbook generator in 2021, and the MCP platform in 2025.";
+const ragKnowledge =
+  "Built a Retrieval-Augmented Generation knowledge base on Microsoft Graph API with semantic search, giving engineering and operations source-linked runbooks and change documentation.";
+const officeAccess =
+  "Designed network architecture for Internet-only Wi-Fi across corporate and field offices, and solutions for Avaya SBC on Juniper spine and leaf and 5G Fixed Wireless Access deployments.";
+const mentoring =
+  "Provided Tier IV escalation support for data center, backbone, and metro operations; mentored engineering and operations teams on YAML data modeling and fabric deployments.";
+const iacPresentation =
+  "Presented the Infrastructure-as-Code pipeline and Arista CloudVision to roughly 25 engineers across the data center engineering department (March 2025), building internal buy-in for the automation standards.";
+const deviceOnboarding =
+  "Wrote Python and Ansible automation to streamline device onboarding into the network inventory system, keeping it in sync with the IaC inventory through large-scale data center migrations.";
+const loadTesting =
+  "Led code testing on Juniper QFX using the IXIA platform for packet generation and validation of network performance under load.";
+
 const coxDc: ResumeRole = {
   role: "Senior Data Center Network Engineer",
-  org: "Spectrum (formerly Cox Communications) · National Data Center",
+  org: `${employer} · National Data Center`,
   period: "2021 – Present",
   icon: "arista",
   bullets: [
-    "Led the national data center migration from legacy platforms to an Arista spine/leaf fabric across BGP, IS-IS, EVPN/VXLAN, QoS, LACP, and VRRP, spanning Arista, Juniper, and Cisco in one estate.",
-    "Led the migration of 60+ routers into a new regional data center in New Orleans with zero downtime, owning architecture, cutover planning, and implementation.",
-    "Designed the Infrastructure-as-Code pipeline for the Arista fabric using Ansible and YAML-based declarative configuration; wrote the standards and validation framework the broader engineering team adopted.",
-    "Built the AI Network Operations Platform (MCP): 28 MCP servers, about 573 tools, and 44 agents, integrating Claude with custom MCP servers across ServiceNow, Nautobot, AWX, Forward Networks, and IPControl and replacing manual change workflows.",
-    "Built a Retrieval-Augmented Generation knowledge base on Microsoft Graph API with semantic search, giving engineering and operations source-linked runbooks and change documentation.",
-    "Redesigned the Firewall Rule Request workflow through process and systems analysis, reducing a critical operational backlog by 80 percent.",
-    "Designed network architecture for Internet-only Wi-Fi across corporate and field offices, and solutions for Avaya SBC on Juniper spine and leaf and 5G Fixed Wireless Access deployments.",
-    "Provided Tier IV escalation support for data center, backbone, and metro operations; mentored engineering and operations teams on YAML data modeling and fabric deployments.",
-    "Presented the Infrastructure-as-Code pipeline and Arista CloudVision to roughly 25 engineers across the data center engineering department (March 2025), building internal buy-in for the automation standards.",
+    fabricMigration,
+    regionalCutover,
+    iacScale,
+    aiPlatform,
+    firewallReview,
+    runbookGenerator,
+    automationLineage,
+    ragKnowledge,
+    officeAccess,
+    mentoring,
+    iacPresentation,
   ],
 };
 
 const coxBackbone: ResumeRole = {
   role: "Senior Backbone Network Engineer",
-  org: "Cox Communications",
+  org: employer,
   period: "2018 – 2021",
   icon: "mx2020",
   bullets: [
     "Supported Juniper backbone routers on the national IP backbone running BGP, IS-IS, LDP, VRRP, QoS, and RSVP.",
-    "Led A10 Networks carrier-grade NAT deployments across every regional data center using Ansible-generated configurations.",
+    "Owned the carrier-grade NAT deployment program across about 17 markets.",
+    "Wrote the statements of work and procedures for 5 national peering centers.",
     "Led code upgrades across every Juniper MX router on the national IP backbone, and Cisco NCS upgrades across all regional caching centers.",
     "Deployed Juniper PTX10k and Cisco Nexus switches across regional data centers, plus MPC9 line cards in Juniper MX2010 chassis.",
     "Co-authored the Ansible automation standards for the national IP backbone and developed playbooks generating configurations to functional standards.",
@@ -119,25 +151,29 @@ const coxBackbone: ResumeRole = {
 
 const coxSenior: ResumeRole = {
   role: "Senior Network Engineer",
-  org: "Cox Communications",
+  org: employer,
   period: "2012 – 2018",
   icon: "asr9k",
   bullets: [
-    "Led the IGP conversion from OSPF to IS-IS across Greater Louisiana.",
-    "Led re-IP and standardization projects across Greater Louisiana and Macon.",
+    "Led the OSPF to IS-IS migration for 4 markets (87 CMTS) inside an 18-market, 536-CMTS program.",
+    "Wrote the switch-replacement procedures for 14 markets.",
+    "Designed a capacity-first metro ring collapse for two markets.",
+    "Developed an election-based Layer 2 and Layer 3 migration method: zero traffic lost, and rollback is one priority change.",
+    "Cut voice over in under 3 seconds per VLAN with zero dropped calls.",
+    "Led re-IP and standardization projects across multiple markets.",
     "Led multiple teams through 7609 to ASR 9k and ASR 9k to Nexus 9k migrations; deployed Cisco NCS 5k routers.",
   ],
 };
 
 const coxOps: ResumeRole = {
   role: "Network Operations Engineer",
-  org: "Cox Communications",
+  org: employer,
   period: "2011 – 2012",
   icon: "switch",
   bullets: [
     "Delivered the DOCSIS 3.0 CMTS upgrade improving cable modem service across the market.",
     "Implemented corporate network standards for emerging technologies including L2 MPLS and IPv6.",
-    "Owned problem resolution for Cox Business and residential customers.",
+    "Owned problem resolution for business and residential customers.",
   ],
 };
 
@@ -200,12 +236,18 @@ export function loadDisclosedRole(raw?: string): DisclosedRoleCopy | null {
 const networkDc: ResumeRole = {
   ...coxDc,
   bullets: [
-    ...coxDc.bullets.slice(0, 5),
-    "Wrote Python and Ansible automation to streamline device onboarding into the network inventory system, keeping it in sync with the IaC inventory through large-scale data center migrations.",
-    "Established Ansible automation standards and automated MOP generation, cutting deployment time and giving the operations team a repeatable playbook.",
-    "Led code testing on Juniper QFX using the IXIA platform for packet generation and validation of network performance under load.",
-    coxDc.bullets[7],
-    coxDc.bullets[8],
+    aiPlatform,
+    firewallReview,
+    runbookGenerator,
+    iacScale,
+    automationLineage,
+    fabricMigration,
+    regionalCutover,
+    deviceOnboarding,
+    loadTesting,
+    ragKnowledge,
+    mentoring,
+    iacPresentation,
   ],
 };
 
@@ -229,7 +271,7 @@ export function getResume(opts: {
     return {
       headline: "Technical Sales Engineer / Network Solutions Architect",
       summary:
-        "Network architect and technical consultant with 20 years designing, deploying, and operating Tier 1 service provider and enterprise infrastructure, 15 of them at Cox Communications across the national IP backbone, regional data centers, and metro networks. Translates customer business drivers into technical solutions: runs discovery, presents and demonstrates to engineering and executive stakeholders, and produces the scoped deliverables that move an opportunity to a decision. Deep multivendor experience across Cisco, Juniper, Arista, and Palo Alto, with Infrastructure-as-Code automation and applied AI as differentiators. Known for earning technical credibility with customer architects and turning complex requirements into clear, buildable designs.",
+        "Network architect and technical consultant with 20 years designing, deploying, and operating Tier 1 service provider and enterprise infrastructure, 15 of them at Charter/Spectrum (formerly Cox Communications) across the national IP backbone, regional data centers, and metro networks. Translates customer business drivers into technical solutions: runs discovery, presents and demonstrates to engineering and executive stakeholders, and produces the scoped deliverables that move an opportunity to a decision. Deep multivendor experience across Cisco, Juniper, Arista, and Palo Alto, with Infrastructure-as-Code automation and applied AI as differentiators. Known for earning technical credibility with customer architects and turning complex requirements into clear, buildable designs.",
       skills: [
         {
           label: "IP Routing and Service Provider Networking",
@@ -249,7 +291,7 @@ export function getResume(opts: {
         {
           label: "Automation and Infrastructure-as-Code",
           items:
-            "Ansible, Python, YAML, Jinja2, Git, AWX, CloudVision (CVP), ServiceNow, Nautobot, Forward Networks, IPControl",
+            "Ansible, Python, YAML, Jinja2, Git, CloudVision (CVP)",
         },
         {
           label: "Cloud and Applied AI",
@@ -270,7 +312,7 @@ export function getResume(opts: {
   return {
     headline: "Network Engineer / Network and Systems Architect",
     summary:
-      "Network engineer and architect with 20 years designing, deploying, and operating Cisco and multivendor infrastructure, 15 of them at Cox Communications' national data center. Leads large-scale data center fabric design and migration across Arista, Juniper, and Cisco, and builds the Infrastructure-as-Code automation that makes those networks repeatable and reliable. Deep hands-on experience across enterprise networking, data center, and security, with applied AI and automation as differentiators. Known for turning complex requirements into clear architectures, mentoring engineering teams, and delivering zero-downtime cutovers at scale.",
+      "Network engineer and architect with 20 years designing, deploying, and operating Cisco and multivendor infrastructure, 15 of them at Charter/Spectrum (formerly Cox Communications), in the national data center. Leads large-scale data center fabric design and migration across Arista, Juniper, and Cisco, and builds the Infrastructure-as-Code automation that makes those networks repeatable and reliable. Deep hands-on experience across enterprise networking, data center, and security, with applied AI and automation as differentiators. Known for turning complex requirements into clear architectures, mentoring engineering teams, and delivering zero-downtime cutovers at scale.",
     skills: [
       {
         label: "Networking and Routing",
@@ -289,7 +331,7 @@ export function getResume(opts: {
       {
         label: "Automation and Infrastructure-as-Code",
         items:
-          "Ansible, Python, YAML, Jinja2, Git, AWX, CloudVision (CVP), ServiceNow, Nautobot, Forward Networks, IPControl, automated MOP generation",
+          "Ansible, Python, YAML, Jinja2, Git, CloudVision (CVP), automated MOP generation",
       },
       {
         label: "Cloud",

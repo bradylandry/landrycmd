@@ -74,7 +74,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <h2>The ring was not legacy cruft &mdash; it was there for a reason</h2>
 <p class="lede">Each metro market ran <b>two topologies at once</b>: a hub-and-spoke carrying all unicast, and a separate <b>10G ring carrying video multicast only</b>. That looks redundant until you ask why. It kept video off the unicast path, and because the ring carried exactly one service it needed <b>almost no QoS engineering</b> &mdash; there was nothing to protect video from.</p>
 <p class="lede">Collapsing it means accepting that QoS burden on every shared link, forever. The win is one topology to operate instead of two. That is the real trade, and it is invisible if you only count bandwidth.</p>
-<p class="lede">The sequencing is the whole lesson. Capacity went in <b>four months before</b> the ring was touched, and every area 20 network was advertised into area 10 and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
+<p class="lede">The sequencing is the whole lesson. Capacity went in <b>four months before</b> the ring was touched, and every network in one area was advertised into the other and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
 <ul class="tags"><li>OSPF</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
 <div class="view">
  <div>
@@ -93,53 +93,53 @@ const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setA
 const el=i=>document.getElementById(i);
 /* ================= block 01 ================= */
 const sv=el('ring'),lg=mk('g',{},sv),ng=mk('g',{},sv),tg=mk('g',{},sv);
-/* AGG pair on top. Four hubs below, two routers each, side by side with space.
+/* Hub pair on top. Four hubs below, two routers each, side by side with space.
    ORTHOGONAL ONLY: every link is horizontal or vertical, no diagonals.
    The ring daisy-chains straight through every router on the row. */
 /* Layout follows the fabric standard where it generalises:
    S1 01 left of 02, cx strictly increasing.  S2 two gap values, intra (50) < inter (80).
    P2 the row mirrors about the axis.  P4 bowtie legs cross — the crossing is the information.
    P5 room for the bowtie: >=50 inside a pair, >=80 between sibling blocks. */
-const AX=400, AGG=[{x:338,y:66,l:'AGG 01'},{x:462,y:66,l:'AGG 02'}];
+const AX=400, hubs=[{x:338,y:66,l:'hub 01'},{x:462,y:66,l:'hub 02'}];
 const RY=250, H=37, RINGY=242, PAIRY=258;
 const R1=[60,338,616], R2=[184,462,740];
 R1.forEach((a,i)=>{const b=R2[i];
  mk('rect',{class:'area',x:a-H-10,y:216,width:(b+H+10)-(a-H-10),height:68,rx:12},lg);
  const h=mk('text',{class:'alab',x:(a+b)/2,y:208},tg);h.textContent='hub '+(i+1)});
-/* Straight homing: 01 to AGG 01, 02 to AGG 02. Not a bowtie — the pairs do not
+/* Straight homing: 01 to hub 01, 02 to hub 02. Not a bowtie — the pairs do not
    cross, so P4 does not apply here. */
 const uni=[];
-R1.forEach(a=>uni.push(mk('path',{class:'rl uni',d:`M${AGG[0].x} ${AGG[0].y+17} L${a} ${RY-17}`},lg)));
-R2.forEach(b=>uni.push(mk('path',{class:'rl uni',d:`M${AGG[1].x} ${AGG[1].y+17} L${b} ${RY-17}`},lg)));
+R1.forEach(a=>uni.push(mk('path',{class:'rl uni',d:`M${hubs[0].x} ${hubs[0].y+17} L${a} ${RY-17}`},lg)));
+R2.forEach(b=>uni.push(mk('path',{class:'rl uni',d:`M${hubs[1].x} ${hubs[1].y+17} L${b} ${RY-17}`},lg)));
 /* unicast pair link, 01 <-> 02 inside each hub. Sits in the same gap as the ring,
    8px below it — the ring rides 8px above the row centre so both fit. */
 R1.forEach((a,i)=>{const b=R2[i];
  uni.push(mk('path',{class:'rl uni',d:`M${a+H} ${PAIRY} L${b-H} ${PAIRY}`},lg))});
-/* the ring: one straight line THROUGH every router, closed at the AGG pair */
+/* the ring: one straight line THROUGH every router, closed at the hub pair */
 const ringL=[];
 ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L788 ${RINGY}`},lg));
-ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L12 ${AGG[0].y} L${AGG[0].x-H} ${AGG[0].y}`},lg));
-ringL.push(mk('path',{class:'rl mc',d:`M788 ${RINGY} L788 ${AGG[1].y} L${AGG[1].x+H} ${AGG[1].y}`},lg));
-ringL.push(mk('path',{class:'rl mc',d:`M${AGG[0].x+H} ${AGG[0].y} L${AGG[1].x-H} ${AGG[1].y}`},lg));
-const aLbl10=mk('text',{class:'alab',x:120,y:30},tg);aLbl10.textContent='area 10 \u00b7 unicast';
+ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L12 ${hubs[0].y} L${hubs[0].x-H} ${hubs[0].y}`},lg));
+ringL.push(mk('path',{class:'rl mc',d:`M788 ${RINGY} L788 ${hubs[1].y} L${hubs[1].x+H} ${hubs[1].y}`},lg));
+ringL.push(mk('path',{class:'rl mc',d:`M${hubs[0].x+H} ${hubs[0].y} L${hubs[1].x-H} ${hubs[1].y}`},lg));
+const aLbl10=mk('text',{class:'alab',x:120,y:30},tg);aLbl10.textContent='first area \u00b7 unicast';
 const advLbl=mk('text',{class:'qos',x:400,y:18},tg);
 const ringLbl=mk('text',{class:'cap',x:660,y:30},tg);
-ringLbl.textContent='10 Gig ring \u00b7 video only \u00b7 daisy-chained through every router, closed at the AGG pair';
+ringLbl.textContent='10 Gig ring \u00b7 video only \u00b7 daisy-chained through every router, closed at the hub pair';
 const caps=R1.map((x,i)=>mk('text',{class:'cap',x:(x+R2[i])/2,y:300},tg));
 const qos=R1.map((x,i)=>mk('text',{class:'qos',x:(x+R2[i])/2,y:312},tg));
 function node(x,y,l,s,cls,shape){const g=mk('g',{class:'nd '+cls,transform:`translate(${x} ${y})`},ng);
  if(shape==='c')mk('circle',{r:26},g);else mk('rect',{x:-H,y:-17,width:H*2,height:34,rx:6},g);
  const a=mk('text',{y:s?-2:4},g);a.textContent=l;
  if(s){const b=mk('text',{class:'sub',y:10},g);b.textContent=s}return g}
-const rgN=AGG.map(a=>node(a.x,a.y,a.l,'',''));
+const rgN=hubs.map(a=>node(a.x,a.y,a.l,'',''));
 R1.forEach(x=>node(x,RY,'rtr 01','',''));
 R2.forEach(x=>node(x,RY,'rtr 02','',''));
 const STEPS=[
-{t:'Augment hub capacity',d:'Link aggregation bundles and line cards on the hub uplinks, sized to carry the ring\u2019s video load on top of existing unicast. Nothing has moved yet, and both areas are untouched.',e:'hub uplinks: bundled\nutilisation: 38% -> 22%\narea 10: unicast  area 20: multicast'},
-    {t:'Advertise area 20 into area 10, enable PIM and IGMP',d:'Every area 20 network is advertised into area 10, and PIM and IGMP are enabled on the unicast links so they can carry multicast at all. All of it before a single link is touched \u2014 the ring is still forwarding throughout.',e:'area 20 networks -> area 10\npim sparse-mode: on unicast links\nigmp: enabled\nring: still forwarding\nno traffic has moved'},
+{t:'Augment hub capacity',d:'Link aggregation bundles and line cards on the hub uplinks, sized to carry the ring\u2019s video load on top of existing unicast. Nothing has moved yet, and both areas are untouched.',e:'hub uplinks: bundled\nutilisation: 38% -> 22%\nareas: unicast and multicast, still separate'},
+    {t:'Advertise one area into the other, enable PIM and IGMP',d:'Every network in one area is advertised into the other, and PIM and IGMP are enabled on the unicast links so they can carry multicast at all. All of it before a single link is touched \u2014 the ring is still forwarding throughout.',e:'one area advertised into the other\npim sparse-mode: on unicast links\nigmp: enabled\nring: still forwarding\nno traffic has moved'},
     {t:'Validate traffic and video',d:'Reachability confirmed from the unicast side, then the video check: every multicast group joined and streaming over the new path. Both have to pass before anything is removed.',e:'unicast reachability: ok\nmulticast groups: joined\nvideo: clean on new path'},
     {t:'Move multicast onto the hub-and-spoke',d:'PIM sparse-mode now runs over the augmented uplinks. QoS policy goes on every shared link \u2014 this is the cost of consolidating two topologies into one.',e:'multicast: on hub uplinks\nqos policy: applied to all\nutilisation: 61%'},
-    {t:'Remove the area 20 links',d:'Only now is the ring decommissioned and area 20 withdrawn. One topology, one area, and every route it carried was already live in area 10 before the links went away.',e:'area 20: removed\nareas: 2 -> 1\ntopologies: 2 -> 1\nvideo: clean'}];
+    {t:'Remove the second area links',d:'Only now is the ring decommissioned and the second area withdrawn. One topology, one area, and every route it carried was already live in the remaining area before the links went away.',e:'second area: removed\nareas: 2 -> 1\ntopologies: 2 -> 1\nvideo: clean'}];
 let i=0,timer=null;
 function render(){
  const L=STEPS;
@@ -148,10 +148,10 @@ function render(){
  ringL.forEach(p=>p.setAttribute('class','rl mc'+(ringGone?' gone':'')));
  rgN.forEach(g=>g.setAttribute('class','nd'+(ringGone?' off':'')));
  ringLbl.setAttribute('class','cap'+(ringGone?' off':''));
- ringLbl.textContent=ringGone?'area 20 removed \u00b7 ring decommissioned':'area 20 \u00b7 10 Gig ring \u00b7 video only';
- aLbl10.textContent=ringGone?'single area':'area 10 \u00b7 unicast';
+ ringLbl.textContent=ringGone?'second area removed \u00b7 ring decommissioned':'second area \u00b7 10 Gig ring \u00b7 video only';
+ aLbl10.textContent=ringGone?'single area':'first area \u00b7 unicast';
  aLbl10.setAttribute('class','alab'+(ringGone?' one':''));
- advLbl.textContent=adv&&!ringGone?'area 20 networks advertised into area 10':'';
+ advLbl.textContent=adv&&!ringGone?'one area advertised into the other':'';
  caps.forEach(t=>{t.textContent=aug?(mcMoved?'61%':'22%'):'38%';t.setAttribute('class','cap')});
  qos.forEach(t=>t.textContent=mcMoved?'qos policy':'');
  const cur=i>0?L[i-1]:null;

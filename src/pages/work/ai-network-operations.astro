@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 
 const title = "AI Network Operations Platform (MCP) | landrycmd";
 const description =
-  "Case study of the AI Network Operations Platform (MCP): 28 MCP servers, about 573 tools, and 44 agents. A standalone page, separate from the firewall rule request work.";
+  "Case study of the AI Network Operations Platform (MCP): 28 MCP servers, about 573 tools, 44 agents, and 31 skills. A standalone page, separate from the firewall request review.";
 ---
 
 <Layout title={title} description={description}>
@@ -23,6 +23,8 @@ const description =
       <li><strong>28</strong> MCP servers</li>
       <li><strong>~573</strong> tools</li>
       <li><strong>44</strong> agents</li>
+      <li><strong>31</strong> skills</li>
+      <li><strong>23</strong> agents I authored</li>
     </ul>
 
     <figure class="platform-figure">
@@ -59,21 +61,25 @@ const description =
 
     <h2>What it is</h2>
     <p>
-      The platform integrates Claude with custom MCP servers across the
-      operations tools engineers already use, including ServiceNow, Nautobot,
-      AWX, Forward Networks, and IPControl. Those servers replace manual change
-      workflows. The counts above are the scale of that platform: 28 MCP
-      servers, about 573 tools, and 44 agents.
+      Custom MCP servers expose the systems engineers already use — telemetry,
+      source of truth, ticketing, addressing, and change records — so agents
+      can carry work that used to be done by hand. I authored 23 of the 44
+      shipping agents, including the firewall review and design agents. The
+      scale is 28 MCP servers, about 573 tools, 44 agents, and 31 skills.
+    </p>
+    <p>
+      <a href="/lab/mcp-simulator/">Open the MCP hub →</a>
     </p>
 
     <h2>What this page is not</h2>
     <p>
-      The firewall rule request redesign is a separate résumé item. This page
-      does not repeat it, and it does not host that work as a tab. Internal
-      runbooks stay off this site.
+      The firewall request review is a separate lab: backlog from 200 to about
+      40, and review time from 30–60 minutes to 3–5 minutes. This page does
+      not host that flow. Internal runbooks stay off this site.
     </p>
-
     <p>
+      <a href="/lab/frr-review/">Open the firewall request review →</a>
+      &nbsp;·&nbsp;
       <a href="/resume">Résumé →</a>
     </p>
   </article>

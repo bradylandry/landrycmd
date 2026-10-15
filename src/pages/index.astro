@@ -24,8 +24,16 @@ const lab = [
     name: "MCP Integration Simulator",
     tagline: "Interactive diagram · generalized",
     description:
-      "A clickable model of the pattern I run at work without the specifics: one AI assistant wired to a ring of infrastructure MCP servers, and a read-only firewall review agent that walks a change request through eight checks to an approve or blocked verdict for a human. Every name and system is generalized.",
+      "The MCP hub on its own page: one AI assistant wired to a ring of infrastructure MCP servers. 28 servers, about 573 tools, 44 agents, 31 skills, and 23 agents I authored. The firewall review is a separate lab. Every name and system is generalized.",
     live: "/lab/mcp-simulator/",
+    github: null,
+  },
+  {
+    name: "Firewall Request Review",
+    tagline: "Interactive diagram · generalized",
+    description:
+      "The review flow on its own page. A read-only agent walks a firewall change request through eight checks and stops at a human. Backlog from 200 to about 40; review time from 30–60 minutes to 3–5 minutes.",
+    live: "/lab/frr-review/",
     github: null,
   },
   {
@@ -87,17 +95,17 @@ const openSource = [
 
 const experience = [
   { role: "Technical Solutions Lead", org: "Independent practice · landrycmd", period: "2026 – Present", icon: "agent" },
-  { role: "Senior Data Center Network Engineer", org: "Spectrum (formerly Cox Communications) · National Data Center", period: "2021 – Present", icon: "arista" },
-  { role: "Senior Backbone Network Engineer", org: "Cox Communications", period: "2018 – 2021", icon: "mx2020" },
-  { role: "Senior Network Engineer", org: "Cox Communications · Metro", period: "2012 – 2018", icon: "asr9k" },
-  { role: "Network Operations Engineer", org: "Cox Communications", period: "2011 – 2012", icon: "switch" },
+  { role: "Senior Data Center Network Engineer", org: "Charter/Spectrum (formerly Cox Communications) · National Data Center", period: "2021 – Present", icon: "arista" },
+  { role: "Senior Backbone Network Engineer", org: "Charter/Spectrum (formerly Cox Communications)", period: "2018 – 2021", icon: "mx2020" },
+  { role: "Senior Network Engineer", org: "Charter/Spectrum (formerly Cox Communications) · Metro", period: "2012 – 2018", icon: "asr9k" },
+  { role: "Network Operations Engineer", org: "Charter/Spectrum (formerly Cox Communications)", period: "2011 – 2012", icon: "switch" },
   { role: "RF & IP Network Engineer", org: "AirTap · Skyrider · Detel Wireless", period: "2005 – 2011", icon: "rf" },
 ];
 ---
 
 <Layout
   title="landrycmd | Brady Landry"
-  description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the Cox tools stay internal, so this is the work you can inspect."
+  description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the internal tools stay off this site, so this is the work you can inspect."
 >
   <section class="hero hero-net">
     <NetworkHero />
@@ -116,11 +124,13 @@ const experience = [
     <h2>About</h2>
     <p>
       Brady Landry designs and operates Tier 1 service provider and data center
-      networks: 20 years in, 15 of them at Cox Communications across the
-      national IP backbone, regional data centers, and metro. Day job is Arista
-      spine and leaf, Infrastructure-as-Code standards, and an AI automation
-      platform wired into the tools engineers actually use. None of that
-      internal platform can live on this site.
+      networks: 20 years in, 15 of them at Charter/Spectrum (formerly Cox
+      Communications) across the national IP backbone, regional data centers,
+      and metro. Day job is Arista
+      spine and leaf, Infrastructure-as-Code standards, and the
+      <a href="/work/ai-network-operations">AI Network Operations Platform (MCP)</a>.
+      The case study is the public account of that platform. Internal runbooks
+      stay off this site.
     </p>
     <p>
       landrycmd is the home lab that stands in for it. Same problems, public
@@ -141,6 +151,23 @@ const experience = [
       <a href="mailto:bjlandry@gmail.com">Email</a>
       &nbsp;·&nbsp;
       <a href="/resume">Résumé</a>
+    </p>
+  </section>
+
+  <section id="work">
+    <p class="kicker">// work</p>
+    <h2>Work</h2>
+    <p>
+      The AI Network Operations Platform (MCP) is its own case study: 28 MCP
+      servers, about 573 tools, 44 agents, and 31 skills. The firewall request
+      review is a separate lab.
+    </p>
+    <p>
+      <a href="/work/ai-network-operations">Read the case study →</a>
+      &nbsp;·&nbsp;
+      <a href="/lab/mcp-simulator/">MCP hub →</a>
+      &nbsp;·&nbsp;
+      <a href="/lab/frr-review/">Firewall request review →</a>
     </p>
   </section>
 
