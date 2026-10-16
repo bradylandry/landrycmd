@@ -102,7 +102,7 @@ const shipped = [
     tagline: "Offline-first PWA",
     description:
       "Workout logging that works offline. Next.js, Supabase, a service worker, and a sync outbox.",
-    live: null,
+    live: "https://lift.landrycmd.com",
     repo: null,
   },
 ];
@@ -417,7 +417,7 @@ const experience = [
               {(p.live || p.repo) && (
                 <span class="links">
                   {p.live && (
-                    <a href={p.live} rel="noopener">
+                    <a href={p.live} rel="noopener" target="_blank">
                       Live →
                     </a>
                   )}

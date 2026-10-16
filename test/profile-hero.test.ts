@@ -70,6 +70,9 @@ test("personal projects stay after the shipped apps and skip private trading lin
   assert.match(also, /A personal stock-research tool\./);
   assert.match(also, /https:\/\/github\.com\/bradylandry\/jarvis-trading-mcp/);
   assert.match(also, /Workout logging that works offline\./);
+  assert.match(also, /https:\/\/lift\.landrycmd\.com/);
+  const shippedLinks = home.slice(home.indexOf("shipped.map"));
+  assert.match(shippedLinks, /href=\{p\.live\} rel="noopener" target="_blank"/);
   assert.equal(also.includes("trading.landrycmd.com"), false);
   assert.equal(/tailscale|azurecontainerapps|jarvis-lab/i.test(also), false);
   assert.equal(/\b(P&L|balance|account number)/i.test(also), false);
