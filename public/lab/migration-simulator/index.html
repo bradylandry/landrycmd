@@ -118,6 +118,7 @@ BOX.forEach(b=>{const g=mk('g',{class:'box',transform:`translate(${b.x} ${b.y})`
  const pr=mk('text',{class:'pri lo',x:b.w/2,y:54},g);
  const bd=mk('text',{class:'badge',x:b.w/2,y:-8},g);
  boxes[b.id]={g,pri:pr,badge:bd}});
+topo.appendChild(bg);
 const setGrp=(grp,cls)=>{for(const k in lines)if(lines[k].grp===grp)lines[k].el.setAttribute('class','mline '+cls)};
 /* ---------- step models ---------- */
 const STRAD=[
