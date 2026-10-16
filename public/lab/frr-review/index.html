@@ -41,14 +41,14 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#work">&larr; work</a><p class="kicker">// lab</p><h1>Firewall Request Review</h1>
 <p>A read-only agent that walks a firewall change request through eight checks and stops at a human. Separate from the MCP hub. Names and systems are generalized.</p>
-<div class="metrics"><div><b>30–60 → 3–5 min</b><span>review time</span></div><div><b>200 → ~40</b><span>ticket backlog</span></div><div><b>60+</b><span>firewalls covered</span></div><div><b>8</b><span>checks, every time</span></div></div>
+<div class="metrics"><div><b>30–60 → 3–5 min</b><span>review time</span></div><div><b>200 → ~40</b><span>ticket backlog</span></div><div><b>NEEDS NUMBER</b><span>firewalls covered</span></div><div><b>8</b><span>checks, every time</span></div></div>
 <p class="lede" style="padding:0 24px;max-width:1200px;margin:8px auto 0"><a href="/lab/mcp-simulator/">MCP hub →</a></p>
 </header>
 <main>
 <section class="block">
 <p class="lbl">01 &middot; what I built</p>
 <h2>A review that used to take an hour, in three minutes</h2>
-<p class="lede">Firewall change requests were reviewed by hand across five disconnected systems &mdash; 30 to 60 minutes each, and easy to get wrong. I built an agent that runs the same eight checks every time: it traces the real path, pulls config for only the firewalls actually in it, and tests the request against the zone policy. It is <b>read-only</b> and always ends at a human.</p>
+<p class="lede">Firewall change requests were reviewed by hand across NEEDS NUMBER disconnected systems &mdash; 30 to 60 minutes each, and easy to get wrong. I built an agent that runs the same eight checks every time: it traces the real path, pulls config for only the firewalls actually in it, and tests the request against the zone policy. It is <b>read-only</b> and always ends at a human.</p>
 <p class="lede">Below: step through a request end to end. The scenario pills inject real failure modes I have hit &mdash; a firewall that does not exist, one that was decommissioned, a source address in a different routing domain &mdash; and the agent blocks instead of approving.</p>
 <ul class="tags"><li>agent framework</li><li>parallel sub-agents</li><li>path tracing</li><li>policy matrix</li><li>human-gated</li></ul>
 <div class="view" id="v2">

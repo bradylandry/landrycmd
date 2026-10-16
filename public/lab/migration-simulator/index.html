@@ -131,7 +131,7 @@ const HARD=[
  {t:'Enable the new pair',d:'The replacements are brought up cold. Clients must re-ARP for a new gateway MAC.',e:'new 01/02: coming up\\nclients: re-ARP pending',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='none';s.loss=1400},rb:'re-cable and re-enable'},
  {t:'Convergence',d:'Traffic resumes once ARP caches refresh. The window is whatever the slowest client takes.',e:'new 01: MASTER\\ntotal loss: 1400 ms',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='na'},rb:'full re-cable'}];
 const SCEN={ok:{n:'Clean run'},
- mac:{n:'Virtual MAC not preserved',at:'mac',why:'The new gateway came up with a different MAC. Clients hold the old one until their ARP cache ages out &mdash; a load balancer took ~28 minutes. Preserving the virtual MAC across the handoff is what designs this failure out.'},
+ mac:{n:'Virtual MAC not preserved',at:'mac',why:'The new gateway came up with a different MAC. Clients hold the old one until their ARP cache ages out &mdash; a load balancer took NEEDS NUMBER. Preserving the virtual MAC across the handoff is what designs this failure out.'},
  preempt:{n:'Preempt left enabled',at:'preempt',why:'Preemption was never disabled, so mastership flapped back to the device being re-cabled mid-move. Always demote deliberately and hold it there.'},
  edge:{n:'Edge-port config on the bridge',at:'edge',why:'The temporary link was left configured as an edge port. Its BPDU rate-limit tripped and errdisabled the port-channel &mdash; the same latent misconfiguration a later fleet audit found on hundreds of port-channels.'}};
 let method='strad',scen='ok',i=0,timer=null;

@@ -68,14 +68,14 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Ring Collapse Simulator</h1>
 <p>Consolidating two parallel topologies into one, and the trade that comes with it. A metro re-architecture I designed and ran. Names and systems are generalized.</p>
-<div class="metrics"><div><b>2 &rarr; 1</b><span>routing areas</span></div><div><b>2 &rarr; 1</b><span>topologies to operate</span></div><div><b>36</b><span>revisions of the cost model</span></div><div><b>4 months</b><span>capacity added before collapse</span></div></div></header>
+<div class="metrics"><div><b>2 &rarr; 1</b><span>routing areas</span></div><div><b>2 &rarr; 1</b><span>topologies to operate</span></div><div><b>NEEDS NUMBER</b><span>revisions of the cost model</span></div><div><b>NEEDS NUMBER</b><span>months of capacity added before collapse</span></div></div></header>
 <main>
 <section class="block">
 <p class="lbl">01 &middot; the decision</p>
 <h2>The ring was not legacy cruft &mdash; it was there for a reason</h2>
 <p class="lede">Each metro market ran <b>two topologies at once</b>: a hub-and-spoke carrying all unicast, and a separate <b>10G ring carrying video multicast only</b>. That looks redundant until you ask why. It kept video off the unicast path, and because the ring carried exactly one service it needed <b>almost no QoS engineering</b> &mdash; there was nothing to protect video from.</p>
 <p class="lede">Collapsing it means accepting that QoS burden on every shared link, forever. The win is one topology to operate instead of two. That is the real trade, and it is invisible if you only count bandwidth.</p>
-<p class="lede">The sequencing is the whole lesson. Capacity went in <b>four months before</b> the ring was touched, and every network in one area was advertised into the other and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
+<p class="lede">The sequencing is the whole lesson. Capacity went in <b>NEEDS NUMBER months before</b> the ring was touched, and every network in one area was advertised into the other and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
 <ul class="tags"><li>OSPF</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
 <div class="view">
  <div>
@@ -153,7 +153,7 @@ function render(){
  ringL.forEach(p=>p.setAttribute('class','rl mc'+(ringGone?' gone':'')));
  uniFlow.forEach(f=>labWire.set(f,true));
  ringFlow.forEach(f=>labWire.set(f,!ringGone));
- rgN.forEach(g=>g.setAttribute('class','nd'+(ringGone?' off':'')));
+ rgN.forEach(g=>g.setAttribute('class','nd hub'));
  ringLbl.setAttribute('class','cap'+(ringGone?' off':''));
  ringLbl.textContent=ringGone?'second area removed \u00b7 ring decommissioned':'second area \u00b7 10 Gig ring \u00b7 video only';
  aLbl10.textContent=ringGone?'single area':'first area \u00b7 unicast';
