@@ -13,19 +13,43 @@ const lab = [
     github: null,
   },
   {
-    name: "Jarvis Quant",
-    tagline: "Agent orchestration testbed",
-    description:
-      "A 21-strategy paper-trading lab used to test the same problems a customer AI deployment hits: dual-portfolio A/B testing, cost-aware model routing, eval loops, and a weekly reviewer that scores strategies against each other. Not a product pitch. A working harness.",
-    live: "https://trading.landrycmd.com",
-    github: null,
-  },
-  {
     name: "MCP Integration Simulator",
     tagline: "Interactive diagram · generalized",
     description:
-      "A clickable model of the pattern I run at work without the specifics: one AI assistant wired to a ring of infrastructure MCP servers, and a read-only firewall review agent that walks a change request through eight checks to an approve or blocked verdict for a human. Every name and system is generalized.",
+      "The MCP hub on its own page: clients and agents on one side, the hub in the middle, servers and tools on the other, with packets moving along the links. 28 servers, about 573 tools, 44 agents, 31 skills, and 23 agents I authored. The firewall review is a separate lab. Every name and system is generalized.",
     live: "/lab/mcp-simulator/",
+    github: null,
+  },
+  {
+    name: "Firewall Request Review",
+    tagline: "Interactive diagram · generalized",
+    description:
+      "The review flow on its own page. A read-only agent walks a firewall change request through eight checks and stops at a human. Backlog from 200 to about 40; review time from 30–60 minutes to 3–5 minutes.",
+    live: "/lab/frr-review/",
+    github: null,
+  },
+  {
+    name: "Zero-Downtime Migration Simulator",
+    tagline: "Interactive diagram · generalized",
+    description:
+      "The migration method I built and ran across NEEDS NUMBER markets: instead of cutting a gateway over, put both vendors' routers in one redundancy group so the new one sits as the deliberate loser, then move traffic by changing a priority value. The pair is replaced one device at a time, always taking out the member carrying no traffic. Toggle hardcut against straddle and watch the packets-lost counter while client traffic keeps flowing. Real failure modes included.",
+    live: "/lab/migration-simulator/",
+    github: null,
+  },
+  {
+    name: "Ring Collapse Simulator",
+    tagline: "Interactive diagram · generalized",
+    description:
+      "A metro re-architecture: two parallel topologies collapsed into one. The video ring was not legacy cruft — it existed because a single-service topology needs almost no QoS. Collapsing it means accepting that burden everywhere. Toggle the sequencing to see why I added hub capacity NEEDS NUMBER months before touching the ring.",
+    live: "/lab/ring-collapse/",
+    github: null,
+  },
+  {
+    name: "AirTap MPLS",
+    tagline: "Interactive diagram · 2010–2011",
+    description:
+      "Offshore Gulf of Mexico rigs over point-to-point microwave into Cisco 7200s, then Time Warner and AT&T fiber MPLS. Each customer has its own VRF, kept apart with BGP and EIGRP and extended to that customer's data center. Two internet egresses, multihomed BGP. AirTap Communications. A small subset of the wireless field.",
+    live: "/lab/airtap-mpls/",
     github: null,
   },
 ];
@@ -55,12 +79,6 @@ const openSource = [
     repo: "https://github.com/bradylandry/mcp-audit",
   },
   {
-    name: "jarvis-trading-mcp",
-    description:
-      "Remote MCP server for the trading lab: Streamable HTTP, per-user authorization, tool schemas. The public cousin of the MCP servers I run against internal systems at work.",
-    repo: "https://github.com/bradylandry/jarvis-trading-mcp",
-  },
-  {
     name: "second-brain-template",
     description:
       "Markdown vault that AI tools can read and write. Folder contracts, frontmatter, /braindump. The write-up is the best explanation of how I actually work.",
@@ -71,17 +89,17 @@ const openSource = [
 
 const experience = [
   { role: "Technical Solutions Lead", org: "Independent practice · landrycmd", period: "2026 – Present", icon: "agent" },
-  { role: "Senior Data Center Network Engineer", org: "Spectrum (formerly Cox Communications) · National Data Center", period: "2021 – Present", icon: "arista" },
-  { role: "Senior Backbone Network Engineer", org: "Cox Communications", period: "2018 – 2021", icon: "mx2020" },
-  { role: "Senior Network Engineer", org: "Cox Communications · Metro", period: "2012 – 2018", icon: "asr9k" },
-  { role: "Network Operations Engineer", org: "Cox Communications", period: "2011 – 2012", icon: "switch" },
+  { role: "Senior Data Center Network Engineer", org: "Charter/Spectrum (formerly Cox Communications) · National Data Center", period: "2021 – Present", icon: "arista" },
+  { role: "Senior Backbone Network Engineer", org: "Charter/Spectrum (formerly Cox Communications)", period: "2018 – 2021", icon: "mx2020" },
+  { role: "Senior Network Engineer", org: "Charter/Spectrum (formerly Cox Communications) · Metro", period: "2012 – 2018", icon: "asr9k" },
+  { role: "Network Operations Engineer", org: "Charter/Spectrum (formerly Cox Communications)", period: "2011 – 2012", icon: "switch" },
   { role: "RF & IP Network Engineer", org: "AirTap · Skyrider · Detel Wireless", period: "2005 – 2011", icon: "rf" },
 ];
 ---
 
 <Layout
   title="landrycmd | Brady Landry"
-  description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the Cox tools stay internal, so this is the work you can inspect."
+  description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the internal tools stay off this site, so this is the work you can inspect."
 >
   <section class="hero hero-net">
     <NetworkHero />
@@ -100,11 +118,13 @@ const experience = [
     <h2>About</h2>
     <p>
       Brady Landry designs and operates Tier 1 service provider and data center
-      networks: 20 years in, 15 of them at Cox Communications across the
-      national IP backbone, regional data centers, and metro. Day job is Arista
-      spine and leaf, Infrastructure-as-Code standards, and an AI automation
-      platform wired into the tools engineers actually use. None of that
-      internal platform can live on this site.
+      networks: 20 years in, 15 of them at Charter/Spectrum (formerly Cox
+      Communications) across the national IP backbone, regional data centers,
+      and metro. Day job is Arista
+      spine and leaf, Infrastructure-as-Code standards, and the
+      <a href="/work/ai-network-operations">AI Network Operations Platform (MCP)</a>.
+      The case study is the public account of that platform. Internal runbooks
+      stay off this site.
     </p>
     <p>
       landrycmd is the home lab that stands in for it. Same problems, public
@@ -125,6 +145,23 @@ const experience = [
       <a href="mailto:bjlandry@gmail.com">Email</a>
       &nbsp;·&nbsp;
       <a href="/resume">Résumé</a>
+    </p>
+  </section>
+
+  <section id="work">
+    <p class="kicker">// work</p>
+    <h2>Work</h2>
+    <p>
+      The AI Network Operations Platform (MCP) is its own case study: 28 MCP
+      servers, about 573 tools, 44 agents, and 31 skills. The firewall request
+      review is a separate lab.
+    </p>
+    <p>
+      <a href="/work/ai-network-operations">Read the case study →</a>
+      &nbsp;·&nbsp;
+      <a href="/lab/mcp-simulator/">MCP hub →</a>
+      &nbsp;·&nbsp;
+      <a href="/lab/frr-review/">Firewall request review →</a>
     </p>
   </section>
 

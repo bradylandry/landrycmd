@@ -5,115 +5,128 @@
 :root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
-.tabs{display:flex;gap:8px;max-width:1200px;margin:16px auto 0;padding:0 24px}
-.tabs button{background:var(--panel);color:var(--mut);border:1px solid var(--line);padding:10px 18px;border-radius:8px 10px 0 0;cursor:pointer;font:inherit}
-.tabs button[aria-selected=true]{color:var(--txt);border-bottom-color:var(--panel);box-shadow:inset 0 2px 0 var(--acc)}
 button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 main{max-width:1200px;margin:0 auto;padding:0 24px 32px}
-.view{display:grid;grid-template-columns:1fr 320px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:0 8px 8px 8px;padding:16px}
-.view[hidden]{display:none}@media(max-width:860px){.view{grid-template-columns:1fr}}
+.view{display:grid;grid-template-columns:1fr 320px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+@media(max-width:860px){.view{grid-template-columns:1fr}}
 svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
 .side h2{margin:0 0 6px;font-size:1.1rem}.side p{color:var(--mut);margin:0 0 10px}.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--card);color:var(--acc);margin-bottom:8px}
-.edge{stroke:var(--line);stroke-width:2;fill:none}.edge.hi{stroke:var(--acc)}
-.node{cursor:pointer}.node circle{fill:var(--bg);stroke:var(--acc2);stroke-width:2;transition:.2s}.node:hover circle,.node.sel circle{stroke:var(--acc);fill:#0f172a}
-.node text{fill:var(--txt);font-size:11.5px;text-anchor:middle}.node .ic{stroke:var(--acc);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.pulse{fill:var(--acc);filter:drop-shadow(0 0 4px var(--glow))}
-.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}.stage.done rect{stroke:var(--ok)}.stage.cur rect{stroke:var(--acc);fill:#0f172a}
-.stage text{fill:var(--txt);font-size:12px;text-anchor:middle}.stage .ic{stroke:var(--mut);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.stage.cur .ic,.stage.done .ic{stroke:var(--acc)}
-.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ctrl button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
-.ctrl button:hover{border-color:var(--acc)}pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
-ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)}ol li.done{color:var(--txt)}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}.stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}.after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
+.edge{stroke:var(--acc);stroke-width:2;fill:none;opacity:.4}.edge.hi{opacity:1;stroke-width:2.6}
+.node{cursor:pointer}.node rect{fill:var(--bg);stroke:var(--acc2);stroke-width:2}
+.node:hover rect,.node.sel rect,.node.hub rect{stroke:var(--acc);fill:#0f172a}
+.node text{fill:var(--txt);font-size:12px;text-anchor:middle}.node .sub{fill:var(--mut);font-size:10px}
+.col{font-family:var(--mono);font-size:11px;fill:var(--mut);text-anchor:middle}
+pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}
 .back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
+.block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
+.lbl{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.04em;margin:0 0 4px}
+.block h2{margin:0 0 8px;font-size:1.25rem}
+.block .lede{color:var(--mut);margin:0 0 4px;max-width:70ch}
+.block .lede b{color:var(--txt);font-weight:600}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;padding:0;list-style:none}
+.tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
-@media(prefers-reduced-motion:reduce){.pulse{display:none}}
-</style></head><body>
-<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>An AI assistant wired to every infrastructure MCP server at once, plus a read-only firewall review agent. Names and systems are generalized.</p><div class="metrics"><div><b>NEEDS NUMBER</b><span>firewall review time</span></div><div><b>NEEDS NUMBER</b><span>firewalls covered</span></div><div><b>NEEDS NUMBER</b><span>ticket backlog</span></div><div><b>NEEDS NUMBER</b><span>tools / agents</span></div></div></header>
-<div class="tabs" role="tablist"><button role="tab" id="t1" aria-controls="v1" aria-selected="true">MCP Spider Web</button><button role="tab" id="t2" aria-controls="v2" aria-selected="false" tabindex="-1">Firewall Request Flow</button></div>
+</style>
+<link rel="stylesheet" href="/lab/wire.css"></head><body>
+<header><a class="back" href="/#work">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>Clients and agents on the left, one MCP hub in the middle, servers and tools on the right. The firewall review agent lives on its own page. Names and systems are generalized.</p><div class="metrics"><div><b>28</b><span>MCP servers</span></div><div><b>~573</b><span>tools</span></div><div><b>44</b><span>agents</span></div><div><b>31</b><span>skills · 23 authored agents</span></div></div></header>
 <main>
-<section class="view" id="v1" role="tabpanel" aria-labelledby="t1">
- <svg id="web" viewBox="-20 0 840 600" role="img" aria-label="MCP server connected to clients and backend services"></svg>
- <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP Server</h2><p id="wDesc">Every server is available at once, so one review pulls the ticket, path traces, config backups and security rules together. Select or hover a node to see its role. Pulses show requests moving between the assistant, the MCP server and backend services.</p><pre id="wEx">servers: NEEDS NUMBER · tools: NEEDS NUMBER · agents: NEEDS NUMBER</pre></aside>
-</section>
-<section class="view" id="v2" role="tabpanel" aria-labelledby="t2" hidden>
- <div><div class="scen" id="scen" role="group" aria-label="Scenario"></div><svg id="flow" viewBox="0 0 800 330" role="img" aria-label="Firewall rule request pipeline"></svg>
- <div class="ctrl"><button id="play">▶ Play</button><button id="prev">◀ Back</button><button id="next">Step ▶</button><button id="reset">↺ Reset</button></div></div>
- <aside class="side" aria-live="polite"><span class="tag" id="fTag">Step 0 / 7</span><h2 id="fTitle">Ready</h2><p id="fDesc">Press Play or Step to follow a firewall rule request from a plain-English ask to an audited change.</p><pre id="fEx">// waiting</pre><ol id="fList"></ol></aside>
-</section>
+<section class="block">
+<p class="lbl">01 &middot; what I built</p>
+<h2>One hub, every system on a link</h2>
+<p class="lede">Network engineers lose hours moving between a dozen consoles to answer one question. I built <b>28 MCP servers</b> that expose those systems &mdash; telemetry, source of truth, config backups, ticketing, IPAM, inventory &mdash; as <b>573 tools</b> an AI assistant can call directly, plus <b>44 agents</b> and <b>31 skills</b> layered on top. I authored 23 of those agents.</p>
+<p class="lede">Below is the topology: clients and agents, the hub, then the servers. Packets on the links are requests moving between them. Hover or select a node to see what it does.</p>
+<ul class="tags"><li>MCP</li><li>Python</li><li>read-only by default</li><li>28 servers</li><li>573 tools</li></ul>
+<div class="view" id="v1">
+ <svg id="topo" viewBox="0 0 780 640" role="img" aria-label="Topology of clients and agents linked to an MCP hub, linked to servers and tools"></svg>
+ <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP hub</h2><p id="wDesc">Clients and agents connect to one hub. The hub connects to every server. Nodes on the right are representative categories, not one per server. Packets move along the links.</p><pre id="wEx">28 MCP servers · 573 tools · 44 agents · 31 skills</pre></aside>
+</div></section>
 </main>
-<footer>Portfolio demo · illustrative architecture, no proprietary details</footer>
+<footer>Portfolio demo · illustrative architecture, no proprietary details · <a href="/lab/frr-review/">firewall request review</a></footer>
+<script src="/lab/wire.js"></script>
 <script>
-const I={bot:'<rect x="-10" y="-7" width="20" height="15" rx="4"/><circle cx="-4" cy="0" r="1.5"/><circle cx="4" cy="0" r="1.5"/><path d="M0-7v-5"/>',
-code:'<path d="M-5-6l-6 6 6 6M5-6l6 6-6 6"/>',hub:'<circle r="5"/><path d="M0-5v-7M0 5v7M-5 0h-7M5 0h7"/>',
-tick:'<rect x="-9" y="-8" width="18" height="16" rx="2"/><path d="M-5-2h10M-5 3h6"/>',user:'<circle cy="-4" r="4"/><path d="M-9 9c1-6 17-6 18 0"/>',
-shield:'<path d="M0-11l9 4v5c0 6-4 10-9 12-5-2-9-6-9-12v-5z"/>',db:'<ellipse cy="-6" rx="9" ry="3"/><path d="M-9-6v12c0 2 18 2 18 0V-6M-9 0c0 2 18 2 18 0"/>',
-chart:'<path d="M-10 8h20M-7 5v-5M-2 5v-10M3 5v-7M8 5v-12"/>',log:'<path d="M-7-10h10l5 5v15h-15z M-3-2h7M-3 3h7"/>',
-check:'<path d="M-8 0l5 5 10-10"/>',lock:'<rect x="-8" y="-2" width="16" height="11" rx="2"/><path d="M-5-2v-4a5 5 0 0110 0v4"/>',chat:'<path d="M-10-8h20v12h-12l-6 5v-5h-2z"/>'};
-const SV=[['Network Telemetry / Path Analysis','chart','Live path traces and flow telemetry: which devices a packet actually crosses.'],
-['Source of Truth','db','Devices, IPs, VLANs and circuits: the intended state of the network.'],
-['Config Management Platform','log','Nightly config backups: zones, objects and rules for every device.'],
-['ITSM / Ticketing','tick','Change requests, ticket context and evidence posting.'],
-['Wiki / Docs','log','Runbooks, standards and lessons learned from past incidents.'],
-['Asset Inventory','tick','Hardware lifecycle: what is active, retired or being decommissioned.'],
-['IPAM','hub','Subnets, VRFs and address ownership.'],
-['Automation Runner','code','Approved job templates run during change windows.'],
-['Productivity Graph','chat','Mail, calendar, chat and files for context and notifications.'],
-['IaC Formatter','code','Normalizes and lints infrastructure-as-code to team standards.'],
-['Internal Infra Query','shield','Read-only queries against internal infrastructure data.']];
-const N=[{id:'mcp',x:400,y:290,r:58,ic:'bot',l:'MCP Hub / AI Assistant',t:'Core',d:'One assistant with every MCP server connected at once. Tool count: NEEDS NUMBER. Agent count: NEEDS NUMBER. A single review pulls the request, path traces, config backups and security rules together.',e:'servers: NEEDS NUMBER · tools: NEEDS NUMBER · agents: NEEDS NUMBER\nall servers live in one session'},
-{id:'cli',x:90,y:120,ic:'code',l:'Coding Assistant (CLI)',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review the request'},
-{id:'ide',x:90,y:460,ic:'code',l:'Coding Assistant (IDE)',t:'Client',d:'Editor-integrated assistant using the same tools and agents.',e:'same tools · same agents'}];
-SV.forEach((v,i)=>{const ang=-Math.PI*0.62+i*(Math.PI*1.24/10);N.push({id:'s'+i,x:400+300*Math.cos(ang)+40,y:290+235*Math.sin(ang),ic:v[1],l:v[0],t:'MCP Server',d:v[2],e:'read-only tools exposed via MCP'})});
-const S='http://www.w3.org/2000/svg',web=document.getElementById('web');
+const S='http://www.w3.org/2000/svg';
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
-const eg=mk('g',{},web),ng=mk('g',{},web),pg=mk('g',{},web),edges={};
-N.slice(1).forEach(n=>{edges[n.id]=mk('path',{class:'edge',d:`M400 290 Q${(400+n.x)/2+(n.y-290)*.12} ${(290+n.y)/2-(n.x-400)*.12} ${n.x} ${n.y}`},eg)});
-N.forEach(n=>{const g=mk('g',{class:'node',transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-label':n.l},ng);
- mk('circle',{r:n.r||26},g);const ic=mk('g',{class:'ic',transform:n.r?'scale(2) translate(0 -3)':'scale(1)'},g);ic.innerHTML=I[n.ic];
- const tx=mk('text',{y:(n.r||26)+16},g);tx.textContent=n.l;
- const sel=()=>{document.querySelectorAll('.node').forEach(x=>x.classList.remove('sel'));g.classList.add('sel');
-  Object.values(edges).forEach(e=>e.classList.remove('hi'));edges[n.id]&&edges[n.id].classList.add('hi');
-  wTag.textContent=n.t;wTitle.textContent=n.l;wDesc.textContent=n.d;wEx.textContent=n.e};
- g.addEventListener('mouseenter',sel);g.addEventListener('click',sel);g.addEventListener('focus',sel);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')sel()})});
-const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function pulse(){if(red||document.getElementById('v1').hidden)return;const ks=Object.keys(edges),k=ks[Math.random()*ks.length|0],p=edges[k],L=p.getTotalLength(),c=mk('circle',{class:'pulse',r:5},pg);
- const out=Math.random()<.5,t0=performance.now();(function f(t){const u=Math.min((t-t0)/1400,1),pt=p.getPointAtLength((out?u:1-u)*L);c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y);u<1?requestAnimationFrame(f):c.remove()})(t0)}
-setInterval(pulse,450);
-const F=[{ic:'tick',l:'Intake',d:'A firewall request comes in.',e:'review the request'},
-{ic:'code',l:'Normalize',d:'Hostnames, paired (HA) devices and ports are normalized.',e:'paired devices · tcp/443'},
-{ic:'chart',l:'Path Verify',d:'A live trace confirms the right firewalls are in the path and the zone of each IP.',e:'src → zone app · dst → zone data\nfirewalls in path: 2'},
-{ic:'db',l:'Config X-Ref',d:'Config backups of zones, objects and rules are pulled by parallel sub-agents: one per firewall, one for the security matrix, one for request context.',e:'sub-agents: one per firewall · matrix · request'},
-{ic:'lock',l:'Policy Check',d:'Zone-to-zone matrix, high-risk protocols, and lessons learned from real incidents.',e:'matrix: allowed · risky proto: none'},
-{ic:'shield',l:'Risk Class',d:'The change is classified Routine, Moderate or High.',e:'risk: Routine'},
-{ic:'check',l:'Verdict',d:'A clear verdict with reasons and evidence.',e:'"No blockers. Approve."'},
-{ic:'user',l:'Human Gate',d:'A human approves. The agent is read-only and never changes config.',e:'awaiting engineer approval'}];
-const SC={ok:{n:'Approve',fail:-1},host:{n:'Blocked: unknown firewall',fail:1,why:'Firewall hostname not found in the source of truth.'},
-ret:{n:'Blocked: retired firewall',fail:2,why:'Target firewall is retired in asset inventory; traffic no longer crosses it.'},
-vrf:{n:'Blocked: wrong VRF',fail:2,why:'Source IP sits in a different VRF than the request assumes.'}};let scen='ok';
-const flow=document.getElementById('flow'),st=[];flow.setAttribute('viewBox','0 0 800 420');
-mk('path',{class:'edge',d:'M85 95 H715 V235 H85'},flow);const tok=mk('circle',{class:'pulse',r:7,cx:85,cy:95},flow);
-F.forEach((s,i)=>{const r=i<4,x=r?85+i*210:715-(i-4)*210,y=r?95:235,g=mk('g',{class:'stage',transform:`translate(${x} ${y})`},flow);
- mk('rect',{x:-70,y:-42,width:140,height:84,rx:8},g);const ic=mk('g',{class:'ic',transform:'translate(0 -12) scale(1.3)'},g);ic.innerHTML=I[s.ic];
- const t=mk('text',{y:28},g);t.textContent=(i+1)+'. '+s.l;st.push({g,x,y});
- const li=document.createElement('li');li.textContent=s.l;fList.appendChild(li)});
-const al=mk('g',{class:'after'},flow);const lt=mk('text',{x:20,y:318,fill:'#8b949e','font-size':12},al);lt.textContent='After approval (human-driven):';
-['Change window','Deploy','Before/after diff','Evidence to ticket'].forEach((l,i)=>{const g=mk('g',{class:'stage',transform:`translate(${110+i*195} 365)`},al);mk('rect',{x:-80,y:-24,width:160,height:48,rx:8},g);const t=mk('text',{y:5},g);t.textContent=l});
-const sb=document.getElementById('scen');Object.entries(SC).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=v.n;b.setAttribute('aria-pressed',k===scen);b.onclick=()=>{scen=k;[...sb.children].forEach(c=>c.setAttribute('aria-pressed',c===b));stop();show(-1)};sb.appendChild(b)});
-let cur=-1,timer=null;const last=()=>SC[scen].fail<0?F.length-1:SC[scen].fail;
-function show(i){const f=SC[scen].fail;cur=Math.max(-1,Math.min(last(),i));
- st.forEach((s,j)=>{s.g.classList.toggle('done',j<cur);s.g.classList.toggle('cur',j===cur&&!(f===j));s.g.classList.toggle('bad',f===j&&cur===j);s.g.classList.toggle('skip',f>=0&&cur===f&&j>f&&j!==6);fList.children[j].className=j<cur?'done':j===cur?'cur':''});
- al.style.opacity=(f<0&&cur===F.length-1)?.8:.35;fTitle.className='';
- if(cur<0){fTag.textContent=`Scenario: ${SC[scen].n}`;fTitle.textContent='Ready';fDesc.textContent='Press Play or Step. The review agent is read-only; it produces a verdict for a human.';fEx.textContent='// waiting';tok.setAttribute('cx',85);tok.setAttribute('cy',95);return}
- const s=F[cur];fTag.textContent=`Step ${cur+1} / 8 · ${SC[scen].n}`;fTitle.textContent=s.l;fDesc.textContent=s.d;fEx.textContent=s.e;
- if(f===cur){st[6].g.classList.add('bad');fTitle.textContent='Verdict: Blocked';fTitle.className='verdict-bad';fDesc.textContent=`Stopped at ${s.l}. ${SC[scen].why}`;fEx.textContent=`"Blocked — ${SC[scen].why}"`}
- else if(cur===6){fTitle.className='verdict-ok'}
- tok.setAttribute('cx',st[cur].x);tok.setAttribute('cy',st[cur].y-50)}
-function stop(){clearInterval(timer);timer=null;play.textContent='▶ Play'}
-play.onclick=()=>{if(timer)return stop();if(cur>=last())show(-1);play.textContent='❚❚ Pause';show(cur+1);timer=setInterval(()=>{cur>=last()?stop():show(cur+1)},2000)};
-next.onclick=()=>{stop();show(cur+1)};prev.onclick=()=>{stop();show(cur-1)};reset.onclick=()=>{stop();show(-1)};
-const tabs=[t1,t2];tabs.forEach((t,i)=>{t.onclick=()=>{tabs.forEach((u,j)=>{u.setAttribute('aria-selected',i===j);u.tabIndex=i===j?0:-1;document.getElementById(u.getAttribute('aria-controls')).hidden=i!==j})};
- t.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+1)%2];n.click();n.focus()}}});
-show(-1);
-function applyHash(){const h=location.hash.slice(1);if(!h)return;if(h==='mcp'||h==='web'){t1.click();return}t2.click();const m=h.match(/^(ok|host|ret|vrf)-?(\d)?$/);if(m){stop();[...sb.children][Object.keys(SC).indexOf(m[1])].click();show(m[2]?(+m[2])-1:last())}}
-applyHash();window.addEventListener('hashchange',applyHash);
+const agents=[
+ {id:'cli',l:'CLI agent',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review the request'},
+ {id:'ide',l:'IDE agent',t:'Client',d:'Editor-integrated assistant using the same tools and agents.',e:'same tools · same agents'},
+ {id:'review',l:'Review agent',t:'Agent',d:'A firewall review agent I authored. It stops at a human. The walkthrough is its own page.',e:'read-only · human gate'},
+ {id:'design',l:'Design agent',t:'Agent',d:'A firewall design agent I authored. A human approves before anything is applied.',e:'design · human approval'}];
+const servers=[
+ ['tel','Telemetry','chart','Live path traces and flow telemetry: which devices a packet actually crosses.'],
+ ['sot','Source of truth','db','Devices, IPs, VLANs and circuits: the intended state of the network.'],
+ ['cfg','Config backups','log','Nightly config backups: zones, objects and rules for every device.'],
+ ['itsm','Ticketing','tick','Change requests, ticket context and evidence posting.'],
+ ['docs','Docs','log','Runbooks, standards and lessons learned from past incidents.'],
+ ['inv','Inventory','tick','Hardware lifecycle: what is active, retired or being decommissioned.'],
+ ['ipam','IPAM','hub','Subnets, VRFs and address ownership.'],
+ ['auto','Automation','code','Approved job templates run during change windows.'],
+ ['graph','Productivity','chat','Mail, calendar, chat and files for context and notifications.'],
+ ['iac','IaC formatter','code','Normalizes and lints infrastructure-as-code to team standards.'],
+ ['val','Validation','check','Automated pre/post change test catalogs and config linting.'],
+ ['obs','Observability','chart','Log search, time-series metrics and fabric health telemetry.'],
+ ['chg','Changes','tick','Engineering change records, facilities tickets and approvals.'],
+ ['topo','Diagrams','hub','Generated network diagrams: fabric, link aggregation, path and drift views.'],
+ ['cap','Capacity','db','Inventory, spares, port utilisation and growth trends.'],
+ ['repo','Repos','code','Pull requests, diffs and build status for the infrastructure-as-code repos.'],
+ ['qry','Infra query','shield','Read-only queries against internal infrastructure data.']
+].map(v=>({id:v[0],l:v[1],t:'Server',d:v[3],e:'read-only tools exposed via MCP'}));
+const topo=document.getElementById('topo');
+const rows=servers.length, y0=46, pitch=36;
+const span=(rows-1)*pitch;
+const hubCy=y0+span/2;
+const busL=196, busR=470;
+const agentBox={x:12,w:148,h:42};
+const hubBox={x:236,w:168,h:68};
+const srvBox={x:508,w:250,h:28};
+const agentY=i=>y0+(span*i)/(agents.length-1);
+const srvY=i=>y0+i*pitch;
+topo.setAttribute('viewBox',`0 0 770 ${y0+span+28}`);
+const eg=mk('g',{},topo),fg=mk('g',{},topo),ng=mk('g',{},topo);
+const links=[];
+function link(d,owner){
+ const edge=mk('path',{class:'edge',d},eg);
+ const flow=labWire.overlay(edge,fg);
+ labWire.set(flow,true);
+ links.push({edge,owner});
+}
+agents.forEach((a,i)=>link(`M${agentBox.x+agentBox.w} ${agentY(i)} H${busL}`,a.id));
+link(`M${busL} ${agentY(0)} V${agentY(agents.length-1)}`,'busL');
+link(`M${busL} ${hubCy} H${hubBox.x}`,'hub');
+link(`M${hubBox.x+hubBox.w} ${hubCy} H${busR}`,'hub');
+link(`M${busR} ${srvY(0)} V${srvY(rows-1)}`,'busR');
+servers.forEach((s,i)=>link(`M${busR} ${srvY(i)} H${srvBox.x}`,s.id));
+const col=(x,y,t)=>{const n=mk('text',{class:'col',x,y},ng);n.textContent=t};
+col(agentBox.x+agentBox.w/2,20,'clients / agents');
+col(hubBox.x+hubBox.w/2,20,'hub');
+col(srvBox.x+srvBox.w/2,20,'servers / tools');
+function box(x,y,w,h,label,sub,hub){
+ const g=mk('g',{class:hub?'node hub':'node',transform:`translate(${x} ${y-h/2})`,tabindex:0,role:'button','aria-label':label},ng);
+ mk('rect',{width:w,height:h,rx:8},g);
+ const ty=sub?h/2-2:h/2+4;
+ const t=mk('text',{x:w/2,y:ty},g);t.textContent=label;
+ if(sub){const s=mk('text',{class:'sub',x:w/2,y:h/2+14},g);s.textContent=sub}
+ return g;
+}
+const nodes=[];
+function add(meta,g){
+ const sel=()=>{
+  nodes.forEach(n=>n.g.classList.toggle('sel',n.g===g));
+  const id=meta.id;
+  const left=agents.some(a=>a.id===id);
+  const right=servers.some(s=>s.id===id);
+  links.forEach(l=>{
+   const on=id==='mcp'||l.owner===id||(left&&(l.owner==='busL'||l.owner==='hub'))||(right&&(l.owner==='busR'||l.owner==='hub'));
+   l.edge.classList.toggle('hi',on);
+  });
+  wTag.textContent=meta.t;wTitle.textContent=meta.l;wDesc.textContent=meta.d;wEx.textContent=meta.e;
+ };
+ nodes.push({meta,g});
+ g.addEventListener('mouseenter',sel);g.addEventListener('click',sel);g.addEventListener('focus',sel);
+ g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();sel()}});
+}
+agents.forEach((a,i)=>add(a,box(agentBox.x,agentY(i),agentBox.w,agentBox.h,a.l)));
+add({id:'mcp',l:'MCP hub',t:'Core',d:'One hub with every MCP server connected at once — 28 servers exposing 573 tools, plus a shared layer of 44 agents and 31 skills. Nodes on the right are representative categories, not one per server.',e:'servers: 28 · tools: 573 · agents: 44 · skills: 31\nall servers live in one session'},
+ box(hubBox.x,hubCy,hubBox.w,hubBox.h,'MCP hub','28 servers · 573 tools',true));
+servers.forEach((s,i)=>add(s,box(srvBox.x,srvY(i),srvBox.w,srvBox.h,s.l)));
 </script></body></html>

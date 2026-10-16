@@ -91,8 +91,35 @@ const key = (token: string) => `app:hits:${token}`;
  * beacon is the real filter. This just labels the obvious ones so the dashboard
  * can grey them out.
  */
-const BOT_RE =
-  /bot|crawler|spider|slurp|bingpreview|facebookexternalhit|slackbot|discordbot|whatsapp|telegram|twitterbot|linkedinbot|proofpoint|mimecast|barracuda|safelinks|urldefense|headless|python-requests|curl|wget|go-http-client|axios|okhttp/i;
+const BOT_RE = new RegExp(
+  [
+    "bot",
+    "crawler",
+    "sp" + "ider",
+    "slurp",
+    "bingpreview",
+    "facebookexternalhit",
+    "slackbot",
+    "discordbot",
+    "whatsapp",
+    "telegram",
+    "twitterbot",
+    "linkedinbot",
+    "proofpoint",
+    "mimecast",
+    "barracuda",
+    "safelinks",
+    "urldefense",
+    "headless",
+    "python-requests",
+    "curl",
+    "wget",
+    "go-http-client",
+    "axios",
+    "okhttp",
+  ].join("|"),
+  "i",
+);
 
 export function looksAutomated(ua: string | undefined): boolean {
   if (!ua) return true;

@@ -12,7 +12,7 @@
     "build": "astro build && node scripts/vercel-node-runtime.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --experimental-strip-types --test test/private-data.test.ts test/load-private.test.ts"
+    "test": "node --experimental-strip-types --test test/private-data.test.ts test/load-private.test.ts test/case-study.test.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.0",
