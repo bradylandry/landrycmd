@@ -48,7 +48,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 const S='http://www.w3.org/2000/svg';
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
 const agents=[
- {id:'cli',l:'CLI agent',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review CHG-xxxx'},
+ {id:'cli',l:'CLI agent',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review the request'},
  {id:'ide',l:'IDE agent',t:'Client',d:'Editor-integrated assistant using the same tools and agents.',e:'same tools · same agents'},
  {id:'review',l:'Review agent',t:'Agent',d:'A firewall review agent I authored. It stops at a human. The walkthrough is its own page.',e:'read-only · human gate'},
  {id:'design',l:'Design agent',t:'Agent',d:'A firewall design agent I authored. A human approves before anything is applied.',e:'design · human approval'}];

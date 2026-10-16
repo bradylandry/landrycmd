@@ -40,16 +40,11 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;list-style:none;padding:10px 0 0;margin:0;color:var(--mut);font-size:.8rem}
 .legend i{display:inline-block;width:18px;height:0;border-top:3px solid;margin:0 6px 0 0;vertical-align:middle}
 .legend .a{border-color:#f59e0b}.legend .b{border-color:#22d3ee}.legend .n{border-color:#f8fafc}
-.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:8px;margin-top:12px}
-.ch{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 8px}
-.ch b{display:block;font-family:var(--mono);color:var(--acc);font-size:.95rem}
-.ch .mhz{display:block;color:var(--txt);font-family:var(--mono);font-size:.78rem;margin:2px 0 8px}
-.ch em{display:block;font-style:normal;color:var(--mut);font-size:.75rem}
 </style>
 <link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>AirTap MPLS</h1>
 <p>Gulf of Mexico rigs, point-to-point microwave, and a per-customer VRF across Time Warner and AT&amp;T fiber. AirTap Communications, 2010–2011. Names and sites are generalized.</p>
-<div class="metrics"><div><b>2010–2011</b><span>AirTap Communications</span></div><div><b>VRF</b><span>one routing table per customer</span></div><div><b>2</b><span>multihomed BGP egresses</span></div><div><b>7</b><span>3.65 GHz sector channels</span></div></div></header>
+<div class="metrics"><div><b>2010–2011</b><span>AirTap Communications</span></div><div><b>VRF</b><span>one routing table per customer</span></div><div><b>2</b><span>multihomed BGP egresses</span></div></div></header>
 <main>
 <section class="block">
 <p class="lbl">01 &middot; the path</p>
@@ -67,20 +62,6 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 → 7200 · BGP + EIGRP
 → customer data center
 egress: 2 · multihomed BGP</pre></aside>
-</div>
-</section>
-<section class="block">
-<p class="lbl">02 &middot; sector frequency plan</p>
-<h2>About seven channels at 3.65 GHz, reused</h2>
-<p class="lede">WiMAX sectors at the landing sites shared one plan of about seven channels in the <b>3.65 GHz</b> band, 3650–3700 MHz. The same channel comes back at Site A and Site B on sectors that do not face each other. The centers below are a representative reuse pattern, not a survey file.</p>
-<div class="plan" role="table" aria-label="Seven representative 3.65 GHz channels reused at Site A and Site B">
- <div class="ch"><b>CH1</b><span class="mhz">3653 MHz</span><em>Site A · sector 1</em><em>Site B · sector 3</em></div>
- <div class="ch"><b>CH2</b><span class="mhz">3660 MHz</span><em>Site A · sector 2</em><em>Site B · sector 1</em></div>
- <div class="ch"><b>CH3</b><span class="mhz">3667 MHz</span><em>Site A · sector 3</em><em>Site B · sector 2</em></div>
- <div class="ch"><b>CH4</b><span class="mhz">3674 MHz</span><em>Site A · sector 1</em><em>Site B · sector 3</em></div>
- <div class="ch"><b>CH5</b><span class="mhz">3681 MHz</span><em>Site A · sector 2</em><em>Site B · sector 1</em></div>
- <div class="ch"><b>CH6</b><span class="mhz">3688 MHz</span><em>Site A · sector 3</em><em>Site B · sector 2</em></div>
- <div class="ch"><b>CH7</b><span class="mhz">3695 MHz</span><em>Site A · sector 1</em><em>Site B · sector 2</em></div>
 </div>
 </section>
 </main>

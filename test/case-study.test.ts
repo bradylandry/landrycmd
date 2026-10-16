@@ -44,6 +44,7 @@ test("the MCP hub and the firewall review are separate labs", async () => {
   assert.match(hub, /MCP Integration Simulator/);
   assert.equal(hub.includes("const F="), false);
   assert.equal(hub.includes("30–60"), false);
+  assert.equal(hub.includes("CHG-"), false);
   assert.match(hub, /\/lab\/frr-review\//);
 
   assert.match(review, /Firewall Request Review/);
@@ -70,6 +71,15 @@ test("the MCP hub and the firewall review are separate labs", async () => {
   assert.match(hub, /servers \/ tools/);
   assert.equal(review.includes("class:'pulse'"), false);
   assert.equal(review.includes('class="pulse"'), false);
+});
+
+test("the AirTap lab does not publish an invented channel plan", async () => {
+  const page = await readFile(new URL("./public/lab/airtap-mpls/index.html", root), "utf8");
+  const home = await readFile(new URL("./src/pages/index.astro", root), "utf8");
+  assert.equal(/36\d{2}\s*MHz/.test(page), false);
+  assert.equal(page.includes("sector frequency"), false);
+  assert.equal(page.includes("CHG-"), false);
+  assert.equal(home.includes("3.65 GHz sector plan"), false);
 });
 
 test("the case study stands alone and Work links both labs", async () => {
