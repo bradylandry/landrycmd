@@ -86,6 +86,30 @@ test("unsourced lab figures read NEEDS NUMBER", async () => {
   assert.equal(essay.includes("7 channels"), false);
 });
 
+test("AirTap packets stay on the links instead of crossing the core labels", async () => {
+  const page = await readFile(new URL("./public/lab/airtap-mpls/index.html", root), "utf8");
+  // Same stack as the other labs: link, packet dash, then the node on top.
+  assert.match(page, /const eg=mk\('g',\{\},topo\),fg=mk\('g',\{\},topo\),ng=mk\('g',\{\},topo\)/);
+  assert.equal(page.includes("M570 56 H700"), false);
+  assert.equal(page.includes("M570 240 H700"), false);
+  assert.match(page, /Gulf of Mexico/);
+  assert.match(page, /class:'ring '/);
+  assert.match(page, /Texas shore/);
+  assert.match(page, /Central shore/);
+  assert.match(page, /East shore/);
+  assert.match(page, /Data center/);
+  assert.match(page, /class:'cloud'/);
+  const wires = [...page.matchAll(/wire\(seg\(\[([^\]]+)\]\)/g)];
+  assert.equal(wires.length, 8);
+  for (const wire of wires) {
+    assert.equal((wire[1].match(/port\(/g) || []).length, 2);
+  }
+  assert.equal(page.includes("Site A"), false);
+  assert.equal(page.includes("Site B"), false);
+  assert.equal(/\b(?:\d{1,3}\.){3}\d{1,3}\b/.test(page), false);
+  assert.equal(/\b(?:PE|CE|ASBR|LER|LSR)\b/.test(page), false);
+});
+
 test("the AirTap lab does not publish an invented channel plan", async () => {
   const page = await readFile(new URL("./public/lab/airtap-mpls/index.html", root), "utf8");
   const home = await readFile(new URL("./src/pages/index.astro", root), "utf8");

@@ -7,9 +7,15 @@
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
 button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 main{max-width:1200px;margin:0 auto;padding:0 24px 32px}
-.view{display:grid;grid-template-columns:1fr 320px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
-@media(max-width:860px){.view{grid-template-columns:1fr}}
-svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+.view>*{min-width:0}
+@media(min-width:1024px){.view{grid-template-columns:minmax(0,1fr) 300px}}
+.map-scroll{overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;background:#062436;border-radius:8px;border:1px solid #1e4a63}
+svg{width:100%;height:auto;display:block}
+@media(max-width:719px){#topo{min-width:760px}}
+.panhint{display:none;color:var(--mut);font-size:.85rem;margin:0 0 8px}
+@media(max-width:719px){.panhint{display:block}}
+.side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;align-self:start}
 .side h2{margin:0 0 6px;font-size:1.1rem}.side p{color:var(--mut);margin:0 0 10px}.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--card);color:var(--acc);margin-bottom:8px}
 pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}
@@ -23,44 +29,79 @@ pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);bord
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;padding:0;list-style:none}
 .tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
-.edge{fill:none;stroke-width:2.2;stroke-linecap:round}
-.edge.a{stroke:#f59e0b;opacity:.4}
-.edge.b{stroke:#22d3ee;opacity:.4}
-.edge.n{stroke:#8b949e;opacity:.55}
+.note{color:var(--mut);font-size:.8rem;margin:8px 0 0;max-width:70ch}
+.edge{fill:none;stroke-width:2.2;stroke-linecap:round;pointer-events:none}
+.edge.a{stroke:#f59e0b;opacity:.55}
+.edge.b{stroke:#22d3ee;opacity:.55}
+.edge.n{stroke:#e2e8f0;opacity:.7}
 .edge.hi{opacity:1;stroke-width:2.8}
 .flow.vrf-a{stroke:#f59e0b}
 .flow.vrf-b{stroke:#22d3ee}
-.node{cursor:pointer}.node rect{fill:var(--bg);stroke:var(--acc2);stroke-width:2}
+.ring{fill-opacity:.34;stroke-width:2;mix-blend-mode:screen;pointer-events:none}
+.ring.a{fill:#f59e0b;stroke:#fcd34d}
+.ring.b{fill:#22d3ee;stroke:#a5f3fc}
+.wave{fill:none;stroke:rgba(186,230,253,.2);stroke-width:1.4;pointer-events:none}
+.shallow{fill:none;stroke:#1a7ea3;stroke-width:22;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.shoreline{fill:none;stroke:#e7d3a8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.cloud{fill:rgba(224,242,254,.16);stroke:#bae6fd;stroke-width:2;pointer-events:none}
+.land{stroke:none;pointer-events:none}
+.geo{font-family:var(--mono);letter-spacing:.16em;text-anchor:middle;pointer-events:none}
+.geo.land{fill:rgba(232,214,176,.62);font-size:12px}
+.geo.sea{fill:rgba(186,230,253,.5);font-size:18px;letter-spacing:.22em}
+.node{cursor:pointer}
+.node rect{fill:var(--bg);stroke:var(--acc2);stroke-width:2}
 .node:hover rect,.node.sel rect,.node.core rect{stroke:var(--acc)}
-.node text{fill:var(--txt);font-size:12px;text-anchor:middle}.node .sub{fill:var(--mut);font-size:10px}
-.col{font-family:var(--mono);font-size:11px;fill:var(--mut);text-anchor:middle}
-.pt{font-family:var(--mono);font-size:10px;fill:var(--mut)}
-.vlab{font-family:var(--mono);font-size:10px;text-anchor:middle}
+.node text{fill:var(--txt);font-size:13px;text-anchor:middle;font-family:var(--mono)}
+.node .sub{fill:var(--mut);font-size:11px}
+.node .pip{stroke:none;pointer-events:none}
+.node .pip.a{fill:#f59e0b}
+.node .pip.b{fill:#22d3ee}
+.node:hover .hit,.node.sel .hit,.node:focus-visible .hit,.node:hover .pip,.node.sel .pip,.node:hover .bay,.node.sel .bay{stroke:none}
+.node.rig .deck{fill:#dbe4ee;stroke:#0f172a;stroke-width:1.6}
+.node.rig:hover .deck,.node.rig.sel .deck,.node.rig:focus-visible .deck{stroke:var(--acc);stroke-width:2.4}
+.node.rig .hit{fill:transparent;stroke:none}
+.node.rig .shadow{fill:rgba(0,0,0,.38);stroke:none}
+.node.rig .post{fill:#334155;stroke:#0f172a;stroke-width:1}
+.node.rig .bay{fill:#64748b;stroke:none}
+.node.rig .pad{fill:#f8fafc;stroke:#b45309;stroke-width:1.5}
+.node.rig .padin{fill:none;stroke:#b45309;stroke-width:1}
+.node.rig .boom{stroke:#475569;stroke-width:2;stroke-linecap:round}
+.node.rig .flare{fill:#f59e0b;stroke:none}
+.node.rig .mast{fill:#0f172a;stroke:#38bdf8;stroke-width:1.6}
+.node .riglab{fill:#f8fafc;font-size:13px;paint-order:stroke;stroke:#062436;stroke-width:4px;stroke-linejoin:round}
+.pt{font-family:var(--mono);font-size:11px;fill:#e7d3a8;text-anchor:middle;paint-order:stroke;stroke:#14281f;stroke-width:3px}
+.vlab{font-family:var(--mono);font-size:11px;text-anchor:middle}
 .vlab.a{fill:#f59e0b}.vlab.b{fill:#22d3ee}
 .legend{display:flex;gap:14px;flex-wrap:wrap;list-style:none;padding:10px 0 0;margin:0;color:var(--mut);font-size:.8rem}
 .legend i{display:inline-block;width:18px;height:0;border-top:3px solid;margin:0 6px 0 0;vertical-align:middle}
 .legend .a{border-color:#f59e0b}.legend .b{border-color:#22d3ee}.legend .n{border-color:#f8fafc}
+.legend .ring{width:12px;height:12px;border:2px solid #7dd3fc;border-radius:50%;vertical-align:-2px}
 </style>
 <link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>AirTap MPLS</h1>
-<p>Gulf of Mexico rigs, point-to-point microwave, and a per-customer VRF across Time Warner and AT&amp;T fiber. AirTap Communications, 2010–2011. Names and sites are generalized.</p>
+<p>Top-down Gulf of Mexico. Offshore rigs in the water, coverage rings that overlap, and straight shots north from shore to one inland data center. AirTap Communications, 2010–2011. Names are generalized.</p>
 <div class="metrics"><div><b>2010–2011</b><span>AirTap Communications</span></div><div><b>VRF</b><span>one routing table per customer</span></div><div><b>2</b><span>multihomed BGP egresses</span></div></div></header>
 <main>
 <section class="block">
 <p class="lbl">01 &middot; the path</p>
 <h2>One VRF per customer, from the rig to their data center</h2>
-<p class="lede">Offshore rigs landed on Cisco 7200s over <b>point-to-point microwave</b>. From there the traffic crossed <b>Time Warner and AT&amp;T fiber MPLS</b> into 7200s running <b>BGP and EIGRP</b>. Each customer stayed in its own VRF &mdash; amber for Customer A, cyan for Customer B &mdash; and that VRF continued to the customer data center. Two egress points carried <b>multihomed BGP</b> out to the internet.</p>
+<p class="lede">Three offshore rigs sit in the Gulf, each with a <b>coverage ring</b>. The rings cross, so the overlap between rigs is visible. Each rig comes ashore on a straight <b>point-to-point microwave</b> shot to a Cisco 7200: the Texas shore, the central tip of the coast, and a landing further east. All three run <b>straight north</b> to one inland data center, where <b>BGP and EIGRP</b> keep Customer A and Customer B in their own VRFs. Two egress peers in the cloud north of the data center carry <b>multihomed BGP</b>.</p>
 <ul class="tags"><li>MPLS</li><li>BGP</li><li>EIGRP</li><li>VRF</li><li>Cisco 7200</li><li>licensed microwave</li></ul>
 <p class="lede">The full Gulf of Mexico wireless network spans NEEDS NUMBER site points and NEEDS NUMBER point-to-point links on the Google Earth planning map; the diagram below is a simplified, representative subset.</p>
 <div class="view" id="v1">
  <div>
-  <svg id="topo" viewBox="0 0 920 360" role="img" aria-label="Representative subset. Three offshore rigs reach Site A and Site B over four point-to-point microwave links, into Cisco 7200s, then Time Warner and AT&amp;T fiber MPLS, then core 7200s running BGP and EIGRP with a separate VRF per customer, then each customer data center. Two internet egress points use multihomed BGP."></svg>
-  <ul class="legend" aria-hidden="true"><li><i class="a"></i>Customer A VRF</li><li><i class="b"></i>Customer B VRF</li><li><i class="n"></i>multihomed BGP</li></ul>
+  <p class="panhint">Scroll sideways to move along the coast.</p>
+  <div class="map-scroll">
+   <svg id="topo" viewBox="0 0 880 640" role="group" aria-labelledby="topoTitle topoDesc">
+    <title id="topoTitle">Gulf of Mexico, top down</title>
+    <desc id="topoDesc">Three offshore rigs in the Gulf, each with a coverage ring. The rings overlap. Straight microwave links run from the rigs to three shore landings. Each landing runs straight north to one inland data center. Two BGP egress peers sit in a cloud north of the data center.</desc>
+   </svg>
+  </div>
+  <ul class="legend" aria-hidden="true"><li><i class="a"></i>Customer A VRF</li><li><i class="b"></i>Customer B VRF</li><li><i class="n"></i>multihomed BGP</li><li><i class="ring"></i>coverage overlap</li></ul>
+  <p class="note">Rings show where coverage from one rig meets the next. They are a picture of that overlap, not a measured radio plan. Every link is a straight line, and the dashes stop at the rigs and routers.</p>
  </div>
- <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">VRF per customer</h2><p id="wDesc">Follow a color. Amber stays in Customer A from the rig, across the microwave, the fiber, and the core 7200s, and into that customer&rsquo;s data center. Cyan does the same for Customer B. The white dashes are the two internet egresses.</p><pre id="wEx">rig → microwave → 7200
-→ Time Warner / AT&amp;T MPLS
-→ 7200 · BGP + EIGRP
-→ customer data center
+ <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">From the rigs inland</h2><p id="wDesc">Amber stays in Customer A from the rig, across the microwave, and straight north into the data center. Cyan does the same for Customer B. The data center sits inland, centered above the coast. The cloud north of it holds two BGP egress peers.</p><pre id="wEx">rig → microwave → shore
+→ straight north → data center
 egress: 2 · multihomed BGP</pre></aside>
 </div>
 </section>
@@ -71,44 +112,83 @@ egress: 2 · multihomed BGP</pre></aside>
 const S='http://www.w3.org/2000/svg';
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
 const topo=document.getElementById('topo');
-const eg=mk('g',{},topo),ng=mk('g',{},topo),fg=mk('g',{},topo);
+/* Water, rings, and land paint first. Links, then the shared packet
+   dashes, then the nodes. A dash cannot sit on top of a rig or a label,
+   and every link ends on a box edge. */
+const bg=mk('g',{},topo),rg=mk('g',{},topo),lg=mk('g',{},topo);
+const cg=mk('g',{},topo);
+const eg=mk('g',{},topo),fg=mk('g',{},topo),ng=mk('g',{},topo);
+
+const defs=mk('defs',{},bg);
+const sea=mk('radialGradient',{id:'sea',cx:'48%',cy:'62%',r:'72%'},defs);
+mk('stop',{offset:'0%','stop-color':'#071e2e'},sea);
+mk('stop',{offset:'58%','stop-color':'#0c4a6e'},sea);
+mk('stop',{offset:'100%','stop-color':'#1878a0'},sea);
+const landFill=mk('linearGradient',{id:'landFill',x1:'0',y1:'0',x2:'0',y2:'1'},defs);
+mk('stop',{offset:'0%','stop-color':'#14281f'},landFill);
+mk('stop',{offset:'100%','stop-color':'#2a4a36'},landFill);
+
+mk('rect',{width:880,height:640,fill:'url(#sea)'},bg);
+[
+ 'M0 280 C80 264 140 296 210 280 S340 264 420 280 S560 296 640 280 S780 264 880 280',
+ 'M0 360 C90 344 150 376 230 360 S370 344 450 360 S590 376 670 360 S800 344 880 360',
+ 'M0 455 C80 438 150 472 230 455 S370 438 460 455 S600 472 690 455 S810 438 880 455',
+ 'M0 545 C90 528 160 562 250 545 S400 528 490 545 S640 562 730 545 S840 528 880 545'
+].forEach(d=>mk('path',{class:'wave',d},bg));
+
+/* Coastline traced from a simplified Gulf of Mexico outline: Florida on the
+   right, the delta south of Louisiana, Texas down the left, Yucatán and Cuba. */
+const land='M823.6 0 L817.6 211.5 L826.1 275.2 L842.3 343.9 L863.8 395.6 L864 427.1 L880 446.9 L880 481.8 L871.2 491.6 L856.8 494.3 L833 491.7 L825.4 482 L807 476.9 L781.4 458 L758.9 441.1 L751.6 432.5 L761.5 389.9 L748 349.8 L710.3 284.3 L691.4 270.2 L642.7 310.6 L634 307 L610.5 264.5 L580.2 241.8 L525.6 253.3 L482.7 243.2 L445.8 249.5 L425.3 262.3 L434.5 288.2 L433.7 321.4 L444 335.8 L434.8 345.4 L416.8 334.7 L398.7 348.5 L363.6 346.2 L327.5 307.7 L285.3 316.8 L250.2 298.3 L220.1 304.7 L179.4 322 L135.4 376.1 L87.3 407.6 L60.9 433.7 L49.8 443.7 L49.3 458.9 L51.7 469.4 L60.9 476.9 L42.2 496.3 L33.7 512.1 L30.2 541.7 L25.5 552.4 L33.9 564.4 L48.9 575.2 L58.5 592.3 L90.6 608.7 L101.9 621.2 L120.8 632.1 L172.2 637.9 L192.2 647.2 L234.6 641 L271.4 638.8 L307.6 634.8 L338.1 631 L368.8 622 L380.4 609.2 L384.3 590.7 L392.7 584.2 L425.4 578.5 L476.6 573.4 L519.4 574.1 L548.7 572.3 L560.3 576.9 L558.7 587.5 L532.7 600.6 L521.2 614.1 L530.1 617.9 L522.9 627.4 L510.7 644.6 L498.5 639 L488.4 639.3 L488.5 642.6 L497.7 642.7 L496.9 648.6 L489.1 658.2 L493.3 661.6 L488.2 669.5 L491.3 671.6 L485.7 682.7 L476.2 688.6 L467.4 689.3 L466.5 690 L179.5 690 L0 687.9 L0 0 Z';
+const coast='M817.6 211.5 L826.1 275.2 L842.3 343.9 L863.8 395.6 L864 427.1 L871.2 491.6 L856.8 494.3 L833 491.7 L825.4 482 L807 476.9 L781.4 458 L758.9 441.1 L751.6 432.5 L761.5 389.9 L748 349.8 L710.3 284.3 L691.4 270.2 L642.7 310.6 L634 307 L610.5 264.5 L580.2 241.8 L525.6 253.3 L482.7 243.2 L445.8 249.5 L425.3 262.3 L434.5 288.2 L433.7 321.4 L444 335.8 L434.8 345.4 L416.8 334.7 L398.7 348.5 L363.6 346.2 L327.5 307.7 L285.3 316.8 L250.2 298.3 L220.1 304.7 L179.4 322 L135.4 376.1 L87.3 407.6 L60.9 433.7 L49.8 443.7 L49.3 458.9 L51.7 469.4 L60.9 476.9 L42.2 496.3 L33.7 512.1 L30.2 541.7 L25.5 552.4 L33.9 564.4 L48.9 575.2 L58.5 592.3 L90.6 608.7 L101.9 621.2 L120.8 632.1';
+const cuba='M864.6 561.4 L801.6 558 L784.7 553.7 L802.9 548.2 L755.5 547 L720.7 558.5 L700.7 558.8 L693.7 564.2 L669.8 566.6 L649.1 564.5 L674.6 557.7 L685.1 549.7 L707 544.8 L731.7 540.5 L768.3 538.4 L780 536 L821.8 537.6 L859.8 537.8 L864.6 561.4 Z';
+mk('path',{class:'shallow',d:coast},lg);
+mk('path',{class:'shallow',d:cuba},lg);
+mk('path',{class:'land',d:land,fill:'url(#landFill)'},lg);
+mk('path',{class:'land',d:cuba,fill:'url(#landFill)'},lg);
+mk('path',{class:'shoreline',d:coast},lg);
+mk('path',{class:'shoreline',d:cuba},lg);
+
+function geo(x,y,t,kind){const n=mk('text',{class:'geo '+kind,x,y},lg);n.textContent=t}
+geo(96,168,'TEXAS','land');
+geo(792,348,'FLORIDA','land');
+geo(500,612,'MEXICO','land');
+geo(168,548,'GULF OF MEXICO','sea');
 
 const nodes=[
- {id:'r1',x:10,y:38,w:100,h:36,l:'Rig 1',s:'offshore',vrf:'a'},
- {id:'r2',x:10,y:90,w:100,h:36,l:'Rig 2',s:'offshore',vrf:'a'},
- {id:'r3',x:10,y:222,w:100,h:36,l:'Rig 3',s:'offshore',vrf:'b'},
- {id:'sa',x:180,y:32,w:120,h:120,l:'Site A',s:'Cisco 7200',vrf:'a'},
- {id:'sb',x:180,y:216,w:120,h:48,l:'Site B',s:'Cisco 7200',vrf:'b'},
- {id:'tw',x:370,y:38,w:120,h:36,l:'Time Warner',s:'fiber MPLS',vrf:'a'},
- {id:'att',x:370,y:222,w:120,h:36,l:'AT&T',s:'fiber MPLS',vrf:'b'},
- {id:'core',x:560,y:32,w:150,h:232,l:'Core 7200s',s:'BGP + EIGRP',vrf:'core',core:true},
- {id:'ca',x:780,y:36,w:130,h:40,l:'Customer A',s:'data center',vrf:'a'},
- {id:'cb',x:780,y:220,w:130,h:40,l:'Customer B',s:'data center',vrf:'b'},
- {id:'e1',x:560,y:312,w:70,h:36,l:'Egress 1',s:'BGP',vrf:'n'},
- {id:'e2',x:640,y:312,w:70,h:36,l:'Egress 2',s:'BGP',vrf:'n'}
+ {id:'e1',x:424,y:20,w:108,h:36,l:'Egress 1',s:'BGP',vrf:'n'},
+ {id:'e2',x:540,y:20,w:108,h:36,l:'Egress 2',s:'BGP',vrf:'n'},
+ {id:'dc',x:340,y:96,w:320,h:74,l:'Data center',s:'BGP + EIGRP',vrf:'dc',dc:true},
+ {id:'tx',x:176,y:248,w:156,h:44,l:'Texas shore',s:'Cisco 7200',vrf:'a'},
+ {id:'mid',x:346,y:280,w:84,h:44,l:'Central shore',s:'Cisco 7200',vrf:'a',compact:true},
+ {id:'ea',x:632,y:224,w:112,h:42,l:'East shore',s:'Cisco 7200',vrf:'b'},
+ {id:'r1',x:218,y:392,w:72,h:50,l:'Rig 1',s:'Customer A',vrf:'a',kind:'rig'},
+ {id:'r2',x:352,y:430,w:72,h:50,l:'Rig 2',s:'Customer A',vrf:'a',kind:'rig'},
+ {id:'r3',x:500,y:388,w:72,h:50,l:'Rig 3',s:'Customer B',vrf:'b',kind:'rig'}
 ];
+const by={};
+nodes.forEach(n=>{by[n.id]=n});
+
+/* Ring center is the deck center. Radius is large enough that every pair overlaps. */
+function ring(id,vrf){
+ const n=by[id];
+ mk('circle',{class:'ring '+vrf,cx:n.x+n.w/2,cy:n.y+n.h/2,r:168},rg);
+}
+ring('r1','a');
+ring('r2','a');
+ring('r3','b');
 
 const INFO={
- r1:{t:'Customer A',l:'Rig 1',d:'An offshore rig on Customer A’s VRF. Traffic leaves over a licensed point-to-point microwave hop to the Site A 7200.',e:'vrf: Customer A\nlink: PTP microwave\nnext: Site A · Cisco 7200'},
- r2:{t:'Customer A',l:'Rig 2',d:'A second Customer A rig, on its own microwave hop into the same Site A 7200. It shares that customer’s VRF with Rig 1.',e:'vrf: Customer A\nlink: PTP microwave\nnext: Site A · Cisco 7200'},
- r3:{t:'Customer B',l:'Rig 3',d:'An offshore rig on Customer B’s VRF. A separate microwave hop lands it on the Site B 7200, so the two customers never share a routing table.',e:'vrf: Customer B\nlink: PTP microwave\nnext: Site B · Cisco 7200'},
- sa:{t:'Microwave landing',l:'Site A',d:'Cisco 7200 at Site A. Rig 1 and Rig 2 come in over point-to-point microwave. Customer A’s VRF continues onto the Time Warner fiber MPLS.',e:'router: Cisco 7200\nvrf in: Customer A\nnext: Time Warner fiber MPLS'},
- sb:{t:'Microwave landing',l:'Site B',d:'Cisco 7200 at Site B. Rig 3 comes in over point-to-point microwave, and a fourth microwave hop ties Site B back to Site A. Customer B’s VRF continues onto AT&T fiber.',e:'router: Cisco 7200\nvrf in: Customer B\nnext: AT&T fiber MPLS'},
- tw:{t:'Fiber MPLS',l:'Time Warner',d:'Time Warner fiber MPLS between the landing 7200 and the core. Customer A’s VRF stays on its own color across this provider.',e:'provider: Time Warner\nservice: fiber MPLS\nvrf: Customer A'},
- att:{t:'Fiber MPLS',l:'AT&T',d:'AT&T fiber MPLS, the second provider into the same core 7200s. Customer B’s VRF crosses this fiber without joining Customer A.',e:'provider: AT&T\nservice: fiber MPLS\nvrf: Customer B'},
- core:{t:'BGP + EIGRP',l:'Core 7200s',d:'The 7200s that ran BGP and EIGRP. Each customer kept its own VRF through this hop. Both colors cross the same routers and stay separated, then each VRF is handed to that customer’s data center. Under the routers, two egresses announce multihomed BGP.',e:'control: BGP + EIGRP\nvrf: one per customer\negress: Egress 1 and Egress 2'},
- ca:{t:'Customer A',l:'Customer A data center',d:'Customer A’s VRF extended over the MPLS connection they needed, end to end from the offshore rig to their own data center.',e:'vrf: Customer A\nhandoff: MPLS\nfrom: core 7200s'},
- cb:{t:'Customer B',l:'Customer B data center',d:'Customer B’s VRF on its own MPLS handoff into their data center. The cyan packets never enter Customer A’s table.',e:'vrf: Customer B\nhandoff: MPLS\nfrom: core 7200s'},
- e1:{t:'Multihomed BGP',l:'Egress 1',d:'One of the two internet egress points. BGP is multihomed: this path and Egress 2 are both live.',e:'protocol: BGP\nrole: internet egress\npair: Egress 2'},
- e2:{t:'Multihomed BGP',l:'Egress 2',d:'The second internet egress. Multihomed BGP leaves the network through both egresses, separate from the customer VRFs.',e:'protocol: BGP\nrole: internet egress\npair: Egress 1'}
+ r1:{t:'Customer A',l:'Rig 1',d:'An offshore rig on Customer A’s VRF. The ring is coverage. Where it crosses the other rings, that overlap is the shared field between rigs. A straight microwave shot runs north to the Texas shore.',e:'vrf: Customer A\nlink: microwave to shore\nnext: Texas shore · Cisco 7200'},
+ r2:{t:'Customer A',l:'Rig 2',d:'A second Customer A rig, on the water south of the central coast. Its ring overlaps Rig 1 and Rig 3. Its microwave shot runs straight north to the central shore.',e:'vrf: Customer A\nlink: microwave to shore\nnext: Central shore · Cisco 7200'},
+ r3:{t:'Customer B',l:'Rig 3',d:'An offshore rig on Customer B’s VRF. The ring overlaps the other two. Its microwave shot runs straight to the east shore, so the two customers do not share a routing table.',e:'vrf: Customer B\nlink: microwave to shore\nnext: East shore · Cisco 7200'},
+ tx:{t:'Microwave landing',l:'Texas shore',d:'Cisco 7200 on the Texas shore. Rig 1 comes in over a straight point-to-point microwave shot. From this landing the path runs straight north to the inland data center.',e:'router: Cisco 7200\nvrf in: Customer A\nnext: Data center'},
+ mid:{t:'Microwave landing',l:'Central shore',d:'Cisco 7200 at the central tip of the coast. Rig 2 comes in over a straight microwave shot. From here the path runs straight north, into the same data center as the other landings.',e:'router: Cisco 7200\nvrf in: Customer A\nnext: Data center'},
+ ea:{t:'Microwave landing',l:'East shore',d:'Cisco 7200 further east along the Gulf coast. Rig 3 comes in over a straight microwave shot. This landing also runs straight north to the inland data center.',e:'router: Cisco 7200\nvrf in: Customer B\nnext: Data center'},
+ dc:{t:'BGP + EIGRP',l:'Data center',d:'One data center, inland and centered above the coast. The Texas, central, and east landings each run straight north into it. Customer A and Customer B keep their own VRFs through BGP and EIGRP. Two egress peers sit in the cloud to the north.',e:'control: BGP + EIGRP\nvrf: one per customer\nfrom: three shore landings\negress: Egress 1 and Egress 2'},
+ e1:{t:'Multihomed BGP',l:'Egress 1',d:'One of the two egress peers, drawn in the cloud north of the data center. A straight link runs up from the data center. BGP is multihomed: this peer and Egress 2 are both live.',e:'protocol: BGP\nrole: egress peer\npair: Egress 2'},
+ e2:{t:'Multihomed BGP',l:'Egress 2',d:'The second egress peer in the same cloud. A straight link runs up from the data center. Multihomed BGP leaves through both peers, separate from the customer VRFs.',e:'protocol: BGP\nrole: egress peer\npair: Egress 1'}
 };
-
-function col(x,y,t){const n=mk('text',{class:'col',x,y},ng);n.textContent=t}
-col(60,18,'rigs');
-col(240,18,'7200 landing');
-col(430,18,'fiber MPLS');
-col(635,18,'BGP + EIGRP');
-col(845,18,'customer');
+const OVERVIEW={t:'Overview',l:'From the rigs inland',d:'Amber stays in Customer A from the rig, across the microwave, and straight north into the data center. Cyan does the same for Customer B. The data center sits inland, centered above the coast. The cloud north of it holds two BGP egress peers.',e:'rig → microwave → shore\n→ straight north → data center\negress: 2 · multihomed BGP'};
 
 const links=[];
 function wire(d,vrf,owners){
@@ -118,36 +198,58 @@ function wire(d,vrf,owners){
  if(vrf==='a'||vrf==='b') flow.classList.add('vrf-'+vrf);
  links.push({edge,vrf,owners});
 }
+/* Port on a box edge. `at` is the x on a top or bottom edge, or the y on a side. */
+function port(n,side,at){
+ if(side==='l') return [n.x,at];
+ if(side==='r') return [n.x+n.w,at];
+ if(side==='t') return [at,n.y];
+ return [at,n.y+n.h];
+}
+function seg(pts){return pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join('')}
 
-/* Four point-to-point microwave hops: Rig 1 and Rig 2 into Site A, Rig 3 into Site B, and Site A to Site B. */
-wire('M110 56 H180','a',['r1','sa']);
-wire('M110 108 H180','a',['r2','sa']);
-wire('M110 240 H180','b',['r3','sb']);
-wire('M240 152 V216','n',['sa','sb']);
-const ptp=mk('text',{class:'pt',x:248,y:188},ng);ptp.textContent='PTP';
+const dc=by.dc,e1=by.e1,e2=by.e2,tx=by.tx,mid=by.mid,ea=by.ea,r1=by.r1,r2=by.r2,r3=by.r3;
 
-/* Fiber MPLS, then the core 7200s, then each customer's data center. */
-wire('M300 56 H370','a',['sa','tw']);
-wire('M490 56 H560','a',['tw','core']);
-wire('M570 56 H700','a',['core']);
-wire('M710 56 H780','a',['core','ca']);
-wire('M300 240 H370','b',['sb','att']);
-wire('M490 240 H560','b',['att','core']);
-wire('M570 240 H700','b',['core']);
-wire('M710 240 H780','b',['core','cb']);
+/* Flat-bottomed cloud so the two peers sit inside it and the links leave through the base. */
+(function cloud(x,y,w,h){
+ const d=[
+  `M ${x+w*0.16} ${y+h*0.78}`,
+  `Q ${x+w*0.02} ${y+h*0.78} ${x+w*0.08} ${y+h*0.5}`,
+  `Q ${x+w*0.01} ${y+h*0.22} ${x+w*0.2} ${y+h*0.28}`,
+  `Q ${x+w*0.26} ${y+h*0.05} ${x+w*0.4} ${y+h*0.22}`,
+  `Q ${x+w*0.48} ${y+h*0.02} ${x+w*0.58} ${y+h*0.2}`,
+  `Q ${x+w*0.7} ${y+h*0.04} ${x+w*0.78} ${y+h*0.26}`,
+  `Q ${x+w*0.98} ${y+h*0.14} ${x+w*0.92} ${y+h*0.46}`,
+  `Q ${x+w*0.99} ${y+h*0.72} ${x+w*0.84} ${y+h*0.78}`,
+  `L ${x+w*0.16} ${y+h*0.78} Z`
+ ].join(' ');
+ mk('path',{class:'cloud',d},cg);
+})(396,2,276,84);
 
-/* Two internet egresses, multihomed BGP. */
-wire('M595 264 V312','n',['core','e1']);
-wire('M675 264 V312','n',['core','e2']);
+/* Every link is one straight segment and ends on a box edge.
+   Shore landings run north into the data center. Egress peers sit above it. */
+wire(seg([port(tx,'t',328),port(dc,'b',352)]),'a',['tx','dc']);
+wire(seg([port(mid,'t',388),port(dc,'b',388)]),'a',['mid','dc']);
+wire(seg([port(ea,'t',656),port(dc,'b',648)]),'b',['ea','dc']);
+wire(seg([port(e1,'b',478),port(dc,'t',478)]),'n',['dc','e1']);
+wire(seg([port(e2,'b',594),port(dc,'t',594)]),'n',['dc','e2']);
+wire(seg([port(tx,'b',254),port(r1,'t',254)]),'a',['tx','r1']);
+wire(seg([port(mid,'b',388),port(r2,'t',388)]),'a',['mid','r2']);
+wire(seg([port(ea,'b',688),port(r3,'t',560)]),'b',['ea','r3']);
 
 function box(n){
- const g=mk('g',{class:n.core?'node core':'node',transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-label':n.l},ng);
+ const g=mk('g',{class:n.dc?'node core':'node',transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-label':n.s?n.l+', '+n.s:n.l},ng);
  mk('rect',{width:n.w,height:n.h,rx:8},g);
- if(n.core){
-  const t=mk('text',{x:n.w/2,y:118},g);t.textContent=n.l;
-  const s=mk('text',{class:'sub',x:n.w/2,y:136},g);s.textContent=n.s;
-  const a=mk('text',{class:'vlab a',x:n.w/2,y:78},g);a.textContent='Customer A VRF';
-  const b=mk('text',{class:'vlab b',x:n.w/2,y:228},g);b.textContent='Customer B VRF';
+ if(n.vrf==='a'||n.vrf==='b') mk('rect',{class:'pip '+n.vrf,x:0,y:10,width:4,height:n.h-20,rx:1},g);
+ if(n.dc){
+  const t=mk('text',{x:n.w/2,y:22},g);t.textContent=n.l;
+  const s=mk('text',{class:'sub',x:n.w/2,y:40},g);s.textContent=n.s;
+  const a=mk('text',{class:'vlab a',x:n.w/2,y:56},g);a.textContent='Customer A VRF';
+  const b=mk('text',{class:'vlab b',x:n.w/2,y:70},g);b.textContent='Customer B VRF';
+ }else if(n.compact){
+  const parts=n.l.split(' ');
+  const t=mk('text',{x:n.w/2,y:14},g);t.style.fontSize='11px';t.textContent=parts[0];
+  const t2=mk('text',{x:n.w/2,y:26},g);t2.style.fontSize='11px';t2.textContent=parts[1]||'';
+  if(n.s){const s=mk('text',{class:'sub',x:n.w/2,y:39},g);s.style.fontSize='9px';s.textContent=n.s}
  }else{
   const t=mk('text',{x:n.w/2,y:n.s?n.h/2-1:n.h/2+4},g);t.textContent=n.l;
   if(n.s){const s=mk('text',{class:'sub',x:n.w/2,y:n.h/2+13},g);s.textContent=n.s}
@@ -155,22 +257,39 @@ function box(n){
  return g;
 }
 
+function rig(n){
+ const g=mk('g',{class:'node rig',transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-label':n.l+', '+n.s},ng);
+ mk('rect',{class:'hit',x:-8,y:-8,width:n.w+16,height:n.h+28,rx:10},g);
+ mk('ellipse',{class:'shadow',cx:n.w/2+6,cy:n.h/2+8,rx:n.w/2+2,ry:16},g);
+ [[8,8],[n.w-8,8],[8,n.h-8],[n.w-8,n.h-8]].forEach(([px,py])=>mk('circle',{class:'post',cx:px,cy:py,r:3.4},g));
+ mk('rect',{class:'deck',x:0,y:0,width:n.w,height:n.h,rx:3},g);
+ mk('rect',{class:'bay',x:12,y:14,width:22,height:16,rx:1},g);
+ mk('circle',{class:'pad',cx:n.w-18,cy:16,r:9},g);
+ mk('circle',{class:'padin',cx:n.w-18,cy:16,r:5},g);
+ mk('circle',{class:'mast',cx:n.w/2,cy:n.h/2+2,r:2.6},g);
+ mk('line',{class:'boom',x1:n.w*0.55,y1:n.h-8,x2:n.w+8,y2:n.h+6},g);
+ mk('circle',{class:'flare',cx:n.w+8,cy:n.h+6,r:2.3},g);
+ mk('rect',{class:'pip '+n.vrf,x:10,y:n.h-6,width:n.w-20,height:3.5,rx:1},g);
+ const t=mk('text',{class:'riglab',x:n.w/2,y:n.h+18},g);t.textContent=n.l;
+ return g;
+}
+
 const drawn=[];
 function choose(id){
- const node=nodes.filter(n=>n.id===id)[0];
+ const node=by[id];
  drawn.forEach(n=>n.g.classList.toggle('sel',n.id===id));
  links.forEach(l=>{
-  const on=!id||l.owners.indexOf(id)!==-1||(node&&node.vrf!=='n'&&node.vrf!=='core'&&l.vrf===node.vrf)||(id==='core'&&l.vrf!=='n')||((id==='e1'||id==='e2')&&l.vrf==='n');
+  const on=!id||l.owners.indexOf(id)!==-1||(node&&node.vrf!=='n'&&node.vrf!=='dc'&&l.vrf===node.vrf)||id==='dc'||((id==='e1'||id==='e2')&&l.vrf==='n');
   l.edge.classList.toggle('hi',on);
  });
- const meta=INFO[id]||{t:'Overview',l:'VRF per customer',d:'Follow a color. Amber stays in Customer A from the rig, across the microwave, the fiber, and the core 7200s, and into that customer’s data center. Cyan does the same for Customer B. The white dashes are the two internet egresses.',e:'rig → microwave → 7200\n→ Time Warner / AT&T MPLS\n→ 7200 · BGP + EIGRP\n→ customer data center\negress: 2 · multihomed BGP'};
+ const meta=INFO[id]||OVERVIEW;
  document.getElementById('wTag').textContent=meta.t;
  document.getElementById('wTitle').textContent=meta.l;
  document.getElementById('wDesc').textContent=meta.d;
  document.getElementById('wEx').textContent=meta.e;
 }
 nodes.forEach(n=>{
- const g=box(n);
+ const g=n.kind==='rig'?rig(n):box(n);
  drawn.push({id:n.id,g});
  const go=()=>choose(n.id);
  g.addEventListener('mouseenter',go);
@@ -180,4 +299,10 @@ nodes.forEach(n=>{
 });
 topo.addEventListener('mouseleave',()=>choose(null));
 choose(null);
+/* On a phone the gulf is wider than the screen. Open on the rigs. */
+const scroller=document.querySelector('.map-scroll');
+if(scroller && scroller.scrollWidth>scroller.clientWidth+24){
+ const scale=scroller.scrollWidth/880;
+ scroller.scrollLeft=Math.max(0, 220*scale - scroller.clientWidth*0.08);
+}
 </script></body></html>

@@ -16,9 +16,20 @@ interface Node {
   hub?: boolean;
 }
 
+interface Ring {
+  cx: number;
+  cy: number;
+  r: number;
+  tone?: "a" | "b";
+}
+
 interface Diagram {
   edges: string[];
   nodes: Node[];
+  sea?: boolean;
+  land?: string;
+  rings?: Ring[];
+  cloud?: string;
 }
 
 const diagrams: Record<LabSlug, Diagram> = {
@@ -113,29 +124,35 @@ const diagrams: Record<LabSlug, Diagram> = {
     ],
   },
   "airtap-mpls": {
+    sea: true,
+    land: "M0 0 H480 V18 L452 28 L424 52 L392 74 L360 62 L300 44 L240 50 L180 40 L120 54 L70 76 L28 100 L0 118 Z",
+    cloud:
+      "M164 24 Q150 24 156 14 Q150 4 170 6 Q178 0 196 6 Q210 0 226 6 Q244 0 252 8 Q270 6 266 16 Q272 24 252 24 L164 24 Z",
+    rings: [
+      { cx: 96, cy: 118, r: 26, tone: "a" },
+      { cx: 156, cy: 128, r: 26, tone: "a" },
+      { cx: 220, cy: 116, r: 26, tone: "b" },
+    ],
     edges: [
-      "M82 25 H108",
-      "M186 25 H214",
-      "M286 25 H318",
-      "M382 25 H402",
-      "M82 91 H108",
-      "M186 91 H214",
-      "M286 91 H318",
-      "M382 91 H402",
-      "M147 38 V78",
-      "M350 108 V124",
+      "M196 20 L196 34",
+      "M236 20 L236 34",
+      "M94 66 L168 54",
+      "M156 72 L190 54",
+      "M272 62 L268 54",
+      "M96 108 L96 84",
+      "M156 118 L156 90",
+      "M220 104 L272 80",
     ],
     nodes: [
-      { x: 12, y: 12, w: 70, h: 26, label: "Rig A" },
-      { x: 108, y: 12, w: 78, h: 26, label: "Site A" },
-      { x: 214, y: 12, w: 72, h: 26, label: "Fiber" },
-      { x: 318, y: 12, w: 64, h: 96, label: "7200", hub: true },
-      { x: 402, y: 12, w: 66, h: 26, label: "Cust A" },
-      { x: 12, y: 78, w: 70, h: 26, label: "Rig B" },
-      { x: 108, y: 78, w: 78, h: 26, label: "Site B" },
-      { x: 214, y: 78, w: 72, h: 26, label: "Fiber" },
-      { x: 402, y: 78, w: 66, h: 26, label: "Cust B" },
-      { x: 318, y: 124, w: 64, h: 22, label: "Egress" },
+      { x: 176, y: 4, w: 40, h: 16, label: "BGP" },
+      { x: 216, y: 4, w: 40, h: 16, label: "BGP" },
+      { x: 156, y: 34, w: 124, h: 20, label: "Data center", hub: true },
+      { x: 68, y: 66, w: 52, h: 18, label: "Texas" },
+      { x: 128, y: 72, w: 56, h: 18, label: "Central" },
+      { x: 248, y: 62, w: 48, h: 18, label: "East" },
+      { x: 82, y: 108, w: 28, h: 14, label: "1" },
+      { x: 142, y: 118, w: 28, h: 14, label: "2" },
+      { x: 206, y: 104, w: 28, h: 14, label: "3" },
     ],
   },
 };
@@ -150,6 +167,21 @@ const diagram = diagrams[lab];
   aria-hidden="true"
   focusable="false"
 >
+  {
+    diagram.sea && <rect class="sea" x="0" y="0" width="480" height="156" />
+  }
+  {
+    diagram.rings?.map((ring) => (
+      <circle
+        class:list={["ring", ring.tone]}
+        cx={ring.cx}
+        cy={ring.cy}
+        r={ring.r}
+      />
+    ))
+  }
+  {diagram.land && <path class="land" d={diagram.land} />}
+  {diagram.cloud && <path class="cloud" d={diagram.cloud} />}
   {
     diagram.edges.map((d) => (
       <path class="edge" fill="none" d={d} />
@@ -181,6 +213,28 @@ const diagram = diagrams[lab];
     background: var(--bg);
     border: 0;
     border-radius: 0;
+  }
+  .lab-thumb .sea {
+    fill: #0c4a6e;
+  }
+  .lab-thumb .land {
+    fill: #1c3a2c;
+    stroke: #e7d3a1;
+    stroke-width: 1.4;
+  }
+  .lab-thumb .cloud {
+    fill: rgba(224, 242, 254, 0.2);
+    stroke: #bae6fd;
+    stroke-width: 1.25;
+  }
+  .lab-thumb .ring {
+    fill: rgba(245, 158, 11, 0.28);
+    stroke: #fbbf24;
+    stroke-width: 1.25;
+  }
+  .lab-thumb .ring.b {
+    fill: rgba(34, 211, 238, 0.28);
+    stroke: #67e8f9;
   }
   .lab-thumb .edge {
     fill: none;

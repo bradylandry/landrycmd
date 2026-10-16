@@ -108,7 +108,8 @@ const RY=250, H=37, RINGY=242, PAIRY=258;
 const R1=[60,338,616], R2=[184,462,740];
 R1.forEach((a,i)=>{const b=R2[i];
  mk('rect',{class:'area',x:a-H-10,y:216,width:(b+H+10)-(a-H-10),height:68,rx:12},lg);
- const h=mk('text',{class:'alab',x:(a+b)/2,y:208},tg);h.textContent='hub '+(i+1)});
+ const hx=[58,(a+b)/2,742][i];
+ const h=mk('text',{class:'alab',x:hx,y:208},tg);h.textContent='hub '+(i+1)});
 /* Straight homing: 01 to hub 01, 02 to hub 02. Not a bowtie — the pairs do not
    cross, so P4 does not apply here. */
 const uni=[];
@@ -118,9 +119,16 @@ R2.forEach(b=>uni.push(mk('path',{class:'rl uni',d:`M${hubs[1].x} ${hubs[1].y+17
    8px below it — the ring rides 8px above the row centre so both fit. */
 R1.forEach((a,i)=>{const b=R2[i];
  uni.push(mk('path',{class:'rl uni',d:`M${a+H} ${PAIRY} L${b-H} ${PAIRY}`},lg))});
-/* the ring: one straight line THROUGH every router, closed at the hub pair */
+/* The ring visits every router and closes at the hub pair. Each stroke
+   stops on a box edge, so the dash does not run through the router. */
 const ringL=[];
-ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L788 ${RINGY}`},lg));
+const row=[...R1,...R2].sort((p,q)=>p-q);
+let prev=12;
+row.forEach(x=>{
+ ringL.push(mk('path',{class:'rl mc',d:`M${prev} ${RINGY} L${x-H} ${RINGY}`},lg));
+ prev=x+H;
+});
+ringL.push(mk('path',{class:'rl mc',d:`M${prev} ${RINGY} L788 ${RINGY}`},lg));
 ringL.push(mk('path',{class:'rl mc',d:`M12 ${RINGY} L12 ${hubs[0].y} L${hubs[0].x-H} ${hubs[0].y}`},lg));
 ringL.push(mk('path',{class:'rl mc',d:`M788 ${RINGY} L788 ${hubs[1].y} L${hubs[1].x+H} ${hubs[1].y}`},lg));
 ringL.push(mk('path',{class:'rl mc',d:`M${hubs[0].x+H} ${hubs[0].y} L${hubs[1].x-H} ${hubs[1].y}`},lg));
