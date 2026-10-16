@@ -16,9 +16,19 @@ interface Node {
   hub?: boolean;
 }
 
+interface Ring {
+  cx: number;
+  cy: number;
+  r: number;
+  tone?: "a" | "b";
+}
+
 interface Diagram {
   edges: string[];
   nodes: Node[];
+  sea?: boolean;
+  land?: string;
+  rings?: Ring[];
 }
 
 const diagrams: Record<LabSlug, Diagram> = {
@@ -113,29 +123,25 @@ const diagrams: Record<LabSlug, Diagram> = {
     ],
   },
   "airtap-mpls": {
+    sea: true,
+    land: "M0 0 H480 V18 L452 28 L424 52 L392 74 L360 62 L300 44 L240 50 L180 40 L120 54 L70 76 L28 100 L0 118 Z",
+    rings: [
+      { cx: 148, cy: 104, r: 30, tone: "a" },
+      { cx: 206, cy: 118, r: 30, tone: "a" },
+      { cx: 262, cy: 102, r: 30, tone: "b" },
+    ],
     edges: [
-      "M82 25 H108",
-      "M186 25 H214",
-      "M286 25 H318",
-      "M382 25 H402",
-      "M82 91 H108",
-      "M186 91 H214",
-      "M286 91 H318",
-      "M382 91 H402",
-      "M147 38 V78",
-      "M350 108 V124",
+      "M148 92 L168 46",
+      "M206 100 L196 46",
+      "M262 90 L230 46",
+      "M232 28 H286",
     ],
     nodes: [
-      { x: 12, y: 12, w: 70, h: 26, label: "Rig A" },
-      { x: 108, y: 12, w: 78, h: 26, label: "Site A" },
-      { x: 214, y: 12, w: 72, h: 26, label: "Fiber" },
-      { x: 318, y: 12, w: 64, h: 96, label: "7200", hub: true },
-      { x: 402, y: 12, w: 66, h: 26, label: "Cust A" },
-      { x: 12, y: 78, w: 70, h: 26, label: "Rig B" },
-      { x: 108, y: 78, w: 78, h: 26, label: "Site B" },
-      { x: 214, y: 78, w: 72, h: 26, label: "Fiber" },
-      { x: 402, y: 78, w: 66, h: 26, label: "Cust B" },
-      { x: 318, y: 124, w: 64, h: 22, label: "Egress" },
+      { x: 132, y: 92, w: 32, h: 16, label: "1" },
+      { x: 190, y: 108, w: 32, h: 16, label: "2" },
+      { x: 246, y: 90, w: 32, h: 16, label: "3" },
+      { x: 156, y: 24, w: 76, h: 22, label: "Shore" },
+      { x: 286, y: 8, w: 70, h: 24, label: "Core", hub: true },
     ],
   },
 };
@@ -150,6 +156,20 @@ const diagram = diagrams[lab];
   aria-hidden="true"
   focusable="false"
 >
+  {
+    diagram.sea && <rect class="sea" x="0" y="0" width="480" height="156" />
+  }
+  {
+    diagram.rings?.map((ring) => (
+      <circle
+        class:list={["ring", ring.tone]}
+        cx={ring.cx}
+        cy={ring.cy}
+        r={ring.r}
+      />
+    ))
+  }
+  {diagram.land && <path class="land" d={diagram.land} />}
   {
     diagram.edges.map((d) => (
       <path class="edge" fill="none" d={d} />
@@ -181,6 +201,23 @@ const diagram = diagrams[lab];
     background: var(--bg);
     border: 0;
     border-radius: 0;
+  }
+  .lab-thumb .sea {
+    fill: #0c4a6e;
+  }
+  .lab-thumb .land {
+    fill: #1c3a2c;
+    stroke: #e7d3a1;
+    stroke-width: 1.4;
+  }
+  .lab-thumb .ring {
+    fill: rgba(245, 158, 11, 0.28);
+    stroke: #fbbf24;
+    stroke-width: 1.25;
+  }
+  .lab-thumb .ring.b {
+    fill: rgba(34, 211, 238, 0.28);
+    stroke: #67e8f9;
   }
   .lab-thumb .edge {
     fill: none;

@@ -92,6 +92,12 @@ test("AirTap packets stay on the links instead of crossing the core labels", asy
   assert.match(page, /const eg=mk\('g',\{\},topo\),fg=mk\('g',\{\},topo\),ng=mk\('g',\{\},topo\)/);
   assert.equal(page.includes("M570 56 H700"), false);
   assert.equal(page.includes("M570 240 H700"), false);
+  assert.match(page, /Gulf of Mexico/);
+  assert.match(page, /class:'ring '/);
+  assert.equal(page.includes("Site A"), false);
+  assert.equal(page.includes("Site B"), false);
+  assert.equal(/\b(?:\d{1,3}\.){3}\d{1,3}\b/.test(page), false);
+  assert.equal(/\b(?:PE|CE|ASBR|LER|LSR)\b/.test(page), false);
 });
 
 test("the AirTap lab does not publish an invented channel plan", async () => {
