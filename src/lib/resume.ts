@@ -156,7 +156,7 @@ const coxSenior: ResumeRole = {
   icon: "asr9k",
   bullets: [
     "Led the OSPF to IS-IS migration for 4 markets (87 CMTS) inside an 18-market, 536-CMTS program.",
-    "Wrote the switch-replacement procedures for 14 markets.",
+    "Wrote the switch-replacement procedures for NEEDS NUMBER markets.",
     "Designed a capacity-first metro ring collapse for two markets.",
     "Developed an election-based Layer 2 and Layer 3 migration method: zero traffic lost, and rollback is one priority change.",
     "Cut voice over in under 3 seconds per VLAN with zero dropped calls.",

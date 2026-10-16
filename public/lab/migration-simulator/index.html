@@ -53,23 +53,24 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 </style>
 <link rel="stylesheet" href="/lab/wire.css"></head><body>
 <header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Zero-Downtime Migration Simulator</h1>
-<p>Moving production traffic between vendor platforms by winning a redundancy election instead of cutting over. A method I developed and ran across 14 markets. Names and systems are generalized.</p>
-<div class="metrics"><div><b>0</b><span>packets lost, straddle method</span></div><div><b>14</b><span>markets run this way</span></div><div><b>1 value</b><span>rollback cost at any step</span></div><div><b>6 steps</b><span>one device touched at a time</span></div></div></header>
+<p>Moving production traffic between vendor platforms by winning a redundancy election instead of cutting over. A method I developed and ran across NEEDS NUMBER markets. Names and systems are generalized.</p>
+<div class="metrics"><div><b>0</b><span>packets lost, straddle method</span></div><div><b>NEEDS NUMBER</b><span>markets run this way</span></div><div><b>1 value</b><span>rollback cost at any step</span></div><div><b>6 steps</b><span>one device touched at a time</span></div></div></header>
 <main>
 <section class="block">
 <p class="lbl">01 &middot; the method I built</p>
 <h2>Move traffic by winning an election, not by cutting over</h2>
 <p class="lede">A gateway migration normally means shutting the old device and enabling the new one. That couples the <b>traffic move</b> to the <b>physical move</b>, which is why those windows drop packets and why rollback means re-cabling at 2am.</p>
-<p class="lede">I built a different method: a throwaway L2 bridge puts both vendors&rsquo; routers in one redundancy group, so the new router sits as the deliberate <b>loser</b> of the election carrying zero traffic. Then traffic moves when a priority value changes. Nothing is ever touched while it is forwarding, and rollback at any step is one value. I ran it across 14 markets.</p>
+<p class="lede">I built a different method: a throwaway L2 bridge puts both vendors&rsquo; routers in one redundancy group, so the new router sits as the deliberate <b>loser</b> of the election carrying zero traffic. Then traffic moves when a priority value changes. Nothing is ever touched while it is forwarding, and rollback at any step is one value. Markets run this way: NEEDS NUMBER.</p>
 <p class="lede">Below: switch between <b>Hardcut</b> and <b>Straddle</b> and watch the packets-lost counter. The scenario pills inject real failures &mdash; a gateway MAC that changed, preemption left enabled, an edge-port misconfiguration on the bridge.</p>
-<ul class="tags"><li>VRRP</li><li>Junos</li><li>NX-OS</li><li>EOS</li><li>14 markets</li><li>0 packets lost</li></ul>
+<p class="lede">Loss times shown here (900 ms, 1400 ms, 1680 ms) are illustrative simulation values, not measured results.</p>
+<ul class="tags"><li>VRRP</li><li>Junos</li><li>NX-OS</li><li>EOS</li><li>NEEDS NUMBER markets</li><li>0 packets lost</li></ul>
 <div class="view" id="v1">
  <div>
   <div class="scen" role="group" aria-label="Method"><button id="mHard" aria-pressed="false">Hardcut</button><button id="mStrad" aria-pressed="true">Straddle</button></div>
   <div class="scen" id="scen" role="group" aria-label="Scenario"></div>
   <svg id="topo" viewBox="0 0 800 390" role="img" aria-label="Legacy router, temporary bridge and two new core routers"></svg>
   <div class="ctrl"><button id="play">&#9654; Play</button><button id="prev">&#9664; Back</button><button id="next">Step &#9654;</button><button id="reset">&#8634; Reset</button></div>
-  <div class="cmp"><div class="g"><b id="lossV">0 ms</b><span>traffic lost</span></div><div><b id="rbV">&mdash;</b><span>rollback at this step</span></div></div>
+  <div class="cmp"><div class="g"><b id="lossV">0 ms</b><span>illustrative simulation value, not a measured result</span></div><div><b id="rbV">&mdash;</b><span>rollback at this step</span></div></div>
  </div>
  <aside class="side" aria-live="polite"><span class="tag" id="sTag">Step 0 / 8</span><h2 id="sTitle">Ready</h2><p id="sDesc">Pick a method, then Play. Straddle pre-stages the new router as the deliberate loser of the election, so traffic moves when a priority value changes &mdash; not when a cable does.</p><pre id="sEx">// waiting</pre><ol id="sList"></ol></aside>
 </div></section>
@@ -129,7 +130,7 @@ const STRAD=[
 const HARD=[
  {t:'Shut the legacy pair',d:'Both old gateways stop forwarding at once. Clients have no first hop.',e:'legacy 01/02: DOWN\\nclients: blackholed',set:s=>{s.leg1=0;s.leg2=0;s.master='none';s.loss=900},rb:'re-cable and re-enable'},
  {t:'Enable the new pair',d:'The replacements are brought up cold. Clients must re-ARP for a new gateway MAC.',e:'new 01/02: coming up\\nclients: re-ARP pending',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='none';s.loss=1400},rb:'re-cable and re-enable'},
- {t:'Convergence',d:'Traffic resumes once ARP caches refresh. The window is whatever the slowest client takes.',e:'new 01: MASTER\\ntotal loss: 1400 ms',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='na'},rb:'full re-cable'}];
+ {t:'Convergence',d:'Traffic resumes once ARP caches refresh. The window is whatever the slowest client takes.',e:'new 01: MASTER\\nillustrative simulation value: 1400 ms',set:s=>{s.leg1=0;s.leg2=0;s.na=1;s.nb=1;s.master='na'},rb:'full re-cable'}];
 const SCEN={ok:{n:'Clean run'},
  mac:{n:'Virtual MAC not preserved',at:'mac',why:'The new gateway came up with a different MAC. Clients hold the old one until their ARP cache ages out &mdash; a load balancer took NEEDS NUMBER. Preserving the virtual MAC across the handoff is what designs this failure out.'},
  preempt:{n:'Preempt left enabled',at:'preempt',why:'Preemption was never disabled, so mastership flapped back to the device being re-cabled mid-move. Always demote deliberately and hold it there.'},

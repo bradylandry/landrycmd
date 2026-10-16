@@ -76,12 +76,13 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">Each metro market ran <b>two topologies at once</b>: a hub-and-spoke carrying all unicast, and a separate <b>10G ring carrying video multicast only</b>. That looks redundant until you ask why. It kept video off the unicast path, and because the ring carried exactly one service it needed <b>almost no QoS engineering</b> &mdash; there was nothing to protect video from.</p>
 <p class="lede">Collapsing it means accepting that QoS burden on every shared link, forever. The win is one topology to operate instead of two. That is the real trade, and it is invisible if you only count bandwidth.</p>
 <p class="lede">The sequencing is the whole lesson. Capacity went in <b>NEEDS NUMBER months before</b> the ring was touched, and every network in one area was advertised into the other and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
+<p class="lede">Utilisation shown here (38%, 22%, 61%) is an illustrative simulation value, not a measured result.</p>
 <ul class="tags"><li>OSPF</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
 <div class="view">
  <div>
   <svg id="ring" viewBox="0 0 800 324" role="img" aria-label="Hub and spoke with a parallel multicast ring"></svg>
   <div class="ctrl"><button id="play">&#9654; Play</button><button id="next">Step &#9654;</button><button id="reset">&#8634; Reset</button></div>
-  <div class="cmp"><div class="g"><b id="utilV">38%</b><span>hub link utilisation</span></div><div class="g"><b id="vidV">clean</b><span>video state</span></div></div>
+  <div class="cmp"><div class="g"><b id="utilV">38%</b><span>illustrative simulation value, not a measured result</span></div><div class="g"><b id="vidV">clean</b><span>video state</span></div></div>
  </div>
  <aside class="side" aria-live="polite"><span class="tag" id="sTag">Step 0 / 3</span><h2 id="sTitle">Before</h2><p id="sDesc">Two topologies, two routing areas. Unicast on the hub-and-spoke, video multicast on its own 10G ring. Press Play.</p><pre id="sEx">// waiting</pre><ol id="sList"></ol></aside>
 </div>
@@ -140,10 +141,10 @@ const rgN=hubs.map(a=>node(a.x,a.y,a.l,'',''));
 R1.forEach(x=>node(x,RY,'rtr 01','',''));
 R2.forEach(x=>node(x,RY,'rtr 02','',''));
 const STEPS=[
-{t:'Augment hub capacity',d:'Link aggregation bundles and line cards on the hub uplinks, sized to carry the ring\u2019s video load on top of existing unicast. Nothing has moved yet, and both areas are untouched.',e:'hub uplinks: bundled\nutilisation: 38% -> 22%\nareas: unicast and multicast, still separate'},
+{t:'Augment hub capacity',d:'Link aggregation bundles and line cards on the hub uplinks, sized to carry the ring\u2019s video load on top of existing unicast. Nothing has moved yet, and both areas are untouched.',e:'hub uplinks: bundled\nillustrative simulation value: 38% -> 22%\nareas: unicast and multicast, still separate'},
     {t:'Advertise one area into the other, enable PIM and IGMP',d:'Every network in one area is advertised into the other, and PIM and IGMP are enabled on the unicast links so they can carry multicast at all. All of it before a single link is touched \u2014 the ring is still forwarding throughout.',e:'one area advertised into the other\npim sparse-mode: on unicast links\nigmp: enabled\nring: still forwarding\nno traffic has moved'},
     {t:'Validate traffic and video',d:'Reachability confirmed from the unicast side, then the video check: every multicast group joined and streaming over the new path. Both have to pass before anything is removed.',e:'unicast reachability: ok\nmulticast groups: joined\nvideo: clean on new path'},
-    {t:'Move multicast onto the hub-and-spoke',d:'PIM sparse-mode now runs over the augmented uplinks. QoS policy goes on every shared link \u2014 this is the cost of consolidating two topologies into one.',e:'multicast: on hub uplinks\nqos policy: applied to all\nutilisation: 61%'},
+    {t:'Move multicast onto the hub-and-spoke',d:'PIM sparse-mode now runs over the augmented uplinks. QoS policy goes on every shared link \u2014 this is the cost of consolidating two topologies into one.',e:'multicast: on hub uplinks\nqos policy: applied to all\nillustrative simulation value: 61%'},
     {t:'Remove the second area links',d:'Only now is the ring decommissioned and the second area withdrawn. One topology, one area, and every route it carried was already live in the remaining area before the links went away.',e:'second area: removed\nareas: 2 -> 1\ntopologies: 2 -> 1\nvideo: clean'}];
 let i=0,timer=null;
 function render(){
