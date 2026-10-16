@@ -2,6 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import NetworkHero from "../components/NetworkHero.astro";
 import RoleIcon from "../components/RoleIcon.astro";
+import LabThumb from "../components/LabThumb.astro";
+import type { LabSlug } from "../lib/labs";
 
 const lab = [
   {
@@ -19,6 +21,7 @@ const lab = [
       "The MCP hub on its own page: clients and agents on one side, the hub in the middle, servers and tools on the other, with packets moving along the links. 28 servers, about 573 tools, 44 agents, 31 skills, and 23 agents I authored. The firewall review is a separate lab. Every name and system is generalized.",
     live: "/lab/mcp-simulator/",
     github: null,
+    slug: "mcp-simulator",
   },
   {
     name: "Firewall Request Review",
@@ -27,6 +30,7 @@ const lab = [
       "The review flow on its own page. A read-only agent walks a firewall change request through eight checks and stops at a human. Backlog from 200 to about 40; review time from 30–60 minutes to 3–5 minutes.",
     live: "/lab/frr-review/",
     github: null,
+    slug: "frr-review",
   },
   {
     name: "Zero-Downtime Migration Simulator",
@@ -35,6 +39,7 @@ const lab = [
       "The migration method I built and ran across NEEDS NUMBER markets: instead of cutting a gateway over, put both vendors' routers in one redundancy group so the new one sits as the deliberate loser, then move traffic by changing a priority value. The pair is replaced one device at a time, always taking out the member carrying no traffic. Toggle hardcut against straddle and watch the packets-lost counter while client traffic keeps flowing. Real failure modes included.",
     live: "/lab/migration-simulator/",
     github: null,
+    slug: "migration-simulator",
   },
   {
     name: "Ring Collapse Simulator",
@@ -43,6 +48,7 @@ const lab = [
       "A metro re-architecture: two parallel topologies collapsed into one. The video ring was not legacy cruft — it existed because a single-service topology needs almost no QoS. Collapsing it means accepting that burden everywhere. Toggle the sequencing to see why I added hub capacity NEEDS NUMBER months before touching the ring.",
     live: "/lab/ring-collapse/",
     github: null,
+    slug: "ring-collapse",
   },
   {
     name: "AirTap MPLS",
@@ -51,8 +57,20 @@ const lab = [
       "Offshore Gulf of Mexico rigs over point-to-point microwave into Cisco 7200s, then Time Warner and AT&T fiber MPLS. Each customer has its own VRF, kept apart with BGP and EIGRP and extended to that customer's data center. Two internet egresses, multihomed BGP. AirTap Communications. A small subset of the wireless field.",
     live: "/lab/airtap-mpls/",
     github: null,
+    slug: "airtap-mpls",
   },
-];
+] satisfies Array<{
+  name: string;
+  tagline: string;
+  description: string;
+  live: string;
+  github: null;
+  slug?: LabSlug;
+}>;
+
+const labCards = lab.filter(
+  (p): p is (typeof lab)[number] & { slug: LabSlug } => p.slug !== undefined,
+);
 
 const shipped = [
   {
@@ -61,6 +79,7 @@ const shipped = [
     description:
       "Adaptive ACT prep for Louisiana TOPS thresholds, FSRS spaced repetition, AI tutor. Proof I will take a system to a real user, not stop at a demo.",
     live: "https://act.landrycmd.com",
+    repo: null,
   },
   {
     name: "PeptideTracker",
@@ -68,6 +87,23 @@ const shipped = [
     description:
       "Mobile and web logging with auth, inventory, and shareable protocols. Same reason: live users, not a slide.",
     live: "https://peptidetrackers.com",
+    repo: null,
+  },
+  {
+    name: "Jarvis Quant",
+    tagline: "Personal research",
+    description:
+      "A personal stock-research tool. Paper lab for agent problems: cost-aware model routing, eval loops, and a weekly reviewer that scores approaches against each other. Not a product.",
+    live: null,
+    repo: "https://github.com/bradylandry/jarvis-trading-mcp",
+  },
+  {
+    name: "Liftbook",
+    tagline: "Offline-first PWA",
+    description:
+      "Workout logging that works offline. Next.js, Supabase, a service worker, and a sync outbox.",
+    live: null,
+    repo: null,
   },
 ];
 
@@ -101,10 +137,43 @@ const experience = [
   title="landrycmd | Brady Landry"
   description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the internal tools stay off this site, so this is the work you can inspect."
 >
+  <link slot="head" rel="stylesheet" href="/lab/wire.css" />
+  <section class="profile" aria-labelledby="profile-name">
+    <div class="profile-head">
+      <img
+        class="profile-photo"
+        src="/brady.jpg"
+        width="480"
+        height="480"
+        alt="Portrait of Brady Landry"
+      />
+      <div class="profile-id">
+        <h1 id="profile-name">Brady Landry</h1>
+        <p class="profile-title">Network Architect · AI Automation</p>
+      </div>
+    </div>
+    <p>
+      I have spent about 15 years building and running service-provider networks
+      at Cox, now Charter/Spectrum. I take national programs, make them land in
+      markets, and hand them to operations. I build the tooling that makes that
+      repeatable, from a 2014 config generator through Ansible to an AI/MCP
+      operations platform.
+    </p>
+    <p class="profile-links">
+      <a href="/resume">Résumé</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:bjlandry@gmail.com">Email</a>
+    </p>
+  </section>
+
   <section class="hero hero-net">
     <NetworkHero />
     <div class="hero-content">
-      <h1>landrycmd</h1>
+      <p class="hero-wordmark">landrycmd</p>
       <p class="tagline">
         <span class="prompt">&gt;</span>Public AI lab for a network architect
         who cannot publish the systems he built at work. MCP servers, agents,
@@ -170,25 +239,79 @@ const experience = [
     <h2>What you can inspect</h2>
     <div class="node-list">
       {
-        lab.map((p) => (
-          <div class="project">
-            <div class="project-head">
-              <h3>{p.name}</h3>
-              <span class="muted">{p.tagline}</span>
-              <span class="links">
-                {p.live && (
-                  <a href={p.live} rel="noopener">
-                    Live →
-                  </a>
-                )}
-              </span>
+        lab
+          .filter((p) => !p.slug)
+          .map((p) => (
+            <div class="project">
+              <div class="project-head">
+                <h3>{p.name}</h3>
+                <span class="muted">{p.tagline}</span>
+                <span class="links">
+                  {p.live && (
+                    <a href={p.live} rel="noopener">
+                      Live →
+                    </a>
+                  )}
+                </span>
+              </div>
+              <p class="project-desc">{p.description}</p>
             </div>
-            <p class="project-desc">{p.description}</p>
-          </div>
-        ))
+          ))
       }
     </div>
+    <div class="lab-grid">
+      {
+        labCards.map((p) => (
+            <div class="project lab-card">
+              <div class="lab-thumb-wrap">
+                <LabThumb lab={p.slug} />
+                <span class="lab-play" aria-hidden="true">
+                  Play
+                </span>
+              </div>
+              <div class="lab-card-body">
+                <div class="project-head">
+                  <h3>
+                    <button
+                      type="button"
+                      class="lab-open"
+                      data-lab={p.slug}
+                      data-lab-name={p.name}
+                      aria-haspopup="dialog"
+                      aria-controls="lab-dialog"
+                      aria-expanded="false"
+                    >
+                      {p.name}
+                    </button>
+                  </h3>
+                  <span class="muted">{p.tagline}</span>
+                  <span class="links">
+                    {p.live && (
+                      <a href={p.live} rel="noopener">
+                        Live →
+                      </a>
+                    )}
+                  </span>
+                </div>
+                <p class="project-desc">{p.description}</p>
+              </div>
+            </div>
+          ))
+      }
+    </div>
+    <dialog id="lab-dialog" class="lab-dialog" aria-labelledby="lab-dialog-title">
+      <div class="lab-dialog-bar">
+        <h2 id="lab-dialog-title">Lab</h2>
+        <a class="lab-dialog-page" href="/lab/mcp-simulator/">Full page</a>
+        <button type="button" class="lab-dialog-close">Close</button>
+      </div>
+      <iframe class="lab-dialog-frame" title="Lab simulation"></iframe>
+    </dialog>
   </section>
+  <script>
+    import { mountLabDialog } from "../scripts/lab-dialog";
+    mountLabDialog();
+  </script>
 
   <section id="open-source">
     <p class="kicker">// open source</p>
@@ -248,11 +371,20 @@ const experience = [
             <div class="project-head">
               <h3>{p.name}</h3>
               <span class="muted">{p.tagline}</span>
-              <span class="links">
-                <a href={p.live} rel="noopener">
-                  Live →
-                </a>
-              </span>
+              {(p.live || p.repo) && (
+                <span class="links">
+                  {p.live && (
+                    <a href={p.live} rel="noopener">
+                      Live →
+                    </a>
+                  )}
+                  {p.repo && (
+                    <a href={p.repo} rel="noopener">
+                      Repo →
+                    </a>
+                  )}
+                </span>
+              )}
             </div>
             <p class="project-desc">{p.description}</p>
           </div>
