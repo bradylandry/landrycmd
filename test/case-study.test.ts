@@ -74,6 +74,16 @@ test("unsourced lab figures read NEEDS NUMBER", async () => {
   assert.match(migration, /illustrative simulation value, not a measured result/);
   assert.match(ring, /Utilisation shown here \(38%, 22%, 61%\) is an illustrative simulation value/);
   assert.match(ring, /illustrative simulation value, not a measured result/);
+
+  const essay = await readFile(
+    new URL("./src/content/writing/airtap-mpls-bgp-build.md", root),
+    "utf8",
+  );
+  assert.match(essay, /Site points on that map: NEEDS NUMBER/);
+  assert.match(essay, /Point-to-point links on that map: NEEDS NUMBER/);
+  assert.match(essay, /Channel count: NEEDS NUMBER/);
+  assert.equal(essay.includes("3,200"), false);
+  assert.equal(essay.includes("7 channels"), false);
 });
 
 test("the AirTap lab does not publish an invented channel plan", async () => {

@@ -40,13 +40,13 @@ The path starts offshore. A site on a Gulf rig sent traffic over point-to-point 
 
 That is the path. Rig, point-to-point microwave, 7200, Time Warner and AT&T fiber MPLS. Capacity on that path: NEEDS NUMBER. How many rigs: NEEDS NUMBER.
 
-The scale I can point at is the planning map. The Google Earth map shows about 3,200 site points and 38 point-to-point links. The 3,200 are sites on the plan. The 38 are point-to-point shots on that map. How many of those points were a paying customer on a given day: NEEDS NUMBER.
+The scale I can point at is the planning map. Site points on that map: NEEDS NUMBER. Point-to-point links on that map: NEEDS NUMBER. How many of those points were a paying customer on a given day: NEEDS NUMBER.
 
 ## What sat around the core
 
 The routed core was my job. It was not the whole company. The other engineer handled wireless, and that plant is what fed the VRFs.
 
-Licensed microwave at 11 GHz carried the point-to-point shots. Where the design called for a sector instead of a shot, the plan was 3.65 GHz WiMAX, about 7 channels. Sites that microwave and WiMAX were not going to reach came in on iDirect satellite. His day was the radios. My day was the routed core. The two met at the 7200s. A VRF did not care whether the last hop had been a microwave shot, a WiMAX sector, or a satellite link. It cared that the routes landed in the right table, and that they stayed there.
+Licensed microwave at 11 GHz carried the point-to-point shots. Where the design called for a sector instead of a shot, the plan was 3.65 GHz WiMAX. Channel count: NEEDS NUMBER. Sites that microwave and WiMAX were not going to reach came in on iDirect satellite. His day was the radios. My day was the routed core. The two met at the 7200s. A VRF did not care whether the last hop had been a microwave shot, a WiMAX sector, or a satellite link. It cared that the routes landed in the right table, and that they stayed there.
 
 Voice rode the same network. Cisco Call Manager, with PRI where we handed off to the phone company. I operated it along with the rest of the routed side. Station count: NEEDS NUMBER. Trunk count: NEEDS NUMBER.
 
