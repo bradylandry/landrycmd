@@ -36,9 +36,6 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     ...doc.querySelectorAll<HTMLButtonElement>("button[data-lab]"),
   ];
   let lockedY = 0;
-  let pushed = false;
-  let handlingPop = false;
-  let closing = false;
   let returnFocus: HTMLElement | null = null;
 
   function focusables(): HTMLElement[] {
@@ -53,17 +50,28 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     }
   }
 
-  function writeParam(slug: string | null, mode: "push" | "replace"): void {
+  function writeParam(slug: string | null): void {
     const url = new URL(win.location.href);
     if (slug) url.searchParams.set("lab", slug);
     else url.searchParams.delete("lab");
     const next = `${url.pathname}${url.search}${url.hash}`;
-    const state = { lab: slug };
-    if (mode === "push") win.history.pushState(state, "", next);
-    else win.history.replaceState(state, "", next);
+    win.history.replaceState({ lab: slug }, "", next);
   }
 
-  function openLab(slug: LabSlug, historyMode: "push" | "replace" | "none"): void {
+  function navigateFrame(url: string): void {
+    const child = frameEl.contentWindow;
+    if (child) {
+      try {
+        child.location.replace(url);
+        return;
+      } catch {
+        // A cross-origin frame has no location we can replace.
+      }
+    }
+    frameEl.src = url;
+  }
+
+  function openLab(slug: LabSlug): void {
     const button = buttons.find((item) => item.dataset.lab === slug);
     const name = button?.dataset.labName || LAB_NAMES[slug];
     titleEl.textContent = name;
@@ -71,8 +79,7 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     pageEl.textContent = "Full page";
     pageEl.setAttribute("aria-label", `${name} on its own page`);
     frameEl.title = `${name} simulation`;
-    const src = labPath(slug);
-    if (frameEl.getAttribute("src") !== src) frameEl.src = src;
+    navigateFrame(labPath(slug));
     if (!modal.open) {
       const active = doc.activeElement;
       returnFocus =
@@ -85,32 +92,19 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     }
     setExpanded(slug);
     closeEl.focus({ preventScroll: true });
-    if (historyMode === "push" && readLabParam(win.location.search) !== slug) {
-      writeParam(slug, "push");
-      pushed = true;
-    } else if (historyMode === "replace") {
-      writeParam(slug, "replace");
-    }
+    if (readLabParam(win.location.search) !== slug) writeParam(slug);
   }
 
   function requestClose(): void {
-    if (!modal.open || closing) return;
-    closing = true;
-    if (pushed) {
-      pushed = false;
-      win.history.back();
-      return;
-    }
+    if (!modal.open) return;
     modal.close();
   }
 
   function onDialogClose(): void {
-    closing = false;
-    pushed = false;
-    frameEl.src = "about:blank";
+    navigateFrame("about:blank");
     releaseBackgroundScroll(doc, win, lockedY);
     setExpanded(null);
-    if (!handlingPop && readLabParam(win.location.search)) writeParam(null, "replace");
+    if (readLabParam(win.location.search)) writeParam(null);
     const back = returnFocus;
     returnFocus = null;
     back?.focus({ preventScroll: true });
@@ -120,7 +114,7 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     button.addEventListener("click", () => {
       const slug = button.dataset.lab;
       if (!isLabSlug(slug)) return;
-      openLab(slug, "push");
+      openLab(slug);
     });
   }
 
@@ -169,18 +163,12 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
   });
 
   win.addEventListener("popstate", () => {
-    closing = false;
-    handlingPop = true;
-    try {
-      const slug = readLabParam(win.location.search);
-      if (slug) openLab(slug, "none");
-      else if (modal.open) modal.close();
-    } finally {
-      handlingPop = false;
-    }
+    const slug = readLabParam(win.location.search);
+    if (slug) openLab(slug);
+    else if (modal.open) modal.close();
   });
 
   const raw = new URL(win.location.href).searchParams.get("lab");
-  if (raw && !isLabSlug(raw)) writeParam(null, "replace");
-  else if (isLabSlug(raw)) openLab(raw, "none");
+  if (raw && !isLabSlug(raw)) writeParam(null);
+  else if (isLabSlug(raw)) openLab(raw);
 }

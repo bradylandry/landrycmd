@@ -132,3 +132,328 @@ test("homepage keeps the overview and opens each lab in a dialog", async () => {
   assert.match(css, /grid-template-columns:\s*1fr 1fr/);
   assert.match(home, /class="lab-grid"/);
 });
+
+/**
+ * Joint session history, the way Chrome records an iframe navigation:
+ * assigning iframe.src commits a hidden entry after the current turn, on top
+ * of any pushState from that same turn. Back pops that entry without a
+ * parent popstate, so a close that only calls history.back() never reaches
+ * the dialog.
+ */
+class DomNode {
+  id = "";
+  className = "";
+  tag = "div";
+  textContent = "";
+  title = "";
+  href = "";
+  style: Record<string, string> = {};
+  attributes: Record<string, string> = {};
+  dataset: Record<string, string> = {};
+  children: DomNode[] = [];
+  listeners: Record<string, Array<(event: { target?: unknown; key?: string; preventDefault?: () => void }) => void>> = {};
+  offsetHeight = 10;
+  parent: DomNode | null = null;
+
+  setAttribute(name: string, value: string): void {
+    this.attributes[name] = value;
+    if (name === "class") this.className = value;
+    if (name.startsWith("data-")) this.dataset[name.slice(5)] = value;
+  }
+
+  getAttribute(name: string): string | null {
+    return this.attributes[name] ?? null;
+  }
+
+  hasAttribute(name: string): boolean {
+    return Object.prototype.hasOwnProperty.call(this.attributes, name);
+  }
+
+  addEventListener(type: string, fn: (event: { target?: unknown }) => void): void {
+    (this.listeners[type] ??= []).push(fn);
+  }
+
+  dispatch(type: string, event: { target?: unknown } = {}): void {
+    for (const fn of this.listeners[type] ?? []) fn(event);
+  }
+
+  focus(): void {
+    active = this;
+  }
+
+  click(): void {
+    active = this;
+    this.dispatch("click", { target: this });
+  }
+
+  querySelector(selector: string): DomNode | null {
+    return queryAll(this, selector)[0] ?? null;
+  }
+
+  querySelectorAll(selector: string): DomNode[] {
+    return queryAll(this, selector);
+  }
+}
+
+class TestDialog extends DomNode {
+  open = false;
+
+  showModal(): void {
+    this.open = true;
+    this.setAttribute("open", "");
+  }
+
+  close(): void {
+    if (!this.open) return;
+    this.open = false;
+    this.attributes.open = "";
+    delete this.attributes.open;
+    this.dispatch("close", {});
+  }
+}
+
+class TestFrame extends DomNode {
+  contentWindow: { location: { href: string; replace: (url: string) => void } };
+  srcValue = "";
+  onAssign: (url: string) => void;
+
+  constructor(onAssign: (url: string) => void) {
+    super();
+    this.onAssign = onAssign;
+    this.tag = "iframe";
+    const frame = this;
+    this.contentWindow = {
+      location: {
+        href: "about:blank",
+        replace(url: string) {
+          frame.contentWindow.location.href = url;
+          frame.srcValue = url;
+          frame.setAttribute("src", url);
+        },
+      },
+    };
+  }
+
+  get src(): string {
+    return this.srcValue;
+  }
+
+  set src(url: string) {
+    this.srcValue = url;
+    this.setAttribute("src", url);
+    this.contentWindow.location.href = url;
+    this.onAssign(url);
+  }
+}
+
+class TestButton extends DomNode {
+  constructor() {
+    super();
+    this.tag = "button";
+  }
+}
+
+class TestAnchor extends DomNode {
+  constructor() {
+    super();
+    this.tag = "a";
+  }
+}
+
+let active: DomNode | null = null;
+
+function matches(node: DomNode, selector: string): boolean {
+  if (selector.startsWith("#")) return node.id === selector.slice(1);
+  if (selector.startsWith(".")) return node.className.split(/\s+/).includes(selector.slice(1));
+  if (selector === "button[data-lab]") return node.tag === "button" && "lab" in node.dataset;
+  return false;
+}
+
+function queryAll(root: DomNode, selector: string): DomNode[] {
+  const found: DomNode[] = [];
+  const visit = (node: DomNode) => {
+    if (matches(node, selector)) found.push(node);
+    for (const child of node.children) visit(child);
+  };
+  visit(root);
+  return found;
+}
+
+function child(parent: DomNode, node: DomNode): DomNode {
+  node.parent = parent;
+  parent.children.push(node);
+  return node;
+}
+
+function labPage(): {
+  doc: Document;
+  win: Window;
+  dialog: TestDialog;
+  open: TestButton;
+  close: TestButton;
+  pushes: string[];
+  length: () => number;
+} {
+  const entries: Array<{ kind: "page" | "iframe"; search: string }> = [{ kind: "page", search: "" }];
+  let cursor = 0;
+  const pushes: string[] = [];
+  const popListeners: Array<() => void> = [];
+  const location = {
+    href: "http://localhost/",
+    search: "",
+  };
+
+  function apply(search: string): void {
+    location.search = search;
+    location.href = `http://localhost/${search}`;
+  }
+
+  const frame = new TestFrame(() => {
+    queueMicrotask(() => {
+      entries.splice(cursor + 1);
+      entries.push({ kind: "iframe", search: location.search });
+      cursor = entries.length - 1;
+    });
+  });
+  frame.className = "lab-dialog-frame";
+  frame.setAttribute("class", "lab-dialog-frame");
+
+  const title = new DomNode();
+  title.id = "lab-dialog-title";
+  title.tag = "h2";
+  title.textContent = "Lab";
+
+  const page = new TestAnchor();
+  page.className = "lab-dialog-page";
+  page.setAttribute("class", "lab-dialog-page");
+  page.href = "/lab/mcp-simulator/";
+
+  const close = new TestButton();
+  close.className = "lab-dialog-close";
+  close.setAttribute("class", "lab-dialog-close");
+  close.textContent = "Close";
+
+  const dialog = new TestDialog();
+  dialog.id = "lab-dialog";
+  dialog.className = "lab-dialog";
+  child(dialog, title);
+  child(dialog, page);
+  child(dialog, frame);
+  child(dialog, close);
+
+  const open = new TestButton();
+  open.setAttribute("data-lab", "mcp-simulator");
+  open.setAttribute("data-lab-name", "MCP Integration Simulator");
+  open.setAttribute("aria-expanded", "false");
+
+  const body = new DomNode();
+  body.tag = "body";
+  child(body, open);
+  child(body, dialog);
+  const root = new DomNode();
+  root.tag = "html";
+  Object.assign(root, { clientWidth: 100 });
+
+  const doc = {
+    body,
+    documentElement: root,
+    get activeElement() {
+      return active ?? body;
+    },
+    getElementById(id: string) {
+      return queryAll(body, `#${id}`)[0] ?? null;
+    },
+    querySelector(selector: string) {
+      return queryAll(body, selector)[0] ?? null;
+    },
+    querySelectorAll(selector: string) {
+      return queryAll(body, selector);
+    },
+  };
+
+  const win = {
+    location,
+    scrollY: 120,
+    innerWidth: 100,
+    scrollTo() {},
+    requestAnimationFrame(cb: () => void) {
+      return setTimeout(cb, 0);
+    },
+    cancelAnimationFrame(id: number) {
+      clearTimeout(id);
+    },
+    setTimeout,
+    clearTimeout,
+    history: {
+      get length() {
+        return entries.length;
+      },
+      pushState(_state: unknown, _title: string, url: string) {
+        const search = new URL(url, location.href).search;
+        entries.splice(cursor + 1);
+        entries.push({ kind: "page", search });
+        cursor = entries.length - 1;
+        apply(search);
+        pushes.push(url);
+      },
+      replaceState(_state: unknown, _title: string, url: string) {
+        const search = new URL(url, location.href).search;
+        entries[cursor] = { kind: "page", search };
+        apply(search);
+      },
+      back() {
+        if (cursor === 0) return;
+        cursor -= 1;
+        const entry = entries[cursor];
+        if (!entry || entry.kind !== "page") return;
+        apply(entry.search);
+        for (const fn of popListeners) fn();
+      },
+    },
+    addEventListener(type: string, fn: () => void) {
+      if (type === "popstate") popListeners.push(fn);
+    },
+  };
+
+  Object.assign(globalThis, {
+    HTMLElement: DomNode,
+    HTMLDialogElement: TestDialog,
+    HTMLIFrameElement: TestFrame,
+    HTMLAnchorElement: TestAnchor,
+    HTMLButtonElement: TestButton,
+  });
+
+  return {
+    doc: doc as unknown as Document,
+    win: win as unknown as Window,
+    dialog,
+    open,
+    close,
+    pushes,
+    length: () => entries.length,
+  };
+}
+
+test("opening a lab twice does not stick the dialog or push history", async () => {
+  const page = labPage();
+  const { mountLabDialog } = await import("../src/scripts/lab-dialog.ts");
+  mountLabDialog(page.doc, page.win);
+  const before = page.length();
+
+  page.open.click();
+  await Promise.resolve();
+  assert.equal(page.dialog.open, true);
+  page.close.click();
+  await Promise.resolve();
+  assert.equal(page.dialog.open, false);
+
+  page.open.click();
+  await Promise.resolve();
+  assert.equal(page.dialog.open, true);
+  page.close.click();
+  await Promise.resolve();
+  assert.equal(page.dialog.open, false);
+
+  assert.deepEqual(page.pushes, []);
+  assert.equal(page.length(), before);
+});
