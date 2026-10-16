@@ -128,4 +128,7 @@ test("homepage keeps the overview and opens each lab in a dialog", async () => {
   assert.match(dialog, /releaseBackgroundScroll/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /100dvh/);
+  assert.match(css, /\.lab-grid/);
+  assert.match(css, /grid-template-columns:\s*1fr 1fr/);
+  assert.match(home, /class="lab-grid"/);
 });

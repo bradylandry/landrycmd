@@ -68,6 +68,10 @@ const lab = [
   slug?: LabSlug;
 }>;
 
+const labCards = lab.filter(
+  (p): p is (typeof lab)[number] & { slug: LabSlug } => p.slug !== undefined,
+);
+
 const shipped = [
   {
     name: "ACT Prep",
@@ -185,22 +189,39 @@ const experience = [
     <h2>What you can inspect</h2>
     <div class="node-list">
       {
-        lab.map((p) => (
-          <div class:list={["project", p.slug && "lab-card"]}>
-            {
-              p.slug && (
-                <div class="lab-thumb-wrap">
-                  <LabThumb lab={p.slug} />
-                  <span class="lab-play" aria-hidden="true">
-                    Play
-                  </span>
-                </div>
-              )
-            }
-            <div class="project-head">
-              <h3>
-                {
-                  p.slug ? (
+        lab
+          .filter((p) => !p.slug)
+          .map((p) => (
+            <div class="project">
+              <div class="project-head">
+                <h3>{p.name}</h3>
+                <span class="muted">{p.tagline}</span>
+                <span class="links">
+                  {p.live && (
+                    <a href={p.live} rel="noopener">
+                      Live →
+                    </a>
+                  )}
+                </span>
+              </div>
+              <p class="project-desc">{p.description}</p>
+            </div>
+          ))
+      }
+    </div>
+    <div class="lab-grid">
+      {
+        labCards.map((p) => (
+            <div class="project lab-card">
+              <div class="lab-thumb-wrap">
+                <LabThumb lab={p.slug} />
+                <span class="lab-play" aria-hidden="true">
+                  Play
+                </span>
+              </div>
+              <div class="lab-card-body">
+                <div class="project-head">
+                  <h3>
                     <button
                       type="button"
                       class="lab-open"
@@ -212,23 +233,20 @@ const experience = [
                     >
                       {p.name}
                     </button>
-                  ) : (
-                    p.name
-                  )
-                }
-              </h3>
-              <span class="muted">{p.tagline}</span>
-              <span class="links">
-                {p.live && (
-                  <a href={p.live} rel="noopener">
-                    Live →
-                  </a>
-                )}
-              </span>
+                  </h3>
+                  <span class="muted">{p.tagline}</span>
+                  <span class="links">
+                    {p.live && (
+                      <a href={p.live} rel="noopener">
+                        Live →
+                      </a>
+                    )}
+                  </span>
+                </div>
+                <p class="project-desc">{p.description}</p>
+              </div>
             </div>
-            <p class="project-desc">{p.description}</p>
-          </div>
-        ))
+          ))
       }
     </div>
     <dialog id="lab-dialog" class="lab-dialog" aria-labelledby="lab-dialog-title">

@@ -468,14 +468,46 @@ main,
   .role-icon .core { animation: none; opacity: 0.45; }
 }
 
-/* Lab cards open the existing /lab/ page in a dialog. The overview list stays. */
-.lab-card {
+/* Lab cards: bordered panels in a grid. The other homepage lists stay on the rail. */
+.lab-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+@media (min-width: 720px) {
+  .lab-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.lab-grid > .lab-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  overflow: hidden;
   cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 .lab-thumb-wrap {
   position: relative;
-  margin: 0.15rem 0 0.85rem;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.lab-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem 1rem;
+}
+.lab-card .project-head,
+.lab-card .project-desc {
+  margin: 0;
 }
 .lab-play {
   position: absolute;
@@ -513,16 +545,14 @@ main,
   position: relative;
   z-index: 2;
 }
-.lab-card:has(.lab-open:focus-visible) {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
-  border-radius: 8px;
+.lab-grid > .lab-card:hover,
+.lab-grid > .lab-card:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transform: translateY(-2px);
 }
 .lab-open:focus-visible {
   outline: none;
-}
-.lab-card:hover .lab-thumb {
-  border-color: var(--accent);
 }
 
 .lab-dialog {
@@ -615,8 +645,13 @@ main,
   .lab-dialog,
   .lab-dialog::backdrop,
   .lab-play,
-  .lab-thumb {
+  .lab-thumb,
+  .lab-grid > .lab-card {
     transition: none;
     animation: none;
+  }
+  .lab-grid > .lab-card:hover,
+  .lab-grid > .lab-card:focus-within {
+    transform: none;
   }
 }
