@@ -120,10 +120,42 @@ const experience = [
   description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the internal tools stay off this site, so this is the work you can inspect."
 >
   <link slot="head" rel="stylesheet" href="/lab/wire.css" />
+  <section class="profile" aria-labelledby="profile-name">
+    <div class="profile-head">
+      <img
+        class="profile-photo"
+        src="/brady.jpg"
+        width="480"
+        height="480"
+        alt="Portrait of Brady Landry"
+      />
+      <div class="profile-id">
+        <h1 id="profile-name">Brady Landry</h1>
+        <p class="profile-title">Network Architect · AI Automation</p>
+      </div>
+    </div>
+    <p>
+      I have spent about 15 years building and running service-provider networks
+      at Cox, now Charter/Spectrum. I take national programs, make them land in
+      markets, and hand them to operations. I build the tooling that makes that
+      repeatable, from a 2014 config generator through Ansible to an AI/MCP
+      operations platform.
+    </p>
+    <p class="profile-links">
+      <a href="/resume">Résumé</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:bjlandry@gmail.com">Email</a>
+    </p>
+  </section>
+
   <section class="hero hero-net">
     <NetworkHero />
     <div class="hero-content">
-      <h1>landrycmd</h1>
+      <p class="hero-wordmark">landrycmd</p>
       <p class="tagline">
         <span class="prompt">&gt;</span>Public AI lab for a network architect
         who cannot publish the systems he built at work. MCP servers, agents,
