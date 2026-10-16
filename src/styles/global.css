@@ -518,17 +518,12 @@ main,
   .role-icon .core { animation: none; opacity: 0.45; }
 }
 
-/* Lab cards: bordered panels in a grid. The other homepage lists stay on the rail. */
+/* Lab cards: bordered panels, one full-width column at every viewport. */
 .lab-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   margin-top: 1.25rem;
-}
-@media (min-width: 720px) {
-  .lab-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 .lab-grid > .lab-card {
   position: relative;

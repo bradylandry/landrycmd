@@ -128,7 +128,8 @@ test("homepage keeps the overview and opens each lab in a dialog", async () => {
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /100dvh/);
   assert.match(css, /\.lab-grid/);
-  assert.match(css, /grid-template-columns:\s*1fr 1fr/);
+  assert.match(css, /\.lab-grid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
+  assert.equal(/grid-template-columns:\s*1fr\s+1fr/.test(css), false);
   assert.match(home, /class="lab-grid"/);
 });
 
