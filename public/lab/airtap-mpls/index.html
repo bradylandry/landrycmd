@@ -71,7 +71,7 @@ egress: 2 · multihomed BGP</pre></aside>
 const S='http://www.w3.org/2000/svg';
 const mk=(t,a,p)=>{const e=document.createElementNS(S,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
 const topo=document.getElementById('topo');
-const eg=mk('g',{},topo),ng=mk('g',{},topo),fg=mk('g',{},topo);
+const eg=mk('g',{},topo),fg=mk('g',{},topo),ng=mk('g',{},topo);
 
 const nodes=[
  {id:'r1',x:10,y:38,w:100,h:36,l:'Rig 1',s:'offshore',vrf:'a'},
@@ -126,14 +126,14 @@ wire('M110 240 H180','b',['r3','sb']);
 wire('M240 152 V216','n',['sa','sb']);
 const ptp=mk('text',{class:'pt',x:248,y:188},ng);ptp.textContent='PTP';
 
-/* Fiber MPLS, then the core 7200s, then each customer's data center. */
+/* Fiber MPLS into the core 7200s, then each customer's data center.
+   Paths stop at the router edge. Packets are painted under the nodes,
+   so a dash cannot cross the VRF labels. */
 wire('M300 56 H370','a',['sa','tw']);
 wire('M490 56 H560','a',['tw','core']);
-wire('M570 56 H700','a',['core']);
 wire('M710 56 H780','a',['core','ca']);
 wire('M300 240 H370','b',['sb','att']);
 wire('M490 240 H560','b',['att','core']);
-wire('M570 240 H700','b',['core']);
 wire('M710 240 H780','b',['core','cb']);
 
 /* Two internet egresses, multihomed BGP. */

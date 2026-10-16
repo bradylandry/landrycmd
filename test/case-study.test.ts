@@ -86,6 +86,14 @@ test("unsourced lab figures read NEEDS NUMBER", async () => {
   assert.equal(essay.includes("7 channels"), false);
 });
 
+test("AirTap packets stay on the links instead of crossing the core labels", async () => {
+  const page = await readFile(new URL("./public/lab/airtap-mpls/index.html", root), "utf8");
+  // Same stack as the other labs: link, packet dash, then the node on top.
+  assert.match(page, /const eg=mk\('g',\{\},topo\),fg=mk\('g',\{\},topo\),ng=mk\('g',\{\},topo\)/);
+  assert.equal(page.includes("M570 56 H700"), false);
+  assert.equal(page.includes("M570 240 H700"), false);
+});
+
 test("the AirTap lab does not publish an invented channel plan", async () => {
   const page = await readFile(new URL("./public/lab/airtap-mpls/index.html", root), "utf8");
   const home = await readFile(new URL("./src/pages/index.astro", root), "utf8");
