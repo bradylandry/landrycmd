@@ -28,12 +28,12 @@ ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 @media(prefers-reduced-motion:reduce){.pulse{display:none}}
 </style></head><body>
-<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>An AI assistant wired to every infrastructure MCP server at once, plus a read-only firewall review agent. Names and systems are generalized.</p><div class="metrics"><div><b>30–60 → 3–5 min</b><span>firewall review time</span></div><div><b>60+</b><span>firewalls covered</span></div><div><b>200 → ~40</b><span>ticket backlog</span></div><div><b>170+ / ~30</b><span>tools / agents</span></div></div></header>
+<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>An AI assistant wired to every infrastructure MCP server at once, plus a read-only firewall review agent. Names and systems are generalized.</p><div class="metrics"><div><b>NEEDS NUMBER</b><span>firewall review time</span></div><div><b>NEEDS NUMBER</b><span>firewalls covered</span></div><div><b>NEEDS NUMBER</b><span>ticket backlog</span></div><div><b>NEEDS NUMBER</b><span>tools / agents</span></div></div></header>
 <div class="tabs" role="tablist"><button role="tab" id="t1" aria-controls="v1" aria-selected="true">MCP Spider Web</button><button role="tab" id="t2" aria-controls="v2" aria-selected="false" tabindex="-1">Firewall Request Flow</button></div>
 <main>
 <section class="view" id="v1" role="tabpanel" aria-labelledby="t1">
  <svg id="web" viewBox="-20 0 840 600" role="img" aria-label="MCP server connected to clients and backend services"></svg>
- <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP Server</h2><p id="wDesc">Every server is available at once, so one review pulls the ticket, path traces, config backups and security rules together. Select or hover a node to see its role. Pulses show requests moving between the assistant, the MCP server and backend services.</p><pre id="wEx">11 MCP servers · 170+ tools · ~30 shared agents</pre></aside>
+ <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP Server</h2><p id="wDesc">Every server is available at once, so one review pulls the ticket, path traces, config backups and security rules together. Select or hover a node to see its role. Pulses show requests moving between the assistant, the MCP server and backend services.</p><pre id="wEx">servers: NEEDS NUMBER · tools: NEEDS NUMBER · agents: NEEDS NUMBER</pre></aside>
 </section>
 <section class="view" id="v2" role="tabpanel" aria-labelledby="t2" hidden>
  <div><div class="scen" id="scen" role="group" aria-label="Scenario"></div><svg id="flow" viewBox="0 0 800 330" role="img" aria-label="Firewall rule request pipeline"></svg>
@@ -60,8 +60,8 @@ const SV=[['Network Telemetry / Path Analysis','chart','Live path traces and flo
 ['Productivity Graph','chat','Mail, calendar, chat and files for context and notifications.'],
 ['IaC Formatter','code','Normalizes and lints infrastructure-as-code to team standards.'],
 ['Internal Infra Query','shield','Read-only queries against internal infrastructure data.']];
-const N=[{id:'mcp',x:400,y:290,r:58,ic:'bot',l:'MCP Hub / AI Assistant',t:'Core',d:'One assistant with every MCP server connected at once: 170+ tools and a shared layer of about 30 agents. A single review pulls the ticket, path traces, config backups and security rules together.',e:'servers: 11 · tools: 170+ · agents: ~30\nall servers live in one session'},
-{id:'cli',x:90,y:120,ic:'code',l:'Coding Assistant (CLI)',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review CHG-xxxx'},
+const N=[{id:'mcp',x:400,y:290,r:58,ic:'bot',l:'MCP Hub / AI Assistant',t:'Core',d:'One assistant with every MCP server connected at once. Tool count: NEEDS NUMBER. Agent count: NEEDS NUMBER. A single review pulls the request, path traces, config backups and security rules together.',e:'servers: NEEDS NUMBER · tools: NEEDS NUMBER · agents: NEEDS NUMBER\nall servers live in one session'},
+{id:'cli',x:90,y:120,ic:'code',l:'Coding Assistant (CLI)',t:'Client',d:'Terminal-based AI coding assistant that calls the hub tools directly.',e:'> review the request'},
 {id:'ide',x:90,y:460,ic:'code',l:'Coding Assistant (IDE)',t:'Client',d:'Editor-integrated assistant using the same tools and agents.',e:'same tools · same agents'}];
 SV.forEach((v,i)=>{const ang=-Math.PI*0.62+i*(Math.PI*1.24/10);N.push({id:'s'+i,x:400+300*Math.cos(ang)+40,y:290+235*Math.sin(ang),ic:v[1],l:v[0],t:'MCP Server',d:v[2],e:'read-only tools exposed via MCP'})});
 const S='http://www.w3.org/2000/svg',web=document.getElementById('web');
@@ -79,10 +79,10 @@ const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function pulse(){if(red||document.getElementById('v1').hidden)return;const ks=Object.keys(edges),k=ks[Math.random()*ks.length|0],p=edges[k],L=p.getTotalLength(),c=mk('circle',{class:'pulse',r:5},pg);
  const out=Math.random()<.5,t0=performance.now();(function f(t){const u=Math.min((t-t0)/1400,1),pt=p.getPointAtLength((out?u:1-u)*L);c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y);u<1?requestAnimationFrame(f):c.remove()})(t0)}
 setInterval(pulse,450);
-const F=[{ic:'tick',l:'Intake',d:'A firewall request or ticket ID comes in.',e:'review ticket <id>'},
-{ic:'code',l:'Normalize',d:'Hostnames, paired (HA) devices and ports are normalized.',e:'fw-a / fw-a-pair · tcp/443'},
+const F=[{ic:'tick',l:'Intake',d:'A firewall request comes in.',e:'review the request'},
+{ic:'code',l:'Normalize',d:'Hostnames, paired (HA) devices and ports are normalized.',e:'paired devices · tcp/443'},
 {ic:'chart',l:'Path Verify',d:'A live trace confirms the right firewalls are in the path and the zone of each IP.',e:'src → zone app · dst → zone data\nfirewalls in path: 2'},
-{ic:'db',l:'Config X-Ref',d:'Config backups of zones, objects and rules are pulled by parallel sub-agents: one per firewall, one for the security matrix, one for ticket context.',e:'sub-agents: fw-1 · fw-2 · matrix · ticket'},
+{ic:'db',l:'Config X-Ref',d:'Config backups of zones, objects and rules are pulled by parallel sub-agents: one per firewall, one for the security matrix, one for request context.',e:'sub-agents: one per firewall · matrix · request'},
 {ic:'lock',l:'Policy Check',d:'Zone-to-zone matrix, high-risk protocols, and lessons learned from real incidents.',e:'matrix: allowed · risky proto: none'},
 {ic:'shield',l:'Risk Class',d:'The change is classified Routine, Moderate or High.',e:'risk: Routine'},
 {ic:'check',l:'Verdict',d:'A clear verdict with reasons and evidence.',e:'"No blockers. Approve."'},
