@@ -61,3 +61,16 @@ test("the homepage opens with the profile intro and the existing lab sections", 
   assert.match(home, /id="lab"/);
   assert.match(home, /class="lab-grid"/);
 });
+
+test("personal projects stay after the shipped apps and skip private trading links", async () => {
+  const home = await readFile(new URL("./src/pages/index.astro", root), "utf8");
+  const also = home.slice(home.indexOf("const shipped"), home.indexOf("const openSource"));
+  const names = [...also.matchAll(/name: "([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(names, ["ACT Prep", "PeptideTracker", "Jarvis Quant", "Liftbook"]);
+  assert.match(also, /A personal stock-research tool\./);
+  assert.match(also, /https:\/\/github\.com\/bradylandry\/jarvis-trading-mcp/);
+  assert.match(also, /Workout logging that works offline\./);
+  assert.equal(also.includes("trading.landrycmd.com"), false);
+  assert.equal(/tailscale|azurecontainerapps|jarvis-lab/i.test(also), false);
+  assert.equal(/\b(P&L|balance|account number)/i.test(also), false);
+});

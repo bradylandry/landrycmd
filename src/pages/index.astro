@@ -79,6 +79,7 @@ const shipped = [
     description:
       "Adaptive ACT prep for Louisiana TOPS thresholds, FSRS spaced repetition, AI tutor. Proof I will take a system to a real user, not stop at a demo.",
     live: "https://act.landrycmd.com",
+    repo: null,
   },
   {
     name: "PeptideTracker",
@@ -86,6 +87,23 @@ const shipped = [
     description:
       "Mobile and web logging with auth, inventory, and shareable protocols. Same reason: live users, not a slide.",
     live: "https://peptidetrackers.com",
+    repo: null,
+  },
+  {
+    name: "Jarvis Quant",
+    tagline: "Personal research",
+    description:
+      "A personal stock-research tool. Paper lab for agent problems: cost-aware model routing, eval loops, and a weekly reviewer that scores approaches against each other. Not a product.",
+    live: null,
+    repo: "https://github.com/bradylandry/jarvis-trading-mcp",
+  },
+  {
+    name: "Liftbook",
+    tagline: "Offline-first PWA",
+    description:
+      "Workout logging that works offline. Next.js, Supabase, a service worker, and a sync outbox.",
+    live: null,
+    repo: null,
   },
 ];
 
@@ -353,11 +371,20 @@ const experience = [
             <div class="project-head">
               <h3>{p.name}</h3>
               <span class="muted">{p.tagline}</span>
-              <span class="links">
-                <a href={p.live} rel="noopener">
-                  Live →
-                </a>
-              </span>
+              {(p.live || p.repo) && (
+                <span class="links">
+                  {p.live && (
+                    <a href={p.live} rel="noopener">
+                      Live →
+                    </a>
+                  )}
+                  {p.repo && (
+                    <a href={p.repo} rel="noopener">
+                      Repo →
+                    </a>
+                  )}
+                </span>
+              )}
             </div>
             <p class="project-desc">{p.description}</p>
           </div>
