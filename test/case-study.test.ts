@@ -141,6 +141,22 @@ test("the case study stands alone and Work links both labs", async () => {
   assert.match(work, /\/lab\/frr-review\//);
 });
 
+test("the lab full-screen toggle is only shown under the phone breakpoint", async () => {
+  const css = await readFile(new URL("./public/lab/wire.css", root), "utf8");
+  const js = await readFile(new URL("./public/lab/wire.js", root), "utf8");
+  const hidden = css.match(/\.lab-fs\{display:none\}/);
+  const phone = css.match(/@media\(max-width:719px\)\{[\s\S]*\.lab-fs\{[\s\S]*?display:inline-flex/);
+  assert.ok(hidden, css);
+  assert.ok(phone, css);
+  assert.ok((hidden?.index ?? 0) < (phone?.index ?? 0));
+  assert.equal(/@media\(min-width:[^{]*\{[^}]*\.lab-fs/.test(css), false);
+  assert.match(js, /className = "lab-fs"/);
+  assert.match(js, /requestFullscreen/);
+  assert.match(js, /aria-label", "Full screen"/);
+  const home = await readFile(new URL("./src/pages/index.astro", root), "utf8");
+  assert.match(home, /allow="fullscreen"/);
+});
+
 test("the network résumé carries the sanitized facts", () => {
   const network = getResume({ disclosed: false, variant: "network" });
   const presales = getResume({ disclosed: false, variant: "presales" });
