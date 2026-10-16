@@ -94,6 +94,16 @@ test("AirTap packets stay on the links instead of crossing the core labels", asy
   assert.equal(page.includes("M570 240 H700"), false);
   assert.match(page, /Gulf of Mexico/);
   assert.match(page, /class:'ring '/);
+  assert.match(page, /Texas shore/);
+  assert.match(page, /Central shore/);
+  assert.match(page, /East shore/);
+  assert.match(page, /Data center/);
+  assert.match(page, /class:'cloud'/);
+  const wires = [...page.matchAll(/wire\(seg\(\[([^\]]+)\]\)/g)];
+  assert.equal(wires.length, 8);
+  for (const wire of wires) {
+    assert.equal((wire[1].match(/port\(/g) || []).length, 2);
+  }
   assert.equal(page.includes("Site A"), false);
   assert.equal(page.includes("Site B"), false);
   assert.equal(/\b(?:\d{1,3}\.){3}\d{1,3}\b/.test(page), false);

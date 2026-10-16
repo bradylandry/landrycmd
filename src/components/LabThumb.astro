@@ -29,6 +29,7 @@ interface Diagram {
   sea?: boolean;
   land?: string;
   rings?: Ring[];
+  cloud?: string;
 }
 
 const diagrams: Record<LabSlug, Diagram> = {
@@ -125,23 +126,33 @@ const diagrams: Record<LabSlug, Diagram> = {
   "airtap-mpls": {
     sea: true,
     land: "M0 0 H480 V18 L452 28 L424 52 L392 74 L360 62 L300 44 L240 50 L180 40 L120 54 L70 76 L28 100 L0 118 Z",
+    cloud:
+      "M164 24 Q150 24 156 14 Q150 4 170 6 Q178 0 196 6 Q210 0 226 6 Q244 0 252 8 Q270 6 266 16 Q272 24 252 24 L164 24 Z",
     rings: [
-      { cx: 148, cy: 104, r: 30, tone: "a" },
-      { cx: 206, cy: 118, r: 30, tone: "a" },
-      { cx: 262, cy: 102, r: 30, tone: "b" },
+      { cx: 96, cy: 118, r: 26, tone: "a" },
+      { cx: 156, cy: 128, r: 26, tone: "a" },
+      { cx: 220, cy: 116, r: 26, tone: "b" },
     ],
     edges: [
-      "M148 92 L168 46",
-      "M206 100 L196 46",
-      "M262 90 L230 46",
-      "M232 28 H286",
+      "M196 20 L196 34",
+      "M236 20 L236 34",
+      "M94 66 L168 54",
+      "M156 72 L190 54",
+      "M272 62 L268 54",
+      "M96 108 L96 84",
+      "M156 118 L156 90",
+      "M220 104 L272 80",
     ],
     nodes: [
-      { x: 132, y: 92, w: 32, h: 16, label: "1" },
-      { x: 190, y: 108, w: 32, h: 16, label: "2" },
-      { x: 246, y: 90, w: 32, h: 16, label: "3" },
-      { x: 156, y: 24, w: 76, h: 22, label: "Shore" },
-      { x: 286, y: 8, w: 70, h: 24, label: "Core", hub: true },
+      { x: 176, y: 4, w: 40, h: 16, label: "BGP" },
+      { x: 216, y: 4, w: 40, h: 16, label: "BGP" },
+      { x: 156, y: 34, w: 124, h: 20, label: "Data center", hub: true },
+      { x: 68, y: 66, w: 52, h: 18, label: "Texas" },
+      { x: 128, y: 72, w: 56, h: 18, label: "Central" },
+      { x: 248, y: 62, w: 48, h: 18, label: "East" },
+      { x: 82, y: 108, w: 28, h: 14, label: "1" },
+      { x: 142, y: 118, w: 28, h: 14, label: "2" },
+      { x: 206, y: 104, w: 28, h: 14, label: "3" },
     ],
   },
 };
@@ -170,6 +181,7 @@ const diagram = diagrams[lab];
     ))
   }
   {diagram.land && <path class="land" d={diagram.land} />}
+  {diagram.cloud && <path class="cloud" d={diagram.cloud} />}
   {
     diagram.edges.map((d) => (
       <path class="edge" fill="none" d={d} />
@@ -209,6 +221,11 @@ const diagram = diagrams[lab];
     fill: #1c3a2c;
     stroke: #e7d3a1;
     stroke-width: 1.4;
+  }
+  .lab-thumb .cloud {
+    fill: rgba(224, 242, 254, 0.2);
+    stroke: #bae6fd;
+    stroke-width: 1.25;
   }
   .lab-thumb .ring {
     fill: rgba(245, 158, 11, 0.28);
