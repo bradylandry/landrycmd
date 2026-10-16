@@ -97,7 +97,7 @@ const aiPlatform =
 const firewallReview =
   "Built the firewall-request review: backlog from 200 to about 40, and review time from 30–60 minutes to 3–5 minutes.";
 const runbookGenerator =
-  "Built an Ansible runbook generator that replaced hand-written per-market procedures, saving about 20 hours per deployment.";
+  "Built an Ansible runbook generator that replaced hand-written per-market procedures. Hours saved per deployment: NEEDS NUMBER.";
 const automationLineage =
   "Eleven-year automation lineage: a spreadsheet config generator in 2014, Ansible in 2019–20, a runbook generator in 2021, and the MCP platform in 2025.";
 const ragKnowledge =

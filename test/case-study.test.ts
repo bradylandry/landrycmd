@@ -121,7 +121,8 @@ test("the network résumé carries the sanitized facts", () => {
     assert.match(text, /Authored 23 of the shipping agents/);
     assert.match(text, /backlog from 200 to about 40/);
     assert.match(text, /30–60 minutes to 3–5 minutes/);
-    assert.match(text, /about 20 hours per deployment/);
+    assert.match(text, /Hours saved per deployment: NEEDS NUMBER/);
+    assert.equal(text.includes("20 hours"), false);
     assert.match(text, /zero traffic lost, and rollback is one priority change/);
     assert.match(text, /4 markets \(87 CMTS\) inside an 18-market, 536-CMTS program/);
     assert.match(text, /switch-replacement procedures for NEEDS NUMBER markets/);
