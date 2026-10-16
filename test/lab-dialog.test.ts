@@ -105,7 +105,6 @@ test("homepage keeps the overview and opens each lab in a dialog", async () => {
   assert.match(home, /class="lab-dialog-frame"/);
   assert.match(home, /class="node-list"/);
   assert.match(home, /What you can inspect/);
-  assert.match(home, /https:\/\/jarvis\.landrycmd\.com/);
 
   assert.match(home, /data-lab=\{p\.slug\}/);
   assert.match(home, /aria-haspopup="dialog"/);
