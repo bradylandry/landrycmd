@@ -5,49 +5,87 @@
 @keyframes dash{to{stroke-dashoffset:-40}}
 @media(prefers-reduced-motion:reduce){.flow.on{animation:none;opacity:.5}}
 
-/* Full-screen control for a simulator .view.
-   Hidden from the desktop and tablet layout. Shown only under the
-   existing phone cutoff (airtap and the complement of min-width: 720px). */
-.lab-fs{display:none}
-@media(max-width:719px){
-  .lab-fs{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    justify-self:end;
-    grid-column:1 / -1;
-    min-height:44px;
-    margin:0 0 8px;
-    padding:0 12px;
-    border:1px solid var(--line,#30363d);
-    border-radius:8px;
-    background:var(--card,#21262d);
-    color:var(--txt,#e6edf3);
-    font:inherit;
-    font-size:.9rem;
-    cursor:pointer;
-  }
-  .lab-fs:hover{border-color:var(--acc,#38bdf8)}
-  .lab-fs:focus-visible{outline:2px solid var(--acc,#38bdf8);outline-offset:2px}
-  .view.is-fs{
-    position:fixed;
-    inset:0;
-    z-index:80;
-    width:100%;
-    height:100dvh;
-    margin:0;
-    border-radius:0;
-    overflow:auto;
-    background:var(--panel,#171a21);
-  }
-  body.lab-fs-open{overflow:hidden}
+/* Entry control. Hidden until the phone cutoff; the exit rules below
+   show it again at any width once the simulator is already fullscreen. */
+.lab-fs{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  justify-self:end;
+  grid-column:1 / -1;
+  min-height:44px;
+  margin:0 0 8px;
+  padding:0 12px;
+  border:1px solid var(--line,#30363d);
+  border-radius:8px;
+  background:var(--card,#21262d);
+  color:var(--txt,#e6edf3);
+  font:inherit;
+  font-size:.9rem;
+  cursor:pointer;
 }
-.view:fullscreen,.view:-webkit-full-screen{
+@media(max-width:719px){
+  .lab-fs{display:inline-flex}
+}
+@media(hover:hover){
+  .lab-fs:hover{border-color:var(--acc,#38bdf8)}
+}
+.lab-fs:focus-visible{outline:2px solid var(--acc,#38bdf8);outline-offset:2px}
+
+/* CSS fallback overlay. Not gated on width: a landscape phone is wider
+   than 719px and must keep this layout until the user exits. */
+.view.is-fs{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  width:100%;
+  height:100dvh;
+  margin:0;
+  border-radius:0;
+  overflow:auto;
+  background:var(--panel,#171a21);
+}
+.view.is-fs>.lab-fs{
+  display:inline-flex;
+  position:fixed;
+  top:8px;
+  right:8px;
+  z-index:90;
+  margin:0;
+}
+
+/* Split :fullscreen and :-webkit-full-screen. A combined selector is
+   dropped entirely by browsers that do not recognize one of the two. */
+.view:fullscreen{
   width:100%;
   height:100%;
   margin:0;
   border-radius:0;
   overflow:auto;
   background:var(--panel,#171a21);
+}
+.view:-webkit-full-screen{
+  width:100%;
+  height:100%;
+  margin:0;
+  border-radius:0;
+  overflow:auto;
+  background:var(--panel,#171a21);
+}
+.view:fullscreen>.lab-fs{
+  display:inline-flex;
+  position:fixed;
+  top:8px;
+  right:8px;
+  z-index:90;
+  margin:0;
+}
+.view:-webkit-full-screen>.lab-fs{
+  display:inline-flex;
+  position:fixed;
+  top:8px;
+  right:8px;
+  z-index:90;
+  margin:0;
 }

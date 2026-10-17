@@ -36,68 +36,67 @@
     return doc.fullscreenElement || doc.webkitFullscreenElement || null;
   }
 
+  function isOpen(view) {
+    return nativeFullscreen(view.ownerDocument) === view || view.classList.contains("is-fs");
+  }
+
   function sync(button, on) {
-    button.setAttribute("aria-pressed", on ? "true" : "false");
-    button.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
+    var name = on ? "Exit full screen" : "Full screen";
+    button.setAttribute("aria-label", name);
     var label = button.querySelector(".lab-fs-label");
     if (label) label.textContent = on ? "Exit" : "Full screen";
   }
 
+  function lockScroll(doc) {
+    var body = doc.body;
+    var win = doc.defaultView;
+    if (!body || body.classList.contains("lab-fs-open")) return;
+    var y = win ? win.scrollY || win.pageYOffset || 0 : 0;
+    body.dataset.labFsY = String(y);
+    body.classList.add("lab-fs-open");
+    body.style.position = "fixed";
+    body.style.top = "-" + y + "px";
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+  }
+
+  function unlockScroll(doc) {
+    var body = doc.body;
+    var win = doc.defaultView;
+    if (!body || !body.classList.contains("lab-fs-open")) return;
+    var y = Number(body.dataset.labFsY || 0);
+    body.classList.remove("lab-fs-open");
+    delete body.dataset.labFsY;
+    body.style.position = "";
+    body.style.top = "";
+    body.style.left = "";
+    body.style.right = "";
+    body.style.width = "";
+    if (win) win.scrollTo(0, y);
+  }
+
   function fallback(view, button) {
     view.classList.add("is-fs");
-    view.ownerDocument.body.classList.add("lab-fs-open");
+    lockScroll(view.ownerDocument);
     sync(button, true);
   }
 
   function exitFallback(view) {
     view.classList.remove("is-fs");
-    view.ownerDocument.body.classList.remove("lab-fs-open");
+    if (!view.ownerDocument.querySelector(".view.is-fs")) unlockScroll(view.ownerDocument);
   }
 
-  function toggle(button) {
+  function settle(button) {
     var view = button.closest(".view");
-    if (!view) return;
-    var doc = view.ownerDocument;
-    var native = nativeFullscreen(doc);
-    if (native === view || view.classList.contains("is-fs")) {
-      exitFallback(view);
-      var exit = doc.exitFullscreen || doc.webkitExitFullscreen;
-      if (native && exit) {
-        try {
-          exit.call(doc);
-        } catch (err) {
-          /* The browser already left fullscreen. */
-        }
-      }
-      sync(button, nativeFullscreen(doc) === view);
-      return;
-    }
-    var req = view.requestFullscreen || view.webkitRequestFullscreen;
-    if (typeof req === "function") {
-      try {
-        var pending = req.call(view);
-        if (pending && typeof pending.then === "function") {
-          pending.then(
-            function () {
-              exitFallback(view);
-              sync(button, true);
-            },
-            function () {
-              fallback(view, button);
-            },
-          );
-          return;
-        }
-        sync(button, true);
-        return;
-      } catch (err) {
-        /* Fullscreen is blocked in this frame. Use the in-page fill. */
-      }
-    }
-    fallback(view, button);
+    sync(button, !!(view && isOpen(view)));
   }
 
   function mountFullscreen(doc) {
+    if (doc.documentElement.hasAttribute("data-lab-fs")) return;
+    doc.documentElement.setAttribute("data-lab-fs", "");
+    var pendingButton = null;
+
     var views = doc.querySelectorAll(".view");
     for (var i = 0; i < views.length; i++) {
       var view = views[i];
@@ -105,7 +104,6 @@
       var button = doc.createElement("button");
       button.type = "button";
       button.className = "lab-fs";
-      button.setAttribute("aria-pressed", "false");
       button.setAttribute("aria-label", "Full screen");
       button.appendChild(icon("M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"));
       var label = doc.createElement("span");
@@ -117,34 +115,131 @@
       });
       view.insertBefore(button, view.firstChild);
     }
+
+    function onChange() {
+      var current = nativeFullscreen(doc);
+      if (pendingButton) {
+        var pendingView = pendingButton.closest(".view");
+        if (pendingView && current === pendingView) pendingButton = null;
+      }
+      var buttons = doc.querySelectorAll(".lab-fs");
+      for (var n = 0; n < buttons.length; n++) settle(buttons[n]);
+    }
+
+    function onError() {
+      var button = pendingButton;
+      pendingButton = null;
+      if (!button) {
+        onChange();
+        return;
+      }
+      var view = button.closest(".view");
+      if (!view || nativeFullscreen(doc) === view) {
+        settle(button);
+        return;
+      }
+      fallback(view, button);
+    }
+
     doc.addEventListener("fullscreenchange", onChange);
     doc.addEventListener("webkitfullscreenchange", onChange);
+    doc.addEventListener("fullscreenerror", onError);
+    doc.addEventListener("webkitfullscreenerror", onError);
     doc.addEventListener("keydown", function (event) {
       if (event.key !== "Escape") return;
       var open = doc.querySelectorAll(".view.is-fs");
       for (var n = 0; n < open.length; n++) {
-        exitFallback(open[n]);
+        if (nativeFullscreen(doc) === open[n]) continue;
         var button = open[n].querySelector(".lab-fs");
-        if (button) sync(button, false);
+        exitFallback(open[n]);
+        if (button) settle(button);
       }
     });
-    function onChange() {
-      var current = nativeFullscreen(doc);
-      var buttons = doc.querySelectorAll(".lab-fs");
-      for (var n = 0; n < buttons.length; n++) {
-        var view = buttons[n].closest(".view");
-        if (view && current === view) exitFallback(view);
-        sync(buttons[n], !!(view && (current === view || view.classList.contains("is-fs"))));
+
+    function enter(button) {
+      var view = button.closest(".view");
+      if (!view) return;
+      var req = view.requestFullscreen || view.webkitRequestFullscreen;
+      if (typeof req !== "function") {
+        fallback(view, button);
+        return;
       }
+      pendingButton = button;
+      var pending;
+      try {
+        pending = req.call(view);
+      } catch (err) {
+        pendingButton = null;
+        fallback(view, button);
+        return;
+      }
+      if (!pending || typeof pending.then !== "function") return;
+      pending.then(
+        function () {
+          if (pendingButton === button) pendingButton = null;
+          settle(button);
+        },
+        function () {
+          if (pendingButton === button) pendingButton = null;
+          if (nativeFullscreen(doc) === view) settle(button);
+          else fallback(view, button);
+        },
+      );
+    }
+
+    function leave(button) {
+      var view = button.closest(".view");
+      if (!view) return;
+      if (nativeFullscreen(doc) !== view) {
+        if (view.classList.contains("is-fs")) exitFallback(view);
+        settle(button);
+        return;
+      }
+      var exit = doc.exitFullscreen || doc.webkitExitFullscreen;
+      if (typeof exit !== "function") {
+        settle(button);
+        return;
+      }
+      var pending;
+      try {
+        pending = exit.call(doc);
+      } catch (err) {
+        settle(button);
+        return;
+      }
+      if (pending && typeof pending.then === "function") {
+        pending.then(
+          function () {
+            settle(button);
+          },
+          function () {
+            settle(button);
+          },
+        );
+        return;
+      }
+      settle(button);
+    }
+
+    function toggle(button) {
+      var view = button.closest(".view");
+      if (!view) return;
+      if (isOpen(view)) leave(button);
+      else enter(button);
     }
   }
 
   global.labWire = { overlay: overlay, set: set };
+
+  function boot() {
+    mountFullscreen(global.document);
+  }
+
   if (global.document) {
-    try {
-      mountFullscreen(global.document);
-    } catch (err) {
-      /* A lab page with no simulator view has nothing to mount. */
+    if (global.document.readyState === "loading") {
+      global.document.addEventListener("DOMContentLoaded", boot);
+    } else {
+      boot();
     }
   }
 })(window);

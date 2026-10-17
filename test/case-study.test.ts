@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { JSDOM } from "jsdom";
 import { getResume } from "../src/lib/resume.ts";
 
 const root = new URL("..", import.meta.url);
@@ -141,20 +142,83 @@ test("the case study stands alone and Work links both labs", async () => {
   assert.match(work, /\/lab\/frr-review\//);
 });
 
-test("the lab full-screen toggle is only shown under the phone breakpoint", async () => {
+test("the lab full-screen entry is phone-only and exit stays available", async () => {
   const css = await readFile(new URL("./public/lab/wire.css", root), "utf8");
   const js = await readFile(new URL("./public/lab/wire.js", root), "utf8");
-  const hidden = css.match(/\.lab-fs\{display:none\}/);
-  const phone = css.match(/@media\(max-width:719px\)\{[\s\S]*\.lab-fs\{[\s\S]*?display:inline-flex/);
-  assert.ok(hidden, css);
-  assert.ok(phone, css);
-  assert.ok((hidden?.index ?? 0) < (phone?.index ?? 0));
-  assert.equal(/@media\(min-width:[^{]*\{[^}]*\.lab-fs/.test(css), false);
-  assert.match(js, /className = "lab-fs"/);
-  assert.match(js, /requestFullscreen/);
-  assert.match(js, /aria-label", "Full screen"/);
   const home = await readFile(new URL("./src/pages/index.astro", root), "utf8");
+  const phoneBlock = css.slice(
+    css.indexOf("@media(max-width:719px)"),
+    css.indexOf("@media(hover:hover)"),
+  );
+  assert.match(css, /\.lab-fs\{[^}]*display:none/);
+  assert.match(phoneBlock, /\.lab-fs\{display:inline-flex\}/);
+  assert.equal(phoneBlock.includes(".view.is-fs"), false);
+  assert.equal(phoneBlock.includes(":fullscreen"), false);
+  assert.match(css, /\.view\.is-fs\{[^}]*position:fixed/);
+  assert.match(css, /\.view\.is-fs>\.lab-fs\{[^}]*position:fixed/);
+  assert.match(css, /\.view:fullscreen\{/);
+  assert.match(css, /\.view:-webkit-full-screen\{/);
+  assert.match(css, /\.view:fullscreen>\.lab-fs\{[^}]*position:fixed/);
+  assert.match(css, /\.view:-webkit-full-screen>\.lab-fs\{[^}]*position:fixed/);
+  assert.equal(/:fullscreen\s*,/.test(css), false);
+  assert.equal(/:-webkit-full-screen\s*,/.test(css), false);
+  assert.match(css, /@media\(hover:hover\)\{[^}]*\.lab-fs:hover/);
+  assert.match(js, /DOMContentLoaded/);
+  assert.match(js, /fullscreenerror/);
+  assert.match(js, /webkitfullscreenerror/);
+  assert.match(js, /position = "fixed"/);
+  assert.equal(/try\s*\{[\s\S]{0,80}mountFullscreen/.test(js), false);
+  assert.equal(js.includes("aria-pressed"), false);
   assert.match(home, /allow="fullscreen"/);
+
+  const dom = new JSDOM(
+    `<!DOCTYPE html><body><div class="view" id="v"></div><script>${js}</script></body>`,
+    { runScripts: "dangerously", pretendToBeVisual: true, url: "http://lab.local/lab/check/" },
+  );
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  const win = dom.window as Window & {
+    HTMLElement: typeof HTMLElement;
+    HTMLButtonElement: typeof HTMLButtonElement;
+    close(): void;
+  };
+  const doc = win.document;
+  const view = doc.querySelector(".view");
+  const button = doc.querySelector(".lab-fs");
+  if (!(view instanceof win.HTMLElement) || !(button instanceof win.HTMLButtonElement)) {
+    throw new Error("fullscreen control did not mount");
+  }
+  assert.equal(button.getAttribute("aria-pressed"), null);
+  assert.equal(button.getAttribute("aria-label"), "Full screen");
+  assert.equal(button.textContent, "Full screen");
+
+  let fs: Element | null = null;
+  Object.defineProperty(doc, "fullscreenElement", {
+    configurable: true,
+    get: () => fs,
+  });
+  view.requestFullscreen = () => Promise.reject(new Error("unsupported"));
+  button.click();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(view.classList.contains("is-fs"), true);
+  assert.equal(doc.body.style.position, "fixed");
+  assert.equal(button.getAttribute("aria-label"), "Exit full screen");
+  assert.equal(button.textContent, "Exit");
+
+  fs = view;
+  doc.exitFullscreen = () => Promise.reject(new Error("still open"));
+  button.click();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(button.getAttribute("aria-label"), "Exit full screen");
+  assert.equal(view.classList.contains("is-fs"), true);
+
+  fs = null;
+  doc.exitFullscreen = () => Promise.resolve();
+  button.click();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(view.classList.contains("is-fs"), false);
+  assert.equal(doc.body.style.position, "");
+  assert.equal(button.getAttribute("aria-label"), "Full screen");
+  dom.window.close();
 });
 
 test("the network résumé carries the sanitized facts", () => {
