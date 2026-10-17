@@ -13,9 +13,11 @@ Header Résumé, or `/resume`. The public page never names a firm. Links sent to
 ## Driving it with curl and drive.mjs
 
 ```bash
-curl -fsS http://localhost:4321/resume | grep -q '<h1>Brady Landry</h1>'
-curl -fsS http://localhost:4321/resume | grep -q 'id="summary"'
-if curl -fsS http://localhost:4321/resume | grep -q 'prepared-for'; then exit 1; fi
+curl -fsSL -o /tmp/landrycmd-verify/resume.html http://localhost:4321/resume
+test -s /tmp/landrycmd-verify/resume.html
+grep -q '<h1>Brady Landry</h1>' /tmp/landrycmd-verify/resume.html
+grep -q 'id="summary"' /tmp/landrycmd-verify/resume.html
+grep -q '<h1>Brady Landry</h1>' /tmp/landrycmd-verify/resume.html && ! grep -q 'prepared-for' /tmp/landrycmd-verify/resume.html
 ```
 
 Selectors: `h1`, `#summary`, `#skills`, `a[href="mailto:bjlandry@gmail.com"]`. There is no `.prepared-for` on this page.

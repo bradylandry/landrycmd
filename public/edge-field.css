@@ -1,76 +1,163 @@
-/* Corner plates for the Signal pages.
-   Original CSS: near-black field, two angled panels, halftone inside
-   the plates, orange slashes and particles held in the corners.
-   Not derived from a stock image. */
+/* Diagonal field for the Signal pages.
+   Original CSS: near-black base, wide charcoal panels at 32 degrees,
+   bevel highlights, perforation on the side panels, orange slashes,
+   soft bloom, particles, and a hatch bar.
+   Not traced from a stock photograph. */
 
-/* Distance from the viewport edge to the first text column.
-   Matches .wrap: a centered 1200px container plus its page margin. */
 body {
-  --edge-inset: calc((100vw - min(100vw, 1200px)) / 2 + clamp(20px, 5vw, 72px));
   background-color: transparent;
 }
 
-body::before,
+/* Charcoal panels and the bevel where they meet the reading band.
+   The lighter plates stay in the side margins so body text keeps its ground. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: var(--field-0, #0b0b0c);
+  background-image:
+    linear-gradient(
+      32deg,
+      transparent 18%,
+      var(--field-bevel, rgba(255, 255, 255, 0.7)) 18.4%,
+      transparent 19.2%
+    ),
+    linear-gradient(
+      32deg,
+      transparent 46%,
+      var(--field-shade, rgba(0, 0, 0, 0.65)) 46.3%,
+      var(--field-bevel, rgba(255, 255, 255, 0.7)) 47%,
+      transparent 47.6%
+    ),
+    linear-gradient(
+      32deg,
+      var(--field-2, #34343c) 0%,
+      var(--field-1, #2a2a32) 42%,
+      var(--field-3, #1c1c22) 100%
+    );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    #000 calc(var(--content-inset, 72px) - 24px),
+    transparent var(--content-inset, 72px),
+    transparent calc(100% - var(--content-inset, 72px)),
+    #000 calc(100% - var(--content-inset, 72px) + 24px),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    #000 calc(var(--content-inset, 72px) - 24px),
+    transparent var(--content-inset, 72px),
+    transparent calc(100% - var(--content-inset, 72px)),
+    #000 calc(100% - var(--content-inset, 72px) + 24px),
+    #000 100%
+  );
+}
+
+/* Perforation, orange slashes, bloom, particles, hatch.
+   Masked to the side panels so the reading column stays clean. */
 body::after {
   content: "";
   position: fixed;
+  inset: 0;
   z-index: -1;
-  width: max(0px, calc(var(--edge-inset) - 12px));
-  height: min(200px, max(0px, calc(var(--edge-inset) - 12px)));
   pointer-events: none;
-  background-repeat: no-repeat;
+  background-repeat:
+    no-repeat, no-repeat, no-repeat, no-repeat,
+    no-repeat, no-repeat, no-repeat, no-repeat,
+    no-repeat,
+    no-repeat, no-repeat, no-repeat,
+    no-repeat, no-repeat, no-repeat,
+    repeat;
   background-image:
-    radial-gradient(circle at 16% 22%, var(--edge-hot, #ff6a00) 0 1.7px, transparent 2.3px),
-    radial-gradient(circle at 30% 16%, var(--edge-hot, #ff6a00) 0 1.2px, transparent 1.7px),
-    radial-gradient(circle at 11% 40%, var(--edge-hot, #ff6a00) 0 1.4px, transparent 2px),
-    radial-gradient(circle at 38% 32%, var(--edge-hot-soft, rgba(255, 106, 0, 0.55)) 0 2px, transparent 3px),
-    linear-gradient(
-      42deg,
-      transparent 18%,
-      var(--edge-hot-soft, rgba(255, 106, 0, 0.55)) 26%,
-      transparent 38%
+    radial-gradient(circle at 12% 16%, var(--field-hot-2, #ff7a1a) 0 1.7px, transparent 2.3px),
+    radial-gradient(circle at 7% 28%, var(--field-hot, #ff6a00) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 18% 24%, var(--field-bloom, rgba(255, 106, 0, 0.75)) 0 2.2px, transparent 3.2px),
+    radial-gradient(circle at 9% 40%, var(--field-hot-2, #ff7a1a) 0 1.4px, transparent 2px),
+    radial-gradient(circle at 90% 70%, var(--field-hot, #ff6a00) 0 1.6px, transparent 2.2px),
+    radial-gradient(circle at 84% 82%, var(--field-hot-2, #ff7a1a) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 94% 78%, var(--field-bloom, rgba(255, 106, 0, 0.7)) 0 2px, transparent 3px),
+    radial-gradient(circle at 80% 90%, var(--field-hot, #ff6a00) 0 1.5px, transparent 2.1px),
+    repeating-linear-gradient(
+      122deg,
+      transparent 0 6px,
+      var(--field-hot-2, #ff7a1a) 6px 7.5px
     ),
     linear-gradient(
-      42deg,
-      transparent 26%,
-      var(--edge-hot, #ff6a00) 26.6%,
-      var(--edge-hot, #ff6a00) 29.4%,
-      transparent 30.1%
+      32deg,
+      transparent 4%,
+      var(--field-bloom, rgba(255, 106, 0, 0.55)) 9%,
+      transparent 18%
     ),
     linear-gradient(
-      42deg,
-      transparent 40%,
-      var(--edge-hot, #ff6a00) 40.4%,
-      transparent 41%
+      32deg,
+      transparent 8%,
+      var(--field-hot, #ff6a00) 9%,
+      var(--field-hot-2, #ff7a1a) 14%,
+      var(--field-hot, #ff6a00) 16%,
+      transparent 17.2%
     ),
-    radial-gradient(circle, var(--edge-dot, rgba(236, 238, 241, 0.5)) 0.8px, transparent 0.95px),
     linear-gradient(
-      155deg,
-      var(--edge-plate, #1c2531),
-      var(--edge-plate-2, #141b24)
-    );
+      32deg,
+      transparent 19%,
+      var(--field-hot-2, #ff7a1a) 19.3%,
+      transparent 20.1%
+    ),
+    linear-gradient(
+      32deg,
+      transparent 74%,
+      var(--field-bloom, rgba(255, 106, 0, 0.5)) 78%,
+      transparent 88%
+    ),
+    linear-gradient(
+      32deg,
+      transparent 78%,
+      var(--field-hot, #ff6a00) 79%,
+      var(--field-hot-2, #ff7a1a) 85%,
+      transparent 86.4%
+    ),
+    linear-gradient(
+      32deg,
+      transparent 88%,
+      var(--field-hot-2, #ff7a1a) 88.4%,
+      transparent 89.3%
+    ),
+    radial-gradient(circle, var(--field-dot, rgba(236, 236, 240, 0.7)) 0.9px, transparent 1.15px);
   background-size:
     auto, auto, auto, auto,
+    auto, auto, auto, auto,
+    150px 12px,
     auto, auto, auto,
-    5px 5px,
-    auto;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-  -webkit-mask-image: linear-gradient(48deg, #000 0%, #000 58%, transparent 92%);
-  mask-image: linear-gradient(48deg, #000 0%, #000 58%, transparent 92%);
-  box-shadow:
-    inset 1px 1px 0 var(--edge-bevel, rgba(255, 255, 255, 0.16)),
-    inset -1px -1px 0 var(--edge-shade, rgba(0, 0, 0, 0.72));
-}
-
-body::before {
-  top: 72px;
-  left: 0;
-}
-
-body::after {
-  right: 0;
-  bottom: 0;
-  transform: rotate(180deg);
+    auto, auto, auto,
+    7px 7px;
+  background-position:
+    0 0, 0 0, 0 0, 0 0,
+    0 0, 0 0, 0 0, 0 0,
+    8% 86%,
+    0 0, 0 0, 0 0,
+    0 0, 0 0, 0 0,
+    0 0;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    #000 calc(var(--content-inset, 72px) - 28px),
+    transparent calc(var(--content-inset, 72px) - 6px),
+    transparent calc(100% - var(--content-inset, 72px) + 6px),
+    #000 calc(100% - var(--content-inset, 72px) + 28px),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    #000 calc(var(--content-inset, 72px) - 28px),
+    transparent calc(var(--content-inset, 72px) - 6px),
+    transparent calc(100% - var(--content-inset, 72px) + 6px),
+    #000 calc(100% - var(--content-inset, 72px) + 28px),
+    #000 100%
+  );
 }
 
 html.lab-embed body::before,
@@ -78,28 +165,55 @@ html.lab-embed body::after {
   display: none;
 }
 
-/* Below this width the gutter is only page padding, so a plate sits under text. */
-@media (max-width: 1099px) {
-  body::before,
+@media (max-width: 700px) {
+  body::before {
+    -webkit-mask-image: none;
+    mask-image: none;
+    background-image:
+      linear-gradient(
+        32deg,
+        transparent calc(64% - 1px),
+        var(--field-bevel, rgba(255, 255, 255, 0.45)) 64%,
+        transparent calc(64% + 1px)
+      ),
+      linear-gradient(
+        32deg,
+        var(--field-0, #0b0b0c) 0 58%,
+        #16161a 58.4%,
+        #1c1c22 100%
+      );
+  }
+
   body::after {
-    display: none;
+    background-image:
+      radial-gradient(circle at 88% 18px, var(--field-hot-2, #ff7a1a) 0 1.4px, transparent 2px),
+      radial-gradient(circle at 78% 28px, var(--field-hot, #ff6a00) 0 1.1px, transparent 1.7px),
+      linear-gradient(
+        32deg,
+        transparent 62%,
+        var(--field-hot, #ff6a00) 64%,
+        var(--field-hot-2, #ff7a1a) 70%,
+        transparent 73%
+      );
+    background-size: auto, auto, auto;
+    background-repeat: no-repeat;
+    background-position: 0 0, 0 0, 100% 0;
+    -webkit-mask-image: linear-gradient(#000 0 56px, transparent 96px);
+    mask-image: linear-gradient(#000 0 56px, transparent 96px);
+    animation: none;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  body::before,
+@media (prefers-reduced-motion: no-preference) and (min-width: 701px) {
   body::after {
-    animation: edge-ember 10s ease-in-out infinite;
-  }
-  body::after {
-    animation-delay: -5s;
+    animation: edge-ember 9s ease-in-out infinite;
   }
 }
 
 @keyframes edge-ember {
   0%,
   100% {
-    opacity: 0.86;
+    opacity: 0.78;
   }
   50% {
     opacity: 1;
@@ -110,11 +224,14 @@ html.lab-embed body::after {
   html:root {
     --glow: transparent;
     --accent-glow: transparent;
+    --field-bloom: rgba(255, 106, 0, 0.28);
   }
   body::before,
   body::after {
     animation: none;
-    opacity: 1;
+  }
+  body::after {
+    opacity: 0.9;
   }
   html:root .pulse,
   html:root .mline.live {

@@ -52,7 +52,7 @@ echo "applications:${code}"
 grep -q 'Server misconfiguration' /tmp/landrycmd-verify/doctor-apps.txt
 ```
 
-Home and the MCP lab are 200 on the static server (`-L` follows the résumé and case-study slash redirects). `/applications` is not in the static output. The empty assignments are in the environment before `astro dev` starts. Node's `loadEnvFile` and Vite leave existing variables in place, so a filled `.env` cannot supply `APPS_SECRET`, `TRIP_SECRET`, Redis, or the publish token to this process. On port 4331, `/applications` is 500 `Server misconfiguration`. Do not submit the form. Stop the 4331 process in Cleanup.
+Home and the MCP lab are 200 on the static server. The doctor block does not request `/resume` or the case study. Those directory URLs 301 to a trailing slash, and the checks in `features/resume.md` and `features/case-study.md` follow that redirect with `-L` and grep the saved page. `/applications` is not in the static output. The empty assignments are in the environment before `astro dev` starts. Node's `loadEnvFile` and Vite leave existing variables in place, so a filled `.env` cannot supply `APPS_SECRET`, `TRIP_SECRET`, Redis, or the publish token to this process. On port 4331, `/applications` is 500 `Server misconfiguration`. Do not submit the form. Stop the 4331 process in Cleanup.
 
 ## Drive
 

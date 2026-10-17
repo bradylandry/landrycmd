@@ -152,9 +152,10 @@ h4 {
   top: 0;
   z-index: 10;
   height: 64px;
-  background: rgba(7, 9, 12, 0.82);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line-700);
+  border-bottom: 1px solid transparent;
+  box-shadow: inset 0 -1px 0 var(--line-700);
 }
 
 .site-header-inner {
@@ -176,10 +177,12 @@ h4 {
 }
 
 .brand i {
-  width: 8px;
-  height: 8px;
-  background: var(--signal);
+  width: 16px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--field-hot), var(--field-hot-2));
   display: inline-block;
+  transform: rotate(-32deg);
+  box-shadow: 0 0 8px var(--field-bloom);
 }
 
 .header-tools {
@@ -216,23 +219,17 @@ h4 {
   color: var(--signal);
 }
 
-.menu-btn,
-.theme-btn {
+.menu-btn {
   display: none;
   height: 44px;
-  padding: 0 12px;
+  padding: 0 16px;
   border: 1px solid var(--line-600);
-  border-radius: var(--radius);
-  background: transparent;
+  border-radius: 0;
+  background: var(--ink-850);
   color: var(--fg-100);
   font: 500 var(--fs-sm) / 1 var(--font-mono);
   letter-spacing: 0.02em;
   cursor: pointer;
-}
-
-.theme-btn {
-  display: inline-flex;
-  align-items: center;
 }
 
 .menu-sheet {
@@ -267,27 +264,92 @@ main {
 
 /* Hero */
 .band {
+  position: relative;
+  isolation: isolate;
+  --mark-room: 96px;
+  --mark-glow: 4px;
+  --mark-inset: 10px;
+  --mark-h: 8px;
   padding: var(--s9) 0;
-  border-bottom: var(--rule);
+  border-bottom: none;
+}
+
+/* Diagonal section mark. Anchored on its bottom edge so the -32deg
+   rise, plus the glow, stays inside the band's bottom padding.
+   z-index -1 keeps it behind the section content. */
+.band::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: max(20px, calc((100% - 1200px) / 2 + clamp(20px, 5vw, 72px)));
+  bottom: var(--mark-inset);
+  width: calc((var(--mark-room) - (var(--mark-inset) * 2) - (var(--mark-h) * 0.848048) - 1px) / 0.529919);
+  height: var(--mark-h);
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, var(--field-hot-2) 0 2px, transparent 2px 7px) left center / 42% 7px no-repeat,
+    linear-gradient(90deg, var(--field-hot), var(--field-hot-2)) 46% center / 54% 2px no-repeat;
+  transform: rotate(-32deg);
+  transform-origin: left bottom;
+  filter: drop-shadow(0 0 var(--mark-glow) var(--field-bloom));
 }
 
 .hero-band {
   position: relative;
+  isolation: isolate;
+  --mark-room: 72px;
   overflow: hidden;
-  padding: 96px 0 64px;
+  padding: 96px 0 72px;
+  background:
+    radial-gradient(circle at 88% 22%, var(--field-hot-2) 0 1.6px, transparent 2.2px) right 0 center / 260px 100% no-repeat,
+    radial-gradient(circle at 70% 48%, var(--field-hot) 0 1.3px, transparent 1.9px) right 0 center / 260px 100% no-repeat,
+    radial-gradient(circle at 92% 70%, var(--field-bloom) 0 2px, transparent 3px) right 0 center / 260px 100% no-repeat,
+    repeating-linear-gradient(90deg, var(--field-hot-2) 0 2px, transparent 2px 8px) right 28px bottom 64px / 120px 10px no-repeat,
+    linear-gradient(32deg, transparent 8%, var(--field-bloom) 22%, transparent 40%) right 0 center / var(--content-inset) 100% no-repeat,
+    linear-gradient(32deg, transparent 24%, var(--field-hot) 28%, var(--field-hot-2) 52%, var(--field-hot) 60%, transparent 66%) right 0 center / calc(var(--content-inset) - 8px) 100% no-repeat,
+    linear-gradient(32deg, transparent 70%, var(--field-hot-2) 71.5%, transparent 75%) right 0 center / calc(var(--content-inset) - 16px) 100% no-repeat,
+    linear-gradient(32deg, transparent 0%, var(--field-1) 30%, var(--field-2) 100%) right 0 center / var(--content-inset) 100% no-repeat;
+}
+
+.hero-band .wrap {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-band::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--line-700) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-700) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.35;
-  mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: calc(var(--content-inset) - 8px);
+  height: 100%;
   pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 16%, var(--field-hot-2) 0 1.7px, transparent 2.3px),
+    radial-gradient(circle at 10% 34%, var(--field-hot) 0 1.3px, transparent 1.9px),
+    radial-gradient(circle at 28% 22%, var(--field-bloom) 0 2.2px, transparent 3.2px),
+    radial-gradient(circle at 8% 52%, var(--field-hot-2) 0 1.4px, transparent 2px),
+    repeating-linear-gradient(90deg, var(--field-hot-2) 0 2px, transparent 2px 7px) 28px 18% / 92px 9px no-repeat,
+    linear-gradient(32deg, transparent 6%, var(--field-bloom) 16%, transparent 30%),
+    linear-gradient(32deg, transparent 18%, var(--field-hot) 20%, var(--field-hot-2) 36%, var(--field-hot) 42%, transparent 45%),
+    linear-gradient(32deg, transparent 48%, var(--field-hot-2) 49%, transparent 52%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.42) 0.8px, transparent 1px),
+    linear-gradient(32deg, var(--field-2) 0%, var(--field-1) 62%, transparent 100%);
+  background-size:
+    auto, auto, auto, auto,
+    92px 9px,
+    auto, auto, auto,
+    7px 7px,
+    auto;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+}
+
+.hero-band::after {
+  left: auto;
+  right: max(20px, calc((100% - 1200px) / 2 + 8px));
+  bottom: var(--mark-inset);
+  transform-origin: left bottom;
 }
 
 .hero-band .grid,
@@ -318,6 +380,7 @@ main {
   border: 1px solid var(--line-600);
   border-radius: 0;
   filter: grayscale(0.25) contrast(1.06);
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 22px) 100%, 0 100%, 0 16px);
 }
 
 .portrait figcaption {
@@ -332,26 +395,24 @@ main {
 
 .reg {
   position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: var(--signal);
-  border-style: solid;
-  border-width: 0;
+  width: 26px;
+  height: 3px;
+  border: 0;
+  background: linear-gradient(90deg, var(--field-hot), var(--field-hot-2));
+  box-shadow: 0 0 8px var(--field-bloom);
   pointer-events: none;
 }
 
 .reg.tl {
-  top: -7px;
-  left: -7px;
-  border-top-width: 1px;
-  border-left-width: 1px;
+  top: 6px;
+  left: -8px;
+  transform: rotate(-32deg);
 }
 
 .reg.br {
-  bottom: 23px;
-  right: -7px;
-  border-bottom-width: 1px;
-  border-right-width: 1px;
+  bottom: 36px;
+  right: -10px;
+  transform: rotate(-32deg);
 }
 
 .profile-id {
@@ -409,47 +470,74 @@ main {
 }
 
 .btn {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   height: 44px;
-  padding: 0 18px;
+  padding: 0 22px 0 26px;
   font: 500 var(--fs-sm) / 1 var(--font-mono);
   letter-spacing: 0.02em;
-  border: 1px solid var(--line-600);
-  border-radius: var(--radius);
+  border: 0;
+  border-radius: 0;
   color: var(--fg-100);
   background: transparent;
   text-decoration: none;
   cursor: pointer;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--ink-850);
+  border: 1px solid var(--line-600);
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
   transition:
     background var(--dur-1) var(--ease),
-    border-color var(--dur-1) var(--ease);
+    border-color var(--dur-1) var(--ease),
+    filter var(--dur-1) var(--ease);
 }
 
 .btn:hover {
-  border-color: var(--fg-300);
-  background: var(--ink-850);
   text-decoration: none;
 }
 
+.btn:hover::before {
+  border-color: var(--fg-300);
+  background: var(--ink-800);
+}
+
 .btn--primary {
-  background: var(--signal-fill);
-  border-color: var(--signal-fill);
   color: var(--signal-ink);
 }
 
+.btn--primary::before {
+  background: linear-gradient(100deg, var(--field-hot), var(--field-hot-2) 58%, var(--field-hot));
+  border-color: transparent;
+  filter: drop-shadow(0 0 10px var(--field-bloom));
+}
+
 .btn--primary:hover {
-  background: var(--signal-hover);
-  border-color: var(--signal-hover);
   color: var(--signal-ink);
+}
+
+.btn--primary:hover::before {
+  background: var(--signal-hover);
+  border-color: transparent;
 }
 
 .stats {
   margin-top: var(--s8);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--line-700);
+  border-top: none;
+  background:
+    linear-gradient(32deg, var(--field-bevel), var(--field-bevel)) 0 0 / 72px 1px no-repeat,
+    linear-gradient(90deg, var(--field-hot), var(--field-hot-2), transparent) 78px 0 / 120px 2px no-repeat,
+    linear-gradient(var(--line-700), var(--line-700)) 0 1px / 100% 1px no-repeat;
 }
 
 .stat {
@@ -508,11 +596,24 @@ main {
 }
 
 .kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin: 0 0 var(--s3);
   font: 500 var(--fs-xs) / 1 var(--font-mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--fg-500);
+}
+
+.kicker::before {
+  content: "";
+  width: 18px;
+  height: 3px;
+  flex: none;
+  background: linear-gradient(90deg, var(--field-hot), var(--field-hot-2));
+  transform: rotate(-32deg);
+  box-shadow: 0 0 10px var(--field-bloom);
 }
 
 .kicker b {
@@ -529,22 +630,41 @@ main {
 }
 
 .feature {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: var(--s5);
   align-items: end;
   padding: var(--s6);
-  border: 1px solid var(--line-600);
-  border-radius: var(--radius);
-  background: var(--ink-900);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: inherit;
   text-decoration: none;
+}
+
+/* Chamfer lives on the plate so the link's focus ring stays a full rectangle. */
+.feature::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--line-600);
+  background:
+    linear-gradient(32deg, var(--field-hot) 0 2px, transparent 2px) 0 0 / 64px 28px no-repeat,
+    var(--ink-900);
+  clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+  pointer-events: none;
   transition: border-color var(--dur-2) var(--ease);
 }
 
 .feature:hover {
-  border-color: var(--fg-500);
   text-decoration: none;
+}
+
+.feature:hover::before {
+  border-color: var(--field-hot-2);
 }
 
 .feature h3 {
@@ -626,17 +746,38 @@ main {
   margin: 0;
   padding: 0;
   border: 1px solid var(--line-600);
-  border-radius: var(--radius);
-  background: var(--ink-900);
-  overflow: hidden;
+  border-radius: 0;
+  background:
+    linear-gradient(148deg, var(--field-bevel), transparent 28%) 0 0 / 72px 72px no-repeat,
+    var(--ink-900);
+  overflow: visible;
+  /* Small chamfer. The cut stays inside the card padding so the figure
+     tag, body copy, and the inner control's focus outline remain intact. */
+  clip-path: polygon(0 8px, 14px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 14px) 100%, 0 100%);
   transition:
     border-color var(--dur-2) var(--ease),
     transform var(--dur-2) var(--ease);
 }
 
+.lab-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 3px;
+  left: 18px;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--field-hot), var(--field-hot-2));
+  /* Descends into the card, staying under the top edge and above the figure tag. */
+  transform: rotate(20deg);
+  transform-origin: left center;
+  filter: drop-shadow(0 0 4px var(--field-bloom));
+  pointer-events: none;
+}
+
 .lab-card:hover,
 .lab-card:focus-within {
-  border-color: var(--fg-500);
+  border-color: var(--field-hot-2);
   transform: translateY(-2px);
 }
 
@@ -646,16 +787,16 @@ main {
   display: grid;
   place-items: center;
   padding: var(--s5);
-  background: #07090c;
-  color: #eceef1;
+  background: #0b0b0c;
+  color: #f3f3f5;
   color-scheme: dark;
-  border-right: 1px solid #1e252f;
+  border-right: 1px solid #2a2a30;
 }
 
 .figtag {
   position: absolute;
-  left: 12px;
-  top: 12px;
+  left: 14px;
+  top: 28px;
   font: 400 10.5px / 1 var(--font-mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -689,11 +830,12 @@ main {
 .chip {
   font: 400 11.5px / 1 var(--font-mono);
   letter-spacing: 0.04em;
-  padding: 6px 8px;
+  padding: 6px 10px 6px 12px;
   border: 1px solid var(--line-600);
-  border-radius: var(--radius);
+  border-radius: 0;
   color: var(--fg-300);
   background: none;
+  clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
 }
 
 .lab-foot {
@@ -728,7 +870,7 @@ main {
 }
 
 .lab-thumb {
-  background: #07090c;
+  background: #0b0b0c;
 }
 
 /* Rows */
@@ -831,7 +973,36 @@ main {
 
 /* Footer */
 .site-footer {
-  padding: 64px 0 48px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 72px 0 48px;
+  background:
+    linear-gradient(32deg, transparent 0 42%, var(--field-bevel) 42%, transparent 43%) right top / 46% 100% no-repeat;
+}
+
+.site-footer .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.site-footer::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  right: -10px;
+  bottom: 8px;
+  width: calc(var(--content-inset) - 8px);
+  height: 100%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 72% 36%, var(--field-hot-2) 0 1.5px, transparent 2.1px),
+    radial-gradient(circle at 40% 62%, var(--field-hot) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 84% 70%, var(--field-bloom) 0 2px, transparent 3px),
+    repeating-linear-gradient(90deg, var(--field-hot-2) 0 2px, transparent 2px 8px) 8px 78% / 120px 9px no-repeat,
+    linear-gradient(32deg, transparent 12%, var(--field-bloom) 24%, transparent 40%),
+    linear-gradient(32deg, transparent 30%, var(--field-hot) 32%, var(--field-hot-2) 52%, var(--field-hot) 58%, transparent 62%),
+    linear-gradient(32deg, transparent 66%, var(--field-hot-2) 67.2%, transparent 70%);
 }
 
 .site-footer .big {
@@ -960,10 +1131,11 @@ ul {
   margin: auto;
   padding: 0;
   border: 1px solid var(--line-600);
-  border-radius: var(--radius);
+  border-radius: 0;
   background: var(--ink-950);
   color: var(--fg-100);
   overflow: hidden;
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
 }
 
 .lab-dialog[open] {
@@ -1003,14 +1175,16 @@ ul {
 
 .lab-dialog-page,
 .lab-dialog-close {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 44px;
   min-height: 44px;
-  padding: 0 18px;
-  border: 1px solid var(--line-600);
-  border-radius: var(--radius);
+  padding: 0 18px 0 22px;
+  border: 0;
+  border-radius: 0;
   background: transparent;
   color: var(--fg-100);
   font: 500 var(--fs-sm) / 1 var(--font-mono);
@@ -1020,12 +1194,24 @@ ul {
   flex: none;
 }
 
+.lab-dialog-page::before,
+.lab-dialog-close::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--line-600);
+  background: var(--ink-850);
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  pointer-events: none;
+}
+
 .lab-dialog-frame {
   flex: 1 1 auto;
   width: 100%;
   min-height: 0;
   border: 0;
-  background: #07090c;
+  background: #0b0b0c;
 }
 
 @media (max-width: 860px) {
@@ -1035,6 +1221,9 @@ ul {
   .menu-btn {
     display: inline-flex;
     align-items: center;
+  }
+  .band {
+    --mark-room: 64px;
   }
   .hero-band {
     padding: var(--s7) 0;
@@ -1101,6 +1290,42 @@ ul {
 }
 
 @media (max-width: 700px) {
+  .hero-band {
+    background: none;
+    padding-top: var(--s8);
+  }
+  .hero-band::before {
+    top: 8px;
+    left: 0;
+    width: min(168px, 42vw);
+    /* 32px plate ends at 40px: 8px above the 48px (--s7) hero padding
+       and above the eyebrow, which starts further down. */
+    height: 32px;
+    opacity: 0.85;
+  }
+  .band {
+    --mark-glow: 0px;
+    --mark-inset: 4px;
+  }
+  .hero-band::after,
+  .band::after {
+    filter: none;
+  }
+  .site-footer {
+    padding-top: 64px;
+    background: none;
+  }
+  .site-footer::before {
+    top: 12px;
+    right: 8px;
+    bottom: auto;
+    width: 108px;
+    height: 40px;
+    opacity: 0.85;
+  }
+  .lab-card::before {
+    filter: none;
+  }
   .lab-dialog[open] {
     width: 100%;
     height: 100dvh;
@@ -1109,6 +1334,7 @@ ul {
     margin: 0;
     border: 0;
     border-radius: 0;
+    clip-path: none;
   }
   .lab-dialog-bar {
     height: auto;
@@ -1130,15 +1356,25 @@ ul {
   html:root {
     --accent-glow: transparent;
     --glow: transparent;
+    --field-bloom: rgba(255, 106, 0, 0.28);
   }
   .profile-id > *,
   .lab-card,
   .lab-dialog,
   .lab-dialog::backdrop,
   .btn,
+  .kicker::before,
+  .band::after,
+  .reg,
   a {
     transition: none;
     animation: none;
+    filter: none;
+  }
+  .btn--primary::before,
+  .lab-card::before,
+  .brand i {
+    filter: none;
   }
   .lab-card:hover,
   .lab-card:focus-within {
@@ -1146,55 +1382,3 @@ ul {
   }
 }
 
-/* Light theme. Diagram scopes stay on the dark ink. */
-[data-theme="light"] {
-  color-scheme: light;
-  --ink-950: #f5f3ee;
-  --ink-900: #ffffff;
-  --ink-850: #ece9e2;
-  --ink-800: #e4e0d8;
-  --line-700: #e2ded5;
-  --line-600: #d2cdc2;
-  --line-500: #b7b1a6;
-  --fg-100: #15171b;
-  --fg-300: #4a505a;
-  --fg-500: #62676f;
-  --signal: #9a3b00;
-  --signal-hover: #ff8533;
-  --signal-fill: #ff6a00;
-  --signal-ink: #140a02;
-  --signal-wash: rgba(154, 59, 0, 0.14);
-  --data: #9a3b00;
-  --data-wash: rgba(154, 59, 0, 0.22);
-  --edge-plate: #d7cebc;
-  --edge-plate-2: #cfc4ae;
-  --edge-dot: rgba(40, 32, 18, 0.5);
-  --edge-bevel: rgba(255, 255, 255, 0.8);
-  --edge-shade: rgba(70, 52, 28, 0.35);
-  --edge-hot: #e04e00;
-  --edge-hot-soft: rgba(224, 78, 0, 0.45);
-  --bg: var(--ink-950);
-  --card: var(--ink-900);
-  --border: var(--line-600);
-  --text: var(--fg-100);
-  --text-dim: var(--fg-300);
-  --fg-subtle: var(--fg-500);
-}
-
-[data-theme="light"] .site-header {
-  background: rgba(245, 243, 238, 0.82);
-}
-
-[data-theme="light"] .skip {
-  background: var(--signal-fill);
-  color: var(--signal-ink);
-}
-
-[data-theme="light"] .scope,
-[data-theme="light"] .lab-thumb,
-[data-theme="light"] .lab-dialog,
-[data-theme="light"] .lab-dialog-frame {
-  color-scheme: dark;
-  background: #07090c;
-  color: #eceef1;
-}
