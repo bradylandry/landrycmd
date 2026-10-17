@@ -20,12 +20,12 @@ svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px
 .node{cursor:pointer}.node circle{fill:var(--bg);stroke:var(--acc2);stroke-width:2;transition:.2s}.node:hover circle,.node.sel circle{stroke:var(--acc);fill:#0f172a}
 .node text{fill:var(--txt);font-size:11.5px;text-anchor:middle}.node .ic{stroke:var(--acc);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pulse{fill:var(--acc);filter:drop-shadow(0 0 4px var(--glow))}
-.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}.stage.done rect{stroke:var(--ok)}.stage.cur rect{stroke:var(--acc);fill:#0f172a}
+.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}body.lab-shell .stage.done rect{stroke:var(--ok)}body.lab-shell .stage.cur rect{stroke:var(--acc);fill:#0f172a}
 .stage text{fill:var(--txt);font-size:12px;text-anchor:middle}.stage .ic{stroke:var(--mut);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.stage.cur .ic,.stage.done .ic{stroke:var(--acc)}
 .ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ctrl button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
 .ctrl button:hover{border-color:var(--acc)}pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
 ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)}ol li.done{color:var(--txt)}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}.stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}.after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}body.lab-shell .stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}body.lab-shell .after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
 .back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
 
 .block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
@@ -42,8 +42,8 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 
 .mline{stroke:var(--line);stroke-width:2.5;fill:none}.mline.live{stroke:var(--acc);filter:drop-shadow(0 0 3px var(--glow))}
 .mline.bridge{stroke:var(--acc2);stroke-dasharray:6 5}.mline.down{stroke:#ef4444;stroke-dasharray:3 4}.mline.idle{opacity:.25}
-.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:2}.box.master rect{stroke:var(--acc);fill:#0f172a}
-.box.backup rect{stroke:var(--mut)}.box.gone rect{stroke:#ef4444;stroke-dasharray:4 4;opacity:.5}
+.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:2}body.lab-shell .box.master rect{stroke:var(--acc);fill:#0f172a}
+body.lab-shell .box.backup rect{stroke:var(--mut)}body.lab-shell .box.gone rect{stroke:#ef4444;stroke-dasharray:4 4;opacity:.5}
 .box text{fill:var(--txt);font-size:12px;text-anchor:middle}.box .sub{fill:var(--mut);font-size:10px}
 .pri{font-family:var(--mono);font-size:11px;text-anchor:middle}.pri.hi{fill:var(--acc)}.pri.lo{fill:var(--mut)}
 .badge{font-family:var(--mono);font-size:10px;text-anchor:middle;fill:var(--ok)}
@@ -79,7 +79,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">Collapsing it means accepting that QoS burden on every shared link, forever. The win is one topology to operate instead of two. That is the real trade, and it is invisible if you only count bandwidth.</p>
 <p class="lede">The sequencing is the whole lesson. Capacity went in <b>NEEDS NUMBER months before</b> the ring was touched, and every network in one area was advertised into the other and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
 <p class="lede">Utilisation shown here (38%, 22%, 61%) is an illustrative simulation value, not a measured result.</p>
-<ul class="tags"><li>OSPF</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
+<ul class="tags"><li>IGMP</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
 <p class="figcap">FIG. 04 — The collapse. Names and systems generalized.</p>
 <div class="view">
  <div>
@@ -192,4 +192,4 @@ el('next').onclick=()=>{stop();next()};el('reset').onclick=reset;
 el('play').onclick=()=>{if(timer)return stop();el('play').innerHTML='&#10073;&#10073; Pause';timer=setInterval(next,1700)};
 reset();
 
-</script></body></html>
+</script><script src="/lab/embed.js"></script></body></html>

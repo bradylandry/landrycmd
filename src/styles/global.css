@@ -383,7 +383,7 @@ main {
   letter-spacing: -0.035em;
 }
 
-.role {
+.hero-role {
   margin: 0 0 var(--s5);
   color: var(--signal);
   font: 400 var(--fs-md) / 1.4 var(--font-mono);

@@ -79,7 +79,7 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     pageEl.textContent = "Open page ↗";
     pageEl.setAttribute("aria-label", `${name} on its own page`);
     frameEl.title = `${name} simulation`;
-    navigateFrame(labPath(slug));
+    navigateFrame(`${labPath(slug)}?embed=1`);
     if (!modal.open) {
       const active = doc.activeElement;
       returnFocus =

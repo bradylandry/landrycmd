@@ -54,7 +54,7 @@ const lab = [
     tagline: "Metro redesign",
     fig: "FIG. 04 — Ring collapse",
     meta: "Lab 04",
-    chips: ["IS-IS", "Multicast", "QoS"],
+    chips: ["PIM", "IGMP", "QoS"],
     description:
       "A metro re-architecture: two parallel topologies collapsed into one. The video ring was not legacy cruft — it existed because a single-service topology needs almost no QoS. Collapsing it means accepting that burden everywhere. Toggle the sequencing to see why I added hub capacity NEEDS NUMBER months before touching the ring.",
     live: "/lab/ring-collapse/",
@@ -182,6 +182,7 @@ const jarvis = lab.find((p) => p.slug === undefined);
       .lab-card .flow,
       .lab-card .flow.on,
       .lab-card:hover .flow,
+      .lab-card:focus-within .flow,
       .lab-card.inview .flow.on {
         animation: none;
         opacity: 0.5;
@@ -210,7 +211,7 @@ const jarvis = lab.find((p) => p.slug === undefined);
         <div class="profile-id">
           <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Open to architecture &amp; solutions roles</p>
           <h1 id="profile-name">Brady Landry</h1>
-          <p class="role">Network Architect · AI Automation</p>
+          <p class="hero-role">Network Architect · AI Automation</p>
           <p class="bio">
             I have spent about 15 years building and running service-provider networks
             at Cox, now Charter/Spectrum. <b>I take national programs, make them land in

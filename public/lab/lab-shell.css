@@ -469,3 +469,13 @@ body.lab-shell .cross {
     font-size: 1rem;
   }
 }
+
+/* Dialog iframe. The parent passes ?embed=1; frame detection covers the same case. */
+html.lab-embed .lab-header,
+html.lab-embed .lab-footer,
+html.lab-embed .cross {
+  display: none;
+}
+html.lab-embed body.lab-shell header.lab-title {
+  padding-top: 32px;
+}
