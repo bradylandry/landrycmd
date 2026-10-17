@@ -1,0 +1,483 @@
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-sans-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-sans-500-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-sans-600-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-mono-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-mono-500-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans Fallback";
+  src: local("Arial");
+  size-adjust: 100.6%;
+  ascent-override: 102%;
+  descent-override: 27%;
+}
+
+:root {
+  --bg: #07090c;
+  --panel: #0b0e13;
+  --card: #10141a;
+  --line: #2c3542;
+  --txt: #eceef1;
+  --mut: #7c8693;
+  --acc: #5cc8f0;
+  --acc2: #3a4553;
+  --glow: rgba(92, 200, 240, 0);
+  --ok: #3ddc97;
+  --warn: #ffb547;
+  --err: #ff5d5d;
+  --sans: "IBM Plex Sans", "IBM Plex Sans Fallback", ui-sans-serif, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --margin: clamp(20px, 5vw, 72px);
+  --signal: #ffb547;
+  --fg: #eceef1;
+  --fg-dim: #a9b1bc;
+  --line-soft: #1e252f;
+}
+
+body.lab-shell {
+  color-scheme: dark;
+  margin: 0;
+  background: #07090c;
+  color: #eceef1;
+  font: 400 1.0625rem/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Lock diagram text at the size the geometry test already measured.
+   Body copy is 17px; SVG text keeps its own px sizes and must not inherit
+   letter-spacing from the page chrome. */
+body.lab-shell svg {
+  font-size: 16px;
+}
+body.lab-shell svg text {
+  font-family: var(--mono);
+}
+
+body.lab-shell :focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+body.lab-shell .lab-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  height: 64px;
+  margin: 0;
+  padding: 0 max(var(--margin), calc((100% - 1200px) / 2 + var(--margin)));
+  background: rgba(7, 9, 12, 0.82);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #1e252f;
+}
+.lab-header .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #eceef1;
+  text-decoration: none;
+  font: 500 0.875rem/1 var(--mono);
+  letter-spacing: 0.02em;
+}
+.lab-header .brand i {
+  width: 8px;
+  height: 8px;
+  background: var(--signal);
+  display: inline-block;
+}
+.lab-header nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+body.lab-shell .lab-header nav a {
+  color: #a9b1bc;
+  text-decoration: none;
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+body.lab-shell .lab-header nav a.resume {
+  color: var(--signal);
+}
+
+body.lab-shell header.lab-title {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px var(--margin) 0;
+}
+body.lab-shell header.lab-title h1 {
+  margin: 0;
+  font: 600 2rem/1.1 var(--sans);
+  letter-spacing: -0.02em;
+  color: #eceef1;
+}
+body.lab-shell header.lab-title h1:before {
+  content: none;
+}
+body.lab-shell header.lab-title .kicker {
+  margin: 0 0 12px;
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7c8693;
+}
+body.lab-shell header.lab-title .kicker b {
+  color: var(--signal);
+  font-weight: 500;
+}
+body.lab-shell header.lab-title > p {
+  max-width: 68ch;
+  color: #a9b1bc;
+  font-size: 1.25rem;
+  line-height: 1.55;
+}
+
+body.lab-shell main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--margin) 48px;
+}
+body.lab-shell .block {
+  max-width: none;
+  margin: 0;
+  padding: 32px 0 0;
+}
+body.lab-shell .block + .block {
+  border-top: 1px solid #1e252f;
+  margin-top: 32px;
+  padding-top: 32px;
+}
+body.lab-shell .lbl,
+body.lab-shell .kicker {
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7c8693;
+}
+body.lab-shell .block h2 {
+  margin: 0 0 12px;
+  font: 600 1.5rem/1.2 var(--sans);
+  letter-spacing: -0.01em;
+  color: #eceef1;
+}
+body.lab-shell .block .lede,
+body.lab-shell .note {
+  max-width: 68ch;
+  color: #a9b1bc;
+}
+body.lab-shell .figcap {
+  margin: 0 0 12px;
+  font: 500 0.75rem/1.3 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7c8693;
+}
+body.lab-shell a {
+  color: #5cc8f0;
+  text-decoration: underline;
+  text-decoration-color: rgba(92, 200, 240, 0.12);
+  text-underline-offset: 3px;
+}
+body.lab-shell .lab-header a,
+body.lab-shell .lab-footer a.talk {
+  text-decoration: none;
+}
+
+body.lab-shell .metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 32px;
+  border-top: 1px solid #1e252f;
+  background: none;
+}
+body.lab-shell .metrics div {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 24px 24px 0 0;
+}
+body.lab-shell .metrics b {
+  display: block;
+  color: #eceef1;
+  font: 500 2rem/1 var(--sans);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+body.lab-shell .metrics span {
+  display: block;
+  margin-top: 8px;
+  color: #7c8693;
+  font: 400 0.75rem/1.4 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+body.lab-shell .view {
+  grid-template-columns: minmax(0, 8fr) minmax(220px, 4fr);
+  gap: 24px;
+  background: #07090c;
+  border: 1px solid #2c3542;
+  border-radius: 2px;
+  padding: 16px;
+}
+body.lab-shell .side {
+  background: #0b0e13;
+  border: 1px solid #2c3542;
+  border-radius: 2px;
+}
+body.lab-shell .tags {
+  gap: 6px;
+}
+body.lab-shell .tags li {
+  font: 400 11.5px/1 var(--mono);
+  letter-spacing: 0.04em;
+  padding: 6px 8px;
+  border: 1px solid #2c3542;
+  border-radius: 2px;
+  color: #a9b1bc;
+  background: none;
+}
+body.lab-shell pre {
+  background: #10141a;
+  border: 1px solid #2c3542;
+  border-radius: 2px;
+  color: #a9b1bc;
+}
+body.lab-shell .map-scroll {
+  background: #0b1a26;
+  border: 1px solid #2c3542;
+  border-radius: 2px;
+}
+
+/* Paint only. Sizes, positions, and label metrics stay where the labs set them. */
+body.lab-shell .node rect,
+body.lab-shell .stage rect,
+body.lab-shell .box rect {
+  fill: #10141a;
+  stroke: #3a4553;
+  stroke-width: 1;
+  rx: 2;
+  ry: 2;
+}
+body.lab-shell .node.hub rect,
+body.lab-shell .node:hover rect,
+body.lab-shell .node.sel rect,
+body.lab-shell .node.core rect,
+body.lab-shell .stage.cur rect,
+body.lab-shell .box.master rect {
+  stroke: #a9b1bc;
+  fill: #10141a;
+}
+body.lab-shell .node circle {
+  fill: #10141a;
+  stroke: #3a4553;
+  stroke-width: 1;
+}
+body.lab-shell .node:hover circle,
+body.lab-shell .node.sel circle {
+  stroke: #a9b1bc;
+  fill: #10141a;
+}
+body.lab-shell .edge {
+  stroke: #2c3542;
+  opacity: 1;
+  stroke-width: 1.5;
+}
+body.lab-shell .edge.hi {
+  stroke: #5cc8f0;
+}
+body.lab-shell .edge.a,
+body.lab-shell .flow.vrf-a {
+  stroke: #ffb547;
+  fill: none;
+}
+body.lab-shell .node .pip.a,
+body.lab-shell .vlab.a {
+  fill: #ffb547;
+  stroke: none;
+}
+body.lab-shell .edge.b,
+body.lab-shell .flow.vrf-b {
+  stroke: #5cc8f0;
+  fill: none;
+}
+body.lab-shell .node .pip.b,
+body.lab-shell .vlab.b {
+  fill: #5cc8f0;
+  stroke: none;
+}
+body.lab-shell .edge.n {
+  stroke: #2c3542;
+  opacity: 1;
+}
+body.lab-shell .ring {
+  fill-opacity: 0.1;
+}
+body.lab-shell .ring.a {
+  fill: #ffb547;
+  stroke: #ffb547;
+}
+body.lab-shell .ring.b {
+  fill: #5cc8f0;
+  stroke: #5cc8f0;
+}
+body.lab-shell .shoreline {
+  stroke: #3a4553;
+  stroke-width: 1;
+}
+body.lab-shell .shallow {
+  stroke: #163044;
+}
+body.lab-shell .wave {
+  stroke: rgba(92, 200, 240, 0.15);
+}
+body.lab-shell .cloud {
+  fill: rgba(16, 20, 26, 0.45);
+  stroke: #3a4553;
+}
+body.lab-shell .legend .a {
+  border-color: #ffb547;
+}
+body.lab-shell .legend .b {
+  border-color: #5cc8f0;
+}
+body.lab-shell .legend .n {
+  border-color: #2c3542;
+}
+body.lab-shell .node text {
+  fill: #a9b1bc;
+}
+body.lab-shell .node.hub text,
+body.lab-shell .node.core text {
+  fill: #eceef1;
+}
+body.lab-shell .node .sub {
+  fill: #7c8693;
+}
+
+body.lab-shell .lab-footer {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px var(--margin) 48px;
+  text-align: left;
+  color: #7c8693;
+  font-size: 1.0625rem;
+}
+body.lab-shell .cross {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 32px auto 0;
+  padding: 0 var(--margin);
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.lab-footer .big {
+  margin: 0 0 32px;
+  max-width: 14em;
+  font: 600 clamp(2.25rem, 4vw, 3rem)/1.05 var(--sans);
+  letter-spacing: -0.03em;
+  color: #eceef1;
+}
+.lab-footer .big a,
+.lab-footer a.talk {
+  color: var(--signal);
+  text-decoration: none;
+  border-bottom: 2px solid rgba(255, 181, 71, 0.14);
+}
+.lab-footer .fbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid #1e252f;
+  font: 400 0.75rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7c8693;
+}
+.lab-footer .fbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  max-width: 100%;
+}
+.lab-footer .fbar a {
+  color: #7c8693;
+  text-decoration: none;
+}
+.lab-footer .cross {
+  margin: 0 0 24px;
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 860px) {
+  body.lab-shell .view {
+    grid-template-columns: 1fr;
+  }
+  body.lab-shell .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body.lab-shell header.lab-title h1 {
+    font-size: 1.75rem;
+  }
+  .lab-header nav {
+    gap: 16px;
+  }
+}
+@media (max-width: 640px) {
+  body.lab-shell {
+    font-size: 1rem;
+  }
+}
+
+/* Dialog iframe. The parent passes ?embed=1; frame detection covers the same case. */
+html.lab-embed .lab-header,
+html.lab-embed .lab-footer,
+html.lab-embed .cross {
+  display: none;
+}
+html.lab-embed body.lab-shell header.lab-title {
+  padding-top: 32px;
+}

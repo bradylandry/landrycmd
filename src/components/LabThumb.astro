@@ -195,7 +195,7 @@ const diagram = diagrams[lab];
   {
     diagram.nodes.map((node) => (
       <g class:list={["node", node.hub && "hub"]}>
-        <rect x={node.x} y={node.y} width={node.w} height={node.h} rx="6" />
+        <rect x={node.x} y={node.y} width={node.w} height={node.h} rx="2" ry="2" />
         <text x={node.x + node.w / 2} y={node.y + node.h / 2 + 4}>
           {node.label}
         </text>
@@ -215,49 +215,53 @@ const diagram = diagrams[lab];
     border-radius: 0;
   }
   .lab-thumb .sea {
-    fill: #0c4a6e;
+    fill: #0b1a26;
   }
   .lab-thumb .land {
-    fill: #1c3a2c;
-    stroke: #e7d3a1;
-    stroke-width: 1.4;
+    fill: #121a16;
+    stroke: #3a4553;
+    stroke-width: 1;
   }
   .lab-thumb .cloud {
-    fill: rgba(224, 242, 254, 0.2);
-    stroke: #bae6fd;
-    stroke-width: 1.25;
+    fill: rgba(16, 20, 26, 0.45);
+    stroke: #3a4553;
+    stroke-width: 1;
   }
   .lab-thumb .ring {
-    fill: rgba(245, 158, 11, 0.28);
-    stroke: #fbbf24;
-    stroke-width: 1.25;
+    fill: rgba(255, 181, 71, 0.1);
+    stroke: #ffb547;
+    stroke-width: 1;
   }
   .lab-thumb .ring.b {
-    fill: rgba(34, 211, 238, 0.28);
-    stroke: #67e8f9;
+    fill: rgba(92, 200, 240, 0.1);
+    stroke: #5cc8f0;
   }
   .lab-thumb .edge {
     fill: none;
-    stroke: var(--accent);
-    stroke-width: 1.75;
+    stroke: #2c3542;
+    stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
-    opacity: 0.45;
+    opacity: 1;
   }
   .lab-thumb .node rect {
-    fill: var(--bg);
-    stroke: var(--accent-voice);
-    stroke-width: 1.75;
+    fill: #10141a;
+    stroke: #3a4553;
+    stroke-width: 1;
   }
   .lab-thumb .hub rect {
-    stroke: var(--accent);
+    stroke: #a9b1bc;
+    fill: #10141a;
   }
   .lab-thumb text {
-    fill: var(--text-dim);
+    fill: #a9b1bc;
     font-family: var(--font-mono);
     font-size: 11px;
     text-anchor: middle;
     pointer-events: none;
+  }
+  .lab-thumb .hub text {
+    fill: #eceef1;
   }
   @media (prefers-reduced-motion: reduce) {
     .lab-thumb {
