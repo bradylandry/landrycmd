@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Firewall Request Review</title>
+<link rel="preload" href="/fonts/ibm-plex-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lab/lab-shell.css">
+<link rel="stylesheet" href="/edge-field.css">
 <style>
-:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+:root{--bg:#07090C;--panel:#0B0E13;--card:#10141A;--line:#2C3542;--txt:#ECEEF1;--mut:#7C8693;--acc:#FF7A1A;--acc2:#3A4553;--glow:rgba(255,122,26,0.55);--ok:#3DDC97;--warn:#FF7A1A;--err:#FF5D5D;--sans:"IBM Plex Sans","IBM Plex Sans Fallback",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--margin:clamp(20px,5vw,72px)}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
 .tabs{display:flex;gap:8px;max-width:1200px;margin:16px auto 0;padding:0 24px}
@@ -18,12 +21,12 @@ svg{width:100%;height:auto;display:block}.side{background:var(--card);border:1px
 .node{cursor:pointer}.node circle{fill:var(--bg);stroke:var(--acc2);stroke-width:2;transition:.2s}.node:hover circle,.node.sel circle{stroke:var(--acc);fill:#0f172a}
 .node text{fill:var(--txt);font-size:11.5px;text-anchor:middle}.node .ic{stroke:var(--acc);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pulse{fill:var(--acc);filter:drop-shadow(0 0 4px var(--glow))}
-.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}.stage.done rect{stroke:var(--ok)}.stage.cur rect{stroke:var(--acc);fill:#0f172a}
+.stage rect{fill:var(--bg);stroke:var(--line);stroke-width:2;transition:.3s}body.lab-shell .stage.done rect{stroke:var(--ok)}body.lab-shell .stage.cur rect{stroke:var(--acc);fill:#0f172a}
 .stage text{fill:var(--txt);font-size:12px;text-anchor:middle}.stage .ic{stroke:var(--mut);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.stage.cur .ic,.stage.done .ic{stroke:var(--acc)}
 .ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ctrl button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
 .ctrl button:hover{border-color:var(--acc)}pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;color:#b8c6dc;white-space:pre-wrap;margin:0}
 ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)}ol li.done{color:var(--txt)}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}.stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}.after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}.metrics div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}.metrics b{display:block;color:var(--acc);font-family:var(--mono)}.metrics span{color:var(--mut);font-size:.85rem}body.lab-shell .stage.bad rect{stroke:#ef4444}.stage.bad .ic{stroke:#ef4444}.stage.skip{opacity:.3}.after{opacity:.35}body.lab-shell .after rect{stroke-dasharray:5 4}.scen{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.scen button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer}.scen button[aria-pressed=true]{color:var(--txt);border-color:var(--acc)}.verdict-ok{color:#10b981}.verdict-bad{color:#ef4444}
 .back{font-family:var(--mono);font-size:.85rem;color:var(--mut);text-decoration:none}.back:hover{color:var(--acc)}.kicker{font-family:var(--mono);color:var(--acc);font-size:.8rem;margin:14px 0 2px!important}a{color:var(--acc)}
 
 .block{max-width:1200px;margin:0 auto;padding:28px 24px 0}
@@ -38,8 +41,8 @@ ol{padding-left:18px;color:var(--mut);font-size:.9rem}ol li.cur{color:var(--acc)
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 @media(prefers-reduced-motion:reduce){.pulse{display:none}}
 </style>
-<link rel="stylesheet" href="/lab/wire.css"></head><body>
-<header><a class="back" href="/#work">&larr; work</a><p class="kicker">// lab</p><h1>Firewall Request Review</h1>
+<link rel="stylesheet" href="/lab/wire.css"></head><body class="lab-shell">
+<header class="lab-header"><a class="brand" href="/"><i aria-hidden="true"></i>landrycmd</a><nav><a href="/#lab">← All labs</a><a class="resume" href="/resume">Résumé ↗</a></nav></header><header class="lab-title"><p class="kicker"><b>LAB 02</b> // REVIEW</p><h1>Firewall Request Review</h1>
 <p>A read-only agent that walks a firewall change request through eight checks and stops at a human. Separate from the MCP hub. Names and systems are generalized.</p>
 <div class="metrics"><div><b>30–60 → 3–5 min</b><span>review time</span></div><div><b>200 → ~40</b><span>ticket backlog</span></div><div><b>NEEDS NUMBER</b><span>firewalls covered</span></div><div><b>8</b><span>checks, every time</span></div></div>
 <p class="lede" style="padding:0 24px;max-width:1200px;margin:8px auto 0"><a href="/lab/mcp-simulator/">MCP hub →</a></p>
@@ -51,13 +54,14 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">Firewall change requests were reviewed by hand across NEEDS NUMBER disconnected systems &mdash; 30 to 60 minutes each, and easy to get wrong. I built an agent that runs the same eight checks every time: it traces the real path, pulls config for only the firewalls actually in it, and tests the request against the zone policy. It is <b>read-only</b> and always ends at a human.</p>
 <p class="lede">Below: step through a request end to end. The scenario pills inject real failure modes I have hit &mdash; a firewall that does not exist, one that was decommissioned, a source address in a different routing domain &mdash; and the agent blocks instead of approving.</p>
 <ul class="tags"><li>agent framework</li><li>parallel sub-agents</li><li>path tracing</li><li>policy matrix</li><li>human-gated</li></ul>
+<p class="figcap">FIG. 02 — The review. Names and systems generalized.</p>
 <div class="view" id="v2">
  <div><div class="scen" id="scen" role="group" aria-label="Scenario"></div><svg id="flow" viewBox="0 0 800 330" role="img" aria-label="Firewall rule request pipeline"></svg>
  <div class="ctrl"><button id="play">▶ Play</button><button id="prev">◀ Back</button><button id="next">Step ▶</button><button id="reset">↺ Reset</button></div></div>
  <aside class="side" aria-live="polite"><span class="tag" id="fTag">Step 0 / 7</span><h2 id="fTitle">Ready</h2><p id="fDesc">Press Play or Step to follow a firewall rule request from a plain-English ask to an audited change.</p><pre id="fEx">// waiting</pre><ol id="fList"></ol></aside>
 </div></section>
 </main>
-<footer>Portfolio demo · illustrative architecture, no proprietary details · <a href="/work/ai-network-operations">case study</a></footer>
+<p class="cross"><a href="/work/ai-network-operations">Case study ↗</a></p><footer class="lab-footer"><p class="big">Building something on a real network? <a class="talk" href="mailto:bjlandry@gmail.com">Let’s talk.</a></p><div class="fbar"><span>© 2026 Brady Landry · Louisiana</span><nav><a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a><a href="https://github.com/bradylandry" rel="noopener">GitHub</a><a href="/resume">Résumé</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div></footer>
 <script src="/lab/wire.js"></script>
 <script>
 const I={bot:'<rect x="-10" y="-7" width="20" height="15" rx="4"/><circle cx="-4" cy="0" r="1.5"/><circle cx="4" cy="0" r="1.5"/><path d="M0-7v-5"/>',
@@ -92,11 +96,11 @@ for(let n=0;n<F.length-1;n++){const a=stagePos(n),b=stagePos(n+1);
  const edge=mk('path',{class:'edge',d:`M${p.x} ${p.y} L${q.x} ${q.y}`},wires);
  hops.push(labWire.overlay(edge, packets))}
 F.forEach((s,i)=>{const r=i<4,x=r?85+i*210:715-(i-4)*210,y=r?95:235,g=mk('g',{class:'stage',transform:`translate(${x} ${y})`},flow);
- mk('rect',{x:-70,y:-42,width:140,height:84,rx:8},g);const ic=mk('g',{class:'ic',transform:'translate(0 -12) scale(1.3)'},g);ic.innerHTML=I[s.ic];
+ mk('rect',{x:-70,y:-42,width:140,height:84,rx:2},g);const ic=mk('g',{class:'ic',transform:'translate(0 -12) scale(1.3)'},g);ic.innerHTML=I[s.ic];
  const t=mk('text',{y:28},g);t.textContent=(i+1)+'. '+s.l;st.push({g,x,y});
  const li=document.createElement('li');li.textContent=s.l;fList.appendChild(li)});
-const al=mk('g',{class:'after'},flow);const lt=mk('text',{x:20,y:318,fill:'#8b949e','font-size':12},al);lt.textContent='After approval (human-driven):';
-['Change window','Deploy','Before/after diff','Evidence to ticket'].forEach((l,i)=>{const g=mk('g',{class:'stage',transform:`translate(${110+i*195} 365)`},al);mk('rect',{x:-80,y:-24,width:160,height:48,rx:8},g);const t=mk('text',{y:5},g);t.textContent=l});
+const al=mk('g',{class:'after'},flow);const lt=mk('text',{x:20,y:318,fill:'#7C8693','font-size':12},al);lt.textContent='After approval (human-driven):';
+['Change window','Deploy','Before/after diff','Evidence to ticket'].forEach((l,i)=>{const g=mk('g',{class:'stage',transform:`translate(${110+i*195} 365)`},al);mk('rect',{x:-80,y:-24,width:160,height:48,rx:2},g);const t=mk('text',{y:5},g);t.textContent=l});
 const sb=document.getElementById('scen');Object.entries(SC).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=v.n;b.setAttribute('aria-pressed',k===scen);b.onclick=()=>{scen=k;[...sb.children].forEach(c=>c.setAttribute('aria-pressed',c===b));stop();show(-1)};sb.appendChild(b)});
 let cur=-1,timer=null;const last=()=>SC[scen].fail<0?F.length-1:SC[scen].fail;
 function show(i){const f=SC[scen].fail;cur=Math.max(-1,Math.min(last(),i));
@@ -111,4 +115,4 @@ function stop(){clearInterval(timer);timer=null;play.textContent='▶ Play'}
 play.onclick=()=>{if(timer)return stop();if(cur>=last())show(-1);play.textContent='❚❚ Pause';show(cur+1);timer=setInterval(()=>{cur>=last()?stop():show(cur+1)},2000)};
 next.onclick=()=>{stop();show(cur+1)};prev.onclick=()=>{stop();show(cur-1)};reset.onclick=()=>{stop();show(-1)};
 show(-1);
-</script></body></html>
+</script><script src="/lab/embed.js"></script></body></html>

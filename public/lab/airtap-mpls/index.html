@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AirTap MPLS</title>
+<link rel="preload" href="/fonts/ibm-plex-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lab/lab-shell.css">
+<link rel="stylesheet" href="/edge-field.css">
 <style>
-:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+:root{--bg:#07090C;--panel:#0B0E13;--card:#10141A;--line:#2C3542;--txt:#ECEEF1;--mut:#7C8693;--acc:#FF7A1A;--acc2:#3A4553;--glow:rgba(255,122,26,0.55);--ok:#3DDC97;--warn:#FF7A1A;--err:#FF5D5D;--sans:"IBM Plex Sans","IBM Plex Sans Fallback",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--margin:clamp(20px,5vw,72px)}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
 button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
@@ -67,7 +70,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .node.rig .padin{fill:none;stroke:#b45309;stroke-width:1}
 .node.rig .boom{stroke:#475569;stroke-width:2;stroke-linecap:round}
 .node.rig .flare{fill:#f59e0b;stroke:none}
-.node.rig .mast{fill:#0f172a;stroke:#38bdf8;stroke-width:1.6}
+.node.rig .mast{fill:#0f172a;stroke:#FF7A1A;stroke-width:1.6}
 .node .riglab{fill:#f8fafc;font-size:13px;paint-order:stroke;stroke:#062436;stroke-width:4px;stroke-linejoin:round}
 .pt{font-family:var(--mono);font-size:11px;fill:#e7d3a8;text-anchor:middle;paint-order:stroke;stroke:#14281f;stroke-width:3px}
 .vlab{font-family:var(--mono);font-size:11px;text-anchor:middle}
@@ -77,8 +80,8 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .legend .a{border-color:#f59e0b}.legend .b{border-color:#22d3ee}.legend .n{border-color:#f8fafc}
 .legend .ring{width:12px;height:12px;border:2px solid #7dd3fc;border-radius:50%;vertical-align:-2px}
 </style>
-<link rel="stylesheet" href="/lab/wire.css"></head><body>
-<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>AirTap MPLS</h1>
+<link rel="stylesheet" href="/lab/wire.css"></head><body class="lab-shell">
+<header class="lab-header"><a class="brand" href="/"><i aria-hidden="true"></i>landrycmd</a><nav><a href="/#lab">← All labs</a><a class="resume" href="/resume">Résumé ↗</a></nav></header><header class="lab-title"><p class="kicker"><b>LAB 05</b> // AIRTAP</p><h1>AirTap MPLS</h1>
 <p>Top-down Gulf of Mexico. Offshore rigs in the water, coverage rings that overlap, and straight shots north from shore to one inland data center. AirTap Communications, 2010–2011. Names are generalized.</p>
 <div class="metrics"><div><b>2010–2011</b><span>AirTap Communications</span></div><div><b>VRF</b><span>one routing table per customer</span></div><div><b>2</b><span>multihomed BGP egresses</span></div></div></header>
 <main>
@@ -88,6 +91,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">Three offshore rigs sit in the Gulf, each with a <b>coverage ring</b>. The rings cross, so the overlap between rigs is visible. Each rig comes ashore on a straight <b>point-to-point microwave</b> shot to a Cisco 7200: the Texas shore, the central tip of the coast, and a landing further east. All three run <b>straight north</b> to one inland data center, where <b>BGP and EIGRP</b> keep Customer A and Customer B in their own VRFs. Two egress peers in the cloud north of the data center carry <b>multihomed BGP</b>.</p>
 <ul class="tags"><li>MPLS</li><li>BGP</li><li>EIGRP</li><li>VRF</li><li>Cisco 7200</li><li>licensed microwave</li></ul>
 <p class="lede">The full Gulf of Mexico wireless network spans NEEDS NUMBER site points and NEEDS NUMBER point-to-point links on the Google Earth planning map; the diagram below is a simplified, representative subset.</p>
+<p class="figcap">FIG. 05 — The gulf. Names and systems generalized.</p>
 <div class="view" id="v1">
  <div>
   <p class="panhint">Scroll sideways to move along the coast.</p>
@@ -106,7 +110,7 @@ egress: 2 · multihomed BGP</pre></aside>
 </div>
 </section>
 </main>
-<footer>Portfolio demo · illustrative architecture, no proprietary details</footer>
+<footer class="lab-footer"><p class="big">Building something on a real network? <a class="talk" href="mailto:bjlandry@gmail.com">Let’s talk.</a></p><div class="fbar"><span>© 2026 Brady Landry · Louisiana</span><nav><a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a><a href="https://github.com/bradylandry" rel="noopener">GitHub</a><a href="/resume">Résumé</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div></footer>
 <script src="/lab/wire.js"></script>
 <script>
 const S='http://www.w3.org/2000/svg';
@@ -121,12 +125,12 @@ const eg=mk('g',{},topo),fg=mk('g',{},topo),ng=mk('g',{},topo);
 
 const defs=mk('defs',{},bg);
 const sea=mk('radialGradient',{id:'sea',cx:'48%',cy:'62%',r:'72%'},defs);
-mk('stop',{offset:'0%','stop-color':'#071e2e'},sea);
-mk('stop',{offset:'58%','stop-color':'#0c4a6e'},sea);
-mk('stop',{offset:'100%','stop-color':'#1878a0'},sea);
+mk('stop',{offset:'0%','stop-color':'#0B1A26'},sea);
+mk('stop',{offset:'58%','stop-color':'#0B1A26'},sea);
+mk('stop',{offset:'100%','stop-color':'#0B1A26'},sea);
 const landFill=mk('linearGradient',{id:'landFill',x1:'0',y1:'0',x2:'0',y2:'1'},defs);
-mk('stop',{offset:'0%','stop-color':'#14281f'},landFill);
-mk('stop',{offset:'100%','stop-color':'#2a4a36'},landFill);
+mk('stop',{offset:'0%','stop-color':'#121A16'},landFill);
+mk('stop',{offset:'100%','stop-color':'#121A16'},landFill);
 
 mk('rect',{width:880,height:640,fill:'url(#sea)'},bg);
 [
@@ -238,7 +242,7 @@ wire(seg([port(ea,'b',688),port(r3,'t',560)]),'b',['ea','r3']);
 
 function box(n){
  const g=mk('g',{class:n.dc?'node core':'node',transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-label':n.s?n.l+', '+n.s:n.l},ng);
- mk('rect',{width:n.w,height:n.h,rx:8},g);
+ mk('rect',{width:n.w,height:n.h,rx:2},g);
  if(n.vrf==='a'||n.vrf==='b') mk('rect',{class:'pip '+n.vrf,x:0,y:10,width:4,height:n.h-20,rx:1},g);
  if(n.dc){
   const t=mk('text',{x:n.w/2,y:22},g);t.textContent=n.l;
@@ -305,4 +309,4 @@ if(scroller && scroller.scrollWidth>scroller.clientWidth+24){
  const scale=scroller.scrollWidth/880;
  scroller.scrollLeft=Math.max(0, 220*scale - scroller.clientWidth*0.08);
 }
-</script></body></html>
+</script><script src="/lab/embed.js"></script></body></html>

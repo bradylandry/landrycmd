@@ -51,8 +51,9 @@ test("the homepage opens with the profile intro and the existing lab sections", 
   assert.match(profile, /Network Architect · AI Automation/);
   assert.match(
     text,
-    /I have spent about 15 years building and running service-provider networks at Cox, now Charter\/Spectrum\./,
+    /15 years building and running service-provider networks at Cox, now Charter\/Spectrum\. <b>Making national programs land in markets and handing them to operations\.<\/b> Building the tooling that makes it repeatable, from a 2014 config generator through Ansible to an AI\/MCP operations platform\./,
   );
+  assert.equal(/I have spent about 15 years/.test(text), false);
   assert.match(profile, /href="\/resume"/);
   assert.match(profile, /href="https:\/\/github\.com\/bradylandry"/);
   assert.match(profile, /href="https:\/\/www\.linkedin\.com\/in\/bradylandry\/"/);
