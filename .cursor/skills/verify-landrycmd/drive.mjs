@@ -1,9 +1,11 @@
 /**
- * Drive the local (or preview) site in headless Chrome.
- * Writes evidence under VERIFY_OUT and removes only the browser it started.
+ * Drive the local site in headless Chrome.
+ * A non-local VERIFY_BASE (including https://landrycmd.com) exits before Chrome
+ * starts unless VERIFY_ALLOW_REMOTE=1. Every mode fails /api before the request
+ * is sent. Writes evidence under VERIFY_OUT and removes only the browser it started.
  *
  *   node .cursor/skills/verify-landrycmd/drive.mjs
- *   node .cursor/skills/verify-landrycmd/drive.mjs --screenshots
+ *   VERIFY_ALLOW_REMOTE=1 VERIFY_BASE="$PREVIEW_ORIGIN" node .cursor/skills/verify-landrycmd/drive.mjs --screenshots
  */
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -14,6 +16,8 @@ const base = (process.env.VERIFY_BASE ?? "http://localhost:4321").replace(/\/$/,
 const outDir = process.env.VERIFY_OUT ?? "/tmp/landrycmd-verify";
 const chromeBin = process.env.CHROME_BIN ?? "/usr/bin/google-chrome";
 const debugPort = Number(process.env.VERIFY_CHROME_PORT ?? 9333);
+
+assertLocalBase(base);
 
 const labs = [
   "/lab/mcp-simulator/",
@@ -54,7 +58,7 @@ try {
   });
   await session.send("Page.enable", {}, sessionId);
   await session.send("Runtime.enable", {}, sessionId);
-  if (screenshotsOnly) await blockApiRoutes(session, sessionId);
+  await blockApiRoutes(session, sessionId);
 
   const report = {
     base,
@@ -495,6 +499,30 @@ async function waitForJson(url) {
     await delay(200);
   }
   throw new Error(`chrome debug port not ready: ${last}`);
+}
+
+function assertLocalBase(value) {
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    console.error(`VERIFY_BASE is not a URL: ${value}`);
+    process.exit(1);
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    console.error(`VERIFY_BASE must be http or https: ${value}`);
+    process.exit(1);
+  }
+  const host = url.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  if (host === "localhost" || host === "127.0.0.1" || host === "::1") return;
+  if (process.env.VERIFY_ALLOW_REMOTE === "1") return;
+  const production = host === "landrycmd.com" || host.endsWith(".landrycmd.com");
+  console.error(
+    production
+      ? `Refusing VERIFY_BASE ${url.origin}: that host is production. Set VERIFY_ALLOW_REMOTE=1 to drive a non-local origin.`
+      : `Refusing VERIFY_BASE ${url.origin}: host is not localhost. Set VERIFY_ALLOW_REMOTE=1 to drive a non-local origin.`,
+  );
+  process.exit(1);
 }
 
 function apiPath(url) {

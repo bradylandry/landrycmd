@@ -28,16 +28,19 @@ curl -fsS http://localhost:4321/ | grep -q 'id="profile-name"'
 curl -fsS -o /dev/null -w '%{http_code}\n' http://localhost:4321/lab/mcp-simulator/ | grep -q 200
 ```
 
-Ready when `/` contains `id="profile-name"` and `/lab/mcp-simulator/` is 200. The empty assignments are the same placeholders CI uses so the build does not read secrets. Directory URLs such as `/resume` redirect to a trailing slash; Chrome follows that. The static server returns 404 for `/applications` because that route is a function, not a file.
+Ready when `/` contains `id="profile-name"` and `/lab/mcp-simulator/` is 200. The empty assignments are the same placeholders [CI](../../../.github/workflows/ci.yml) sets on the build step so the build does not read secrets. Directory URLs such as `/resume` redirect to a trailing slash; Chrome follows that. The static server returns 404 for `/applications` because that route is a function, not a file.
 
 ## Doctor
 
-Stock checkout, no `.env`:
+Static server on 4321, then `astro dev` on 4331 with secrets blanked:
 
 ```bash
 curl -fsSL -o /tmp/landrycmd-verify/doctor-home.html -w 'home:%{http_code}\n' http://localhost:4321/ \
   && grep -q 'id="profile-name"' /tmp/landrycmd-verify/doctor-home.html
 curl -fsSL -o /dev/null -w 'lab:%{http_code}\n' http://localhost:4321/lab/mcp-simulator/ | grep -q '^lab:200$'
+APPLICATIONS_JSON= DISCLOSED_ROLE_JSON= APPS_PIN= APPS_SECRET= TRIP_SECRET= \
+UPSTASH_REDIS_REST_URL= UPSTASH_REDIS_REST_TOKEN= KV_REST_API_URL= KV_REST_API_TOKEN= \
+PUBLISH_API_KEY= GITHUB_TOKEN= \
 npm run dev -- --host localhost --port 4331 > /tmp/landrycmd-verify/dev-apps.log 2>&1 &
 echo $! > /tmp/landrycmd-verify/dev-apps.pid
 for i in $(seq 1 60); do
@@ -49,7 +52,7 @@ echo "applications:${code}"
 grep -q 'Server misconfiguration' /tmp/landrycmd-verify/doctor-apps.txt
 ```
 
-Home and the MCP lab are 200 on the static server (`-L` follows the résumé and case-study slash redirects). `/applications` is not in the static output. On `astro dev` port 4331, with no `.env`, it is 500 `Server misconfiguration`. If a local `.env` sets `APPS_SECRET`, that GET redirects to `/login`. Do not submit the form. Stop the 4331 process in Cleanup.
+Home and the MCP lab are 200 on the static server (`-L` follows the résumé and case-study slash redirects). `/applications` is not in the static output. The empty assignments are in the environment before `astro dev` starts. Node's `loadEnvFile` and Vite leave existing variables in place, so a filled `.env` cannot supply `APPS_SECRET`, `TRIP_SECRET`, Redis, or the publish token to this process. On port 4331, `/applications` is 500 `Server misconfiguration`. Do not submit the form. Stop the 4331 process in Cleanup.
 
 ## Drive
 
@@ -59,7 +62,7 @@ Harness is curl plus headless Chrome (`drive.mjs`). Node's test runner covers th
 node .cursor/skills/verify-landrycmd/drive.mjs
 ```
 
-That script, against `VERIFY_BASE` (default `http://localhost:4321`):
+That script drives `VERIFY_BASE` (default `http://localhost:4321`). It exits before Chrome starts when the host is not `localhost`, `127.0.0.1`, or `::1`. That includes `landrycmd.com`, any other `landrycmd.com` host, and a preview origin. `VERIFY_ALLOW_REMOTE=1` is the override that lets a non-local origin run. Every mode fails a request whose path is `/api` or starts with `/api/` before it is sent:
 
 - Sets `data-theme` through `localStorage` key `theme`. Contrast uses the resting color after entrance animations finish. Body text needs 4.5:1. Large text (24px, or bold at 18.66px and up) needs 3:1. A control with no text label (`button`, `input`, `textarea`, `select`, `a.btn`) needs a 3:1 boundary against the background outside it. A labeled control, including `.btn`, is judged by its text, with opacity blended into the ink. Both `dark` and `light` on `/`, `/writing/`, `/resume`, and `/work/ai-network-operations`.
 - At 360px, checks `scrollWidth <= clientWidth` on `/` and each lab: `/lab/mcp-simulator/`, `/lab/frr-review/`, `/lab/migration-simulator/`, `/lab/ring-collapse/`, `/lab/airtap-mpls/`.
@@ -68,13 +71,13 @@ That script, against `VERIFY_BASE` (default `http://localhost:4321`):
 - On `/lab/mcp-simulator/`, `.lab-fs` is shown at 360 and `display: none` at 768 and 1440. The stylesheet sets `inline-flex` under `max-width: 719px`. The button is a grid item, so the used value is `flex`. The exit control is a different state (`view.is-fs` / `:fullscreen`); this check does not enter fullscreen.
 - Clicks `button.lab-open[data-lab="mcp-simulator"]`, expects `#lab-dialog` open, `#lab-dialog-title` "MCP Integration Simulator", the frame location `/lab/mcp-simulator/?embed=1`, and `?lab=mcp-simulator`. Same-origin frames navigate with `location.replace`, so the `src` attribute can stay empty. Clicks `.lab-dialog-close` and expects the dialog closed and the query cleared.
 
-Screenshots only (local or the PR's Vercel preview origin, no path):
+Screenshots only. Local needs no override. A preview origin does:
 
 ```bash
-VERIFY_BASE="$PREVIEW_ORIGIN" VERIFY_OUT=/tmp/landrycmd-verify/preview node .cursor/skills/verify-landrycmd/drive.mjs --screenshots
+VERIFY_ALLOW_REMOTE=1 VERIFY_BASE="$PREVIEW_ORIGIN" VERIFY_OUT=/tmp/landrycmd-verify/preview node .cursor/skills/verify-landrycmd/drive.mjs --screenshots
 ```
 
-`PREVIEW_ORIGIN` is the origin on the Vercel deployment check for this PR. Widths are 360, 768, and 1440. Files: `home-360.png`, `home-768.png`, `home-1440.png`. This mode blocks `/api` and `/api/*` in the browser before the request is sent, including on a deployed origin. It loads `/` only.
+`PREVIEW_ORIGIN` is the origin on the Vercel deployment check for this PR, with no path. Widths are 360, 768, and 1440. Files: `home-360.png`, `home-768.png`, `home-1440.png`. This mode loads `/` only. `/api` is blocked here the same way as in the full pass. Without `VERIFY_ALLOW_REMOTE=1`, a preview or production `VERIFY_BASE` exits before Chrome starts.
 
 ## Evidence
 
@@ -85,7 +88,7 @@ Saved under `/tmp/landrycmd-verify/` (or `VERIFY_OUT`):
 - `doctor-home.html`, `doctor-apps.txt`, `dev.log`
 - scan stdout (below)
 
-The browser pass only GETs pages and clicks in-page controls. Theme writes `localStorage` in the throwaway Chrome profile. The lab dialog uses `history.replaceState`. Neither contacts Redis. Do not open mailto links. `--screenshots` fails any request whose path is `/api` or starts with `/api/`, so a preview origin cannot receive `/api/track`, `/api/auth`, or `/api/publish-note`. The full pass does not request those routes either.
+The browser pass only GETs pages and clicks in-page controls. Theme writes `localStorage` in the throwaway Chrome profile. The lab dialog uses `history.replaceState`. Neither contacts Redis. Do not open mailto links. Every mode fails any request whose path is `/api` or starts with `/api/` before it is sent, so neither localhost nor a preview origin receives `/api/track`, `/api/auth`, or `/api/publish-note`.
 
 Public-copy scan. Leak patterns fail the process. `NEEDS NUMBER` is listed and does not fail, and it is not a CI grep.
 
@@ -95,7 +98,7 @@ node .cursor/skills/verify-landrycmd/scan-public.mjs | tee /tmp/landrycmd-verify
 
 Scanned trees: `src/pages`, `src/content`, `src/components`, `src/data`, `src/lib/resume.ts`, `public`. Skips `src/pages/api/` and the unlisted `applications`, `login`, and `resume/[token]` pages. Fails on IPv4, URL hosts outside the allowlist in `scan-public.mjs`, device-role acronyms `PE` `CE` `ASBR` `LER` `LSR`, ticket ids `CHG-` `INC-` `RITM-` `TASK-` `REQ-` `PRB-`, site or market codes (`area 10`, `area 20`, device-style names, CLLI-shaped tokens), internal tool names (`tailscale`, `azurecontainerapps`, `jarvis-lab`, `nautobot`, `netbox`, `servicenow`, `solarwinds`, `infoblox`), `.local` / `.internal` / `.corp` / `.lan` names, a coworker or colleague followed by a personal name, and email addresses other than the two published contact addresses.
 
-Dash test, then the rest of CI:
+Packet-dash test, then the steps in [`.github/workflows/ci.yml`](../../../.github/workflows/ci.yml):
 
 ```bash
 node --experimental-strip-types --import ./test/register-hooks.mjs --test test/lab-wire-geometry.test.ts
@@ -108,7 +111,7 @@ UPSTASH_REDIS_REST_URL= UPSTASH_REDIS_REST_TOKEN= KV_REST_API_URL= KV_REST_API_T
 PUBLISH_API_KEY= GITHUB_TOKEN= npm run build
 ```
 
-`npm test` is the CI test list: private-data, load-private, case-study, lab-dialog, profile-hero, and lab-wire-geometry. The geometry file is the packet-dash test (`stroke-dasharray: 5 15` lives in `public/lab/wire.css` and is also asserted from case-study).
+The first command is the dash file on its own. The workflow's Test step is `npm test`, which runs that file again with private-data, load-private, case-study, lab-dialog, and profile-hero. The geometry file is the packet-dash test (`stroke-dasharray: 5 15` lives in `public/lab/wire.css` and is also asserted from case-study). `npm ci` is the workflow's Install step and is not repeated here. The empty build assignments match the workflow's Build step.
 
 ## Cleanup
 
