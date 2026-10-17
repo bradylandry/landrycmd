@@ -1349,7 +1349,7 @@ ul {
   --field-hot: #ff6a00;
   --field-hot-2: #ff7a1a;
   --field-bloom: rgba(255, 106, 0, 0.4);
-  --header-bg: rgba(230, 230, 233, 0.9);
+  --header-bg: rgba(228, 228, 232, 0.9);
   --edge-plate: var(--field-2);
   --edge-plate-2: var(--field-1);
   --edge-dot: var(--field-dot);
