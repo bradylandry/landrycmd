@@ -1,14 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import NetworkHero from "../components/NetworkHero.astro";
-import RoleIcon from "../components/RoleIcon.astro";
 import LabThumb from "../components/LabThumb.astro";
+import { getCollection } from "astro:content";
 import type { LabSlug } from "../lib/labs";
 
 const lab = [
   {
     name: "Jarvis",
-    tagline: "Multi-model agent, 20+ tools, Azure",
+    tagline: "Multi-model agent, 20+ tools",
     description:
       "The public stand-in for production agent work I cannot publish from a service-provider data center. Per-user identity, tool orchestration across calendar, email, and ops systems, and model routing across DeepSeek R1 (NVIDIA NIM), Gemini Live, Grok Vision, Claude, and GPT. FastAPI on Azure, Expo iOS, Firestore sync.",
     live: "https://jarvis.landrycmd.com",
@@ -16,25 +15,34 @@ const lab = [
   },
   {
     name: "MCP Integration Simulator",
-    tagline: "Interactive diagram · generalized",
+    tagline: "Interactive",
+    fig: "FIG. 01 — Topology",
+    meta: "Lab 01",
+    chips: ["MCP", "Agents", "Routing"],
     description:
-      "The MCP hub on its own page: clients and agents on one side, the hub in the middle, servers and tools on the other, with packets moving along the links. 28 servers, about 573 tools, 44 agents, 31 skills, and 23 agents I authored. The firewall review is a separate lab. Every name and system is generalized.",
+      "Clients and agents on one side, the hub in the middle, servers and tools on the other, with packets moving along the links.",
     live: "/lab/mcp-simulator/",
     github: null,
     slug: "mcp-simulator",
   },
   {
     name: "Firewall Request Review",
-    tagline: "Interactive diagram · generalized",
+    tagline: "Interactive",
+    fig: "FIG. 02 — Review",
+    meta: "Lab 02",
+    chips: ["Read-only", "Eight checks", "Human gate"],
     description:
-      "The review flow on its own page. A read-only agent walks a firewall change request through eight checks and stops at a human. Backlog from 200 to about 40; review time from 30–60 minutes to 3–5 minutes.",
+      "A read-only agent walks a firewall change request through eight checks and stops at a human. Backlog from 200 to about 40; review time from 30–60 minutes to 3–5 minutes.",
     live: "/lab/frr-review/",
     github: null,
     slug: "frr-review",
   },
   {
     name: "Zero-Downtime Migration Simulator",
-    tagline: "Interactive diagram · generalized",
+    tagline: "Interactive",
+    fig: "FIG. 03 — Straddle",
+    meta: "Lab 03",
+    chips: ["VRRP", "Straddle", "Rollback"],
     description:
       "The migration method I built and ran across NEEDS NUMBER markets: instead of cutting a gateway over, put both vendors' routers in one redundancy group so the new one sits as the deliberate loser, then move traffic by changing a priority value. The pair is replaced one device at a time, always taking out the member carrying no traffic. Toggle hardcut against straddle and watch the packets-lost counter while client traffic keeps flowing. Real failure modes included.",
     live: "/lab/migration-simulator/",
@@ -43,7 +51,10 @@ const lab = [
   },
   {
     name: "Ring Collapse Simulator",
-    tagline: "Interactive diagram · generalized",
+    tagline: "Metro redesign",
+    fig: "FIG. 04 — Ring collapse",
+    meta: "Lab 04",
+    chips: ["IS-IS", "Multicast", "QoS"],
     description:
       "A metro re-architecture: two parallel topologies collapsed into one. The video ring was not legacy cruft — it existed because a single-service topology needs almost no QoS. Collapsing it means accepting that burden everywhere. Toggle the sequencing to see why I added hub capacity NEEDS NUMBER months before touching the ring.",
     live: "/lab/ring-collapse/",
@@ -52,7 +63,10 @@ const lab = [
   },
   {
     name: "AirTap MPLS",
-    tagline: "Interactive diagram · 2010–2011",
+    tagline: "2010–2011",
+    fig: "FIG. 05 — Gulf",
+    meta: "Lab 05",
+    chips: ["MPLS", "BGP", "VRF"],
     description:
       "A top-down Gulf of Mexico: offshore rigs in the water with overlapping coverage, straight microwave shots to three shore landings, then straight north to one inland data center. Two BGP egress peers sit in a cloud above that data center. Each customer keeps its own VRF, with BGP and EIGRP. AirTap Communications. A small subset of the wireless field.",
     live: "/lab/airtap-mpls/",
@@ -66,6 +80,9 @@ const lab = [
   live: string;
   github: null;
   slug?: LabSlug;
+  fig?: string;
+  meta?: string;
+  chips?: string[];
 }>;
 
 const labCards = lab.filter(
@@ -75,7 +92,7 @@ const labCards = lab.filter(
 const shipped = [
   {
     name: "ACT Prep",
-    tagline: "Shipped app · act.landrycmd.com",
+    tagline: "Shipped app",
     description:
       "Adaptive ACT prep for Louisiana TOPS thresholds, FSRS spaced repetition, AI tutor. Proof I will take a system to a real user, not stop at a demo.",
     live: "https://act.landrycmd.com",
@@ -83,7 +100,7 @@ const shipped = [
   },
   {
     name: "PeptideTracker",
-    tagline: "Shipped app · peptidetrackers.com",
+    tagline: "Shipped app",
     description:
       "Mobile and web logging with auth, inventory, and shareable protocols. Same reason: live users, not a slide.",
     live: "https://peptidetrackers.com",
@@ -131,6 +148,21 @@ const experience = [
   { role: "Network Operations Engineer", org: "Charter/Spectrum (formerly Cox Communications)", period: "2011 – 2012", icon: "switch" },
   { role: "RF & IP Network Engineer", org: "AirTap · Skyrider · Detel Wireless", period: "2005 – 2011", icon: "rf" },
 ];
+
+const posts = (await getCollection("writing", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || a.data.title.localeCompare(b.data.title))
+  .slice(0, 3);
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+const jarvis = lab.find((p) => p.slug === undefined);
 ---
 
 <Layout
@@ -138,182 +170,124 @@ const experience = [
   description="Brady Landry's public AI lab: production agents, MCP servers, and retrieval systems. Twenty years of service-provider networking; the internal tools stay off this site, so this is the work you can inspect."
 >
   <link slot="head" rel="stylesheet" href="/lab/wire.css" />
-  <section class="profile" aria-labelledby="profile-name">
-    <div class="profile-bg" aria-hidden="true">
-      <div class="profile-grid"></div>
-      <svg class="profile-topo" viewBox="0 0 680 420" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="profile-topo-fade" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#fff" />
-            <stop offset="52%" stop-color="#fff" stop-opacity="0.7" />
-            <stop offset="100%" stop-color="#fff" stop-opacity="0" />
-          </linearGradient>
-          <radialGradient id="profile-topo-glow" cx="20%" cy="42%" r="48%">
-            <stop offset="0%" stop-color="currentColor" stop-opacity="0.22" />
-            <stop offset="70%" stop-color="currentColor" stop-opacity="0" />
-          </radialGradient>
-          <mask id="profile-topo-mask">
-            <rect width="680" height="420" fill="url(#profile-topo-fade)" />
-          </mask>
-        </defs>
-        <rect width="680" height="420" fill="url(#profile-topo-glow)" />
-        <g class="profile-topo-lines" mask="url(#profile-topo-mask)">
-          <circle cx="132" cy="168" r="78" />
-          <circle cx="132" cy="168" r="118" />
-          <path d="M24 56 H188 V146 H328 V88 H520" />
-          <path d="M24 56 V276 H148 V364" />
-          <path d="M148 146 H284 V276" />
-          <path d="M188 220 H412 V324 H588" />
-          <path d="M64 364 H284" />
-          <path class="profile-topo-alt" d="M48 112 H104 V56" />
-          <path class="profile-topo-alt" d="M328 88 V36 H436" />
-          <path class="profile-topo-alt" d="M412 324 V372 H508" />
-          <rect x="182" y="140" width="12" height="12" />
-          <rect x="142" y="270" width="12" height="12" />
-          <rect x="406" y="318" width="12" height="12" />
-          <circle cx="328" cy="88" r="6.5" />
-          <circle cx="520" cy="88" r="5" />
-          <circle cx="64" cy="364" r="5" />
-          <circle cx="284" cy="276" r="4.5" />
-        </g>
-      </svg>
-      <div class="profile-wash"></div>
-    </div>
-    <div class="profile-layout">
-      <div class="profile-photo-frame">
-        <span class="profile-photo-glow" aria-hidden="true"></span>
-        <span class="profile-photo-shadow" aria-hidden="true"></span>
-        <img
-          class="profile-photo"
-          src="/brady.jpg"
-          width="480"
-          height="480"
-          alt="Portrait of Brady Landry"
-        />
-        <span class="profile-led" aria-hidden="true"></span>
-        <span class="profile-led profile-led-alt" aria-hidden="true"></span>
-      </div>
-      <div class="profile-id">
-        <h1 id="profile-name">Brady Landry</h1>
-        <p class="profile-title">Network Architect · AI Automation</p>
-        <p class="profile-bio">
-          I have spent about 15 years building and running service-provider networks
-          at Cox, now Charter/Spectrum. I take national programs, make them land in
-          markets, and hand them to operations. I build the tooling that makes that
-          repeatable, from a 2014 config generator through Ansible to an AI/MCP
-          operations platform.
-        </p>
-        <p class="profile-links">
-          <a href="/resume">Résumé</a>
-          <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
-          <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
-          <a href="mailto:bjlandry@gmail.com">Email</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="hero hero-net">
-    <NetworkHero />
-    <div class="hero-content">
-      <p class="hero-wordmark">landrycmd</p>
-      <p class="tagline">
-        <span class="prompt">&gt;</span>Public AI lab for a network architect
-        who cannot publish the systems he built at work. MCP servers, agents,
-        and retrieval you can click.<span class="cursor"></span>
-      </p>
-    </div>
-  </section>
-
-  <section id="about">
-    <p class="kicker">// about</p>
-    <h2>About</h2>
-    <p>
-      Brady Landry designs and operates Tier 1 service provider and data center
-      networks: 20 years in, 15 of them at Charter/Spectrum (formerly Cox
-      Communications) across the national IP backbone, regional data centers,
-      and metro. Day job is Arista
-      spine and leaf, Infrastructure-as-Code standards, and the
-      <a href="/work/ai-network-operations">AI Network Operations Platform (MCP)</a>.
-      The case study is the public account of that platform. Internal runbooks
-      stay off this site.
-    </p>
-    <p>
-      landrycmd is the home lab that stands in for it. Same problems, public
-      artifacts: remote MCP servers with per-user Microsoft Entra identity on
-      Azure, an agent chassis other deployments inherit, retrieval over document
-      stores, and a static-analysis auditor for third-party agent packages. If
-      you are here from a résumé, this is the evidence behind the AI bullets.
-    </p>
-    <p class="muted">
-      Open to technical sales, architecture, and solutions roles where that mix
-      is the job.
-    </p>
-    <p>
-      <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
-      &nbsp;·&nbsp;
-      <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
-      &nbsp;·&nbsp;
-      <a href="mailto:bjlandry@gmail.com">Email</a>
-      &nbsp;·&nbsp;
-      <a href="/resume">Résumé</a>
-    </p>
-  </section>
-
-  <section id="work">
-    <p class="kicker">// work</p>
-    <h2>Work</h2>
-    <p>
-      The AI Network Operations Platform (MCP) is its own case study: 28 MCP
-      servers, about 573 tools, 44 agents, and 31 skills. The firewall request
-      review is a separate lab.
-    </p>
-    <p>
-      <a href="/work/ai-network-operations">Read the case study →</a>
-      &nbsp;·&nbsp;
-      <a href="/lab/mcp-simulator/">MCP hub →</a>
-      &nbsp;·&nbsp;
-      <a href="/lab/frr-review/">Firewall request review →</a>
-    </p>
-  </section>
-
-  <section id="lab">
-    <p class="kicker">// lab</p>
-    <h2>What you can inspect</h2>
-    <div class="node-list">
-      {
-        lab
-          .filter((p) => !p.slug)
-          .map((p) => (
-            <div class="project">
-              <div class="project-head">
-                <h3>{p.name}</h3>
-                <span class="muted">{p.tagline}</span>
-                <span class="links">
-                  {p.live && (
-                    <a href={p.live} rel="noopener">
-                      Live →
-                    </a>
-                  )}
-                </span>
-              </div>
-              <p class="project-desc">{p.description}</p>
-            </div>
-          ))
+  <style slot="head" is:inline>
+    .lab-card .flow { opacity: 0; animation: none; }
+    .lab-card:hover .flow,
+    .lab-card:focus-within .flow,
+    .lab-card.inview .flow.on {
+      opacity: 0.95;
+      animation: dash 1.05s linear infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .lab-card .flow,
+      .lab-card .flow.on,
+      .lab-card:hover .flow,
+      .lab-card.inview .flow.on {
+        animation: none;
+        opacity: 0.5;
       }
+    }
+  </style>
+
+  <section class="band hero-band">
+    <div class="wrap">
+      <div class="profile">
+        <div class="grid">
+        <figure class="portrait">
+          <span class="reg tl" aria-hidden="true"></span>
+          <img
+            src="/brady.jpg"
+            width="480"
+            height="480"
+            alt="Portrait of Brady Landry"
+          />
+          <span class="reg br" aria-hidden="true"></span>
+          <figcaption>
+            <span>BRADY LANDRY</span>
+            <span>LOUISIANA, USA</span>
+          </figcaption>
+        </figure>
+        <div class="profile-id">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Open to architecture &amp; solutions roles</p>
+          <h1 id="profile-name">Brady Landry</h1>
+          <p class="role">Network Architect · AI Automation</p>
+          <p class="bio">
+            I have spent about 15 years building and running service-provider networks
+            at Cox, now Charter/Spectrum. <b>I take national programs, make them land in
+            markets, and hand them to operations</b>. I build the tooling that makes that
+            repeatable, from a 2014 config generator through Ansible to an AI/MCP
+            operations platform.
+          </p>
+          <div class="actions">
+            <a class="btn btn--primary" href="/resume">Résumé <span class="ext">↗</span></a>
+            <a class="btn" href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn <span class="ext">↗</span></a>
+            <a class="btn" href="https://github.com/bradylandry" rel="noopener">GitHub <span class="ext">↗</span></a>
+            <a class="btn" href="mailto:bjlandry@gmail.com">Email</a>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="hero hero-net stats">
+        <div class="stat"><b>20 yrs</b><small>Service-provider networks</small></div>
+        <div class="stat"><b>28</b><small>MCP servers in production</small></div>
+        <div class="stat"><b>44</b><small>Agents authored</small></div>
+        <div class="stat"><b>5</b><small>Interactive labs</small></div>
+      </div>
     </div>
-    <div class="lab-grid">
-      {
-        labCards.map((p) => (
-            <div class="project lab-card">
-              <div class="lab-thumb-wrap">
-                <LabThumb lab={p.slug} />
-                <span class="lab-play" aria-hidden="true">
-                  Play
-                </span>
+  </section>
+
+  <section class="band" id="work">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>01</b> // work</p>
+          <h2>Work</h2>
+        </div>
+        <div class="sbody">
+          <p class="lead">The production platform I can’t publish, told as a case study you can read in five minutes.</p>
+          <a class="feature" href="/work/ai-network-operations">
+            <div>
+              <p class="meta"><b>Case study</b> · 2024 – present</p>
+              <h3>AI Network Operations Platform</h3>
+              <p>An MCP-based operations layer for a national IP backbone: agents that read, reason, and stop at a human.</p>
+              <div class="nums">
+                <div><b>28</b>MCP servers</div>
+                <div><b>~573</b>Tools</div>
+                <div><b>44</b>Agents</div>
+                <div><b>31</b>Skills</div>
               </div>
-              <div class="lab-card-body">
-                <div class="project-head">
+            </div>
+            <span class="arrow">Read →</span>
+          </a>
+          <p class="sublinks">
+            <a href="/lab/mcp-simulator/">MCP hub ↗</a>
+            <a href="/lab/frr-review/">Firewall request review ↗</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="lab">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>02</b> // lab</p>
+          <h2>What you can inspect</h2>
+        </div>
+        <div class="sbody">
+          <p class="lead">Interactive diagrams of real designs. Names and systems are generalized; the engineering isn’t.</p>
+        </div>
+        <div class="lab-grid">
+          {
+            labCards.map((p) => (
+              <div class="project lab-card">
+                <div class="scope">
+                  <span class="figtag">{p.fig}</span>
+                  <LabThumb lab={p.slug} />
+                </div>
+                <div class="lab-card-body">
+                  <p class="meta"><b>{p.meta}</b> · {p.tagline}</p>
                   <h3>
                     <button
                       type="button"
@@ -327,25 +301,24 @@ const experience = [
                       {p.name}
                     </button>
                   </h3>
-                  <span class="muted">{p.tagline}</span>
-                  <span class="links">
-                    {p.live && (
-                      <a href={p.live} rel="noopener">
-                        Live →
-                      </a>
-                    )}
-                  </span>
+                  <p class="project-desc">{p.description}</p>
+                  <div class="chips">
+                    {p.chips?.slice(0, 3).map((chip) => (
+                      <span class="chip">{chip}</span>
+                    ))}
+                  </div>
+                  <div class="lab-foot">Open lab <span>→</span></div>
                 </div>
-                <p class="project-desc">{p.description}</p>
               </div>
-            </div>
-          ))
-      }
+            ))
+          }
+        </div>
+      </div>
     </div>
     <dialog id="lab-dialog" class="lab-dialog" aria-labelledby="lab-dialog-title">
       <div class="lab-dialog-bar">
         <h2 id="lab-dialog-title">Lab</h2>
-        <a class="lab-dialog-page" href="/lab/mcp-simulator/">Full page</a>
+        <a class="lab-dialog-page" href="/lab/mcp-simulator/">Open page ↗</a>
         <button type="button" class="lab-dialog-close">Close</button>
       </div>
       <iframe class="lab-dialog-frame" title="Lab simulation"></iframe>
@@ -354,94 +327,198 @@ const experience = [
   <script>
     import { mountLabDialog } from "../scripts/lab-dialog";
     mountLabDialog();
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cards = document.querySelectorAll(".lab-card");
+    if (!reduce && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const on = entry.isIntersecting;
+            entry.target.classList.toggle("inview", on);
+            entry.target.querySelectorAll(".flow").forEach((flow) => {
+              flow.classList.toggle("on", on);
+            });
+          }
+        },
+        { threshold: 0.35 },
+      );
+      cards.forEach((card) => {
+        card.querySelectorAll(".flow").forEach((flow) => flow.classList.remove("on"));
+        io.observe(card);
+      });
+    }
   </script>
 
-  <section id="open-source">
-    <p class="kicker">// open source</p>
-    <h2>Open source</h2>
-    <div class="node-list">
-      {
-        openSource.map((r) => (
-          <div class="project">
-            <div class="project-head">
-              <h3>{r.name}</h3>
-              <span class="links">
-                <a href={r.repo} rel="noopener">
-                  Repo →
-                </a>
-                {r.article && <a href={r.article}>Article →</a>}
-              </span>
-            </div>
-            <p class="project-desc">{r.description}</p>
+  <section class="band" id="open-source">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>03</b> // open source</p>
+          <h2>Open source</h2>
+        </div>
+        <div class="sbody">
+          <div class="node-list">
+          <div class="rows">
+            {
+              openSource.map((r) => (
+                <div class="row">
+                  <h3>{r.name}</h3>
+                  <p>{r.description}</p>
+                  <span class="links">
+                    <a href={r.repo} rel="noopener" target="_blank">Repo ↗</a>
+                    {r.article && <a href={r.article}>Article →</a>}
+                  </span>
+                </div>
+              ))
+            }
           </div>
-        ))
-      }
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="experience">
-    <p class="kicker">// experience</p>
-    <h2>Experience</h2>
-    <div class="node-list icons">
-      {
-        experience.map((e) => (
-          <div class="project">
-            <RoleIcon type={e.icon} />
-            <div class="project-head">
-              <h3>{e.role}</h3>
-              <span class="muted">{e.org}</span>
-              <span class="links">{e.period}</span>
-            </div>
+  <section class="band" id="experience">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>04</b> // experience</p>
+          <h2>Experience</h2>
+        </div>
+        <div class="sbody">
+          <div class="rows">
+            {
+              experience.map((e) => (
+                <div class="row">
+                  <p class="years">{e.period}</p>
+                  <div>
+                    <h3>{e.role}</h3>
+                    <p>{e.org}</p>
+                  </div>
+                  <span class="links"></span>
+                </div>
+              ))
+            }
           </div>
-        ))
-      }
-    </div>
-    <p class="muted">
-      Full history: <a href="/resume">résumé →</a>
-    </p>
-  </section>
-
-  <section id="also">
-    <p class="kicker">// also shipping</p>
-    <h2>Also live</h2>
-    <p class="muted">
-      Not the reason this lab exists. Evidence that things leave the bench.
-    </p>
-    <div class="node-list">
-      {
-        shipped.map((p) => (
-          <div class="project">
-            <div class="project-head">
-              <h3>{p.name}</h3>
-              <span class="muted">{p.tagline}</span>
-              {(p.live || p.repo) && (
-                <span class="links">
-                  {p.live && (
-                    <a href={p.live} rel="noopener" target="_blank">
-                      Live →
-                    </a>
-                  )}
-                  {p.repo && (
-                    <a href={p.repo} rel="noopener">
-                      Repo →
-                    </a>
-                  )}
-                </span>
-              )}
-            </div>
-            <p class="project-desc">{p.description}</p>
-          </div>
-        ))
-      }
+          <p class="text-links">
+            <a href="/resume">Résumé →</a>
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="writing">
-    <p class="kicker">// writing</p>
-    <h2>Writing</h2>
-    <p class="muted">
-      How the vault, the agents, and the cheap-stack workflow actually run.
-      <a href="/writing/">Read all →</a>
-    </p>
+  <section class="band" id="also">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>05</b> // also live</p>
+          <h2>Shipped</h2>
+        </div>
+        <div class="sbody">
+          <div class="rows">
+            {
+              shipped.map((p) => (
+                <div class="row">
+                  <h3>{p.name}</h3>
+                  <p>{p.description}</p>
+                  <span class="links">
+                    {p.live && (
+                      <a href={p.live} rel="noopener" target="_blank">Live ↗</a>
+                    )}
+                    {p.repo && (
+                      <a href={p.repo} rel="noopener" target="_blank">Repo ↗</a>
+                    )}
+                  </span>
+                </div>
+              ))
+            }
+            {
+              jarvis && (
+                <div class="row">
+                  <h3>{jarvis.name}</h3>
+                  <p>{jarvis.description}</p>
+                  <span class="links">
+                    <a href={jarvis.live} rel="noopener" target="_blank">Live ↗</a>
+                  </span>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="writing">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>06</b> // writing</p>
+          <h2>Writing</h2>
+        </div>
+        <div class="sbody">
+          <div class="rows">
+            {
+              posts.map((post) => (
+                <div class="row">
+                  <p class="years">{formatDate(post.data.date)}</p>
+                  <h3>{post.data.title}</h3>
+                  <a href={`/writing/${post.slug}/`}>Read →</a>
+                </div>
+              ))
+            }
+          </div>
+          <p class="text-links">
+            <a href="/writing/">All writing →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="about">
+    <div class="wrap">
+      <div class="grid">
+        <div class="shead">
+          <p class="kicker"><b>07</b> // about</p>
+          <h2>About</h2>
+        </div>
+        <div class="sbody">
+          <div class="about-grid">
+            <div>
+              <p>
+                Brady Landry designs and operates Tier 1 service provider and data center
+                networks: 20 years in, 15 of them at Charter/Spectrum (formerly Cox
+                Communications) across the national IP backbone, regional data centers,
+                and metro. Day job is Arista spine and leaf, Infrastructure-as-Code
+                standards, and the AI Network Operations Platform. The case study is the
+                public account of that platform. Internal runbooks stay off this site.
+              </p>
+              <p class="text-links">
+                <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
+                <a href="mailto:bjlandry@gmail.com">Email</a>
+                <a href="/resume">Résumé</a>
+              </p>
+            </div>
+            <dl class="kv">
+              <div>
+                <dt>Currently</dt>
+                <dd>Charter/Spectrum national data center, and an independent architecture practice.</dd>
+              </div>
+              <div>
+                <dt>Previously</dt>
+                <dd>Backbone, metro, and the AirTap wireless build.</dd>
+              </div>
+              <div>
+                <dt>Focus</dt>
+                <dd>Architecture and solutions roles where networks and automation are the job.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </Layout>

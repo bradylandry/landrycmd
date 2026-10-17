@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ring Collapse Simulator</title>
+<link rel="preload" href="/fonts/ibm-plex-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lab/lab-shell.css">
 <style>
-:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+:root{--bg:#07090C;--panel:#0B0E13;--card:#10141A;--line:#2C3542;--txt:#ECEEF1;--mut:#7C8693;--acc:#5CC8F0;--acc2:#3A4553;--glow:rgba(92,200,240,0);--ok:#3DDC97;--warn:#FFB547;--err:#FF5D5D;--sans:"IBM Plex Sans","IBM Plex Sans Fallback",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--margin:clamp(20px,5vw,72px)}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
 .tabs{display:flex;gap:8px;max-width:1200px;margin:16px auto 0;padding:0 24px}
@@ -40,7 +42,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 
 .mline{stroke:var(--line);stroke-width:2.5;fill:none}.mline.live{stroke:var(--acc);filter:drop-shadow(0 0 3px var(--glow))}
 .mline.bridge{stroke:var(--acc2);stroke-dasharray:6 5}.mline.down{stroke:#ef4444;stroke-dasharray:3 4}.mline.idle{opacity:.25}
-.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:8}.box.master rect{stroke:var(--acc);fill:#0f172a}
+.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:2}.box.master rect{stroke:var(--acc);fill:#0f172a}
 .box.backup rect{stroke:var(--mut)}.box.gone rect{stroke:#ef4444;stroke-dasharray:4 4;opacity:.5}
 .box text{fill:var(--txt);font-size:12px;text-anchor:middle}.box .sub{fill:var(--mut);font-size:10px}
 .pri{font-family:var(--mono);font-size:11px;text-anchor:middle}.pri.hi{fill:var(--acc)}.pri.lo{fill:var(--mut)}
@@ -65,8 +67,8 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .qos{font-family:var(--mono);font-size:9px;fill:var(--ok);text-anchor:middle}
 .cap{font-family:var(--mono);font-size:9.5px;fill:var(--mut);text-anchor:middle}.cap.off{opacity:.3}.cap.hot{fill:#ef4444}
 </style>
-<link rel="stylesheet" href="/lab/wire.css"></head><body>
-<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Ring Collapse Simulator</h1>
+<link rel="stylesheet" href="/lab/wire.css"></head><body class="lab-shell">
+<header class="lab-header"><a class="brand" href="/"><i aria-hidden="true"></i>landrycmd</a><nav><a href="/#lab">← All labs</a><a class="resume" href="/resume">Résumé ↗</a></nav></header><header class="lab-title"><p class="kicker"><b>LAB 04</b> // RING</p><h1>Ring Collapse Simulator</h1>
 <p>Consolidating two parallel topologies into one, and the trade that comes with it. A metro re-architecture I designed and ran. Names and systems are generalized.</p>
 <div class="metrics"><div><b>2 &rarr; 1</b><span>routing areas</span></div><div><b>2 &rarr; 1</b><span>topologies to operate</span></div><div><b>NEEDS NUMBER</b><span>revisions of the cost model</span></div><div><b>NEEDS NUMBER</b><span>months of capacity added before collapse</span></div></div></header>
 <main>
@@ -78,6 +80,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">The sequencing is the whole lesson. Capacity went in <b>NEEDS NUMBER months before</b> the ring was touched, and every network in one area was advertised into the other and validated &mdash; traffic <i>and</i> video &mdash; while the ring was still carrying it. The links came out last.</p>
 <p class="lede">Utilisation shown here (38%, 22%, 61%) is an illustrative simulation value, not a measured result.</p>
 <ul class="tags"><li>OSPF</li><li>PIM sparse-mode</li><li>IOS-XR</li><li>link aggregation</li><li>video multicast</li></ul>
+<p class="figcap">FIG. 04 — The collapse. Names and systems generalized.</p>
 <div class="view">
  <div>
   <svg id="ring" viewBox="0 0 800 324" role="img" aria-label="Hub and spoke with a parallel multicast ring"></svg>
@@ -88,7 +91,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 </div>
 </section>
 </main>
-<footer>Portfolio demo &middot; illustrative architecture, no proprietary details</footer>
+<footer class="lab-footer"><p class="big">Building something on a real network? <a class="talk" href="mailto:bjlandry@gmail.com">Let’s talk.</a></p><div class="fbar"><span>© 2026 Brady Landry · Louisiana</span><nav><a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a><a href="https://github.com/bradylandry" rel="noopener">GitHub</a><a href="/resume">Résumé</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div></footer>
 <script src="/lab/wire.js"></script>
 <script>
 const S='http://www.w3.org/2000/svg';
@@ -142,7 +145,7 @@ ringLbl.textContent='10 Gig ring \u00b7 video only \u00b7 daisy-chained through 
 const caps=R1.map((x,i)=>mk('text',{class:'cap',x:(x+R2[i])/2,y:300},tg));
 const qos=R1.map((x,i)=>mk('text',{class:'qos',x:(x+R2[i])/2,y:312},tg));
 function node(x,y,l,s,cls,shape){const g=mk('g',{class:'nd '+cls,transform:`translate(${x} ${y})`},ng);
- if(shape==='c')mk('circle',{r:26},g);else mk('rect',{x:-H,y:-17,width:H*2,height:34,rx:6},g);
+ if(shape==='c')mk('circle',{r:26},g);else mk('rect',{x:-H,y:-17,width:H*2,height:34,rx:2},g);
  const a=mk('text',{y:s?-2:4},g);a.textContent=l;
  if(s){const b=mk('text',{class:'sub',y:10},g);b.textContent=s}return g}
 const rgN=hubs.map(a=>node(a.x,a.y,a.l,'',''));

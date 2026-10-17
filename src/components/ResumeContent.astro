@@ -1,5 +1,4 @@
 ---
-import RoleIcon from "./RoleIcon.astro";
 import {
   EARLY_CAREER,
   getResume,
@@ -28,14 +27,12 @@ const { headline, summary, skills, experience } = getResume({
 
   <section class="hero">
     <h1>Brady Landry</h1>
-    <p class="tagline"><span class="prompt">&gt;</span>{headline} · Louisiana, USA<span class="cursor"></span></p>
+    <p class="role">{headline}</p>
     {preparedFor && <p class="prepared-for">Prepared for {preparedFor}</p>}
-    <p class="contact-line">Lafayette, LA &nbsp;·&nbsp; (504) 444-9010 &nbsp;·&nbsp; bjlandry@gmail.com &nbsp;·&nbsp; landrycmd.com</p>
-    <p class="links">
+    <p class="contact-line">Lafayette, LA · (504) 444-9010 · bjlandry@gmail.com</p>
+    <p class="text-links">
       <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
-      &nbsp;·&nbsp;
       <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
-      &nbsp;·&nbsp;
       <a href="mailto:bjlandry@gmail.com">Email</a>
     </p>
   </section>
@@ -61,15 +58,14 @@ const { headline, summary, skills, experience } = getResume({
   <section id="experience">
     <p class="kicker">// experience</p>
     <h2>Experience</h2>
-    <div class="node-list icons">
+    <div class="rows">
     {
       experience.map((e) => (
         <div class="role">
-          <RoleIcon type={e.icon} />
           <div class="project-head">
             <h3>{e.role}</h3>
             <span class="muted">{e.org}</span>
-            <span class="links">{e.period}</span>
+            <span class="years">{e.period}</span>
           </div>
           <ul>
             {e.bullets.map((b) => (
@@ -85,11 +81,10 @@ const { headline, summary, skills, experience } = getResume({
   <section id="early-career">
     <details>
       <summary>Early career (2003 – 2011)</summary>
-      <div class="node-list icons">
+      <div class="rows">
       {
         EARLY_CAREER.map((e) => (
           <div class="role">
-            <RoleIcon type={e.icon} />
             <div class="project-head">
               <h3>{e.role}</h3>
               <span class="muted">{e.org}</span>
@@ -125,8 +120,20 @@ const { headline, summary, skills, experience } = getResume({
     margin: 0.4rem 0;
     line-height: 1.5;
   }
-  .role {
+  .project-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .project-head h3 {
+    font-size: var(--fs-base);
+  }
+  .rows .role {
     margin: 0;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line-700);
   }
   .role ul {
     margin: 0.5rem 0 0;

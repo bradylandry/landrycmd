@@ -76,7 +76,7 @@ export function mountLabDialog(doc: Document = document, win: Window = window): 
     const name = button?.dataset.labName || LAB_NAMES[slug];
     titleEl.textContent = name;
     pageEl.href = labPath(slug);
-    pageEl.textContent = "Full page";
+    pageEl.textContent = "Open page ↗";
     pageEl.setAttribute("aria-label", `${name} on its own page`);
     frameEl.title = `${name} simulation`;
     navigateFrame(labPath(slug));

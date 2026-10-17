@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import NetworkBackground from "../components/NetworkBackground.astro";
 
 interface Props {
   title: string;
@@ -8,73 +7,168 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description = "Public AI lab: production agents, MCP servers, and retrieval systems. Run by Brady Landry, a network architect with 20 years in service-provider infrastructure.", noindex = false } = Astro.props;
+const {
+  title,
+  description = "Public AI lab: production agents, MCP servers, and retrieval systems. Run by Brady Landry, a network architect with 20 years in service-provider infrastructure.",
+  noindex = false,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const path = Astro.url.pathname;
 const isPrivate = noindex;
+
+const nav = [
+  { href: "/#work", label: "Work", current: path.startsWith("/work") },
+  { href: "/#lab", label: "Lab", current: false },
+  { href: "/writing/", label: "Writing", current: path.startsWith("/writing") },
+  { href: "/#about", label: "About", current: false },
+  { href: "/resume", label: "Résumé", current: path.startsWith("/resume"), resume: true },
+];
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme = stored;
+          if (theme !== "light" && theme !== "dark") {
+            theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          }
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#07090C" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F5F3EE" media="(prefers-color-scheme: light)" />
     {isPrivate && <meta name="robots" content="noindex,nofollow,noarchive" />}
     {!isPrivate && <link rel="canonical" href={canonical} />}
-
-    <!-- Open Graph / social — suppressed for private pages so OG scrapers /
-         link unfurlers can't reveal the canonical path of noindex routes -->
-    {!isPrivate && (
-      <>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={canonical} />
-        <meta property="og:site_name" content="landrycmd" />
-        <meta name="twitter:card" content="summary" />
-      </>
-    )}
-
+    {
+      !isPrivate && (
+        <>
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={canonical} />
+          <meta property="og:site_name" content="landrycmd" />
+          <meta property="og:image" content={new URL("/og.png", Astro.site).toString()} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:image" content={new URL("/og.png", Astro.site).toString()} />
+        </>
+      )
+    }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/ibm-plex-sans-600-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <slot name="head" />
-
     <title>{title}</title>
   </head>
   <body>
-    <NetworkBackground />
+    <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
-      <div class="site-header-inner">
-        <a href="/" class="brand">landrycmd</a>
-        <nav>
-          <a href="/#about">About</a>
-          <a href="/#lab">Lab</a>
-          <a href="/work/ai-network-operations">Work</a>
-          <a href="/resume">Résumé</a>
-          <a href="/writing/">Writing</a>
-        </nav>
+      <div class="wrap site-header-inner">
+        <a href="/" class="brand"><i aria-hidden="true"></i>landrycmd</a>
+        <div class="header-tools">
+          <nav class="site-nav" aria-label="Primary">
+            {
+              nav.map((item) => (
+                <a
+                  href={item.href}
+                  class={item.resume ? "resume" : undefined}
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.label}
+                  {item.resume ? " ↗" : ""}
+                </a>
+              ))
+            }
+          </nav>
+          <button type="button" class="theme-btn" id="theme-toggle">Theme</button>
+          <button
+            type="button"
+            class="menu-btn"
+            aria-expanded="false"
+            aria-controls="site-menu"
+            id="menu-toggle"
+          >
+            Menu
+          </button>
+        </div>
       </div>
     </header>
+    <div class="menu-sheet" id="site-menu" hidden>
+      {
+        nav.map((item) => (
+          <a href={item.href} class={item.resume ? "resume" : undefined}>
+            {item.label}
+            {item.resume ? " ↗" : ""}
+          </a>
+        ))
+      }
+    </div>
 
-    <main>
+    <main id="content">
       <slot />
     </main>
 
     <footer class="site-footer">
-      <div class="site-footer-inner">
-        <div>
-          <strong>landrycmd</strong>
-          &nbsp;·&nbsp;
-          <a href="mailto:support@landrycmd.com">support@landrycmd.com</a>
-          &nbsp;·&nbsp;
-          Louisiana, USA
-        </div>
-        <div>
-          <a href="/privacy">Privacy</a>
-          &nbsp;·&nbsp;
-          <a href="/terms">Terms</a>
+      <div class="wrap">
+        <p class="big">
+          Building something on a real network?
+          <a href="mailto:bjlandry@gmail.com">Let's talk.</a>
+        </p>
+        <div class="fbar">
+          <span>© 2026 Brady Landry · Louisiana</span>
+          <nav aria-label="Footer">
+            <a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/bradylandry" rel="noopener">GitHub</a>
+            <a href="/resume">Résumé</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+          </nav>
         </div>
       </div>
     </footer>
+    <script is:inline>
+      (function () {
+        var toggle = document.getElementById("theme-toggle");
+        var menuBtn = document.getElementById("menu-toggle");
+        var menu = document.getElementById("site-menu");
+        function label() {
+          var theme = document.documentElement.getAttribute("data-theme") || "dark";
+          if (toggle) toggle.textContent = theme === "light" ? "Dark" : "Light";
+        }
+        label();
+        if (toggle) {
+          toggle.addEventListener("click", function () {
+            var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+            document.documentElement.setAttribute("data-theme", next);
+            try { localStorage.setItem("theme", next); } catch (e) {}
+            label();
+          });
+        }
+        if (menuBtn && menu) {
+          menuBtn.addEventListener("click", function () {
+            var open = menu.hasAttribute("hidden");
+            if (open) menu.removeAttribute("hidden");
+            else menu.setAttribute("hidden", "");
+            menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+            menuBtn.textContent = open ? "Close" : "Menu";
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

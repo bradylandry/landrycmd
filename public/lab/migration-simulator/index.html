@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Zero-Downtime Migration Simulator</title>
+<link rel="preload" href="/fonts/ibm-plex-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lab/lab-shell.css">
 <style>
-:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+:root{--bg:#07090C;--panel:#0B0E13;--card:#10141A;--line:#2C3542;--txt:#ECEEF1;--mut:#7C8693;--acc:#5CC8F0;--acc2:#3A4553;--glow:rgba(92,200,240,0);--ok:#3DDC97;--warn:#FFB547;--err:#FF5D5D;--sans:"IBM Plex Sans","IBM Plex Sans Fallback",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--margin:clamp(20px,5vw,72px)}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
 .tabs{display:flex;gap:8px;max-width:1200px;margin:16px auto 0;padding:0 24px}
@@ -40,7 +42,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 
 .mline{stroke:var(--line);stroke-width:2.5;fill:none}.mline.live{stroke:var(--acc);filter:drop-shadow(0 0 3px var(--glow))}
 .mline.bridge{stroke:var(--acc2);stroke-dasharray:6 5}.mline.down{stroke:#ef4444;stroke-dasharray:3 4}.mline.idle{opacity:.25}
-.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:8}.box.master rect{stroke:var(--acc);fill:#0f172a}
+.box rect{fill:var(--bg);stroke:var(--line);stroke-width:2;rx:2}.box.master rect{stroke:var(--acc);fill:#0f172a}
 .box.backup rect{stroke:var(--mut)}.box.gone rect{stroke:#ef4444;stroke-dasharray:4 4;opacity:.5}
 .box text{fill:var(--txt);font-size:12px;text-anchor:middle}.box .sub{fill:var(--mut);font-size:10px}
 .pri{font-family:var(--mono);font-size:11px;text-anchor:middle}.pri.hi{fill:var(--acc)}.pri.lo{fill:var(--mut)}
@@ -51,8 +53,8 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 .cmp b{display:block;font-family:var(--mono);font-size:1.1rem}.cmp span{color:var(--mut);font-size:.78rem}
 .cmp .g b{color:var(--ok)}.cmp .r b{color:#ef4444}
 </style>
-<link rel="stylesheet" href="/lab/wire.css"></head><body>
-<header><a class="back" href="/#lab">&larr; landrycmd</a><p class="kicker">// lab</p><h1>Zero-Downtime Migration Simulator</h1>
+<link rel="stylesheet" href="/lab/wire.css"></head><body class="lab-shell">
+<header class="lab-header"><a class="brand" href="/"><i aria-hidden="true"></i>landrycmd</a><nav><a href="/#lab">← All labs</a><a class="resume" href="/resume">Résumé ↗</a></nav></header><header class="lab-title"><p class="kicker"><b>LAB 03</b> // MIGRATION</p><h1>Zero-Downtime Migration Simulator</h1>
 <p>Moving production traffic between vendor platforms by winning a redundancy election instead of cutting over. A method I developed and ran across NEEDS NUMBER markets. Names and systems are generalized.</p>
 <div class="metrics"><div><b>0</b><span>packets lost, straddle method</span></div><div><b>NEEDS NUMBER</b><span>markets run this way</span></div><div><b>1 value</b><span>rollback cost at any step</span></div><div><b>6 steps</b><span>one device touched at a time</span></div></div></header>
 <main>
@@ -64,6 +66,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">Below: switch between <b>Hardcut</b> and <b>Straddle</b> and watch the packets-lost counter. The scenario pills inject real failures &mdash; a gateway MAC that changed, preemption left enabled, an edge-port misconfiguration on the bridge.</p>
 <p class="lede">Loss times shown here (900 ms, 1400 ms, 1680 ms) are illustrative simulation values, not measured results.</p>
 <ul class="tags"><li>VRRP</li><li>Junos</li><li>NX-OS</li><li>EOS</li><li>NEEDS NUMBER markets</li><li>0 packets lost</li></ul>
+<p class="figcap">FIG. 03 — The straddle. Names and systems generalized.</p>
 <div class="view" id="v1">
  <div>
   <div class="scen" role="group" aria-label="Method"><button id="mHard" aria-pressed="false">Hardcut</button><button id="mStrad" aria-pressed="true">Straddle</button></div>
@@ -75,7 +78,7 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
  <aside class="side" aria-live="polite"><span class="tag" id="sTag">Step 0 / 8</span><h2 id="sTitle">Ready</h2><p id="sDesc">Pick a method, then Play. Straddle pre-stages the new router as the deliberate loser of the election, so traffic moves when a priority value changes &mdash; not when a cable does.</p><pre id="sEx">// waiting</pre><ol id="sList"></ol></aside>
 </div></section>
 </main>
-<footer>Portfolio demo &middot; illustrative architecture, no proprietary details</footer>
+<footer class="lab-footer"><p class="big">Building something on a real network? <a class="talk" href="mailto:bjlandry@gmail.com">Let’s talk.</a></p><div class="fbar"><span>© 2026 Brady Landry · Louisiana</span><nav><a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a><a href="https://github.com/bradylandry" rel="noopener">GitHub</a><a href="/resume">Résumé</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div></footer>
 <script src="/lab/wire.js"></script>
 <script>
 const S='http://www.w3.org/2000/svg';
@@ -112,7 +115,7 @@ for(const k in lines)lines[k].flow=labWire.overlay(lines[k].el, fg);
 const setFlow=(k,on)=>lines[k]&&labWire.set(lines[k].flow, on);
 const boxes={};
 BOX.forEach(b=>{const g=mk('g',{class:'box',transform:`translate(${b.x} ${b.y})`},bg);
- mk('rect',{width:b.w,height:b.h,rx:8},g);
+ mk('rect',{width:b.w,height:b.h,rx:2},g);
  const t1=mk('text',{x:b.w/2,y:24},g);t1.textContent=b.l;
  const t2=mk('text',{class:'sub',x:b.w/2,y:40},g);t2.textContent=b.s;
  const pr=mk('text',{class:'pri lo',x:b.w/2,y:54},g);

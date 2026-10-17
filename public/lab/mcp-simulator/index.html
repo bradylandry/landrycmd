@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MCP Integration Simulator</title>
+<link rel="preload" href="/fonts/ibm-plex-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lab/lab-shell.css">
 <style>
-:root{--bg:#0d1117;--panel:#171a21;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#38bdf8;--acc2:#8b5cf6;--glow:rgba(56,189,248,.5);--ok:#10b981;--warn:#f59e0b;--card:#21262d;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+:root{--bg:#07090C;--panel:#0B0E13;--card:#10141A;--line:#2C3542;--txt:#ECEEF1;--mut:#7C8693;--acc:#5CC8F0;--acc2:#3A4553;--glow:rgba(92,200,240,0);--ok:#3DDC97;--warn:#FFB547;--err:#FF5D5D;--sans:"IBM Plex Sans","IBM Plex Sans Fallback",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--margin:clamp(20px,5vw,72px)}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt);min-height:100vh}
 header{padding:28px 24px 8px;max-width:1200px;margin:auto}h1{margin:0;font-size:1.6rem;font-family:var(--mono)}h1:before{content:"> ";color:var(--acc)}header p{color:var(--mut);margin:4px 0 0}
 button:focus-visible,.node:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
@@ -28,8 +30,8 @@ pre{font-family:var(--mono);background:#0f172a;border:1px solid var(--line);bord
 .tags li{font-family:var(--mono);font-size:.72rem;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
 footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 </style>
-<link rel="stylesheet" href="/lab/wire.css"></head><body>
-<header><a class="back" href="/#work">&larr; landrycmd</a><p class="kicker">// lab</p><h1>MCP Integration Simulator</h1><p>Clients and agents on the left, one MCP hub in the middle, servers and tools on the right. The firewall review agent lives on its own page. Names and systems are generalized.</p><div class="metrics"><div><b>28</b><span>MCP servers</span></div><div><b>~573</b><span>tools</span></div><div><b>44</b><span>agents</span></div><div><b>31</b><span>skills · 23 authored agents</span></div></div></header>
+<link rel="stylesheet" href="/lab/wire.css"></head><body class="lab-shell">
+<header class="lab-header"><a class="brand" href="/"><i aria-hidden="true"></i>landrycmd</a><nav><a href="/#lab">← All labs</a><a class="resume" href="/resume">Résumé ↗</a></nav></header><header class="lab-title"><p class="kicker"><b>LAB 01</b> // MCP</p><h1>MCP Integration Simulator</h1><p>Clients and agents on the left, one MCP hub in the middle, servers and tools on the right. The firewall review agent lives on its own page. Names and systems are generalized.</p><div class="metrics"><div><b>28</b><span>MCP servers</span></div><div><b>~573</b><span>tools</span></div><div><b>44</b><span>agents</span></div><div><b>31</b><span>skills · 23 authored agents</span></div></div></header>
 <main>
 <section class="block">
 <p class="lbl">01 &middot; what I built</p>
@@ -37,12 +39,13 @@ footer{color:var(--mut);font-size:.8rem;text-align:center;padding-bottom:24px}
 <p class="lede">Network engineers lose hours moving between a dozen consoles to answer one question. I built <b>28 MCP servers</b> that expose those systems &mdash; telemetry, source of truth, config backups, ticketing, IPAM, inventory &mdash; as <b>573 tools</b> an AI assistant can call directly, plus <b>44 agents</b> and <b>31 skills</b> layered on top. I authored 23 of those agents.</p>
 <p class="lede">Below is the topology: clients and agents, the hub, then the servers. Packets on the links are requests moving between them. Hover or select a node to see what it does.</p>
 <ul class="tags"><li>MCP</li><li>Python</li><li>read-only by default</li><li>28 servers</li><li>573 tools</li></ul>
+<p class="figcap">FIG. 01 — The hub. Names and systems generalized.</p>
 <div class="view" id="v1">
  <svg id="topo" viewBox="0 0 780 640" role="img" aria-label="Topology of clients and agents linked to an MCP hub, linked to servers and tools"></svg>
  <aside class="side" aria-live="polite"><span class="tag" id="wTag">Overview</span><h2 id="wTitle">MCP hub</h2><p id="wDesc">Clients and agents connect to one hub. The hub connects to every server. Nodes on the right are representative categories, not one per server. Packets move along the links.</p><pre id="wEx">28 MCP servers · 573 tools · 44 agents · 31 skills</pre></aside>
 </div></section>
 </main>
-<footer>Portfolio demo · illustrative architecture, no proprietary details · <a href="/lab/frr-review/">firewall request review</a></footer>
+<p class="cross"><a href="/lab/frr-review/">Firewall request review ↗</a></p><footer class="lab-footer"><p class="big">Building something on a real network? <a class="talk" href="mailto:bjlandry@gmail.com">Let’s talk.</a></p><div class="fbar"><span>© 2026 Brady Landry · Louisiana</span><nav><a href="https://www.linkedin.com/in/bradylandry/" rel="noopener">LinkedIn</a><a href="https://github.com/bradylandry" rel="noopener">GitHub</a><a href="/resume">Résumé</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div></footer>
 <script src="/lab/wire.js"></script>
 <script>
 const S='http://www.w3.org/2000/svg';
@@ -102,7 +105,7 @@ col(hubBox.x+hubBox.w/2,20,'hub');
 col(srvBox.x+srvBox.w/2,20,'servers / tools');
 function box(x,y,w,h,label,sub,hub){
  const g=mk('g',{class:hub?'node hub':'node',transform:`translate(${x} ${y-h/2})`,tabindex:0,role:'button','aria-label':label},ng);
- mk('rect',{width:w,height:h,rx:8},g);
+ mk('rect',{width:w,height:h,rx:2},g);
  const ty=sub?h/2-2:h/2+4;
  const t=mk('text',{x:w/2,y:ty},g);t.textContent=label;
  if(sub){const s=mk('text',{class:'sub',x:w/2,y:h/2+14},g);s.textContent=sub}
