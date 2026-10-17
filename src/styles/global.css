@@ -1292,12 +1292,15 @@ ul {
 @media (max-width: 700px) {
   .hero-band {
     background: none;
+    padding-top: var(--s8);
   }
   .hero-band::before {
-    top: 12px;
+    top: 8px;
     left: 0;
     width: min(168px, 42vw);
-    height: 40px;
+    /* 32px plate ends at 40px: 8px above the 48px (--s7) hero padding
+       and above the eyebrow, which starts further down. */
+    height: 32px;
     opacity: 0.85;
   }
   .band {
