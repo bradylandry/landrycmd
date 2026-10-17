@@ -445,10 +445,6 @@ main {
   color: var(--signal-ink);
 }
 
-.btn .ext {
-  opacity: 0.6;
-}
-
 .stats {
   margin-top: var(--s8);
   display: grid;

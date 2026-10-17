@@ -54,6 +54,7 @@ try {
   });
   await session.send("Page.enable", {}, sessionId);
   await session.send("Runtime.enable", {}, sessionId);
+  if (screenshotsOnly) await blockApiRoutes(session, sessionId);
 
   const report = {
     base,
@@ -496,9 +497,39 @@ async function waitForJson(url) {
   throw new Error(`chrome debug port not ready: ${last}`);
 }
 
+function apiPath(url) {
+  try {
+    const path = new URL(url).pathname;
+    return path === "/api" || path.startsWith("/api/");
+  } catch {
+    return false;
+  }
+}
+
+function blockApiRoutes(session, sessionId) {
+  session.on((message) => {
+    if (message.method !== "Fetch.requestPaused") return;
+    if (message.sessionId && message.sessionId !== sessionId) return;
+    const requestId = message.params?.requestId;
+    if (!requestId) return;
+    const blocked = apiPath(message.params?.request?.url || "");
+    const method = blocked ? "Fetch.failRequest" : "Fetch.continueRequest";
+    const params = blocked
+      ? { requestId, errorReason: "BlockedByClient" }
+      : { requestId };
+    session.send(method, params, sessionId).catch(() => {});
+  });
+  return session.send(
+    "Fetch.enable",
+    { patterns: [{ urlPattern: "*", requestStage: "Request" }] },
+    sessionId,
+  );
+}
+
 function connect(wsUrl) {
   const ws = new WebSocket(wsUrl);
   const pending = new Map();
+  const listeners = new Set();
   let next = 0;
   const ready = new Promise((resolve, reject) => {
     ws.addEventListener("open", resolve);
@@ -506,14 +537,20 @@ function connect(wsUrl) {
   });
   ws.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
-    if (!message.id || !pending.has(message.id)) return;
-    const { resolve, reject } = pending.get(message.id);
-    pending.delete(message.id);
-    if (message.error) reject(new Error(JSON.stringify(message.error)));
-    else resolve(message.result);
+    if (message.id && pending.has(message.id)) {
+      const { resolve, reject } = pending.get(message.id);
+      pending.delete(message.id);
+      if (message.error) reject(new Error(JSON.stringify(message.error)));
+      else resolve(message.result);
+      return;
+    }
+    for (const listener of listeners) listener(message);
   });
   return {
     ws,
+    on(listener) {
+      listeners.add(listener);
+    },
     async send(method, params = {}, sessionId) {
       await ready;
       const id = ++next;

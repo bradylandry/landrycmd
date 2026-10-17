@@ -61,7 +61,7 @@ node .cursor/skills/verify-landrycmd/drive.mjs
 
 That script, against `VERIFY_BASE` (default `http://localhost:4321`):
 
-- Sets `data-theme` through `localStorage` key `theme` and checks WCAG AA contrast: 4.5:1 for body text, 3:1 for large text (24px, or bold 18.66px and up) and for button, field, and `.btn` boundaries. Both `dark` and `light` on `/`, `/writing/`, `/resume`, and `/work/ai-network-operations`.
+- Sets `data-theme` through `localStorage` key `theme`. Contrast uses the resting color after entrance animations finish. Body text needs 4.5:1. Large text (24px, or bold at 18.66px and up) needs 3:1. A control with no text label (`button`, `input`, `textarea`, `select`, `a.btn`) needs a 3:1 boundary against the background outside it. A labeled control, including `.btn`, is judged by its text, with opacity blended into the ink. Both `dark` and `light` on `/`, `/writing/`, `/resume`, and `/work/ai-network-operations`.
 - At 360px, checks `scrollWidth <= clientWidth` on `/` and each lab: `/lab/mcp-simulator/`, `/lab/frr-review/`, `/lab/migration-simulator/`, `/lab/ring-collapse/`, `/lab/airtap-mpls/`.
 - With `prefers-reduced-motion: reduce`, checks `--glow` and `--accent-glow` are transparent, `.flow.on` animation is `none`, `.pulse` and `.mline.live` filters are `none`, and nothing is running. Home and every lab.
 - At 360px, clicks `#menu-toggle`, then `#site-menu a[href="/#lab"]`, and expects `#site-menu` hidden and `aria-expanded="false"`. Opens the menu again and sends Escape. Work, Lab, and About are the in-page links that call `closeMenu`. Writing and Résumé leave the document.
@@ -74,7 +74,7 @@ Screenshots only (local or the PR's Vercel preview origin, no path):
 VERIFY_BASE="$PREVIEW_ORIGIN" VERIFY_OUT=/tmp/landrycmd-verify/preview node .cursor/skills/verify-landrycmd/drive.mjs --screenshots
 ```
 
-`PREVIEW_ORIGIN` is the origin on the Vercel deployment check for this PR. Widths are 360, 768, and 1440. Files: `home-360.png`, `home-768.png`, `home-1440.png`.
+`PREVIEW_ORIGIN` is the origin on the Vercel deployment check for this PR. Widths are 360, 768, and 1440. Files: `home-360.png`, `home-768.png`, `home-1440.png`. This mode blocks `/api` and `/api/*` in the browser before the request is sent, including on a deployed origin. It loads `/` only.
 
 ## Evidence
 
@@ -85,7 +85,7 @@ Saved under `/tmp/landrycmd-verify/` (or `VERIFY_OUT`):
 - `doctor-home.html`, `doctor-apps.txt`, `dev.log`
 - scan stdout (below)
 
-The browser pass only GETs pages and clicks in-page controls. Theme writes `localStorage` in the throwaway Chrome profile. The lab dialog uses `history.replaceState`. Neither contacts Redis. Do not open mailto links and do not request `/api/track`, `/api/auth`, or `/api/publish-note`.
+The browser pass only GETs pages and clicks in-page controls. Theme writes `localStorage` in the throwaway Chrome profile. The lab dialog uses `history.replaceState`. Neither contacts Redis. Do not open mailto links. `--screenshots` fails any request whose path is `/api` or starts with `/api/`, so a preview origin cannot receive `/api/track`, `/api/auth`, or `/api/publish-note`. The full pass does not request those routes either.
 
 Public-copy scan. Leak patterns fail the process. `NEEDS NUMBER` is listed and does not fail, and it is not a CI grep.
 

@@ -7,7 +7,7 @@ tags: [meta]
 
 Hi, Brady here.
 
-This site is the home for the products and open-source work I build outside my day job: [Jarvis](https://jarvis.landrycmd.com) (personal AI assistant), [Jarvis Quant](https://trading.landrycmd.com) (algorithmic trading), [PeptideTracker](https://peptidetrackers.com) (health-tracking mobile app), plus public frameworks for monitoring and personal knowledge management.
+This site is the home for the products and open-source work I build outside my day job: [Jarvis](https://jarvis.landrycmd.com) (personal AI assistant), Jarvis Quant (algorithmic trading), [PeptideTracker](https://peptidetrackers.com) (health-tracking mobile app), plus public frameworks for monitoring and personal knowledge management.
 
 The `/writing` section is where I publish longer-form pieces on:
 
