@@ -1178,6 +1178,11 @@ ul {
   background: rgba(245, 243, 238, 0.82);
 }
 
+[data-theme="light"] .skip {
+  background: var(--signal-fill);
+  color: var(--signal-ink);
+}
+
 [data-theme="light"] .scope,
 [data-theme="light"] .lab-thumb,
 [data-theme="light"] .lab-dialog,

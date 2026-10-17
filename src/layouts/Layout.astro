@@ -160,12 +160,30 @@ const nav = [
           });
         }
         if (menuBtn && menu) {
-          menuBtn.addEventListener("click", function () {
-            var open = menu.hasAttribute("hidden");
+          function setMenu(open) {
             if (open) menu.removeAttribute("hidden");
             else menu.setAttribute("hidden", "");
             menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
             menuBtn.textContent = open ? "Close" : "Menu";
+          }
+          function closeMenu() {
+            if (menu.hasAttribute("hidden")) return;
+            setMenu(false);
+            menuBtn.focus({ preventScroll: true });
+          }
+          menuBtn.addEventListener("click", function () {
+            setMenu(menu.hasAttribute("hidden"));
+          });
+          menu.addEventListener("click", function (event) {
+            var link = event.target && event.target.closest ? event.target.closest("a") : null;
+            if (!link || !menu.contains(link)) return;
+            var href = link.getAttribute("href") || "";
+            if (href.indexOf("#work") !== -1 || href.indexOf("#lab") !== -1 || href.indexOf("#about") !== -1) {
+              closeMenu();
+            }
+          });
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") closeMenu();
           });
         }
       })();

@@ -125,14 +125,14 @@ body.lab-shell .lab-header {
   align-items: center;
   gap: 28px;
 }
-.lab-header nav a {
+body.lab-shell .lab-header nav a {
   color: #a9b1bc;
   text-decoration: none;
   font: 500 0.75rem/1 var(--mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.lab-header nav a.resume {
+body.lab-shell .lab-header nav a.resume {
   color: var(--signal);
 }
 
@@ -437,7 +437,9 @@ body.lab-shell .cross {
 }
 .lab-footer .fbar nav {
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  max-width: 100%;
 }
 .lab-footer .fbar a {
   color: #7c8693;
