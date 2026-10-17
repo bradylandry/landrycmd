@@ -1,6 +1,5 @@
 /*
- * Signal palette. Dark is the default. Light tokens live under
- * [data-theme="light"] in global.css.
+ * Signal palette. The site is dark only.
  * The field is original CSS: near-black panels, not a traced image.
  */
 :root {

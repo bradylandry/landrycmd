@@ -204,7 +204,7 @@ html.lab-embed body::after {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 701px) {
   body::after {
     animation: edge-ember 9s ease-in-out infinite;
   }

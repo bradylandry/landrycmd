@@ -219,11 +219,10 @@ h4 {
   color: var(--signal);
 }
 
-.menu-btn,
-.theme-btn {
+.menu-btn {
   display: none;
   height: 44px;
-  padding: 0 16px 0 20px;
+  padding: 0 16px;
   border: 1px solid var(--line-600);
   border-radius: 0;
   background: var(--ink-850);
@@ -231,12 +230,6 @@ h4 {
   font: 500 var(--fs-sm) / 1 var(--font-mono);
   letter-spacing: 0.02em;
   cursor: pointer;
-  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-}
-
-.theme-btn {
-  display: inline-flex;
-  align-items: center;
 }
 
 .menu-sheet {
@@ -272,31 +265,39 @@ main {
 /* Hero */
 .band {
   position: relative;
+  isolation: isolate;
+  --mark-room: 96px;
+  --mark-glow: 4px;
+  --mark-inset: 10px;
+  --mark-h: 8px;
   padding: var(--s9) 0;
   border-bottom: none;
 }
 
-/* Diagonal cut between sections: orange bar plus a hatch, held in the padding. */
+/* Diagonal section mark. Anchored on its bottom edge so the -32deg
+   rise, plus the glow, stays inside the band's bottom padding.
+   z-index -1 keeps it behind the section content. */
 .band::after {
   content: "";
   position: absolute;
-  z-index: 1;
+  z-index: -1;
   left: max(20px, calc((100% - 1200px) / 2 + clamp(20px, 5vw, 72px)));
-  bottom: 22px;
-  width: min(156px, 42vw);
-  height: 10px;
+  bottom: var(--mark-inset);
+  width: calc((var(--mark-room) - (var(--mark-inset) * 2) - (var(--mark-h) * 0.848048) - 1px) / 0.529919);
+  height: var(--mark-h);
   pointer-events: none;
   background:
-    repeating-linear-gradient(90deg, var(--field-hot-2) 0 2px, transparent 2px 7px) 0 0 / 58px 7px no-repeat,
-    linear-gradient(90deg, var(--field-hot), var(--field-hot-2)) 64px 4px / 92px 2px no-repeat;
+    repeating-linear-gradient(90deg, var(--field-hot-2) 0 2px, transparent 2px 7px) left center / 42% 7px no-repeat,
+    linear-gradient(90deg, var(--field-hot), var(--field-hot-2)) 46% center / 54% 2px no-repeat;
   transform: rotate(-32deg);
-  transform-origin: left center;
-  filter: drop-shadow(0 0 6px var(--field-bloom));
+  transform-origin: left bottom;
+  filter: drop-shadow(0 0 var(--mark-glow) var(--field-bloom));
 }
 
 .hero-band {
   position: relative;
   isolation: isolate;
+  --mark-room: 72px;
   overflow: hidden;
   padding: 96px 0 72px;
   background:
@@ -347,8 +348,8 @@ main {
 .hero-band::after {
   left: auto;
   right: max(20px, calc((100% - 1200px) / 2 + 8px));
-  bottom: 36px;
-  transform-origin: right center;
+  bottom: var(--mark-inset);
+  transform-origin: left bottom;
 }
 
 .hero-band .grid,
@@ -469,6 +470,8 @@ main {
 }
 
 .btn {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -476,12 +479,21 @@ main {
   padding: 0 22px 0 26px;
   font: 500 var(--fs-sm) / 1 var(--font-mono);
   letter-spacing: 0.02em;
-  border: 1px solid var(--line-600);
+  border: 0;
   border-radius: 0;
   color: var(--fg-100);
-  background: var(--ink-850);
+  background: transparent;
   text-decoration: none;
   cursor: pointer;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--ink-850);
+  border: 1px solid var(--line-600);
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
   transition:
     background var(--dur-1) var(--ease),
@@ -490,22 +502,31 @@ main {
 }
 
 .btn:hover {
-  border-color: var(--fg-300);
-  background: var(--ink-800);
   text-decoration: none;
 }
 
+.btn:hover::before {
+  border-color: var(--fg-300);
+  background: var(--ink-800);
+}
+
 .btn--primary {
+  color: var(--signal-ink);
+}
+
+.btn--primary::before {
   background: linear-gradient(100deg, var(--field-hot), var(--field-hot-2) 58%, var(--field-hot));
   border-color: transparent;
-  color: var(--signal-ink);
   filter: drop-shadow(0 0 10px var(--field-bloom));
 }
 
 .btn--primary:hover {
+  color: var(--signal-ink);
+}
+
+.btn--primary:hover::before {
   background: var(--signal-hover);
   border-color: transparent;
-  color: var(--signal-ink);
 }
 
 .stats {
@@ -713,8 +734,10 @@ main {
   background:
     linear-gradient(148deg, var(--field-bevel), transparent 28%) 0 0 / 72px 72px no-repeat,
     var(--ink-900);
-  overflow: hidden;
-  clip-path: polygon(0 22px, 40px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 46px) 100%, 0 100%);
+  overflow: visible;
+  /* Small chamfer. The cut stays inside the card padding so the figure
+     tag, body copy, and the inner control's focus outline remain intact. */
+  clip-path: polygon(0 8px, 14px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 14px) 100%, 0 100%);
   transition:
     border-color var(--dur-2) var(--ease),
     transform var(--dur-2) var(--ease);
@@ -724,12 +747,12 @@ main {
   content: "";
   position: absolute;
   z-index: 2;
-  top: 16px;
-  left: 8px;
-  width: 46px;
+  top: 2px;
+  left: 18px;
+  width: 36px;
   height: 3px;
   background: linear-gradient(90deg, var(--field-hot), var(--field-hot-2));
-  transform: rotate(32deg);
+  transform: rotate(-28deg);
   transform-origin: left center;
   filter: drop-shadow(0 0 6px var(--field-bloom));
   pointer-events: none;
@@ -751,7 +774,6 @@ main {
   color: #f3f3f5;
   color-scheme: dark;
   border-right: 1px solid #2a2a30;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), calc(100% - 18px) 100%, 0 100%);
 }
 
 .figtag {
@@ -1170,6 +1192,9 @@ ul {
     display: inline-flex;
     align-items: center;
   }
+  .band {
+    --mark-room: 64px;
+  }
   .hero-band {
     padding: var(--s7) 0;
   }
@@ -1245,19 +1270,25 @@ ul {
     left: 0;
     opacity: 0.85;
   }
+  .band {
+    --mark-glow: 0px;
+    --mark-inset: 4px;
+  }
   .hero-band::after,
   .band::after {
-    width: 96px;
-    bottom: 12px;
     filter: none;
   }
   .site-footer {
+    padding-top: 64px;
     background: none;
   }
   .site-footer::before {
-    width: 120px;
-    height: 72px;
-    opacity: 0.7;
+    top: 12px;
+    right: 8px;
+    bottom: auto;
+    width: 108px;
+    height: 40px;
+    opacity: 0.85;
   }
   .lab-card::before {
     filter: none;
@@ -1307,7 +1338,7 @@ ul {
     animation: none;
     filter: none;
   }
-  .btn--primary,
+  .btn--primary::before,
   .lab-card::before,
   .brand i {
     filter: none;
@@ -1318,63 +1349,3 @@ ul {
   }
 }
 
-/* Light theme: graphite panels on light gray, same orange.
-   Diagram scopes stay on the dark ink. Text orange is darker so it clears AA. */
-[data-theme="light"] {
-  color-scheme: light;
-  --ink-950: #e4e4e8;
-  --ink-900: #f4f4f6;
-  --ink-850: #d5d5da;
-  --ink-800: #c8c8ce;
-  --line-700: #c4c4ca;
-  --line-600: #8e8e98;
-  --line-500: #6e6e78;
-  --fg-100: #141416;
-  --fg-300: #3a3a42;
-  --fg-500: #4a4a54;
-  --signal: #8a3000;
-  --signal-hover: #ff7a1a;
-  --signal-fill: #ff6a00;
-  --signal-ink: #140a02;
-  --signal-wash: rgba(138, 48, 0, 0.14);
-  --data: #8a3000;
-  --data-wash: rgba(138, 48, 0, 0.28);
-  --field-0: #e4e4e8;
-  --field-1: #8e8e98;
-  --field-2: #6e6e78;
-  --field-3: #b4b4bc;
-  --field-bevel: rgba(255, 255, 255, 0.92);
-  --field-shade: rgba(20, 20, 22, 0.35);
-  --field-dot: rgba(20, 20, 24, 0.55);
-  --field-hot: #ff6a00;
-  --field-hot-2: #ff7a1a;
-  --field-bloom: rgba(255, 106, 0, 0.4);
-  --header-bg: rgba(228, 228, 232, 0.9);
-  --edge-plate: var(--field-2);
-  --edge-plate-2: var(--field-1);
-  --edge-dot: var(--field-dot);
-  --edge-bevel: var(--field-bevel);
-  --edge-shade: var(--field-shade);
-  --edge-hot: var(--field-hot);
-  --edge-hot-soft: var(--field-bloom);
-  --bg: var(--ink-950);
-  --card: var(--ink-900);
-  --border: var(--line-600);
-  --text: var(--fg-100);
-  --text-dim: var(--fg-300);
-  --fg-subtle: var(--fg-500);
-}
-
-[data-theme="light"] .skip {
-  background: var(--signal-fill);
-  color: var(--signal-ink);
-}
-
-[data-theme="light"] .scope,
-[data-theme="light"] .lab-thumb,
-[data-theme="light"] .lab-dialog,
-[data-theme="light"] .lab-dialog-frame {
-  color-scheme: dark;
-  background: #07090c;
-  color: #eceef1;
-}

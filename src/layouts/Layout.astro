@@ -28,24 +28,11 @@ const nav = [
 <!doctype html>
 <html lang="en">
   <head>
-    <script is:inline>
-      (function () {
-        try {
-          var stored = localStorage.getItem("theme");
-          var theme = stored === "light" ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", theme);
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        }
-      })();
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0B0B0C" />
-    <meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#E4E4E8" media="(prefers-color-scheme: light)" />
     {isPrivate && <meta name="robots" content="noindex,nofollow,noarchive" />}
     {!isPrivate && <link rel="canonical" href={canonical} />}
     {
@@ -94,7 +81,6 @@ const nav = [
               ))
             }
           </nav>
-          <button type="button" class="theme-btn" id="theme-toggle">Theme</button>
           <button
             type="button"
             class="menu-btn"
@@ -142,22 +128,8 @@ const nav = [
     </footer>
     <script is:inline>
       (function () {
-        var toggle = document.getElementById("theme-toggle");
         var menuBtn = document.getElementById("menu-toggle");
         var menu = document.getElementById("site-menu");
-        function label() {
-          var theme = document.documentElement.getAttribute("data-theme") || "dark";
-          if (toggle) toggle.textContent = theme === "light" ? "Dark" : "Light";
-        }
-        label();
-        if (toggle) {
-          toggle.addEventListener("click", function () {
-            var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
-            document.documentElement.setAttribute("data-theme", next);
-            try { localStorage.setItem("theme", next); } catch (e) {}
-            label();
-          });
-        }
         if (menuBtn && menu) {
           function setMenu(open) {
             if (open) menu.removeAttribute("hidden");
