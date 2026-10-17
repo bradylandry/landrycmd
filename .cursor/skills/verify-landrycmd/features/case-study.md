@@ -13,9 +13,11 @@ From Home, Work, follow "AI Network Operations Platform". The URL is `/work/ai-n
 ## Driving it with curl and drive.mjs
 
 ```bash
-curl -fsS http://localhost:4321/work/ai-network-operations | grep -q 'AI Network Operations Platform (MCP)'
-curl -fsS http://localhost:4321/work/ai-network-operations | grep -q '/lab/mcp-simulator/'
-curl -fsS http://localhost:4321/work/ai-network-operations | grep -q '/lab/frr-review/'
+curl -fsSL -o /tmp/landrycmd-verify/case-study.html http://localhost:4321/work/ai-network-operations
+test -s /tmp/landrycmd-verify/case-study.html
+grep -q 'AI Network Operations Platform (MCP)' /tmp/landrycmd-verify/case-study.html
+grep -q '/lab/mcp-simulator/' /tmp/landrycmd-verify/case-study.html
+grep -q '/lab/frr-review/' /tmp/landrycmd-verify/case-study.html
 ```
 
 Selectors: `article.prose h1`, `a[href="/lab/mcp-simulator/"]`, `a[href="/lab/frr-review/"]`. The page has no `role="tab"`.

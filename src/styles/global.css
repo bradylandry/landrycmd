@@ -630,25 +630,41 @@ main {
 }
 
 .feature {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: var(--s5);
   align-items: end;
   padding: var(--s6);
-  border: 1px solid var(--line-600);
+  border: 0;
   border-radius: 0;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Chamfer lives on the plate so the link's focus ring stays a full rectangle. */
+.feature::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--line-600);
   background:
     linear-gradient(32deg, var(--field-hot) 0 2px, transparent 2px) 0 0 / 64px 28px no-repeat,
     var(--ink-900);
-  color: inherit;
-  text-decoration: none;
   clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+  pointer-events: none;
   transition: border-color var(--dur-2) var(--ease);
 }
 
 .feature:hover {
-  border-color: var(--field-hot-2);
   text-decoration: none;
+}
+
+.feature:hover::before {
+  border-color: var(--field-hot-2);
 }
 
 .feature h3 {
@@ -747,14 +763,15 @@ main {
   content: "";
   position: absolute;
   z-index: 2;
-  top: 2px;
+  top: 3px;
   left: 18px;
-  width: 36px;
+  width: 40px;
   height: 3px;
   background: linear-gradient(90deg, var(--field-hot), var(--field-hot-2));
-  transform: rotate(-28deg);
+  /* Descends into the card, staying under the top edge and above the figure tag. */
+  transform: rotate(20deg);
   transform-origin: left center;
-  filter: drop-shadow(0 0 6px var(--field-bloom));
+  filter: drop-shadow(0 0 4px var(--field-bloom));
   pointer-events: none;
 }
 
@@ -778,8 +795,8 @@ main {
 
 .figtag {
   position: absolute;
-  left: 12px;
-  top: 12px;
+  left: 14px;
+  top: 28px;
   font: 400 10.5px / 1 var(--font-mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1158,22 +1175,35 @@ ul {
 
 .lab-dialog-page,
 .lab-dialog-close {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 44px;
   min-height: 44px;
   padding: 0 18px 0 22px;
-  border: 1px solid var(--line-600);
+  border: 0;
   border-radius: 0;
-  background: var(--ink-850);
+  background: transparent;
   color: var(--fg-100);
   font: 500 var(--fs-sm) / 1 var(--font-mono);
   letter-spacing: 0.02em;
   text-decoration: none;
   cursor: pointer;
   flex: none;
+}
+
+.lab-dialog-page::before,
+.lab-dialog-close::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--line-600);
+  background: var(--ink-850);
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  pointer-events: none;
 }
 
 .lab-dialog-frame {
@@ -1264,10 +1294,10 @@ ul {
     background: none;
   }
   .hero-band::before {
-    width: 112px;
-    height: 88px;
-    top: 0;
+    top: 12px;
     left: 0;
+    width: min(168px, 42vw);
+    height: 40px;
     opacity: 0.85;
   }
   .band {
