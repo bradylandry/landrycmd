@@ -57,7 +57,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--ink-950);
+  background: transparent;
   color: var(--fg-100);
   font: 400 var(--fs-base) / 1.65 var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -1131,6 +1131,10 @@ ul {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html:root {
+    --accent-glow: transparent;
+    --glow: transparent;
+  }
   .profile-id > *,
   .lab-card,
   .lab-dialog,

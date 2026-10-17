@@ -63,10 +63,14 @@
   --line-soft: #1e252f;
 }
 
+html:has(body.lab-shell) {
+  background: #07090c;
+}
+
 body.lab-shell {
   color-scheme: dark;
   margin: 0;
-  background: #07090c;
+  background: transparent;
   color: #eceef1;
   font: 400 1.0625rem/1.65 var(--sans);
   -webkit-font-smoothing: antialiased;

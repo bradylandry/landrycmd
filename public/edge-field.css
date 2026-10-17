@@ -3,13 +3,20 @@
    the plates, orange slashes and particles held in the corners.
    Not derived from a stock image. */
 
+/* Distance from the viewport edge to the first text column.
+   Matches .wrap: a centered 1200px container plus its page margin. */
+body {
+  --edge-inset: calc((100vw - min(100vw, 1200px)) / 2 + clamp(20px, 5vw, 72px));
+  background-color: transparent;
+}
+
 body::before,
 body::after {
   content: "";
   position: fixed;
-  z-index: 0;
-  width: 220px;
-  height: 168px;
+  z-index: -1;
+  width: max(0px, calc(var(--edge-inset) - 12px));
+  height: min(200px, max(0px, calc(var(--edge-inset) - 12px)));
   pointer-events: none;
   background-repeat: no-repeat;
   background-image:
@@ -66,33 +73,16 @@ body::after {
   transform: rotate(180deg);
 }
 
-/* Page text stays above the plates. Class rules still win for sticky and fixed chrome. */
-body > * {
-  position: relative;
-  z-index: 1;
-}
-
 html.lab-embed body::before,
 html.lab-embed body::after {
   display: none;
 }
 
-@media (max-width: 1200px) {
+/* Below this width the gutter is only page padding, so a plate sits under text. */
+@media (max-width: 1099px) {
   body::before,
   body::after {
-    width: 150px;
-    height: 112px;
-  }
-}
-
-@media (max-width: 860px) {
-  body::before,
-  body::after {
-    width: 96px;
-    height: 72px;
-  }
-  body::before {
-    top: 64px;
+    display: none;
   }
 }
 
@@ -117,10 +107,18 @@ html.lab-embed body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html:root {
+    --glow: transparent;
+    --accent-glow: transparent;
+  }
   body::before,
   body::after {
     animation: none;
     opacity: 1;
+  }
+  html:root .pulse,
+  html:root .mline.live {
+    filter: none;
   }
 }
 
