@@ -32,10 +32,7 @@ const nav = [
       (function () {
         try {
           var stored = localStorage.getItem("theme");
-          var theme = stored;
-          if (theme !== "light" && theme !== "dark") {
-            theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-          }
+          var theme = stored === "light" ? "light" : "dark";
           document.documentElement.setAttribute("data-theme", theme);
         } catch (e) {
           document.documentElement.setAttribute("data-theme", "dark");
@@ -46,8 +43,9 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#07090C" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#F5F3EE" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B0B0C" />
+    <meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#E6E6E9" media="(prefers-color-scheme: light)" />
     {isPrivate && <meta name="robots" content="noindex,nofollow,noarchive" />}
     {!isPrivate && <link rel="canonical" href={canonical} />}
     {

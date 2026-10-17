@@ -1,36 +1,51 @@
 /*
  * Signal palette. Dark is the default. Light tokens live under
  * [data-theme="light"] in global.css.
+ * The field is original CSS: near-black panels, not a traced image.
  */
 :root {
-  --ink-950: #07090c;
-  --ink-900: #0b0e13;
-  --ink-850: #10141a;
-  --ink-800: #161b23;
-  --line-700: #1e252f;
-  --line-600: #2c3542;
-  --line-500: #3a4553;
-  --fg-100: #eceef1;
-  --fg-300: #a9b1bc;
-  --fg-500: #7c8693;
-  /* Hot orange, the only chrome accent. Text orange clears WCAG AA on --ink-950. */
+  --ink-950: #0b0b0c;
+  --ink-900: #121214;
+  --ink-850: #141416;
+  --ink-800: #1c1c20;
+  --line-700: #2a2a30;
+  --line-600: #3a3a42;
+  --line-500: #5a5a64;
+  --fg-100: #f3f3f5;
+  --fg-300: #c4c4cb;
+  --fg-500: #9b9ba6;
+  /* Hot orange. Text orange clears WCAG AA on --ink-950. */
   --signal: #ff7a1a;
-  --signal-hover: #ff8533;
+  --signal-hover: #ff8a3d;
   --signal-fill: #ff6a00;
   --signal-ink: #140a02;
   --signal-wash: rgba(255, 106, 0, 0.16);
   --data: #ff7a1a;
-  --data-wash: rgba(255, 122, 26, 0.28);
+  --data-wash: rgba(255, 122, 26, 0.32);
   --ok: #3ddc97;
   --warn: #ff7a1a;
   --err: #ff5d5d;
-  --edge-plate: #1c2531;
-  --edge-plate-2: #141b24;
-  --edge-dot: rgba(236, 238, 241, 0.5);
-  --edge-bevel: rgba(255, 255, 255, 0.16);
-  --edge-shade: rgba(0, 0, 0, 0.72);
-  --edge-hot: #ff6a00;
-  --edge-hot-soft: rgba(255, 106, 0, 0.55);
+
+  /* Diagonal field. Side panels are charcoal; the reading band stays near-black. */
+  --field-0: #0b0b0c;
+  --field-1: #2a2a32;
+  --field-2: #34343c;
+  --field-3: #1c1c22;
+  --field-bevel: rgba(255, 255, 255, 0.72);
+  --field-shade: rgba(0, 0, 0, 0.72);
+  --field-dot: rgba(236, 236, 240, 0.72);
+  --field-hot: #ff6a00;
+  --field-hot-2: #ff7a1a;
+  --field-bloom: rgba(255, 106, 0, 0.55);
+  --header-bg: rgba(11, 11, 12, 0.86);
+
+  --edge-plate: var(--field-2);
+  --edge-plate-2: var(--field-1);
+  --edge-dot: var(--field-dot);
+  --edge-bevel: var(--field-bevel);
+  --edge-shade: var(--field-shade);
+  --edge-hot: var(--field-hot);
+  --edge-hot-soft: var(--field-bloom);
 
   --font-sans: "IBM Plex Sans", "IBM Plex Sans Fallback", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -55,9 +70,12 @@
   --s9: 96px;
   --s10: 128px;
   --container: 1200px;
+  /* Left edge of the text column. Decorative plates stop here. */
+  --content-inset: calc((100vw - min(100vw, 1200px)) / 2 + clamp(20px, 5vw, 72px));
   --gutter: 24px;
   --margin: clamp(20px, 5vw, 72px);
-  --radius: 2px;
+  --radius: 0px;
+  --cut: 14px;
   --rule: 1px solid var(--line-700);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur-1: 150ms;
