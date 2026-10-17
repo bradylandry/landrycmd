@@ -1,0 +1,132 @@
+/* Corner plates for the Signal pages.
+   Original CSS: near-black field, two angled panels, halftone inside
+   the plates, orange slashes and particles held in the corners.
+   Not derived from a stock image. */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  width: 220px;
+  height: 168px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(circle at 16% 22%, var(--edge-hot, #ff6a00) 0 1.7px, transparent 2.3px),
+    radial-gradient(circle at 30% 16%, var(--edge-hot, #ff6a00) 0 1.2px, transparent 1.7px),
+    radial-gradient(circle at 11% 40%, var(--edge-hot, #ff6a00) 0 1.4px, transparent 2px),
+    radial-gradient(circle at 38% 32%, var(--edge-hot-soft, rgba(255, 106, 0, 0.55)) 0 2px, transparent 3px),
+    linear-gradient(
+      42deg,
+      transparent 18%,
+      var(--edge-hot-soft, rgba(255, 106, 0, 0.55)) 26%,
+      transparent 38%
+    ),
+    linear-gradient(
+      42deg,
+      transparent 26%,
+      var(--edge-hot, #ff6a00) 26.6%,
+      var(--edge-hot, #ff6a00) 29.4%,
+      transparent 30.1%
+    ),
+    linear-gradient(
+      42deg,
+      transparent 40%,
+      var(--edge-hot, #ff6a00) 40.4%,
+      transparent 41%
+    ),
+    radial-gradient(circle, var(--edge-dot, rgba(236, 238, 241, 0.5)) 0.8px, transparent 0.95px),
+    linear-gradient(
+      155deg,
+      var(--edge-plate, #1c2531),
+      var(--edge-plate-2, #141b24)
+    );
+  background-size:
+    auto, auto, auto, auto,
+    auto, auto, auto,
+    5px 5px,
+    auto;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  -webkit-mask-image: linear-gradient(48deg, #000 0%, #000 58%, transparent 92%);
+  mask-image: linear-gradient(48deg, #000 0%, #000 58%, transparent 92%);
+  box-shadow:
+    inset 1px 1px 0 var(--edge-bevel, rgba(255, 255, 255, 0.16)),
+    inset -1px -1px 0 var(--edge-shade, rgba(0, 0, 0, 0.72));
+}
+
+body::before {
+  top: 72px;
+  left: 0;
+}
+
+body::after {
+  right: 0;
+  bottom: 0;
+  transform: rotate(180deg);
+}
+
+/* Page text stays above the plates. Class rules still win for sticky and fixed chrome. */
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+html.lab-embed body::before,
+html.lab-embed body::after {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  body::before,
+  body::after {
+    width: 150px;
+    height: 112px;
+  }
+}
+
+@media (max-width: 860px) {
+  body::before,
+  body::after {
+    width: 96px;
+    height: 72px;
+  }
+  body::before {
+    top: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body::before,
+  body::after {
+    animation: edge-ember 10s ease-in-out infinite;
+  }
+  body::after {
+    animation-delay: -5s;
+  }
+}
+
+@keyframes edge-ember {
+  0%,
+  100% {
+    opacity: 0.86;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@media (forced-colors: active) {
+  body::before,
+  body::after {
+    display: none;
+  }
+}

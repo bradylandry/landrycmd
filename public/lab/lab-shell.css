@@ -48,16 +48,16 @@
   --line: #2c3542;
   --txt: #eceef1;
   --mut: #7c8693;
-  --acc: #5cc8f0;
+  --acc: #ff7a1a;
   --acc2: #3a4553;
-  --glow: rgba(92, 200, 240, 0);
+  --glow: rgba(255, 122, 26, 0.55);
   --ok: #3ddc97;
-  --warn: #ffb547;
+  --warn: #ff7a1a;
   --err: #ff5d5d;
   --sans: "IBM Plex Sans", "IBM Plex Sans Fallback", ui-sans-serif, system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --margin: clamp(20px, 5vw, 72px);
-  --signal: #ffb547;
+  --signal: #ff7a1a;
   --fg: #eceef1;
   --fg-dim: #a9b1bc;
   --line-soft: #1e252f;
@@ -209,9 +209,9 @@ body.lab-shell .figcap {
   color: #7c8693;
 }
 body.lab-shell a {
-  color: #5cc8f0;
+  color: #ff7a1a;
   text-decoration: underline;
-  text-decoration-color: rgba(92, 200, 240, 0.12);
+  text-decoration-color: rgba(255, 122, 26, 0.28);
   text-underline-offset: 3px;
 }
 body.lab-shell .lab-header a,
@@ -321,26 +321,26 @@ body.lab-shell .edge {
   stroke-width: 1.5;
 }
 body.lab-shell .edge.hi {
-  stroke: #5cc8f0;
+  stroke: #ff7a1a;
 }
 body.lab-shell .edge.a,
 body.lab-shell .flow.vrf-a {
-  stroke: #ffb547;
+  stroke: #ff6a00;
   fill: none;
 }
 body.lab-shell .node .pip.a,
 body.lab-shell .vlab.a {
-  fill: #ffb547;
+  fill: #ff6a00;
   stroke: none;
 }
 body.lab-shell .edge.b,
 body.lab-shell .flow.vrf-b {
-  stroke: #5cc8f0;
+  stroke: #ffd2ad;
   fill: none;
 }
 body.lab-shell .node .pip.b,
 body.lab-shell .vlab.b {
-  fill: #5cc8f0;
+  fill: #ffd2ad;
   stroke: none;
 }
 body.lab-shell .edge.n {
@@ -351,12 +351,12 @@ body.lab-shell .ring {
   fill-opacity: 0.1;
 }
 body.lab-shell .ring.a {
-  fill: #ffb547;
-  stroke: #ffb547;
+  fill: #ff6a00;
+  stroke: #ff6a00;
 }
 body.lab-shell .ring.b {
-  fill: #5cc8f0;
-  stroke: #5cc8f0;
+  fill: #ffd2ad;
+  stroke: #ffd2ad;
 }
 body.lab-shell .shoreline {
   stroke: #3a4553;
@@ -366,17 +366,17 @@ body.lab-shell .shallow {
   stroke: #163044;
 }
 body.lab-shell .wave {
-  stroke: rgba(92, 200, 240, 0.15);
+  stroke: rgba(255, 122, 26, 0.16);
 }
 body.lab-shell .cloud {
   fill: rgba(16, 20, 26, 0.45);
   stroke: #3a4553;
 }
 body.lab-shell .legend .a {
-  border-color: #ffb547;
+  border-color: #ff6a00;
 }
 body.lab-shell .legend .b {
-  border-color: #5cc8f0;
+  border-color: #ffd2ad;
 }
 body.lab-shell .legend .n {
   border-color: #2c3542;
@@ -421,7 +421,7 @@ body.lab-shell .cross {
 .lab-footer a.talk {
   color: var(--signal);
   text-decoration: none;
-  border-bottom: 2px solid rgba(255, 181, 71, 0.14);
+  border-bottom: 2px solid rgba(255, 106, 0, 0.18);
 }
 .lab-footer .fbar {
   display: flex;

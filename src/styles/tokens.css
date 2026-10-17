@@ -13,16 +13,24 @@
   --fg-100: #eceef1;
   --fg-300: #a9b1bc;
   --fg-500: #7c8693;
-  --signal: #ffb547;
-  --signal-hover: #ffc46b;
-  --signal-fill: #ffb547;
-  --signal-ink: #07090c;
-  --signal-wash: rgba(255, 181, 71, 0.14);
-  --data: #5cc8f0;
-  --data-wash: rgba(92, 200, 240, 0.12);
+  /* Hot orange, the only chrome accent. Text orange clears WCAG AA on --ink-950. */
+  --signal: #ff7a1a;
+  --signal-hover: #ff8533;
+  --signal-fill: #ff6a00;
+  --signal-ink: #140a02;
+  --signal-wash: rgba(255, 106, 0, 0.16);
+  --data: #ff7a1a;
+  --data-wash: rgba(255, 122, 26, 0.28);
   --ok: #3ddc97;
-  --warn: #ffb547;
+  --warn: #ff7a1a;
   --err: #ff5d5d;
+  --edge-plate: #1c2531;
+  --edge-plate-2: #141b24;
+  --edge-dot: rgba(236, 238, 241, 0.5);
+  --edge-bevel: rgba(255, 255, 255, 0.16);
+  --edge-shade: rgba(0, 0, 0, 0.72);
+  --edge-hot: #ff6a00;
+  --edge-hot-soft: rgba(255, 106, 0, 0.55);
 
   --font-sans: "IBM Plex Sans", "IBM Plex Sans Fallback", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -65,10 +73,10 @@
   --text: var(--fg-100);
   --text-dim: var(--fg-300);
   --fg-subtle: var(--fg-500);
-  --accent: var(--data);
+  --accent: var(--signal);
   --accent-voice: var(--line-500);
-  --accent-glow: transparent;
-  --accent-user: var(--data);
+  --accent-glow: rgba(255, 106, 0, 0.45);
+  --accent-user: var(--signal);
   --green: var(--ok);
   --yellow: var(--signal);
   --red: var(--err);
