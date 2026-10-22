@@ -4,9 +4,10 @@
 
 - Flash cards: tap to flip, Previous and Next, swipe left or right on the card
 - Topic filter (`select[data-cat]`), Shuffle, Start over
-- Piles: "Got it" takes a card out, "Study again" sends it to the back of the queue. When the queue is empty, "Go over the missed cards" restarts with only the missed ones.
+- Piles: "Got it" takes a card out, "Study again" sends it to the back of the queue. The Study again count is cards still waiting after a miss. When the queue is empty, "Go over the missed cards" restarts with every card missed at least once.
+- Start over puts the cards back in deck order for the current topic.
 - Practice quiz tab with a final score and the missed questions
-- Progress is saved in `localStorage` under `study:<id>`. The quiz's last score is saved under `study:<id>:quiz`.
+- Progress is saved in `localStorage` under `study:<id>`.
 
 ## How to get to it (user POV)
 
@@ -27,6 +28,7 @@ At 390x844 with touch on: tap `[data-card]` and expect `aria-pressed="true"`. A 
 
 ## Gotchas
 
-- A swipe also produces a click on some browsers. The player ignores a click within 500ms of a swipe.
+- Touch taps and swipes are handled on `touchend`, which calls `preventDefault` so the browser's synthetic click does not flip the card a second time. Headless Chrome can drop the click for a quick tap right after a swipe, so do not test touch through `click`. Swipes and arrow keys do nothing with one card left.
+- Offline works while the tab stays loaded: cards and quiz are inline in the HTML and nothing is fetched after load. There is no service worker, so a reload with no connection fails.
 - Changing the topic starts a fresh session for that topic.
 - Saved progress carries a fingerprint of the cards and quiz. Editing the JSON drops old progress instead of pointing at the wrong cards.

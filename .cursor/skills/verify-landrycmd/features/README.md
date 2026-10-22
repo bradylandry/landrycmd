@@ -11,4 +11,4 @@ Update this map when a visitor-facing route, control, or lab changes.
 | Public résumé | `/resume` | [resume.md](resume.md) |
 | Study pages (unlisted) | `/study/<id>` | [study.md](study.md) |
 
-Unlisted, not part of the public drive: `/applications`, `/login`, `/resume/<token>`, `/api/auth`, `/api/track`, `/api/publish-note`.
+Unlisted, not part of the public drive: `/study/<id>` (noindex, no login), `/applications`, `/login`, `/resume/<token>`, `/api/auth`, `/api/track`, `/api/publish-note`.

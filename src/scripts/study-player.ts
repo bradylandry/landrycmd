@@ -11,11 +11,13 @@ import {
   retryMissed,
   scoreQuiz,
   shuffleQueue,
+  studyAgainCount,
   type Session,
   type StudySet,
 } from "../lib/study";
 
 const SWIPE_PX = 50;
+const TAP_PX = 10;
 
 function storageGet(key: string): string | null {
   try {
@@ -77,6 +79,7 @@ export function mountStudy(root: HTMLElement): void {
   const again = el<HTMLButtonElement>(root, "[data-again]");
   const known = el<HTMLButtonElement>(root, "[data-known]");
   const done = el(root, "[data-done]");
+  const doneHeading = el(root, "[data-done-heading]");
   const doneText = el(root, "[data-done-text]");
   const retry = el<HTMLButtonElement>(root, "[data-retry]");
   const shuffleButton = el<HTMLButtonElement>(root, "[data-shuffle]");
@@ -92,17 +95,21 @@ export function mountStudy(root: HTMLElement): void {
   const render = () => {
     const pool = session.queue.length + session.known.length;
     const card = current(session);
-    stats.textContent = `Got it ${session.known.length} of ${pool} · Study again ${session.again.length}`;
+    const statsText = `Got it ${session.known.length} of ${pool} · Study again ${studyAgainCount(session)}`;
+    // aria-live: only touch it when the counts change, not on every flip.
+    if (stats.textContent !== statsText) stats.textContent = statsText;
     fill.style.width = pool ? `${(session.known.length / pool) * 100}%` : "0%";
 
     if (card === null) {
+      const wasShowing = !deck.hidden;
       deck.hidden = true;
       done.hidden = false;
       const missed = session.again.length;
       doneText.textContent = missed
-        ? `You worked through every card. ${missed} ${missed === 1 ? "card was" : "cards were"} marked study again.`
+        ? `You got through every card. You missed ${missed} along the way.`
         : "You got every card in this set.";
       retry.hidden = missed === 0;
+      if (wasShowing) doneHeading.focus({ preventScroll: false });
       return;
     }
 
@@ -140,37 +147,51 @@ export function mountStudy(root: HTMLElement): void {
     render();
   };
 
-  // Tap to flip, swipe to move. A swipe must not also count as a tap.
+  // Touch: a short tap flips and a horizontal swipe moves. Both are handled on
+  // touchend, which cancels the browser's synthetic click so one gesture never
+  // counts twice. Mouse and keyboard still use the button's click.
   let startX = 0;
   let startY = 0;
-  // Time of the last swipe. A click right after it is the same gesture, not a tap.
-  let swipedAt = 0;
+  let tracking = false;
   cardButton.addEventListener(
     "touchstart",
     (event) => {
+      if (event.touches.length !== 1) {
+        tracking = false;
+        return;
+      }
       const touch = event.touches[0];
       startX = touch.clientX;
       startY = touch.clientY;
+      tracking = true;
     },
     { passive: true },
   );
+  cardButton.addEventListener("touchcancel", () => {
+    tracking = false;
+  });
   cardButton.addEventListener(
     "touchend",
     (event) => {
+      if (!tracking) return;
+      tracking = false;
       const touch = event.changedTouches[0];
       const dx = touch.clientX - startX;
       const dy = touch.clientY - startY;
-      if (Math.abs(dx) >= SWIPE_PX && Math.abs(dx) > Math.abs(dy) * 1.5) {
-        swipedAt = Date.now();
-        update(move(session, dx < 0 ? 1 : -1));
+      if (Math.abs(dx) < TAP_PX && Math.abs(dy) < TAP_PX) {
+        // If the browser will not let us cancel the click, let the click flip it.
+        if (!event.cancelable) return;
+        event.preventDefault();
+        flip();
+      } else if (Math.abs(dx) >= SWIPE_PX && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        // Past the tap distance the browser sends no click, so there is nothing to cancel.
+        if (event.cancelable) event.preventDefault();
+        if (session.queue.length > 1) update(move(session, dx < 0 ? 1 : -1));
       }
     },
-    { passive: true },
+    { passive: false },
   );
-  cardButton.addEventListener("click", () => {
-    if (Date.now() - swipedAt < 500) return;
-    flip();
-  });
+  cardButton.addEventListener("click", flip);
 
   prev.addEventListener("click", () => update(move(session, -1)));
   next.addEventListener("click", () => update(move(session, 1)));
@@ -178,7 +199,8 @@ export function mountStudy(root: HTMLElement): void {
   again.addEventListener("click", () => update(markAgain(session)));
   retry.addEventListener("click", () => update(retryMissed(session)));
   shuffleButton.addEventListener("click", () => update(shuffleQueue(session)));
-  reset.addEventListener("click", () => update(newSession(set.cards, v, session.cat, session.shuffled)));
+  // Start over also puts the cards back in deck order.
+  reset.addEventListener("click", () => update(newSession(set.cards, v, session.cat)));
   catSelect.addEventListener("change", () => {
     const cat = catSelect.value === ALL || set.cards.some((c) => c.cat === catSelect.value) ? catSelect.value : ALL;
     update(newSession(set.cards, v, cat, session.shuffled));
@@ -273,7 +295,7 @@ export function mountStudy(root: HTMLElement): void {
       }
       quizMissed.replaceChildren(heading, list);
     }
-    storageSet(`${key}:quiz`, JSON.stringify({ v, score: result.score, total: result.total }));
+    quizScore.focus({ preventScroll: false });
   };
 
   quizNext.addEventListener("click", () => {
@@ -317,12 +339,9 @@ export function mountStudy(root: HTMLElement): void {
     if (event.altKey || event.ctrlKey || event.metaKey || isEditable(event.target)) return;
     if (deck.hidden || (deck.closest<HTMLElement>("[data-panel]")?.hidden ?? false)) return;
     if (event.target instanceof HTMLElement && event.target.closest("[role='tablist']")) return;
-    if (event.key === "ArrowLeft") {
+    if ((event.key === "ArrowLeft" || event.key === "ArrowRight") && session.queue.length > 1) {
       event.preventDefault();
-      update(move(session, -1));
-    } else if (event.key === "ArrowRight") {
-      event.preventDefault();
-      update(move(session, 1));
+      update(move(session, event.key === "ArrowLeft" ? -1 : 1));
     } else if ((event.key === " " || event.code === "Space") && event.target === document.body) {
       if (event.repeat) return;
       event.preventDefault();

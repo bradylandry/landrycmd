@@ -16,6 +16,7 @@ import {
   scoreQuiz,
   serializeStudySet,
   shuffleQueue,
+  studyAgainCount,
 } from "../src/lib/study.ts";
 
 const root = new URL("..", import.meta.url);
@@ -30,9 +31,9 @@ test("skeletal system set parses with every card and quiz question", () => {
   for (const item of set.quiz) assert.ok(item.answer >= 0 && item.answer < item.choices.length);
 });
 
-test("study data carries no personal names", () => {
-  assert.doesNotMatch(rawText, /blake|landry|brady|stacy/i);
-  assert.doesNotMatch(rawText, /grade\s*12/i);
+test("study data carries no contact details or links", () => {
+  assert.doesNotMatch(rawText, /@|https?:|www\./i);
+  assert.doesNotMatch(rawText, /\b(my name|teacher|mrs?\.|ms\.|grade\s*\d+)\b/i);
 });
 
 test("parseStudySet rejects extra keys and bad answers", () => {
@@ -63,14 +64,28 @@ test("missed cards come back around until marked got it", () => {
   const [a, b] = s.queue;
   s = markAgain(s); // a to the back
   assert.equal(current(s), b);
+  assert.equal(studyAgainCount(s), 1);
   s = markKnown(s); // b done
   assert.equal(current(s), a);
-  s = markKnown(s);
+  s = markKnown(s); // a done on the second pass
   assert.equal(current(s), null);
+  // The Study again pile is empty once every card is got it,
+  // but a is remembered as missed so it can be reviewed again.
+  assert.equal(studyAgainCount(s), 0);
   assert.deepEqual(s.again, [a]);
   s = retryMissed(s);
   assert.deepEqual(s.queue, [a]);
   assert.deepEqual(s.known, []);
+});
+
+test("study again on the last slot wraps to the start", () => {
+  let s = newSession(set.cards, v, "Hormones");
+  s = move(s, 1);
+  const last = current(s);
+  s = markAgain(s);
+  assert.equal(s.pos, 0);
+  assert.equal(s.queue.at(-1), last);
+  assert.equal(s.queue.length, 2);
 });
 
 test("move wraps and category filter limits the pool", () => {
@@ -119,6 +134,11 @@ test("serialized set cannot close the attribute's markup", () => {
 test("study page is noindex and not linked from the homepage", async () => {
   const page = await readFile(new URL("src/pages/study/skeletal-system.astro", root), "utf8");
   assert.match(page, /\bnoindex\b/);
-  const home = await readFile(new URL("src/pages/index.astro", root), "utf8");
-  assert.doesNotMatch(home, /\/study\//);
+  const layout = await readFile(new URL("src/layouts/Layout.astro", root), "utf8");
+  assert.match(layout, /isPrivate && <meta name="robots" content="noindex,nofollow,noarchive"/);
+  assert.match(layout, /!isPrivate && <link rel="canonical"/);
+  for (const file of ["src/pages/index.astro", "src/layouts/Layout.astro"]) {
+    const source = await readFile(new URL(file, root), "utf8");
+    assert.doesNotMatch(source, /\/study/, file);
+  }
 });

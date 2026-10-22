@@ -109,7 +109,9 @@ export function shuffled<T>(items: T[], random: () => number = Math.random): T[]
 /**
  * Session state. `queue` holds card indices still to study, in order.
  * "Got it" moves a card to `known`. "Study again" sends it to the back of the
- * queue and marks it in `again`, so missed cards come back around.
+ * queue and records it in `again`, so missed cards come back around.
+ * `again` is the history of cards missed this session. The live Study again
+ * pile is the part of it still in the queue (see studyAgainCount).
  */
 export interface Session {
   v: string;
@@ -141,6 +143,11 @@ export function newSession(cards: StudyCard[], v: string, cat = ALL, shuffle = f
 function clampPos(session: Session): Session {
   const max = Math.max(0, session.queue.length - 1);
   return { ...session, pos: Math.min(Math.max(0, session.pos), max) };
+}
+
+/** Cards marked Study again that have not been marked Got it since. */
+export function studyAgainCount(session: Session): number {
+  return session.again.filter((card) => session.queue.includes(card)).length;
 }
 
 export function current(session: Session): number | null {
@@ -207,6 +214,8 @@ export function restoreSession(raw: string | null, cards: StudyCard[], v: string
     list.every((n) => Number.isInteger(n) && n >= 0 && n < cards.length) &&
     new Set(list).size === list.length;
   if (!valid(queue) || !valid(known) || !valid(again)) return null;
+  if (queue.some((card) => known.includes(card))) return null;
+  if (cat !== ALL && [...queue, ...known].some((card) => cards[card].cat !== cat)) return null;
   if (typeof pos !== "number" || !Number.isInteger(pos)) return null;
   return clampPos({ v, cat, queue, pos, known, again, shuffled: wasShuffled === true });
 }
