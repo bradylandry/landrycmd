@@ -101,7 +101,6 @@ export function mountStudy(root: HTMLElement): void {
     fill.style.width = pool ? `${(session.known.length / pool) * 100}%` : "0%";
 
     if (card === null) {
-      const wasShowing = !deck.hidden;
       deck.hidden = true;
       done.hidden = false;
       const missed = session.again.length;
@@ -109,7 +108,6 @@ export function mountStudy(root: HTMLElement): void {
         ? `You got through every card. You missed ${missed} along the way.`
         : "You got every card in this set.";
       retry.hidden = missed === 0;
-      if (wasShowing) doneHeading.focus({ preventScroll: false });
       return;
     }
 
@@ -135,11 +133,18 @@ export function mountStudy(root: HTMLElement): void {
     next.disabled = single;
   };
 
+  // Called only from user actions, so focus never jumps on page load.
   const update = (nextSession: Session) => {
+    const hadCard = current(session) !== null;
     session = nextSession;
     flipped = false;
     save();
     render();
+    const hasCard = current(session) !== null;
+    if (hadCard && !hasCard) doneHeading.focus();
+    else if (hasCard && (!hadCard || (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled))) {
+      cardButton.focus();
+    }
   };
 
   const flip = () => {
@@ -310,6 +315,7 @@ export function mountStudy(root: HTMLElement): void {
     qIndex = 0;
     picks = set.quiz.map(() => null);
     renderQuestion();
+    quizQ.focus();
   });
 
   // Tabs

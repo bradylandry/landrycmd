@@ -94,13 +94,13 @@ const countFor = (cat: string) => set.cards.filter((card) => card.cat === cat).l
     <div id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" class="study-panel" data-panel="quiz" hidden>
       <div data-quiz-run>
         <p class="study-counter" data-quiz-counter>Question 1 of {set.quiz.length}</p>
-        <h2 class="study-question" data-quiz-q></h2>
+        <h2 class="study-question" tabindex="-1" data-quiz-q></h2>
         <div class="study-choices" data-quiz-choices></div>
         <p class="study-feedback" data-quiz-feedback aria-live="polite"></p>
         <button type="button" class="study-btn study-known" data-quiz-next hidden>Next question</button>
       </div>
       <div class="study-result" data-quiz-result hidden>
-        <h2 tabindex="-1" data-quiz-score aria-live="polite"></h2>
+        <h2 tabindex="-1" data-quiz-score></h2>
         <div data-quiz-missed></div>
         <button type="button" class="study-btn study-known" data-quiz-retake>Take it again</button>
       </div>

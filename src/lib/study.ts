@@ -215,7 +215,7 @@ export function restoreSession(raw: string | null, cards: StudyCard[], v: string
     new Set(list).size === list.length;
   if (!valid(queue) || !valid(known) || !valid(again)) return null;
   if (queue.some((card) => known.includes(card))) return null;
-  if (cat !== ALL && [...queue, ...known].some((card) => cards[card].cat !== cat)) return null;
+  if (cat !== ALL && [...queue, ...known, ...again].some((card) => cards[card].cat !== cat)) return null;
   if (typeof pos !== "number" || !Number.isInteger(pos)) return null;
   return clampPos({ v, cat, queue, pos, known, again, shuffled: wasShuffled === true });
 }

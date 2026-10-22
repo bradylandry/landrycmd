@@ -6,7 +6,7 @@
 - Topic filter (`select[data-cat]`), Shuffle, Start over
 - Piles: "Got it" takes a card out, "Study again" sends it to the back of the queue. The Study again count is cards still waiting after a miss. When the queue is empty, "Go over the missed cards" restarts with every card missed at least once.
 - Start over puts the cards back in deck order for the current topic.
-- Practice quiz tab with a final score and the missed questions
+- Practice quiz tab with a final score and the missed questions. Quiz answers are not saved; a reload starts the quiz over.
 - Progress is saved in `localStorage` under `study:<id>`.
 
 ## How to get to it (user POV)

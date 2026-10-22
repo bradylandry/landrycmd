@@ -116,6 +116,11 @@ test("saved progress is restored only when it matches this deck", () => {
   assert.equal(restoreSession(JSON.stringify({ ...s, queue: [999] }), set.cards, v), null);
   assert.equal(restoreSession(JSON.stringify({ ...s, cat: "Nope" }), set.cards, v), null);
   assert.equal(restoreSession(null, set.cards, v), null);
+  const joints = newSession(set.cards, v, "Joints");
+  const other = set.cards.findIndex((card) => card.cat !== "Joints");
+  assert.equal(restoreSession(JSON.stringify({ ...joints, again: [other] }), set.cards, v), null);
+  assert.equal(restoreSession(JSON.stringify({ ...joints, known: [joints.queue[0]] }), set.cards, v), null);
+  assert.ok(restoreSession(JSON.stringify(joints), set.cards, v));
 });
 
 test("quiz score lists missed questions", () => {
