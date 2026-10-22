@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Skeletal System Flashcards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f3efe6;
+        --bg-soft: #eae4d6;
+        --surface: #fffdf7;
+        --surface-2: #f7f2e7;
+        --ink: #1c2733;
+        --ink-soft: #4c5a68;
+        --ink-faint: #7d8a97;
+        --line: #ddd3bf;
+        --accent: #b0491f;
+        --accent-ink: #ffffff;
+        --teal: #256a63;
+        --teal-soft: #dcebe6;
+        --good: #2e7d46;
+        --good-bg: #e0f0e2;
+        --bad: #b3312a;
+        --bad-bg: #f9e3e0;
+        --shadow: 0 18px 40px rgba(28, 39, 51, 0.14), 0 4px 10px rgba(28, 39, 51, 0.08);
+        --radius: 18px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12161b;
+          --bg-soft: #181d24;
+          --surface: #1d242d;
+          --surface-2: #232b35;
+          --ink: #ece7da;
+          --ink-soft: #b6bec8;
+          --ink-faint: #85909d;
+          --line: #333d49;
+          --accent: #e07a4d;
+          --accent-ink: #181008;
+          --teal: #5fb3a8;
+          --teal-soft: #1d3531;
+          --good: #6fce8b;
+          --good-bg: #17351f;
+          --bad: #f08a80;
+          --bad-bg: #3d1d1a;
+          --shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+        line-height: 1.5;
+        min-height: 100dvh;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 20px 16px 56px;
+      }
+
+      /* ---------- Header ---------- */
+      header { padding: 8px 2px 4px; }
+      .unit-line {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin: 0 0 6px;
+      }
+      h1 {
+        font-family: "Newsreader", Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(1.9rem, 6vw, 2.7rem);
+        line-height: 1.08;
+        margin: 0 0 8px;
+        letter-spacing: -0.01em;
+      }
+      .lede {
+        color: var(--ink-soft);
+        font-size: 0.98rem;
+        margin: 0;
+        max-width: 52ch;
+      }
+      .lede strong { color: var(--ink); }
+
+      /* ---------- Mode tabs ---------- */
+      .tabs {
+        display: flex;
+        gap: 6px;
+        background: var(--bg-soft);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px;
+        margin: 22px 0 18px;
+      }
+      .tabs button {
+        flex: 1;
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 10px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .tabs button[aria-selected="true"] {
+        background: var(--surface);
+        color: var(--ink);
+        box-shadow: 0 2px 8px rgba(28, 39, 51, 0.12);
+      }
+      .tabs button:focus-visible,
+      button:focus-visible,
+      select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+      /* ---------- Controls row ---------- */
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: stretch;
+        margin-bottom: 16px;
+      }
+      .field { flex: 1 1 220px; display: flex; flex-direction: column; gap: 5px; }
+      .field label {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      select {
+        appearance: none;
+        width: 100%;
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--ink);
+        background: var(--surface)
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+          no-repeat right 14px center;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 11px 38px 11px 14px;
+        cursor: pointer;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.92rem;
+        border-radius: 12px;
+        padding: 11px 18px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+        transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+      }
+      .btn:hover { border-color: var(--ink-faint); }
+      .btn:active { transform: scale(0.97); }
+      .btn.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--accent-ink);
+      }
+      .btn.primary:hover { filter: brightness(1.06); }
+      .btn.ghost { background: transparent; }
+      .btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+      .btn svg { width: 17px; height: 17px; flex: none; }
+      .shuffle-wrap { display: flex; flex-direction: column; gap: 5px; }
+      .shuffle-wrap .spacer {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: transparent;
+        user-select: none;
+      }
+
+      /* ---------- Progress ---------- */
+      .progress-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        margin: 4px 2px 8px;
+      }
+      .counter {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .deck-name {
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+        text-align: right;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .bar {
+        height: 6px;
+        border-radius: 999px;
+        background: var(--bg-soft);
+        border: 1px solid var(--line);
+        overflow: hidden;
+        margin-bottom: 18px;
+      }
+      .bar > div {
+        height: 100%;
+        background: var(--teal);
+        border-radius: 999px;
+        transition: width 0.25s ease;
+      }
+
+      /* ---------- Flashcard ---------- */
+      .card-stage { perspective: 1400px; }
+      .flashcard {
+        position: relative;
+        width: 100%;
+        min-height: 340px;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: transform 0.5s cubic-bezier(0.25, 0.7, 0.3, 1);
+        border-radius: var(--radius);
+      }
+      .flashcard.flipped { transform: rotateY(180deg); }
+      .face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        padding: 26px 24px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .face.front { background: var(--surface); }
+      .face.back {
+        background: var(--surface-2);
+        transform: rotateY(180deg);
+      }
+      .face .tag {
+        align-self: flex-start;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--teal);
+        background: var(--teal-soft);
+        border-radius: 999px;
+        padding: 4px 10px;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .face .tag.trick {
+        color: var(--accent);
+        background: transparent;
+        border: 1px solid var(--accent);
+      }
+      .face .body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 14px 2px;
+        overflow-y: auto;
+      }
+      .face.front .term {
+        font-family: "Newsreader", Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(1.7rem, 6.4vw, 2.5rem);
+        line-height: 1.15;
+        margin: 0;
+      }
+      .face.back .def {
+        font-size: clamp(1.08rem, 4.4vw, 1.35rem);
+        font-weight: 500;
+        line-height: 1.55;
+        margin: 0;
+        max-width: 46ch;
+      }
+      .face .hint {
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        letter-spacing: 0.06em;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .flashcard { transition: none; }
+        .bar > div { transition: none; }
+      }
+
+      /* ---------- Nav row ---------- */
+      .nav-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .nav-row .btn { flex: 1; padding: 14px 12px; font-size: 1rem; }
+      .nav-row .btn.flip-btn { flex: 0 0 auto; }
+
+      .kbd-hint {
+        text-align: center;
+        color: var(--ink-faint);
+        font-size: 0.8rem;
+        margin-top: 14px;
+      }
+      @media (hover: none) { .kbd-hint { display: none; } }
+
+      /* ---------- Quiz ---------- */
+      .quiz-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 26px 24px;
+      }
+      .quiz-q {
+        font-family: "Newsreader", Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(1.35rem, 5vw, 1.8rem);
+        line-height: 1.25;
+        margin: 10px 0 20px;
+      }
+      .options { display: flex; flex-direction: column; gap: 10px; }
+      .option {
+        appearance: none;
+        text-align: left;
+        font: inherit;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ink);
+        background: var(--surface-2);
+        border: 1.5px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+        cursor: pointer;
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        transition: border-color 0.15s ease, background 0.15s ease;
+        width: 100%;
+      }
+      .option:hover:not(:disabled) { border-color: var(--ink-faint); }
+      .option .letter {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--ink-faint);
+        flex: none;
+      }
+      .option.correct {
+        background: var(--good-bg);
+        border-color: var(--good);
+        color: var(--ink);
+      }
+      .option.correct .letter { color: var(--good); }
+      .option.wrong {
+        background: var(--bad-bg);
+        border-color: var(--bad);
+      }
+      .option.wrong .letter { color: var(--bad); }
+      .option:disabled { cursor: default; }
+      .feedback {
+        margin-top: 18px;
+        font-weight: 700;
+        font-size: 1rem;
+        display: none;
+      }
+      .feedback.show { display: block; }
+      .feedback.good { color: var(--good); }
+      .feedback.bad { color: var(--bad); }
+      .quiz-foot { margin-top: 18px; display: flex; justify-content: flex-end; }
+      .quiz-foot .btn { min-width: 130px; }
+
+      .score-screen { text-align: center; padding: 14px 4px 6px; }
+      .score-big {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(3rem, 14vw, 4.4rem);
+        font-weight: 600;
+        line-height: 1;
+        margin: 8px 0 4px;
+      }
+      .score-sub { color: var(--ink-soft); margin: 0 0 22px; }
+      .score-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+      .hidden { display: none !important; }
+
+      footer {
+        margin-top: 40px;
+        border-top: 1px solid var(--line);
+        padding-top: 16px;
+        color: var(--ink-faint);
+        font-size: 0.82rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="unit-line">Anatomy · Unit 4 Review</p>
+        <h1>The Skeletal System</h1>
+        <p class="lede">
+          <strong>100 flashcards</strong> covering all 17 sections of the study guide — bone
+          anatomy, cells, joints, fractures, and medical terms — plus the 10-question
+          practice test as a scored quiz. Tap a card to flip it.
+        </p>
+      </header>
+
+      <div class="tabs" role="tablist" aria-label="Study mode">
+        <button id="tabCards" role="tab" aria-selected="true">Flashcards</button>
+        <button id="tabQuiz" role="tab" aria-selected="false">Practice Test Quiz</button>
+      </div>
+
+      <!-- ============ FLASHCARDS ============ -->
+      <section id="cardsView" aria-label="Flashcards">
+        <div class="controls">
+          <div class="field">
+            <label for="sectionSelect">Section</label>
+            <select id="sectionSelect"></select>
+          </div>
+          <div class="shuffle-wrap">
+            <span class="spacer" aria-hidden="true">.</span>
+            <button class="btn" id="shuffleBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
+              Shuffle deck
+            </button>
+          </div>
+        </div>
+
+        <div class="progress-row">
+          <span class="counter" id="counter">1 / 100</span>
+          <span class="deck-name" id="deckName">All sections</span>
+        </div>
+        <div class="bar" aria-hidden="true"><div id="barFill" style="width: 1%"></div></div>
+
+        <div class="card-stage">
+          <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Flashcard. Activate to flip.">
+            <div class="face front">
+              <span class="tag" id="frontTag"></span>
+              <div class="body"><p class="term" id="frontText"></p></div>
+              <div class="hint">Tap to reveal the answer</div>
+            </div>
+            <div class="face back">
+              <span class="tag" id="backTag"></span>
+              <div class="body"><p class="def" id="backText"></p></div>
+              <div class="hint">Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-row">
+          <button class="btn" id="prevBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+            Previous
+          </button>
+          <button class="btn primary" id="nextBtn" type="button">
+            Next
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+        <p class="kbd-hint">Keyboard: ← → to move between cards · Space to flip</p>
+      </section>
+
+      <!-- ============ QUIZ ============ -->
+      <section id="quizView" class="hidden" aria-label="Practice test quiz">
+        <div class="progress-row">
+          <span class="counter" id="quizCounter">Question 1 / 10</span>
+          <span class="deck-name" id="quizScore">Score: 0</span>
+        </div>
+        <div class="bar" aria-hidden="true"><div id="quizBarFill" style="width: 0%"></div></div>
+
+        <div class="quiz-card" id="quizCard">
+          <span class="tag" style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:4px 10px;display:inline-block;">Practice Test</span>
+          <p class="quiz-q" id="quizQ"></p>
+          <div class="options" id="quizOptions"></div>
+          <p class="feedback" id="quizFeedback" role="status"></p>
+          <div class="quiz-foot">
+            <button class="btn primary hidden" id="quizNextBtn" type="button">Next question</button>
+          </div>
+        </div>
+
+        <div class="quiz-card hidden" id="scoreCard">
+          <div class="score-screen">
+            <p class="unit-line" style="margin-bottom:0;">Practice test complete</p>
+            <p class="score-big" id="scoreBig">0 / 10</p>
+            <p class="score-sub" id="scoreSub"></p>
+            <div class="score-actions">
+              <button class="btn primary" id="retakeBtn" type="button">Retake quiz</button>
+              <button class="btn" id="toCardsBtn" type="button">Back to flashcards</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        Content follows the Skeletal System · Unit 4 Review study guide, sections 1–17 and the practice test.
+      </footer>
+    </div>
+
+    <script>
+      "use strict";
+
+      /* ================= DATA — transcribed from the study guide ================= */
+      var SECTIONS = [
+        { name: "1 · Parts of a Long Bone", cards: [
+          ["Diaphysis", "The long middle shaft of a long bone"],
+          ["Epiphysis", "The enlarged ends of a long bone"],
+          ["Epiphyseal plate (growth plate)", "Area where a bone grows longer during childhood and adolescence"],
+          ["Articular cartilage", "Smooth covering on the ends of bones that reduces friction at joints"],
+          ["Medullary cavity", "Hollow space inside the shaft that contains bone marrow"],
+          ["Periosteum", "Tough outer covering of bone; helps with growth and repair"],
+          ["Compact bone", "Hard, dense outer bone that provides strength"],
+          ["Spongy bone", "Lightweight, porous bone found mostly at the ends of long bones"],
+          ["Red bone marrow", "Makes blood cells"],
+          ["Yellow bone marrow", "Stores fat for energy"],
+          ["Spongy bone and marrow", "Spongy bone has spaces that can contain red bone marrow, where blood cells are produced"]
+        ]},
+        { name: "2 · Bone Marrow and Blood Cell Production", cards: [
+          ["Red marrow", "Produces red blood cells, white blood cells, and platelets"],
+          ["Yellow marrow", "Mainly stores fat"],
+          ["Hematopoiesis", "The process of making blood cells"],
+          ["Medullary cavity", "The hollow center of a long bone's shaft"]
+        ]},
+        { name: "3 · Hormones That Control Calcium Levels", cards: [
+          ["Parathyroid hormone (PTH)", "Raises blood calcium levels"],
+          ["Calcitonin", "Helps lower blood calcium levels, mainly by reducing bone breakdown"],
+          ["Memory trick: calcium hormones", "PTH raises calcium in the blood; calcitonin helps bring blood calcium down"]
+        ]},
+        { name: "4 · Bone Matrix", cards: [
+          ["Bone matrix", "The material surrounding bone cells"],
+          ["Collagen", "Gives bones flexibility and helps prevent brittleness"],
+          ["Calcium salts and phosphate", "Make bones hard and strong"]
+        ]},
+        { name: "5 · Ossification", cards: [
+          ["Ossification", "Bone formation. Bones develop as you grow, and bone tissue can replace cartilage during development. Bone formation and remodeling continue throughout life."]
+        ]},
+        { name: "6 · Types of Bone Cells", cards: [
+          ["Osteoblasts", "Build new bone"],
+          ["Osteocytes", "Maintain bone tissue and communicate with other bone cells"],
+          ["Osteoclasts", "Break down old bone so it can be replaced"],
+          ["Osteogenic cells", "Stem-like cells that can develop into bone-building cells"],
+          ["Osteocyte communication", "Osteocytes use tiny extensions called processes to communicate through small channels in bone"],
+          ["Memory trick: bone cells", "Blast = Build · Cyte = Maintain · Clast = Clear away"]
+        ]},
+        { name: "7 · Labeling Compact Bone", cards: [
+          ["Osteon", "The basic structural unit of compact bone"],
+          ["Central canal", "Contains blood vessels and nerves"],
+          ["Lamellae", "Circular layers of bone tissue around the central canal"],
+          ["Lacunae", "Tiny spaces that contain osteocytes"],
+          ["Canaliculi", "Tiny channels that let osteocytes communicate and exchange nutrients"]
+        ]},
+        { name: "8 · Bone Repair", cards: [
+          ["Bone repair steps", "1. Blood clot forms around the break. 2. Soft callus forms and begins connecting the broken ends. 3. Hard callus forms as new bone replaces the soft callus. 4. Remodeling reshapes and strengthens the bone over time."],
+          ["Memory trick: bone repair", "Clot → Soft → Hard → Remodel"]
+        ]},
+        { name: "9 · Types of Bone Breaks (Fractures)", cards: [
+          ["Transverse fracture", "Break goes straight across the bone"],
+          ["Oblique fracture", "Break goes diagonally across the bone"],
+          ["Spiral fracture", "Break twists around the bone"],
+          ["Comminuted fracture", "Bone breaks into three or more pieces"],
+          ["Greenstick fracture", "Bone bends and breaks partly; common in children"],
+          ["Open (compound) fracture", "Broken bone is associated with an open wound through the skin"],
+          ["Closed (simple) fracture", "Bone breaks without breaking the skin"]
+        ]},
+        { name: "10 · Axial vs. Appendicular Skeleton", cards: [
+          ["Adult skeleton", "The adult human skeleton usually has 206 bones"],
+          ["Axial skeleton", "Forms the body's central axis: skull, vertebral column, ribs, sternum, hyoid bone, ear ossicles"],
+          ["Appendicular skeleton", "Includes limbs and the girdles that attach them: shoulder girdle, arms, hands, pelvic girdle, legs, feet"],
+          ["Head bones", "Cranium, mandible, maxilla, zygomatic bone"],
+          ["Chest bones", "Sternum, ribs"],
+          ["Shoulder bones", "Clavicle, scapula"],
+          ["Arm bones", "Humerus, radius, ulna"],
+          ["Hand bones", "Carpals, metacarpals, phalanges"],
+          ["Spine bones", "Cervical, thoracic, lumbar vertebrae, sacrum, coccyx"],
+          ["Pelvis bones", "Hip bones: ilium, ischium, pubis"],
+          ["Leg bones", "Femur, patella, tibia, fibula"],
+          ["Foot bones", "Tarsals, metatarsals, phalanges"]
+        ]},
+        { name: "11 · Order of the Vertebral Column", cards: [
+          ["Cervical vertebrae", "7 — neck"],
+          ["Thoracic vertebrae", "12 — upper and middle back; ribs attach here"],
+          ["Lumbar vertebrae", "5 — lower back"],
+          ["Sacrum", "5 fused — back of the pelvis"],
+          ["Coccyx", "Usually 4 fused — tailbone"],
+          ["Memory trick: vertebral order", "7 – 12 – 5 – 5 – 4"]
+        ]},
+        { name: "12 · Types of Bones by Shape", cards: [
+          ["Long bones", "Femur, humerus"],
+          ["Short bones", "Carpals, tarsals"],
+          ["Flat bones", "Skull bones, sternum, ribs"],
+          ["Irregular bones", "Vertebrae"],
+          ["Sesamoid bones", "Patella (kneecap)"]
+        ]},
+        { name: "13 · Types of Joints", cards: [
+          ["Immovable joint", "No movement or almost none — example: skull sutures"],
+          ["Slightly movable joint", "A little movement — example: between vertebral bodies"],
+          ["Freely movable joint", "Wide range of movement — example: shoulder, knee"],
+          ["Ball-and-socket joint", "Moves in many directions and rotates — shoulder, hip"],
+          ["Hinge joint", "Bends and straightens — elbow, knee"],
+          ["Pivot joint", "Allows rotation — atlas and axis in neck"],
+          ["Gliding (plane) joint", "Bones slide past each other — some wrist joints"],
+          ["Saddle joint", "Moves in two main directions — base of thumb"],
+          ["Condyloid (ellipsoid) joint", "Moves in two directions, limited rotation — wrist joint"],
+          ["Greatest range of motion", "The ball-and-socket joint, especially the shoulder"]
+        ]},
+        { name: "14 · Ligaments, Tendons, and Synovial Joints", cards: [
+          ["Ligaments", "Connect bone to bone"],
+          ["Tendons", "Connect muscle to bone"],
+          ["Articular cartilage", "Reduces friction and cushions bone ends"],
+          ["Synovial fluid", "Lubricates the joint"],
+          ["Synovial membrane", "Produces synovial fluid"],
+          ["Joint capsule", "Surrounds and protects the joint"],
+          ["Joint cavity", "Space containing synovial fluid"],
+          ["Memory trick: ligaments vs tendons", "Ligaments link bones; tendons tie muscles to bones"]
+        ]},
+        { name: "15 · Medical Terminology", cards: [
+          ["Oste/o", "Bone"],
+          ["Arthr/o", "Joint"],
+          ["Chondr/o", "Cartilage"],
+          ["My/o", "Muscle"],
+          ["Fracture", "Broken bone"],
+          ["Osteoporosis", "Condition that makes bones weak and fragile"],
+          ["Arthritis", "Inflammation or disease of a joint"],
+          ["Osteocyte", "Mature bone cell"],
+          ["Osteoblast", "Bone-building cell"],
+          ["Osteoclast", "Bone-breaking-down cell"]
+        ]},
+        { name: "16 · Splinting", cards: [
+          ["Splinting", "A splint keeps an injured body part from moving too much. It helps prevent further injury, reduces movement and pain, and protects the area while getting medical care."],
+          ["Splinting a long bone", "Immobilize the joint above AND the joint below the injury"]
+        ]},
+        { name: "17 · Childhood Bones vs. Adult Bones", cards: [
+          ["Growth plates", "Childhood: open. Adult: have usually closed."],
+          ["Flexibility", "Childhood bones: generally more flexible. Adult bones: generally less flexible."],
+          ["Healing", "Childhood bones: often heal faster. Adult bones: may take longer to heal."],
+          ["Cartilage vs bone tissue", "Childhood: more cartilage in the developing skeleton. Adult: more fully developed bone tissue."],
+          ["Number of bones", "Childhood: more separate bones before fusion. Adult: usually 206 bones after normal fusion."]
+        ]}
+      ];
+
+      var QUIZ = [
+        { q: "What is the shaft of a long bone called?", options: ["Epiphysis", "Diaphysis", "Periosteum"], correct: 1 },
+        { q: "Which bone cell builds new bone?", options: ["Osteoclast", "Osteocyte", "Osteoblast"], correct: 2 },
+        { q: "Which hormone raises blood calcium?", options: ["PTH", "Calcitonin", "Insulin"], correct: 0 },
+        { q: "What does red bone marrow produce?", options: ["Fat only", "Blood cells", "Cartilage"], correct: 1 },
+        { q: "Which joint has the greatest range of motion?", options: ["Hinge", "Pivot", "Ball-and-socket"], correct: 2 },
+        { q: "What connects muscle to bone?", options: ["Ligament", "Tendon", "Cartilage"], correct: 1 },
+        { q: "What is the order of the vertebral regions?", options: ["Lumbar, cervical, thoracic, sacrum, coccyx", "Cervical, thoracic, lumbar, sacrum, coccyx", "Cervical, lumbar, thoracic, coccyx, sacrum"], correct: 1 },
+        { q: "When splinting a long bone, what must be immobilized?", options: ["Only the injury", "Joint above only", "Joints above and below"], correct: 2 },
+        { q: "What are the circular layers of compact bone called?", options: ["Lamellae", "Canaliculi", "Lacunae"], correct: 0 },
+        { q: "What is the process of making blood cells called?", options: ["Ossification", "Hematopoiesis", "Remodeling"], correct: 1 }
+      ];
+
+      /* ================= HELPERS ================= */
+      function shuffleInPlace(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+        }
+        return arr;
+      }
+      function $(id) { return document.getElementById(id); }
+
+      /* Flatten all cards with their section label */
+      var ALL_CARDS = [];
+      SECTIONS.forEach(function (sec) {
+        sec.cards.forEach(function (c) {
+          ALL_CARDS.push({ front: c[0], back: c[1], section: sec.name });
+        });
+      });
+
+      /* ================= FLASHCARD STATE ================= */
+      var deck = ALL_CARDS.slice();
+      var deckLabel = "All sections";
+      var idx = 0;
+      var flipped = false;
+
+      var flashcardEl = $("flashcard");
+
+      function renderCard() {
+        var card = deck[idx];
+        $("frontText").textContent = card.front;
+        $("backText").textContent = card.back;
+        var isTrick = card.front.indexOf("Memory trick") === 0;
+        $("frontTag").textContent = card.section;
+        $("backTag").textContent = isTrick ? "Memory trick" : card.section;
+        $("frontTag").className = "tag" + (isTrick ? " trick" : "");
+        $("backTag").className = "tag" + (isTrick ? " trick" : "");
+        $("counter").textContent = (idx + 1) + " / " + deck.length;
+        $("deckName").textContent = deckLabel;
+        $("barFill").style.width = ((idx + 1) / deck.length * 100) + "%";
+        $("prevBtn").disabled = idx === 0;
+        $("nextBtn").disabled = idx === deck.length - 1;
+        setFlipped(false);
+      }
+      function setFlipped(v) {
+        flipped = v;
+        flashcardEl.classList.toggle("flipped", v);
+        flashcardEl.setAttribute("aria-label",
+          "Flashcard: " + deck[idx].front + (v ? ". Showing answer." : ". Activate to reveal the answer."));
+      }
+      function goTo(n) {
+        idx = Math.max(0, Math.min(deck.length - 1, n));
+        renderCard();
+      }
+
+      /* Section filter */
+      var select = $("sectionSelect");
+      var allOpt = document.createElement("option");
+      allOpt.value = "all";
+      allOpt.textContent = "All sections (100 cards)";
+      select.appendChild(allOpt);
+      SECTIONS.forEach(function (sec, i) {
+        var o = document.createElement("option");
+        o.value = String(i);
+        o.textContent = sec.name + " (" + sec.cards.length + ")";
+        select.appendChild(o);
+      });
+      select.addEventListener("change", function () {
+        if (select.value === "all") {
+          deck = ALL_CARDS.slice();
+          deckLabel = "All sections";
+        } else {
+          var sec = SECTIONS[Number(select.value)];
+          deck = sec.cards.map(function (c) {
+            return { front: c[0], back: c[1], section: sec.name };
+          });
+          deckLabel = sec.name;
+        }
+        idx = 0;
+        renderCard();
+      });
+
+      $("shuffleBtn").addEventListener("click", function () {
+        shuffleInPlace(deck);
+        idx = 0;
+        renderCard();
+      });
+      $("prevBtn").addEventListener("click", function () { goTo(idx - 1); });
+      $("nextBtn").addEventListener("click", function () { goTo(idx + 1); });
+      flashcardEl.addEventListener("click", function () { setFlipped(!flipped); });
+      flashcardEl.addEventListener("keydown", function (e) {
+        if (e.key === " " || e.key === "Enter") { e.preventDefault(); setFlipped(!flipped); }
+      });
+
+      /* ================= QUIZ STATE ================= */
+      var quizOrder = [];
+      var qIdx = 0;
+      var qScore = 0;
+      var qAnswered = false;
+      var LETTERS = ["A", "B", "C"];
+
+      function startQuiz() {
+        quizOrder = shuffleInPlace(QUIZ.map(function (_, i) { return i; }));
+        qIdx = 0;
+        qScore = 0;
+        $("quizCard").classList.remove("hidden");
+        $("scoreCard").classList.add("hidden");
+        renderQuestion();
+      }
+      function renderQuestion() {
+        var item = QUIZ[quizOrder[qIdx]];
+        qAnswered = false;
+        $("quizCounter").textContent = "Question " + (qIdx + 1) + " / " + QUIZ.length;
+        $("quizScore").textContent = "Score: " + qScore;
+        $("quizBarFill").style.width = (qIdx / QUIZ.length * 100) + "%";
+        $("quizQ").textContent = item.q;
+        var fb = $("quizFeedback");
+        fb.className = "feedback";
+        fb.textContent = "";
+        $("quizNextBtn").classList.add("hidden");
+        var box = $("quizOptions");
+        box.innerHTML = "";
+        item.options.forEach(function (opt, i) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "option";
+          var letter = document.createElement("span");
+          letter.className = "letter";
+          letter.textContent = LETTERS[i];
+          var txt = document.createElement("span");
+          txt.textContent = opt;
+          b.appendChild(letter);
+          b.appendChild(txt);
+          b.addEventListener("click", function () { answer(i, b); });
+          box.appendChild(b);
+        });
+      }
+      function answer(choice, btn) {
+        if (qAnswered) return;
+        qAnswered = true;
+        var item = QUIZ[quizOrder[qIdx]];
+        var buttons = $("quizOptions").querySelectorAll(".option");
+        buttons.forEach(function (b) { b.disabled = true; });
+        buttons[item.correct].classList.add("correct");
+        var fb = $("quizFeedback");
+        if (choice === item.correct) {
+          qScore++;
+          fb.textContent = "Correct — nice work.";
+          fb.className = "feedback show good";
+        } else {
+          btn.classList.add("wrong");
+          fb.textContent = "Not quite. The correct answer is " + LETTERS[item.correct] + ". " + item.options[item.correct] + ".";
+          fb.className = "feedback show bad";
+        }
+        $("quizScore").textContent = "Score: " + qScore;
+        $("quizBarFill").style.width = ((qIdx + 1) / QUIZ.length * 100) + "%";
+        var next = $("quizNextBtn");
+        next.textContent = qIdx === QUIZ.length - 1 ? "See my score" : "Next question";
+        next.classList.remove("hidden");
+      }
+      $("quizNextBtn").addEventListener("click", function () {
+        if (qIdx < QUIZ.length - 1) {
+          qIdx++;
+          renderQuestion();
+        } else {
+          showScore();
+        }
+      });
+      function showScore() {
+        $("quizCard").classList.add("hidden");
+        $("scoreCard").classList.remove("hidden");
+        $("quizCounter").textContent = "Done";
+        $("quizBarFill").style.width = "100%";
+        $("scoreBig").textContent = qScore + " / " + QUIZ.length;
+        var pct = qScore / QUIZ.length;
+        var msg;
+        if (pct === 1) msg = "Perfect score — you know this unit cold.";
+        else if (pct >= 0.8) msg = "Strong work. A quick pass through the flashcards will lock in the rest.";
+        else if (pct >= 0.5) msg = "Getting there. Flip through the sections you missed and try again.";
+        else msg = "Good start — work through the flashcards section by section, then retake the quiz.";
+        $("scoreSub").textContent = msg;
+      }
+      $("retakeBtn").addEventListener("click", startQuiz);
+
+      /* ================= MODE TABS ================= */
+      function setMode(quiz) {
+        $("tabCards").setAttribute("aria-selected", String(!quiz));
+        $("tabQuiz").setAttribute("aria-selected", String(quiz));
+        $("cardsView").classList.toggle("hidden", quiz);
+        $("quizView").classList.toggle("hidden", !quiz);
+        if (quiz) startQuiz();
+      }
+      $("tabCards").addEventListener("click", function () { setMode(false); });
+      $("tabQuiz").addEventListener("click", function () { setMode(true); });
+      $("toCardsBtn").addEventListener("click", function () { setMode(false); });
+
+      /* Keyboard navigation for flashcards */
+      document.addEventListener("keydown", function (e) {
+        if (!$("cardsView").classList.contains("hidden")) {
+          if (e.key === "ArrowRight") goTo(idx + 1);
+          else if (e.key === "ArrowLeft") goTo(idx - 1);
+        }
+      });
+
+      renderCard();
+    </script>
+  </body>
+</html>
