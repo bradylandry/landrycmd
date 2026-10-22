@@ -1,0 +1,117 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/study.css";
+import raw from "../../data/study/skeletal-system.json";
+import { categories, parseStudySet, serializeStudySet } from "../../lib/study";
+
+const set = parseStudySet(raw, "src/data/study/skeletal-system.json");
+const cats = categories(set.cards);
+const total = set.cards.length;
+const first = set.cards[0];
+const countFor = (cat: string) => set.cards.filter((card) => card.cat === cat).length;
+---
+
+<Layout
+  title={`${set.title} | landrycmd`}
+  description={`${total} flash cards and a ${set.quiz.length} question practice quiz.`}
+  noindex
+>
+  <section class="study-page" data-study data-set={serializeStudySet(set)}>
+    <header class="study-head">
+      <h1>{set.title}</h1>
+      <p class="muted">
+        {total} cards · {cats.length} topics · {set.quiz.length} question quiz
+      </p>
+    </header>
+
+    <div class="study-tabs" role="tablist" aria-label="Mode">
+      <button type="button" role="tab" id="tab-cards" aria-controls="panel-cards" aria-selected="true" data-tab="cards">
+        Flash cards
+      </button>
+      <button type="button" role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" tabindex="-1" data-tab="quiz">
+        Practice quiz
+      </button>
+    </div>
+
+    <div id="panel-cards" role="tabpanel" aria-labelledby="tab-cards" class="study-panel" data-panel="cards">
+      <label class="study-filter">
+        <span>Topic</span>
+        <select data-cat>
+          <option value="all">All topics ({total})</option>
+          {cats.map((cat) => <option value={cat}>{`${cat} (${countFor(cat)})`}</option>)}
+        </select>
+      </label>
+
+      <div class="study-progress-wrap">
+        <p class="study-stats" data-stats aria-live="polite">
+          Got it 0 of {total} · Study again 0
+        </p>
+        <div class="study-progress" aria-hidden="true">
+          <div class="study-progress-fill" data-fill></div>
+        </div>
+      </div>
+
+      <div class="study-deck" data-deck>
+        <p class="study-counter" data-counter>Card 1 of {total} left</p>
+
+        <button type="button" class="study-card" data-card aria-pressed="false">
+          <span class="study-card-inner">
+            <span class="study-face" data-face="front">
+              <span class="study-face-label" data-cat-label>{first.cat}</span>
+              <span class="study-face-text" data-front>{first.q}</span>
+            </span>
+            <span class="study-face" data-face="back" aria-hidden="true">
+              <span class="study-face-label">Answer</span>
+              <span class="study-face-text" data-back>{first.a}</span>
+            </span>
+          </span>
+        </button>
+
+        <p class="study-hint">Tap the card to flip. Swipe left or right to move.</p>
+
+        <div class="study-row">
+          <button type="button" class="study-btn" data-prev>Previous</button>
+          <button type="button" class="study-btn" data-next>Next</button>
+        </div>
+        <div class="study-row">
+          <button type="button" class="study-btn study-again" data-again>Study again</button>
+          <button type="button" class="study-btn study-known" data-known>Got it</button>
+        </div>
+      </div>
+
+      <div class="study-done" data-done hidden>
+        <h2 tabindex="-1" data-done-heading>Nice work.</h2>
+        <p data-done-text>You got every card in this set.</p>
+        <button type="button" class="study-btn study-known" data-retry>Go over the missed cards</button>
+      </div>
+
+      <div class="study-row">
+        <button type="button" class="study-btn" data-shuffle>Shuffle</button>
+        <button type="button" class="study-btn" data-reset>Start over</button>
+      </div>
+    </div>
+
+    <div id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" class="study-panel" data-panel="quiz" hidden>
+      <div data-quiz-run>
+        <p class="study-counter" data-quiz-counter>Question 1 of {set.quiz.length}</p>
+        <h2 class="study-question" tabindex="-1" data-quiz-q></h2>
+        <div class="study-choices" data-quiz-choices></div>
+        <p class="study-feedback" data-quiz-feedback aria-live="polite"></p>
+        <button type="button" class="study-btn study-known" data-quiz-next hidden>Next question</button>
+      </div>
+      <div class="study-result" data-quiz-result hidden>
+        <h2 tabindex="-1" data-quiz-score></h2>
+        <div data-quiz-missed></div>
+        <button type="button" class="study-btn study-known" data-quiz-retake>Take it again</button>
+      </div>
+    </div>
+
+    <noscript><p class="muted">Turn on JavaScript to flip cards and take the quiz.</p></noscript>
+  </section>
+</Layout>
+
+<script>
+  import { mountStudy } from "../../scripts/study-player";
+
+  document.querySelectorAll<HTMLElement>("[data-study]").forEach((root) => mountStudy(root));
+</script>

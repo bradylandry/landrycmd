@@ -1,0 +1,494 @@
+{
+  "id": "skeletal-system",
+  "title": "Anatomy Unit 4: Skeletal System Review",
+  "subtitle": "Unit 4 test review",
+  "cards": [
+    {
+      "cat": "Long Bone",
+      "q": "Diaphysis",
+      "a": "The long middle shaft of a long bone"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Epiphysis",
+      "a": "The enlarged ends of a long bone"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Epiphyseal plate (growth plate)",
+      "a": "Area where a bone grows longer during childhood and adolescence"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Articular cartilage",
+      "a": "Smooth covering on the ends of bones that reduces friction at joints"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Medullary cavity",
+      "a": "Hollow space inside the shaft that contains bone marrow"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Periosteum",
+      "a": "Tough outer covering of bone; helps with growth and repair"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Compact bone",
+      "a": "Hard, dense outer bone that provides strength"
+    },
+    {
+      "cat": "Long Bone",
+      "q": "Spongy bone",
+      "a": "Lightweight, porous bone found mostly at the ends of long bones; its spaces can hold red bone marrow"
+    },
+    {
+      "cat": "Marrow",
+      "q": "Red bone marrow",
+      "a": "Makes blood cells: red blood cells, white blood cells, and platelets"
+    },
+    {
+      "cat": "Marrow",
+      "q": "Yellow bone marrow",
+      "a": "Mainly stores fat"
+    },
+    {
+      "cat": "Marrow",
+      "q": "Hematopoiesis",
+      "a": "The process of making blood cells"
+    },
+    {
+      "cat": "Hormones",
+      "q": "Parathyroid hormone (PTH)",
+      "a": "Raises blood calcium levels"
+    },
+    {
+      "cat": "Hormones",
+      "q": "Calcitonin",
+      "a": "Helps lower blood calcium, mainly by reducing bone breakdown"
+    },
+    {
+      "cat": "Matrix",
+      "q": "Bone matrix",
+      "a": "The material surrounding bone cells"
+    },
+    {
+      "cat": "Matrix",
+      "q": "Collagen (in bone)",
+      "a": "Gives bones flexibility and helps prevent brittleness"
+    },
+    {
+      "cat": "Matrix",
+      "q": "Calcium salts and phosphate",
+      "a": "Make bones hard and strong"
+    },
+    {
+      "cat": "Matrix",
+      "q": "Ossification",
+      "a": "Bone formation; bone tissue can replace cartilage during development"
+    },
+    {
+      "cat": "Bone Cells",
+      "q": "Osteoblasts",
+      "a": "Build new bone (Blast = Build)"
+    },
+    {
+      "cat": "Bone Cells",
+      "q": "Osteocytes",
+      "a": "Mature bone cells that maintain bone tissue and communicate through small channels using processes (Cyte = Maintain)"
+    },
+    {
+      "cat": "Bone Cells",
+      "q": "Osteoclasts",
+      "a": "Break down old bone so it can be replaced (Clast = Clear away)"
+    },
+    {
+      "cat": "Bone Cells",
+      "q": "Osteogenic cells",
+      "a": "Stem-like cells that can develop into bone-building cells"
+    },
+    {
+      "cat": "Compact Bone",
+      "q": "Osteon",
+      "a": "The basic structural unit of compact bone"
+    },
+    {
+      "cat": "Compact Bone",
+      "q": "Central canal",
+      "a": "Contains blood vessels and nerves"
+    },
+    {
+      "cat": "Compact Bone",
+      "q": "Lamellae",
+      "a": "Circular layers (rings) of bone tissue around the central canal"
+    },
+    {
+      "cat": "Compact Bone",
+      "q": "Lacunae",
+      "a": "Tiny spaces that contain osteocytes"
+    },
+    {
+      "cat": "Compact Bone",
+      "q": "Canaliculi",
+      "a": "Tiny channels that let osteocytes communicate and exchange nutrients"
+    },
+    {
+      "cat": "Bone Repair",
+      "q": "4 steps of bone repair, in order",
+      "a": "1. Blood clot forms 2. Soft callus forms 3. Hard callus replaces soft callus 4. Remodeling reshapes and strengthens (Clot, Soft, Hard, Remodel)"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Transverse fracture",
+      "a": "Break goes straight across the bone"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Oblique fracture",
+      "a": "Break goes diagonally across the bone"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Spiral fracture",
+      "a": "Break twists around the bone"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Comminuted fracture",
+      "a": "Bone breaks into three or more pieces"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Greenstick fracture",
+      "a": "Bone bends and breaks partly; common in children"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Open (compound) fracture",
+      "a": "Broken bone with an open wound through the skin"
+    },
+    {
+      "cat": "Fractures",
+      "q": "Closed (simple) fracture",
+      "a": "Bone breaks without breaking the skin"
+    },
+    {
+      "cat": "Skeleton",
+      "q": "How many bones in the adult skeleton?",
+      "a": "206"
+    },
+    {
+      "cat": "Skeleton",
+      "q": "Axial skeleton",
+      "a": "The body's central axis: skull, vertebral column, ribs, sternum, hyoid bone, ear ossicles"
+    },
+    {
+      "cat": "Skeleton",
+      "q": "Appendicular skeleton",
+      "a": "Limbs and the girdles that attach them: shoulder girdle, arms, hands, pelvic girdle, legs, feet"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Head bones",
+      "a": "Cranium, mandible, maxilla, zygomatic bone"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Chest bones",
+      "a": "Sternum, ribs"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Shoulder bones",
+      "a": "Clavicle, scapula"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Arm bones",
+      "a": "Humerus, radius, ulna"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Hand bones",
+      "a": "Carpals, metacarpals, phalanges"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Spine bones",
+      "a": "Cervical, thoracic, lumbar vertebrae, sacrum, coccyx"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Pelvis (hip bones)",
+      "a": "Ilium, ischium, pubis"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Leg bones",
+      "a": "Femur, patella, tibia, fibula"
+    },
+    {
+      "cat": "Major Bones",
+      "q": "Foot bones",
+      "a": "Tarsals, metatarsals, phalanges"
+    },
+    {
+      "cat": "Vertebrae",
+      "q": "Order of the vertebral column, top to bottom",
+      "a": "Cervical (7, neck), Thoracic (12, ribs attach), Lumbar (5, lower back), Sacrum (5 fused), Coccyx (usually 4 fused). Trick: 7-12-5-5-4"
+    },
+    {
+      "cat": "Vertebrae",
+      "q": "Cervical vertebrae",
+      "a": "7, in the neck"
+    },
+    {
+      "cat": "Vertebrae",
+      "q": "Thoracic vertebrae",
+      "a": "12, upper and middle back; ribs attach here"
+    },
+    {
+      "cat": "Vertebrae",
+      "q": "Lumbar vertebrae",
+      "a": "5, lower back"
+    },
+    {
+      "cat": "Bone Shapes",
+      "q": "Long bones (examples)",
+      "a": "Femur, humerus"
+    },
+    {
+      "cat": "Bone Shapes",
+      "q": "Short bones (examples)",
+      "a": "Carpals, tarsals"
+    },
+    {
+      "cat": "Bone Shapes",
+      "q": "Flat bones (examples)",
+      "a": "Skull bones, sternum, ribs"
+    },
+    {
+      "cat": "Bone Shapes",
+      "q": "Irregular bones (example)",
+      "a": "Vertebrae"
+    },
+    {
+      "cat": "Bone Shapes",
+      "q": "Sesamoid bone (example)",
+      "a": "Patella (kneecap)"
+    },
+    {
+      "cat": "Joints",
+      "q": "Immovable joint (example)",
+      "a": "No movement or almost none: skull sutures"
+    },
+    {
+      "cat": "Joints",
+      "q": "Slightly movable joint (example)",
+      "a": "A little movement: between vertebral bodies"
+    },
+    {
+      "cat": "Joints",
+      "q": "Freely movable joint (example)",
+      "a": "Wide range of movement: shoulder, knee"
+    },
+    {
+      "cat": "Joints",
+      "q": "Ball-and-socket joint",
+      "a": "Moves in many directions and rotates: shoulder, hip. Greatest range of motion (especially the shoulder)"
+    },
+    {
+      "cat": "Joints",
+      "q": "Hinge joint",
+      "a": "Bends and straightens: elbow, knee"
+    },
+    {
+      "cat": "Joints",
+      "q": "Pivot joint",
+      "a": "Allows rotation: atlas and axis in the neck"
+    },
+    {
+      "cat": "Joints",
+      "q": "Gliding (plane) joint",
+      "a": "Bones slide past each other: some wrist joints"
+    },
+    {
+      "cat": "Joints",
+      "q": "Saddle joint",
+      "a": "Moves in two main directions: base of thumb"
+    },
+    {
+      "cat": "Joints",
+      "q": "Condyloid (ellipsoid) joint",
+      "a": "Moves in two directions, limited rotation: wrist joint"
+    },
+    {
+      "cat": "Synovial",
+      "q": "Ligaments",
+      "a": "Connect bone to bone (Ligaments Link bones)"
+    },
+    {
+      "cat": "Synovial",
+      "q": "Tendons",
+      "a": "Connect muscle to bone (Tendons Tie muscles to bones)"
+    },
+    {
+      "cat": "Synovial",
+      "q": "Synovial fluid",
+      "a": "Lubricates the joint"
+    },
+    {
+      "cat": "Synovial",
+      "q": "Synovial membrane",
+      "a": "Produces synovial fluid"
+    },
+    {
+      "cat": "Synovial",
+      "q": "Joint capsule",
+      "a": "Surrounds and protects the joint"
+    },
+    {
+      "cat": "Synovial",
+      "q": "Joint cavity",
+      "a": "Space containing synovial fluid"
+    },
+    {
+      "cat": "Terms",
+      "q": "Oste/o",
+      "a": "Bone"
+    },
+    {
+      "cat": "Terms",
+      "q": "Arthr/o",
+      "a": "Joint"
+    },
+    {
+      "cat": "Terms",
+      "q": "Chondr/o",
+      "a": "Cartilage"
+    },
+    {
+      "cat": "Terms",
+      "q": "My/o",
+      "a": "Muscle"
+    },
+    {
+      "cat": "Terms",
+      "q": "Osteoporosis",
+      "a": "Condition that makes bones weak and fragile"
+    },
+    {
+      "cat": "Terms",
+      "q": "Arthritis",
+      "a": "Inflammation or disease of a joint"
+    },
+    {
+      "cat": "Splinting",
+      "q": "What does a splint do?",
+      "a": "Keeps an injured part from moving too much, prevents further injury, reduces pain, protects the area until medical care"
+    },
+    {
+      "cat": "Splinting",
+      "q": "When splinting a long bone, what must you immobilize?",
+      "a": "The joint above and the joint below the injury"
+    },
+    {
+      "cat": "Child vs Adult",
+      "q": "Childhood vs adult bones",
+      "a": "Kids: growth plates open, more flexible, heal faster, more cartilage, more separate bones. Adults: growth plates usually closed, less flexible, slower healing, usually 206 bones after fusion"
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is the shaft of a long bone called?",
+      "choices": [
+        "Epiphysis",
+        "Diaphysis",
+        "Periosteum"
+      ],
+      "answer": 1
+    },
+    {
+      "q": "Which bone cell builds new bone?",
+      "choices": [
+        "Osteoclast",
+        "Osteocyte",
+        "Osteoblast"
+      ],
+      "answer": 2
+    },
+    {
+      "q": "Which hormone raises blood calcium?",
+      "choices": [
+        "PTH",
+        "Calcitonin",
+        "Insulin"
+      ],
+      "answer": 0
+    },
+    {
+      "q": "What does red bone marrow produce?",
+      "choices": [
+        "Fat only",
+        "Blood cells",
+        "Cartilage"
+      ],
+      "answer": 1
+    },
+    {
+      "q": "Which joint has the greatest range of motion?",
+      "choices": [
+        "Hinge",
+        "Pivot",
+        "Ball-and-socket"
+      ],
+      "answer": 2
+    },
+    {
+      "q": "What connects muscle to bone?",
+      "choices": [
+        "Ligament",
+        "Tendon",
+        "Cartilage"
+      ],
+      "answer": 1
+    },
+    {
+      "q": "What is the order of the vertebral regions?",
+      "choices": [
+        "Lumbar, cervical, thoracic, sacrum, coccyx",
+        "Cervical, thoracic, lumbar, sacrum, coccyx",
+        "Cervical, lumbar, thoracic, coccyx, sacrum"
+      ],
+      "answer": 1
+    },
+    {
+      "q": "When splinting a long bone, what must be immobilized?",
+      "choices": [
+        "Only the injury",
+        "Joint above only",
+        "Joints above and below"
+      ],
+      "answer": 2
+    },
+    {
+      "q": "What are the circular layers of compact bone called?",
+      "choices": [
+        "Lamellae",
+        "Canaliculi",
+        "Lacunae"
+      ],
+      "answer": 0
+    },
+    {
+      "q": "What is the process of making blood cells called?",
+      "choices": [
+        "Ossification",
+        "Hematopoiesis",
+        "Remodeling"
+      ],
+      "answer": 1
+    }
+  ]
+}
