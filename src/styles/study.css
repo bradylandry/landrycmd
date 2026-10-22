@@ -1,0 +1,331 @@
+/* Study page (flash cards and quiz). Loaded only by /study pages. */
+
+.study-page {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--s5) var(--margin) var(--s8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.study-head h1 {
+  font-size: clamp(1.75rem, 7vw, 2.5rem);
+  line-height: 1.1;
+}
+
+.study-head p {
+  margin-top: var(--s2);
+}
+
+.study-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.study-panel[hidden],
+.study-deck[hidden],
+.study-done[hidden],
+.study-result[hidden],
+[data-quiz-run][hidden] {
+  display: none;
+}
+
+.study-deck {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.study-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.study-tabs button {
+  min-height: 3rem;
+  border: 0;
+  background: transparent;
+  color: var(--text-dim);
+  font: 600 1rem / 1.2 var(--font-sans);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.study-tabs button[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--signal-ink);
+}
+
+.study-filter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+.study-filter select {
+  min-height: 3rem;
+  padding: 0 var(--s3);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--text);
+  /* 16px or more keeps iOS Safari from zooming on focus. */
+  font: 400 1.0625rem / 1.2 var(--font-sans);
+}
+
+.study-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.study-stats,
+.study-counter {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.study-progress {
+  height: 0.5rem;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.study-progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--ok);
+  transition: width 0.2s ease;
+}
+
+.study-card {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1200px;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.study-card-inner {
+  display: grid;
+  min-height: 15rem;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.study-card.is-flipped .study-card-inner {
+  transform: rotateY(180deg);
+}
+
+.study-face {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s3);
+  min-height: 15rem;
+  padding: var(--s5);
+  border: 1px solid var(--border);
+  background: var(--card);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.study-face[data-face="back"] {
+  transform: rotateY(180deg);
+  border-color: var(--accent);
+}
+
+.study-face-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.study-face-text {
+  display: block;
+  font-size: 1.3rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.study-card:focus-visible .study-card-inner {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.study-hint {
+  margin: 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.study-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+}
+
+.study-btn {
+  min-height: 3.25rem;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font: 600 1.05rem / 1.2 var(--font-sans);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.study-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.study-btn:disabled {
+  color: var(--text-dim);
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.study-btn[hidden] {
+  display: none;
+}
+
+.study-known {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.study-again {
+  border-color: var(--err);
+  color: var(--err);
+}
+
+.study-done,
+.study-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  padding: var(--s5);
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.study-done h2,
+.study-result h2,
+.study-question {
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+
+.study-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.study-choice {
+  min-height: 3.25rem;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font: 400 1.1rem / 1.35 var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.study-choice:disabled {
+  cursor: default;
+  color: var(--text-dim);
+}
+
+.study-choice.is-right {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.study-choice.is-wrong {
+  border-color: var(--err);
+  color: var(--err);
+}
+
+.study-feedback {
+  margin: 0;
+  min-height: 1.5em;
+  font-weight: 600;
+}
+
+.study-feedback.is-right {
+  color: var(--ok);
+}
+
+.study-feedback.is-wrong {
+  color: var(--err);
+}
+
+.study-missed {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.study-missed li {
+  padding-top: var(--s3);
+  border-top: var(--rule);
+}
+
+.study-missed p {
+  margin: 0;
+}
+
+.study-missed-yours {
+  color: var(--err);
+}
+
+.study-missed-answer {
+  color: var(--ok);
+}
+
+@media (min-width: 720px) {
+  .study-card-inner,
+  .study-face {
+    min-height: 18rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .study-card-inner,
+  .study-progress-fill {
+    transition: none;
+  }
+}
