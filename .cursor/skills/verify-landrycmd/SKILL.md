@@ -64,7 +64,7 @@ node .cursor/skills/verify-landrycmd/drive.mjs
 
 That script drives `VERIFY_BASE` (default `http://localhost:4321`). It exits before Chrome starts when the host is not `localhost`, `127.0.0.1`, or `::1`. That includes `landrycmd.com`, any other `landrycmd.com` host, and a preview origin. `VERIFY_ALLOW_REMOTE=1` is the override that lets a non-local origin run. Every mode fails a request whose path is `/api` or starts with `/api/` before it is sent:
 
-- Sets `data-theme` through `localStorage` key `theme`. Contrast uses the resting color after entrance animations finish. Body text needs 4.5:1. Large text (24px, or bold at 18.66px and up) needs 3:1. A control with no text label (`button`, `input`, `textarea`, `select`, `a.btn`) needs a 3:1 boundary against the background outside it. A labeled control, including `.btn`, is judged by its text, with opacity blended into the ink. Both `dark` and `light` on `/`, `/writing/`, `/resume`, and `/work/ai-network-operations`.
+- Sets `data-theme` through `localStorage` key `theme`. Contrast uses the resting color after entrance animations finish. Body text needs 4.5:1. Large text (24px, or bold at 18.66px and up) needs 3:1. A control with no text label (`button`, `input`, `textarea`, `select`, `a.btn`) needs a 3:1 boundary against the background outside it. A labeled control, including `.btn`, is judged by its text, with opacity blended into the ink. Text inside `.btn` is compared with that control's `::before` plate, because `.btn` leaves `background` transparent. A gradient plate is judged by its worst opaque stop. That covers the Résumé control (`.btn--primary`, dark ink on the orange gradient) and the `.ext` arrow inside it. Decorative `::before` plates on hero bands and feature cards are not the text fill. Both `dark` and `light` on `/`, `/writing/`, `/resume`, and `/work/ai-network-operations`.
 - At 360px, checks `scrollWidth <= clientWidth` on `/` and each lab: `/lab/mcp-simulator/`, `/lab/frr-review/`, `/lab/migration-simulator/`, `/lab/ring-collapse/`, `/lab/airtap-mpls/`.
 - With `prefers-reduced-motion: reduce`, checks `--glow` and `--accent-glow` are transparent, `.flow.on` animation is `none`, `.pulse` and `.mline.live` filters are `none`, and nothing is running. Home and every lab.
 - At 360px, clicks `#menu-toggle`, then `#site-menu a[href="/#lab"]`, and expects `#site-menu` hidden and `aria-expanded="false"`. Opens the menu again and sends Escape. Work, Lab, and About are the in-page links that call `closeMenu`. Writing and Résumé leave the document.
@@ -96,7 +96,9 @@ Public-copy scan. Leak patterns fail the process. `NEEDS NUMBER` is listed and d
 node .cursor/skills/verify-landrycmd/scan-public.mjs | tee /tmp/landrycmd-verify/scan.txt
 ```
 
-Scanned trees: `src/pages`, `src/content`, `src/components`, `src/data`, `src/lib/resume.ts`, `public`. Skips `src/pages/api/` and the unlisted `applications`, `login`, and `resume/[token]` pages. Fails on IPv4, URL hosts outside the allowlist in `scan-public.mjs`, device-role acronyms `PE` `CE` `ASBR` `LER` `LSR`, ticket ids `CHG-` `INC-` `RITM-` `TASK-` `REQ-` `PRB-`, site or market codes (`area 10`, `area 20`, device-style names, CLLI-shaped tokens), internal tool names (`tailscale`, `azurecontainerapps`, `jarvis-lab`, `nautobot`, `netbox`, `servicenow`, `solarwinds`, `infoblox`), `.local` / `.internal` / `.corp` / `.lan` names, a coworker or colleague followed by a personal name, and email addresses other than the two published contact addresses.
+Scanned trees: `src/pages`, `src/content`, `src/components`, `src/data`, `src/lib/resume.ts`, `public`. Skips `src/pages/api/` and the unlisted `applications`, `login`, and `resume/[token]` pages. Fails on IPv4, URL hosts outside the allowlist in `scan-public.mjs`, device-role acronyms `PE` `CE` `ASBR` `LER` `LSR`, ticket ids `CHG-` `INC-` `RITM-` `TASK-` `REQ-` `PRB-`, site or market codes (`area 10`, `area 20`, device-style names, CLLI-shaped tokens), internal tool names (`tailscale`, `azurecontainerapps`, `jarvis-lab`, `nautobot`, `netbox`, `servicenow`, `solarwinds`, `infoblox`), `.local` / `.internal` / `.corp` / `.lan` names, a coworker or colleague followed by a personal name, and email addresses other than the two published contact addresses. `fonts.googleapis.com` and `fonts.gstatic.com` are allowlisted because `public/skeletal-flashcards/index.html` loads them on purpose.
+
+## Repo checks
 
 Packet-dash test, then the steps in [`.github/workflows/ci.yml`](../../../.github/workflows/ci.yml):
 
@@ -133,3 +135,10 @@ test -f /tmp/landrycmd-verify/report.json && test -f /tmp/landrycmd-verify/home-
 ```
 
 `npm run dev` records the npm pid. `kill_tree` stops that pid and the `astro dev` child, and nothing else. Leaves `/tmp/landrycmd-verify/` in place. `drive.mjs` already kills the Chrome it spawned.
+
+## Helpers
+
+Both scripts are executable. Invoke them with `node` from the repo root.
+
+- `node .cursor/skills/verify-landrycmd/drive.mjs` drives the static server in headless Chrome. `CHROME_BIN` defaults to `/usr/bin/google-chrome`. `VERIFY_BASE` defaults to `http://localhost:4321`. `VERIFY_OUT` defaults to `/tmp/landrycmd-verify`. `VERIFY_CHROME_PORT` defaults to `9333`. `--screenshots` saves the three home widths and skips the other checks. `VERIFY_ALLOW_REMOTE=1` is required before a non-local `VERIFY_BASE` starts Chrome. The script kills only the Chrome process it spawned.
+- `node .cursor/skills/verify-landrycmd/scan-public.mjs` scans the public trees listed under Evidence. Exit 0 means no leak pattern matched. `NEEDS NUMBER` is printed and does not fail the process.

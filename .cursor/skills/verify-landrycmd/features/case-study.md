@@ -1,5 +1,7 @@
 # Case study
 
+The case study is the public write-up of the AI Network Operations Platform, linked from the Work band.
+
 ## Sub-features
 
 - Standalone write-up of the AI Network Operations Platform

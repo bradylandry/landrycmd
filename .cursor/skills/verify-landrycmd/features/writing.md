@@ -1,5 +1,7 @@
 # Writing
 
+Writing is the public essay index, each essay, and the RSS feed.
+
 ## Sub-features
 
 - Index of published posts

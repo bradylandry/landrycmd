@@ -1,5 +1,7 @@
 # Study pages
 
+Study is an unlisted flash-card deck and quiz for the skeletal system. No page on the site links to it.
+
 ## Sub-features
 
 - Flash cards: tap to flip, Previous and Next, swipe left or right on the card

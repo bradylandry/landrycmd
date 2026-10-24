@@ -43,7 +43,10 @@ const textExt = new Set([
   ".json",
 ]);
 
-/** Hosts the public site already names on purpose. Anything else is a leak. */
+/** Hosts the public site already names on purpose. Anything else is a leak.
+ * fonts.googleapis.com and fonts.gstatic.com are the font hosts named in
+ * public/skeletal-flashcards/index.html.
+ */
 const allowedHosts = new Set([
   "landrycmd.com",
   "www.landrycmd.com",
@@ -71,6 +74,8 @@ const allowedHosts = new Set([
   "w3.org",
   "www.w3.org",
   "scripts.sil.org",
+  "fonts.googleapis.com",
+  "fonts.gstatic.com",
 ]);
 
 const allowedEmails = new Set(["bjlandry@gmail.com", "support@landrycmd.com"]);

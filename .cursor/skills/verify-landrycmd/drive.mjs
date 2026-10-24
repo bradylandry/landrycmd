@@ -328,7 +328,9 @@ function contrastExpression() {
     function parse(value) {
       const match = String(value).match(/rgba?\\(([^)]+)\\)/);
       if (!match) return null;
-      const parts = match[1].split(",").map((item) => parseFloat(item));
+      const body = match[1].trim().replace(/\\//g, " ");
+      const parts = body.split(/[,\\s]+/).map((item) => parseFloat(item)).filter((n) => !Number.isNaN(n));
+      if (parts.length < 3) return null;
       return { r: parts[0], g: parts[1], b: parts[2], a: parts.length > 3 ? parts[3] : 1 };
     }
     function blend(fg, bg) {
@@ -367,6 +369,30 @@ function contrastExpression() {
       }
       return color;
     }
+    // .btn keeps background transparent and paints the plate on ::before.
+    // Other covering pseudos (hero bands, feature plates) are decorations, not the text fill.
+    function buttonFill(el) {
+      const btn = el.closest(".btn");
+      if (!btn) return null;
+      const before = getComputedStyle(btn, "::before");
+      const content = before.content;
+      if (!content || content === "none" || content === "normal") return null;
+      const stops = [];
+      const image = before.backgroundImage || "";
+      if (image && image !== "none") {
+        const re = /rgba?\\(([^)]+)\\)/g;
+        let match;
+        while ((match = re.exec(image))) {
+          const color = parse(match[0]);
+          if (color && color.a > 0) stops.push([color.r, color.g, color.b]);
+        }
+      }
+      if (!stops.length) {
+        const solid = parse(before.backgroundColor);
+        if (solid && solid.a > 0) stops.push(solid.a >= 1 ? [solid.r, solid.g, solid.b] : blend(solid, painted(btn)));
+      }
+      return stops.length ? stops : null;
+    }
     function hidden(el) {
       let node = el;
       while (node && node.nodeType === 1) {
@@ -399,14 +425,18 @@ function contrastExpression() {
       const style = getComputedStyle(el);
       const fg = parse(style.color);
       if (!fg) continue;
-      const bg = painted(el);
+      const pageBg = painted(el);
+      const stops = buttonFill(el);
+      const surfaces = stops || [pageBg];
       const opacity = parseFloat(style.opacity || "1");
-      const ink = blend({ ...fg, a: fg.a * opacity }, bg);
       const size = parseFloat(style.fontSize);
       const weight = parseInt(style.fontWeight, 10);
       const large = size >= 24 || (weight >= 700 && size >= 18.66);
       const sample = (el.id ? "#" + el.id : el.className && typeof el.className === "string" ? "." + el.className.trim().split(/\\s+/).slice(0, 2).join(".") : el.tagName.toLowerCase());
-      add(large ? "large-text" : "text", sample, ink, bg, large ? 3 : 4.5);
+      for (const surface of surfaces) {
+        const ink = blend({ ...fg, a: fg.a * opacity }, surface);
+        add(large ? "large-text" : "text", sample, ink, surface, large ? 3 : 4.5);
+      }
     }
     for (const el of document.querySelectorAll("button, input, textarea, select, a.btn")) {
       if (hidden(el) || el.closest("svg")) continue;
