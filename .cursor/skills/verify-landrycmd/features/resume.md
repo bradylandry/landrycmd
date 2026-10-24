@@ -1,5 +1,7 @@
 # Public résumé
 
+The public résumé is the presales page. It uses the site header and it never names an employer.
+
 ## Sub-features
 
 - Presales résumé at `/resume`

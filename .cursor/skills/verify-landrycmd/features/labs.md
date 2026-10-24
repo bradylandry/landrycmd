@@ -1,5 +1,7 @@
 # Interactive labs
 
+The labs are five network simulators. Each one opens in a dialog from the home page and also has its own page.
+
 ## Sub-features
 
 - Five cards on the home Lab band, each opening `#lab-dialog`

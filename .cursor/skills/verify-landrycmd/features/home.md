@@ -1,5 +1,7 @@
 # Home
 
+The home page is the profile: name, role, portrait, theme, and the links into Work, Lab, About, Writing, and the résumé.
+
 ## Sub-features
 
 - Profile intro: portrait, name, role, résumé and off-site links
