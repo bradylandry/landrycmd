@@ -1,5 +1,3 @@
-/* Flashcard decks. Loaded only by /decks pages. */
-
 .deck-page {
   display: flex;
   flex-direction: column;
