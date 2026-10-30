@@ -11,6 +11,8 @@ Public site for Brady Landry's AI lab. Visitors use the web UI: home, five labs,
 
 Evidence goes to `/tmp/landrycmd-verify/`. Cleanup kills the dev pid recorded there and leaves the files.
 
+CI runs Launch, Drive, and the public-copy scan on every pull request (`.github/workflows/verify.yml`). It uploads `report.json`, the three home screenshots, `drive.txt`, and `scan.txt` as the `verify-evidence` artifact, kept 14 days. It does not upload `chrome-profile/`. The artifact is public to logged-in GitHub users. Put the link to it from the PR's latest run in the PR body under Proof.
+
 ## Launch
 
 ```bash
