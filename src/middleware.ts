@@ -1,5 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import { serverEnv } from "./lib/private-config.mjs";
+import { sign, verifyAppsToken } from "./lib/apps-token";
 
 /**
  * /applications exposes the job search: which companies, which roles, and the
@@ -14,41 +15,7 @@ function signingSecret(): string {
 }
 
 export async function verifyToken(token: string): Promise<boolean> {
-  const secret = signingSecret();
-  if (!secret) return false;
-  const lastDot = token.lastIndexOf(".");
-  if (lastDot < 0) return false;
-  const payload = token.slice(0, lastDot);
-  const sig = token.slice(lastDot + 1);
-  if (!payload || !sig) return false;
-
-  try {
-    const expected = await sign(payload, secret);
-    if (expected !== sig) return false;
-
-    const parts = payload.split(":");
-    if (parts.length !== 3 || parts[0] !== "apps") return false;
-    const expiresAt = parseInt(parts[2] ?? "0", 10);
-    return expiresAt > 0 && Date.now() < expiresAt;
-  } catch {
-    return false;
-  }
-}
-
-async function sign(payload: string, secret: string): Promise<string> {
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    enc.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(payload));
-  return btoa(String.fromCharCode(...new Uint8Array(sig)))
-    .replace(/=+$/, "")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_");
+  return verifyAppsToken(token, signingSecret());
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {

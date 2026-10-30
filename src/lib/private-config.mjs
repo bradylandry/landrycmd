@@ -1,3 +1,5 @@
+import { safeEqual } from "./safe-compare.mjs";
+
 export function decodeEnvJson(value) {
   const trimmed = value.trim();
   if (trimmed.startsWith("[") || trimmed.startsWith("{")) return trimmed;
@@ -117,7 +119,12 @@ export function findApplication(token, applications) {
       return loaded.ok ? loaded.applications : [];
     })();
   if (!token) return undefined;
-  return list.find((app) => app.token === token);
+  // Compare against every entry so timing does not reveal the match position.
+  let match;
+  for (const app of list) {
+    if (safeEqual(app.token, token) && match === undefined) match = app;
+  }
+  return match;
 }
 
 function parseRole(value) {

@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getRedis } from "../../lib/redis";
 import { serverEnv } from "../../lib/private-config.mjs";
+import { safeEqual } from "../../lib/safe-compare.mjs";
 import { APPS_COOKIE, sign } from "../../middleware";
 
 export const prerender = false;
@@ -87,7 +88,7 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   }
 
   const pin = (body.pin || "").trim();
-  if (pin !== pinExpected) {
+  if (!safeEqual(pin, pinExpected)) {
     return new Response(JSON.stringify({ ok: false, error: "Wrong code" }), {
       status: 401,
       headers: { "content-type": "application/json" },
