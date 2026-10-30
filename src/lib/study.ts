@@ -1,5 +1,4 @@
 /**
- * Study sets: flash cards with categories plus a short multiple choice quiz.
  * Pure logic only, so the browser player and the tests share it.
  */
 
@@ -175,7 +174,6 @@ export function markAgain(session: Session): Session {
   const rest = session.queue.filter((_, i) => i !== session.pos);
   const queue = [...rest, card];
   const again = session.again.includes(card) ? session.again : [...session.again, card];
-  // The next card slides into this slot. If this was the last slot, wrap to the start.
   const pos = session.pos >= rest.length ? 0 : session.pos;
   return clampPos({ ...session, queue, again, pos });
 }

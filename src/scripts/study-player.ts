@@ -211,7 +211,6 @@ export function mountStudy(root: HTMLElement): void {
     update(newSession(set.cards, v, cat, session.shuffled));
   });
 
-  // Quiz
   const quizRun = el(root, "[data-quiz-run]");
   const quizCounter = el(root, "[data-quiz-counter]");
   const quizQ = el(root, "[data-quiz-q]");
@@ -318,7 +317,6 @@ export function mountStudy(root: HTMLElement): void {
     quizQ.focus();
   });
 
-  // Tabs
   const quizTab = tabs.find((tab) => tab.dataset.tab === "quiz");
   if (quizTab && set.quiz.length === 0) quizTab.hidden = true;
   const showTab = (name: string, focus = false) => {
@@ -340,7 +338,6 @@ export function mountStudy(root: HTMLElement): void {
     });
   });
 
-  // Keyboard on desktop: arrows move, space flips, only while the cards panel is open.
   document.addEventListener("keydown", (event) => {
     if (event.altKey || event.ctrlKey || event.metaKey || isEditable(event.target)) return;
     if (deck.hidden || (deck.closest<HTMLElement>("[data-panel]")?.hidden ?? false)) return;

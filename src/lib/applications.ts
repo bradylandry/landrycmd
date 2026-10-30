@@ -47,7 +47,6 @@ export interface Application {
   status: "prepared" | "held" | "applied" | "rejected";
   /** Requisition number, so a re-application is obvious */
   req?: string;
-  /** Free-text outcome or context */
   note?: string;
   url?: string;
   /** Name the firm on this application's résumé. Unlisted routes only. */
@@ -78,7 +77,6 @@ export interface Hit {
   ua?: string;
   ref?: string;
   country?: string;
-  /** true when the user agent matches a known link scanner / preview bot */
   bot?: boolean;
 }
 

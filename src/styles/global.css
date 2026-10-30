@@ -146,7 +146,6 @@ h4 {
   transform: none;
 }
 
-/* Header */
 .site-header {
   position: sticky;
   top: 0;
@@ -262,7 +261,6 @@ main {
   min-height: 50vh;
 }
 
-/* Hero */
 .band {
   position: relative;
   isolation: isolate;
@@ -586,7 +584,6 @@ main {
   }
 }
 
-/* Sections */
 .shead {
   grid-column: 1 / span 3;
 }
@@ -730,7 +727,6 @@ main {
   text-decoration: none;
 }
 
-/* Lab cards: one full-width row. The 7/5 split is inside the card. */
 .lab-grid {
   display: grid;
   grid-column: 1 / -1;
@@ -873,7 +869,6 @@ main {
   background: #0b0b0c;
 }
 
-/* Rows */
 .rows {
   border-top: 1px solid var(--line-700);
 }
@@ -921,7 +916,6 @@ main {
   color: var(--fg-500);
 }
 
-/* About */
 .about-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -971,7 +965,6 @@ main {
   text-decoration: none;
 }
 
-/* Footer */
 .site-footer {
   position: relative;
   isolation: isolate;
@@ -1046,7 +1039,6 @@ main {
   color: var(--fg-100);
 }
 
-/* Inner pages */
 main > section:not(.band),
 main > article,
 main > .page {
@@ -1124,7 +1116,6 @@ ul {
   padding-left: 1.25rem;
 }
 
-/* Lab dialog */
 .lab-dialog {
   width: min(1120px, calc(100vw - 1.5rem));
   height: min(92dvh, 960px);

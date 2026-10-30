@@ -14,7 +14,7 @@ function signingSecret(): string {
   return serverEnv("APPS_SECRET") || serverEnv("TRIP_SECRET");
 }
 
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 const TOKEN_TTL_MS = COOKIE_MAX_AGE * 1000;
 const MAX_ATTEMPTS = 5;
 const WINDOW_SEC = 60;

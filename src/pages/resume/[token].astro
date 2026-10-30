@@ -33,7 +33,6 @@ if (app.disclosed && !disclosedRole) {
 
 const ua = Astro.request.headers.get("user-agent") ?? undefined;
 
-// Fire-and-forget: tracking must never delay or break the résumé render.
 await recordHit(app.token, {
   at: Date.now(),
   kind: "open",
@@ -90,7 +89,6 @@ await recordHit(app.token, {
       }
     }
 
-    // Count only foreground time, so a background tab does not register.
     setInterval(function () {
       const now = Date.now();
       if (document.visibilityState === "visible") elapsed += now - last;
