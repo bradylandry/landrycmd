@@ -8,7 +8,8 @@
  *   VERIFY_ALLOW_REMOTE=1 VERIFY_BASE="$PREVIEW_ORIGIN" node .cursor/skills/verify-landrycmd/drive.mjs --screenshots
  */
 import { spawn } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { openSync } from "node:fs";
 import { setTimeout as delay } from "node:timers/promises";
 
 const screenshotsOnly = process.argv.includes("--screenshots");
@@ -32,6 +33,7 @@ const themePages = ["/", "/writing/", "/resume", "/work/ai-network-operations"];
 await mkdir(outDir, { recursive: true });
 
 const userData = `${outDir}/chrome-profile`;
+const chromeLog = `${outDir}/chrome.log`;
 const chrome = spawn(
   chromeBin,
   [
@@ -44,12 +46,16 @@ const chrome = spawn(
     `--user-data-dir=${userData}`,
     "about:blank",
   ],
-  { stdio: "ignore" },
+  { stdio: ["ignore", "ignore", openSync(chromeLog, "w")] },
 );
+let chromeExit = null;
+chrome.on("exit", (code, signal) => {
+  chromeExit = { code, signal };
+});
 
 let session;
 try {
-  const version = await waitForJson(`http://localhost:${debugPort}/json/version`);
+  const version = await waitForJson(`http://127.0.0.1:${debugPort}/json/version`);
   session = await connect(version.webSocketDebuggerUrl);
   const { targetId } = await session.send("Target.createTarget", { url: "about:blank" });
   const { sessionId } = await session.send("Target.attachToTarget", {
@@ -517,8 +523,11 @@ async function evaluate(session, sessionId, expression) {
 }
 
 async function waitForJson(url) {
+  // A cold Chrome start on a CI runner can take well over 10 seconds.
+  const deadline = Date.now() + Number(process.env.VERIFY_CHROME_WAIT_MS ?? 45000);
   let last;
-  for (let i = 0; i < 50; i++) {
+  while (Date.now() < deadline) {
+    if (chromeExit) break;
     try {
       const response = await fetch(url);
       if (response.ok) return await response.json();
@@ -526,9 +535,11 @@ async function waitForJson(url) {
     } catch (error) {
       last = error;
     }
-    await delay(200);
+    await delay(250);
   }
-  throw new Error(`chrome debug port not ready: ${last}`);
+  const log = await readFile(chromeLog, "utf8").catch(() => "");
+  const exited = chromeExit ? ` (chrome exited ${JSON.stringify(chromeExit)})` : "";
+  throw new Error(`chrome debug port not ready: ${last}${exited}\n${log.slice(-2000)}`);
 }
 
 function assertLocalBase(value) {

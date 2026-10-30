@@ -1,7 +1,7 @@
 /**
  * Read-only scan of shipped public copy.
  * Leak hits fail the process. NEEDS NUMBER is printed and does not.
- * Not a CI check.
+ * The Verify workflow runs this on every pull request.
  */
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";

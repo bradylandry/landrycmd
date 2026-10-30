@@ -1,0 +1,124 @@
+# Runs the verify-landrycmd skill on every pull request and uploads the
+# evidence as the verify-evidence artifact. See
+# .cursor/skills/verify-landrycmd/SKILL.md.
+#
+# No secrets are read. The build uses the same empty placeholders as ci.yml.
+# The artifact is visible to any logged-in GitHub user, so only the browser
+# report, the home screenshots, the drive summary, and the scan output are
+# uploaded. drive.mjs keeps its Chrome profile in the same directory; that
+# profile is not uploaded.
+name: Verify
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: verify skill
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      VERIFY_OUT: /tmp/landrycmd-verify
+      VERIFY_BASE: http://localhost:4321
+      CHROME_BIN: /usr/bin/google-chrome
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ">=22.6"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        env:
+          APPLICATIONS_JSON: ""
+          DISCLOSED_ROLE_JSON: ""
+          APPS_PIN: ""
+          APPS_SECRET: ""
+          TRIP_SECRET: ""
+          UPSTASH_REDIS_REST_URL: ""
+          UPSTASH_REDIS_REST_TOKEN: ""
+          KV_REST_API_URL: ""
+          KV_REST_API_TOKEN: ""
+          PUBLISH_API_KEY: ""
+          GITHUB_TOKEN: ""
+        run: |
+          mkdir -p "$VERIFY_OUT"
+          npm run build > "$VERIFY_OUT/build.log" 2>&1 || { cat "$VERIFY_OUT/build.log"; exit 1; }
+
+      - name: Serve static output
+        run: |
+          python3 -m http.server 4321 --directory .vercel/output/static --bind localhost > "$VERIFY_OUT/dev.log" 2>&1 &
+          echo $! > "$VERIFY_OUT/dev.pid"
+          # Save each page to a file before grepping. With pipefail, grep -q
+          # closing the pipe early can fail curl even when the marker is there.
+          for i in $(seq 1 30); do
+            curl -fsS -o "$VERIFY_OUT/home.html" http://localhost:4321/ 2>/dev/null \
+              && grep -q 'id="profile-name"' "$VERIFY_OUT/home.html" && break
+            sleep 0.5
+          done
+          grep -q 'id="profile-name"' "$VERIFY_OUT/home.html"
+          code=$(curl -fsS -o /dev/null -w '%{http_code}' http://localhost:4321/lab/mcp-simulator/)
+          test "$code" = 200
+
+      - name: Check Chrome
+        run: |
+          test -x "$CHROME_BIN" || { echo "Chrome not found at $CHROME_BIN"; exit 1; }
+          "$CHROME_BIN" --version
+
+      - name: Drive
+        run: node .cursor/skills/verify-landrycmd/drive.mjs | tee "$VERIFY_OUT/drive.txt"
+
+      - name: Chrome log on failure
+        if: failure()
+        run: tail -n 100 "$VERIFY_OUT/chrome.log" 2>/dev/null || true
+
+      - name: Public-copy scan
+        if: ${{ !cancelled() }}
+        run: node .cursor/skills/verify-landrycmd/scan-public.mjs | tee "$VERIFY_OUT/scan.txt"
+
+      - name: Step summary
+        if: always()
+        run: |
+          {
+            echo "## Verify drive summary"
+            echo
+            if [ -s "$VERIFY_OUT/drive.txt" ]; then
+              echo '```json'
+              cat "$VERIFY_OUT/drive.txt"
+              echo '```'
+            else
+              echo "drive.mjs did not produce a summary. See the job log."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f "$VERIFY_OUT/dev.pid" ]; then
+            kill "$(cat "$VERIFY_OUT/dev.pid")" 2>/dev/null || true
+            rm -f "$VERIFY_OUT/dev.pid"
+          fi
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            /tmp/landrycmd-verify/report.json
+            /tmp/landrycmd-verify/home-*.png
+            /tmp/landrycmd-verify/drive.txt
+            /tmp/landrycmd-verify/scan.txt
