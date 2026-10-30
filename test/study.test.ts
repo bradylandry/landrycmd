@@ -62,15 +62,13 @@ test("missed cards come back around until marked got it", () => {
   let s = newSession(set.cards, v, "Hormones");
   assert.equal(s.queue.length, 2);
   const [a, b] = s.queue;
-  s = markAgain(s); // a to the back
+  s = markAgain(s);
   assert.equal(current(s), b);
   assert.equal(studyAgainCount(s), 1);
-  s = markKnown(s); // b done
+  s = markKnown(s);
   assert.equal(current(s), a);
-  s = markKnown(s); // a done on the second pass
+  s = markKnown(s);
   assert.equal(current(s), null);
-  // The Study again pile is empty once every card is got it,
-  // but a is remembered as missed so it can be reviewed again.
   assert.equal(studyAgainCount(s), 0);
   assert.deepEqual(s.again, [a]);
   s = retryMissed(s);
