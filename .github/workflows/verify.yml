@@ -60,15 +60,28 @@ jobs:
         run: |
           python3 -m http.server 4321 --directory .vercel/output/static --bind localhost > "$VERIFY_OUT/dev.log" 2>&1 &
           echo $! > "$VERIFY_OUT/dev.pid"
+          # Save each page to a file before grepping. With pipefail, grep -q
+          # closing the pipe early can fail curl even when the marker is there.
           for i in $(seq 1 30); do
-            curl -fsS http://localhost:4321/ | grep -q 'id="profile-name"' && break
+            curl -fsS -o "$VERIFY_OUT/home.html" http://localhost:4321/ 2>/dev/null \
+              && grep -q 'id="profile-name"' "$VERIFY_OUT/home.html" && break
             sleep 0.5
           done
-          curl -fsS http://localhost:4321/ | grep -q 'id="profile-name"'
-          curl -fsS -o /dev/null -w '%{http_code}\n' http://localhost:4321/lab/mcp-simulator/ | grep -q 200
+          grep -q 'id="profile-name"' "$VERIFY_OUT/home.html"
+          code=$(curl -fsS -o /dev/null -w '%{http_code}' http://localhost:4321/lab/mcp-simulator/)
+          test "$code" = 200
+
+      - name: Check Chrome
+        run: |
+          test -x "$CHROME_BIN" || { echo "Chrome not found at $CHROME_BIN"; exit 1; }
+          "$CHROME_BIN" --version
 
       - name: Drive
         run: node .cursor/skills/verify-landrycmd/drive.mjs | tee "$VERIFY_OUT/drive.txt"
+
+      - name: Chrome log on failure
+        if: failure()
+        run: tail -n 100 "$VERIFY_OUT/chrome.log" 2>/dev/null || true
 
       - name: Public-copy scan
         if: ${{ !cancelled() }}
