@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { safeEqual } from "../../lib/safe-compare.mjs";
 
 export const prerender = false;
 
@@ -35,7 +36,7 @@ function buildFrontmatter(fields: Record<string, unknown>): string {
 export const POST: APIRoute = async ({ request }) => {
   // Auth
   const key = request.headers.get("x-publish-key");
-  if (!PUBLISH_API_KEY || key !== PUBLISH_API_KEY) {
+  if (!PUBLISH_API_KEY || !safeEqual(key, PUBLISH_API_KEY)) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
