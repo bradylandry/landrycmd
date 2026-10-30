@@ -139,8 +139,16 @@ function drawsRing(rule: CssRule) {
   return rule.declarations.some(
     (d) =>
       (d.name === "outline" && !hidesOutline(d)) ||
-      (d.name === "box-shadow" && d.value !== "none"),
+      (d.name === "box-shadow" && shadowIsRing(d.value)),
   );
+}
+
+function shadowIsRing(value: string) {
+  return value.split(/,(?![^(]*\))/).some((layer) => {
+    if (/\binset\b/.test(layer)) return true;
+    const lengths = layer.match(/-?\d*\.?\d+(?:px|r?em|%)?(?=[\s,]|$)/g) ?? [];
+    return lengths.length >= 4 && parseFloat(lengths[3]) > 0;
+  });
 }
 
 function ringSurvivesClip(rule: CssRule) {

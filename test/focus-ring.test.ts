@@ -33,10 +33,19 @@ button { outline: 0; }`;
 });
 
 test("a ring on the same selector or a child restores the outline", () => {
-  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 0 0 2px red; }"), []);
+  const link = `<a class="x" href="/"><span class="inner">x</span></a>`;
+  assert.deepEqual(selectorsFlagged(".x { outline: none; }", link), [".x"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 0 0 2px red; }", link), []);
   assert.deepEqual(selectorsFlagged(".x:focus-visible { outline: none; box-shadow: 0 0 0 2px red; }"), []);
-  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible .inner { outline: 2px solid red; }"), []);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible .inner { outline: 2px solid red; }", link), []);
   assert.deepEqual(selectorsFlagged("a { outline: none; } @media (hover: hover) { a:focus-visible { outline: 2px solid red; } }"), ["a"]);
+});
+
+test("a decorative shadow is not a ring, on the element or a child", () => {
+  const link = `<a class="x" href="/"><span>x</span></a>`;
+  assert.deepEqual(selectorsFlagged("a { outline: none; } a:focus-visible span { box-shadow: 0 1px 2px #ccc; }"), ["a"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px #ccc; }", link), [".x"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px #ccc, 0 0 0 3px blue; }", link), []);
 });
 
 test("clip-path on a class carried by a link is flagged even with an outer ring", () => {

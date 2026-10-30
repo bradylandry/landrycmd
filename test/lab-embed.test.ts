@@ -27,12 +27,29 @@ test("every lab page hides its chrome and targets the top window when embedded",
   }
 });
 
-test("a standalone lab page keeps its chrome", async () => {
-  const embedJs = await read("./public/lab/embed.js");
-  const dom = new JSDOM("<html></html>", { url: "http://localhost/lab/x/", runScripts: "outside-only" });
-  (dom.window as unknown as { eval(code: string): void }).eval(embedJs);
-  assert.equal(dom.window.document.documentElement.classList.contains("lab-embed"), false);
-  dom.window.close();
+test("a standalone lab page keeps its chrome and its links", async () => {
+  const [embedJs, shellCss, slugs] = await Promise.all([
+    read("./public/lab/embed.js"),
+    read("./public/lab/lab-shell.css"),
+    labSlugs(),
+  ]);
+  for (const slug of slugs) {
+    const html = await read(`./public/lab/${slug}/index.html`);
+    const dom = new JSDOM(html, { url: `http://localhost/lab/${slug}/`, runScripts: "outside-only" });
+    const { window } = dom;
+    const before = [...window.document.querySelectorAll("a[href]")].map((a) => a.getAttribute("target"));
+    const style = window.document.createElement("style");
+    style.textContent = shellCss;
+    window.document.head.append(style);
+    (window as unknown as { eval(code: string): void }).eval(embedJs);
+    assert.equal(window.document.documentElement.classList.contains("lab-embed"), false, slug);
+    const after = [...window.document.querySelectorAll("a[href]")].map((a) => a.getAttribute("target"));
+    assert.deepEqual(after, before, slug);
+    for (const chrome of window.document.querySelectorAll(".lab-header, .lab-footer")) {
+      assert.notEqual(window.getComputedStyle(chrome).display, "none", `${slug} ${chrome.className}`);
+    }
+    window.close();
+  }
 });
 
 test("the check fails on a lab without embed.js or with it above a link", async () => {

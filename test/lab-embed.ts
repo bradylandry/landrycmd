@@ -29,7 +29,7 @@ export function embedProblems(html: string, embedJs: string, shellCss: string, u
       problems.push(`link ${link.getAttribute("href")} would navigate inside the iframe`);
     }
   }
-  for (const chrome of document.querySelectorAll(".lab-header, .lab-footer")) {
+  for (const chrome of document.querySelectorAll(".lab-header, .lab-footer, .cross")) {
     if (window.getComputedStyle(chrome).display !== "none") {
       problems.push(`.${chrome.className} still shows inside the dialog`);
     }
