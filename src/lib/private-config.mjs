@@ -119,7 +119,9 @@ export function findApplication(token, applications) {
       return loaded.ok ? loaded.applications : [];
     })();
   if (!token) return undefined;
-  // Compare against every entry so timing does not reveal the match position.
+  // Compare against every entry instead of stopping at the first match, so
+  // the scan does not reveal which entry matched in any useful way. The first
+  // match still wins, like Array.find.
   let match;
   for (const app of list) {
     if (safeEqual(app.token, token) && match === undefined) match = app;
