@@ -72,3 +72,67 @@ test("findApplication does not match a wrong, prefixed, or empty token", () => {
   assert.equal(findApplication("example-aaa", apps), undefined);
   assert.equal(findApplication("", apps), undefined);
 });
+
+test("safeEqual rejects strings with a lone surrogate", () => {
+  // Both encode to the same utf8 replacement bytes, so they must not match.
+  assert.equal(safeEqual("key\uD800", "key\uDBFF"), false);
+  assert.equal(safeEqual("key\uD800", "key\uD800"), false);
+  assert.equal(safeEqual("\uDC00", "\uDC01"), false);
+  assert.equal(safeEqual("key\uD800", "key\uFFFD"), false);
+});
+
+test("safeEqual still accepts equal well-formed non-ASCII strings", () => {
+  assert.equal(safeEqual("caf\u00e9-\u{1F600}", "caf\u00e9-\u{1F600}"), true);
+  assert.equal(safeEqual("caf\u00e9", "cafe\u0301"), false);
+});
+
+test("verifyAppsToken rejects malformed tokens", async () => {
+  const good = await signedToken(Date.now() + 60_000);
+  const sig = good.slice(good.lastIndexOf(".") + 1);
+  const malformed = [
+    "",
+    "no-dot-at-all",
+    ".",
+    `.${sig}`,
+    good.slice(0, good.lastIndexOf(".") + 1),
+    "apps:1:2.",
+    "apps:1:2.\uD800",
+    good.replace(".", "\uD800."),
+  ];
+  for (const token of malformed) {
+    assert.equal(await verifyAppsToken(token, SECRET), false, JSON.stringify(token));
+  }
+});
+
+test("verifyAppsToken rejects a validly signed payload with the wrong shape", async () => {
+  const later = Date.now() + 60_000;
+  for (const payload of [
+    `other:${Date.now()}:${later}`,
+    `apps:${later}`,
+    `apps:${Date.now()}:${later}:extra`,
+    `apps:${Date.now()}:not-a-number`,
+    `apps:${Date.now()}:0`,
+  ]) {
+    const token = `${payload}.${await sign(payload, SECRET)}`;
+    assert.equal(await verifyAppsToken(token, SECRET), false, payload);
+  }
+});
+
+test("findApplication rejects malformed tokens and non-string input", () => {
+  assert.equal(findApplication("example-aaa111\uD800", apps), undefined);
+  assert.equal(findApplication("\uD800", apps), undefined);
+  assert.equal(findApplication(null as unknown as string, apps), undefined);
+  assert.equal(findApplication(123 as unknown as string, apps), undefined);
+  const malformedRows: Application[] = [
+    { token: "\uD800", company: "Bad A", role: "Role", sent: "2026-01-01", status: "applied" },
+  ];
+  assert.equal(findApplication("\uDBFF", malformedRows), undefined);
+});
+
+test("findApplication returns the first entry when two share a token", () => {
+  const dupes: Application[] = [
+    { token: "example-ccc333", company: "First Co", role: "Role", sent: "2026-01-01", status: "applied" },
+    { token: "example-ccc333", company: "Second Co", role: "Role", sent: "2026-01-01", status: "applied" },
+  ];
+  assert.equal(findApplication("example-ccc333", dupes)?.company, "First Co");
+});
