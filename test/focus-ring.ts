@@ -143,10 +143,18 @@ function drawsRing(rule: CssRule) {
   );
 }
 
+function shadowLayers(value: string) {
+  // Drop colors (hex and functions like rgba() or var()) so their digits and names
+  // cannot be read as lengths or as the inset keyword.
+  return value
+    .split(/,(?![^(]*\))/)
+    .map((layer) => layer.replace(/[\w-]+\([^()]*(?:\([^()]*\)[^()]*)*\)/g, " ").replace(/#[0-9a-fA-F]+\b/g, " "));
+}
+
 function shadowIsRing(value: string) {
-  return value.split(/,(?![^(]*\))/).some((layer) => {
-    if (/\binset\b/.test(layer)) return true;
-    const lengths = layer.match(/-?\d*\.?\d+(?:px|r?em|%)?(?=[\s,]|$)/g) ?? [];
+  return shadowLayers(value).some((layer) => {
+    if (/(?:^|\s)inset(?=\s|$)/.test(layer)) return true;
+    const lengths = layer.match(/(?:^|\s)-?\d*\.?\d+(?:px|r?em|%)?(?=\s|$)/g) ?? [];
     return lengths.length >= 4 && parseFloat(lengths[3]) > 0;
   });
 }
@@ -156,7 +164,7 @@ function ringSurvivesClip(rule: CssRule) {
     (d) =>
       (d.name === "clip-path" && d.value === "none") ||
       (d.name === "outline-offset" && d.value.startsWith("-")) ||
-      (d.name === "box-shadow" && d.value.includes("inset")),
+      (d.name === "box-shadow" && shadowLayers(d.value).some((layer) => /(?:^|\s)inset(?=\s|$)/.test(layer))),
   );
 }
 

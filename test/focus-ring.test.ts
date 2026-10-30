@@ -46,6 +46,13 @@ test("a decorative shadow is not a ring, on the element or a child", () => {
   assert.deepEqual(selectorsFlagged("a { outline: none; } a:focus-visible span { box-shadow: 0 1px 2px #ccc; }"), ["a"]);
   assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px #ccc; }", link), [".x"]);
   assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px #ccc, 0 0 0 3px blue; }", link), []);
+  // Digits inside a color must not be read as the spread.
+  assert.deepEqual(selectorsFlagged("a { outline: none; } a:focus-visible span { box-shadow: 0 1px 2px rgba(61, 220, 151, 0.15); }"), ["a"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px #123; }", link), [".x"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px #333; }", link), [".x"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 1px 2px var(--inset-color); }", link), [".x"]);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: 0 0 0 2px rgba(61, 220, 151, 0.5); }", link), []);
+  assert.deepEqual(selectorsFlagged(".x { outline: none; } .x:focus-visible { box-shadow: inset 0 0 0 2px #123; }", link), []);
 });
 
 test("clip-path on a class carried by a link is flagged even with an outer ring", () => {
