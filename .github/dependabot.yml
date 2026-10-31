@@ -1,4 +1,5 @@
 # Weekly dependency update PRs. Security updates are separate and not limited.
+# Minor and patch updates share one group per ecosystem. Major updates stay ungrouped.
 version: 2
 updates:
   - package-ecosystem: "github-actions"
@@ -10,10 +11,8 @@ updates:
       timezone: "America/Chicago"
     open-pull-requests-limit: 5
     groups:
-      github-actions-minor-patch:
-        update-types:
-          - "minor"
-          - "patch"
+      minor-and-patch:
+        update-types: ["minor", "patch"]
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -23,7 +22,5 @@ updates:
       timezone: "America/Chicago"
     open-pull-requests-limit: 5
     groups:
-      npm-minor-patch:
-        update-types:
-          - "minor"
-          - "patch"
+      minor-and-patch:
+        update-types: ["minor", "patch"]
