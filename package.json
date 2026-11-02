@@ -17,7 +17,7 @@
   "dependencies": {
     "@astrojs/mdx": "^3.1.0",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/vercel": "^7.8.2",
+    "@astrojs/vercel": "^11.0.17",
     "@upstash/redis": "^1.40.0",
     "astro": "^4.15.0"
   },
