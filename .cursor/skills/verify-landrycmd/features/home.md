@@ -16,8 +16,10 @@ Open the site root. The first screen is the profile. Below 860px the word Menu r
 ## Driving it with curl and drive.mjs
 
 ```bash
-curl -fsS http://localhost:4321/ | grep -q 'id="profile-name"'
-curl -fsS http://localhost:4321/ | grep -Eq '<a [^>]*href="/writing/"[^>]*>All writing'
+curl -fsS -o /tmp/landrycmd-verify/home.html http://localhost:4321/
+grep -q 'id="profile-name"' /tmp/landrycmd-verify/home.html
+grep -Eq '<a [^>]*href="/writing/"[^>]*>[[:space:]]*All writing' /tmp/landrycmd-verify/home.html
+if grep -Eq 'id="theme-toggle"|data-theme=' /tmp/landrycmd-verify/home.html; then echo 'theme toggle is back; update this map'; exit 1; fi
 node .cursor/skills/verify-landrycmd/drive.mjs
 ```
 

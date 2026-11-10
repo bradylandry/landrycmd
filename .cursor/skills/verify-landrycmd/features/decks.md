@@ -28,11 +28,11 @@ grep -q 'href="/decks/biology-ii-unit-3-integumentary"' /tmp/landrycmd-verify/de
 curl -fsSL -o /tmp/landrycmd-verify/deck.html http://localhost:4321/decks/biology-ii-unit-3-integumentary/
 test -s /tmp/landrycmd-verify/deck.html
 grep -q 'data-deck-player' /tmp/landrycmd-verify/deck.html
-grep -q 'data-card' /tmp/landrycmd-verify/deck.html
+grep -Eq '<button[^>]* data-card[ >]' /tmp/landrycmd-verify/deck.html
 grep -Eq 'data-cards="[^"]+' /tmp/landrycmd-verify/deck.html
 grep -q 'data-counter' /tmp/landrycmd-verify/deck.html
 grep -q 'data-shuffle' /tmp/landrycmd-verify/deck.html
-grep -q 'href="/decks"' /tmp/landrycmd-verify/deck.html
+grep -Eq 'href="/decks"[^>]*>All decks' /tmp/landrycmd-verify/deck.html
 ```
 
 Selectors: `[data-deck-player]`, `[data-card]` (with `aria-pressed`), `[data-front]`, `[data-back]`, `[data-counter]`, `[data-progress]`, `[data-prev]`, `[data-next]`, `[data-shuffle]`.
