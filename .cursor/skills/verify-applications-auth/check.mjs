@@ -5,7 +5,7 @@
  * A cookie is accepted only when it is an unexpired HMAC-SHA256 (base64url,
  * no padding) of the payload apps:<issuedAt>:<expiresAt> under the configured
  * signing secret. The MAC is computed with node:crypto, not with sign(), so a
- * break in src/middleware.ts is visible.
+ * break in src/middleware.ts or src/lib/apps-token.ts is visible.
  *
  * One command:
  *   node --experimental-strip-types --import .cursor/skills/verify-applications-auth/register.mjs .cursor/skills/verify-applications-auth/check.mjs

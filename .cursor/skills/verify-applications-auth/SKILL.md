@@ -1,6 +1,6 @@
 ---
 name: verify-applications-auth
-description: "Formally check the applications auth cookie in src/middleware.ts (verifyToken, sign, signingSecret). Use when a change touches that cookie, the applications gate, or the payload minted by src/pages/api/auth.ts. A break lets a forged or expired cookie open the private job search."
+description: "Formally check the applications auth cookie (verifyToken and signingSecret in src/middleware.ts, verifyAppsToken and sign in src/lib/apps-token.ts). Use when a change touches that cookie, the applications gate, or the payload minted by src/pages/api/auth.ts. A break lets a forged or expired cookie open the private job search."
 ---
 
 # Verify applications auth
@@ -13,20 +13,22 @@ This is a property check on the real functions, not a hand model. No test in `np
 
 Run the check when a diff touches any of:
 
-- `src/middleware.ts` (`signingSecret`, `sign`, `verifyToken`, `onRequest`)
+- `src/middleware.ts` (`signingSecret`, `verifyToken`, `onRequest`, and the re-export of `sign`)
+- `src/lib/apps-token.ts` (`verifyAppsToken`, `sign`)
+- `src/lib/safe-compare.mjs` (`safeEqual`, the MAC compare `verifyAppsToken` uses)
 - `src/pages/api/auth.ts` (the line that builds the payload, or the secret it signs with)
 
 A pass does not cover the PIN or the rate limiter. Those files can still change without this check noticing, except for the two drift guards below.
 
 ## Check
 
-From the repo root, with Node `>=22.6` (this repo's `engines` field). The run is local. It stubs `process.loadEnvFile` before loading middleware, so a gitignored `.env` is not read. It saves and restores `APPS_SECRET` and `TRIP_SECRET` and does not print their values.
+From the repo root, with Node `>=22.6` (this repo's `engines` field) and `npm ci` done. The run is local. It stubs `process.loadEnvFile` before loading middleware, so a gitignored `.env` is not read. It saves and restores `APPS_SECRET` and `TRIP_SECRET` and does not print their values.
 
 ```bash
 node --experimental-strip-types --import ./.cursor/skills/verify-applications-auth/register.mjs ./.cursor/skills/verify-applications-auth/check.mjs
 ```
 
-Exit 0 prints `ok verify-applications-auth` and the case count. Exit 1 prints one counterexample. `VERIFY_AUTH_SEED` (default `20261024`) and `VERIFY_AUTH_ROUNDS` (default `64`) repeat the random cases. The structured cases always run.
+Exit 0 prints `ok verify-applications-auth` and the case count. Exit 1 prints one counterexample. `VERIFY_AUTH_SEED` (default `20261024`) and `VERIFY_AUTH_ROUNDS` (default `64`) control the random cases. The payload timestamps are offsets from `Date.now()`, so the same seed gives the same shape of cases, not the same cookies, and the case count moves by a few between runs (a signature mutation is skipped when the random byte equals the original). The structured cases always run.
 
 ## Property
 
@@ -38,24 +40,25 @@ A cookie is accepted only when all of these hold:
 4. The payload is exactly three colon-separated fields and the first field is `apps`.
 5. `parseInt` of the third field is an integer greater than 0 and strictly greater than `Date.now()` at the call.
 
-`sign` in `src/middleware.ts` has to match that same HMAC. `verifyToken` is what the gate calls.
+`sign` in `src/lib/apps-token.ts` (re-exported from `src/middleware.ts` for `src/pages/api/auth.ts`) has to match that same HMAC. `verifyToken` in `src/middleware.ts` is what the gate calls. It passes `signingSecret()` to `verifyAppsToken` in `src/lib/apps-token.ts`, which does the split, the MAC compare, and the expiry test.
 
 ## Coverage
 
 Executed on every run:
 
 - `signingSecret` in `src/middleware.ts` (which env var is the key)
-- `sign` in `src/middleware.ts`
 - `verifyToken` in `src/middleware.ts`
+- `verifyAppsToken` and `sign` in `src/lib/apps-token.ts`, reached through `verifyToken` and the `sign` re-export
+- `safeEqual` in `src/lib/safe-compare.mjs`, as the MAC compare inside `verifyAppsToken`
 
 Drift guards, source text only, not a behavior proof:
 
 - `onRequest` in `src/middleware.ts` still contains `await verifyToken(token)`
 - `src/pages/api/auth.ts` still contains `` const payload = `apps:${issuedAt}:${expiresAt}`; ``
 
-Sync commit: `fc5f068eb547c2142bce78469701d81df59d4418`
+Sync commit: `91b969d532a2927738311d2a289732bd280a0c59`
 
-That commit is the tree of `src/middleware.ts` this check describes. Move the hash forward only after you re-read `signingSecret`, `sign`, and `verifyToken` at the new commit and confirm this file still describes them. A pass on a stale hash is not a pass on the new code.
+That commit is the tree of `src/middleware.ts` and `src/lib/apps-token.ts` this check describes. Move the hash forward only after you re-read `signingSecret`, `verifyToken`, `verifyAppsToken`, and `sign` at the new commit and confirm this file still describes them. A pass on a stale hash is not a pass on the new code.
 
 ## Bounds
 
@@ -67,7 +70,7 @@ The random cases are 64 canonical payloads of the form `apps:<integer>:<integer>
 
 The third field is read with `parseInt`. The generated cases use canonical integers. A signed third field with trailing junk is not a separate case.
 
-The MAC compare in `verifyToken` is ordinary string inequality. This check asserts the boolean result. It does not measure timing.
+The MAC compare in `verifyAppsToken` is `safeEqual` (HMAC both sides under a per-process key, then `timingSafeEqual`). This check asserts the boolean result. It does not measure timing.
 
 Not executed: `onRequest` (redirect to `/login`, and the 500 when the secret is missing), the PIN compare, `fallbackRateLimit`, `checkRateLimit`, cookie flags, Redis, `/resume/<token>`, and `findApplication`.
 
@@ -88,7 +91,7 @@ When the new behavior is intentional, change the predicate or the drift guard so
 The command above is the only one to run.
 
 - `register.mjs` installs `loader.mjs` before the check starts (`node --import`).
-- `loader.mjs` resolves `astro:middleware` to `astro-middleware-stub.mjs` so `src/middleware.ts` loads under plain Node.
+- `loader.mjs` resolves `astro:middleware` to `astro-middleware-stub.mjs` and maps extensionless relative imports (such as `./lib/apps-token`) to `.ts`, so `src/middleware.ts` loads under plain Node.
 - `astro-middleware-stub.mjs` returns the handler from `defineMiddleware`. The check never calls `onRequest`.
 - `check.mjs` is the property check.
 
