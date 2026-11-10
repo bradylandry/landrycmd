@@ -24,7 +24,7 @@ grep -q '/lab/frr-review/' /tmp/landrycmd-verify/case-study.html
 
 Selectors: `article.prose h1`, `a[href="/lab/mcp-simulator/"]`, `a[href="/lab/frr-review/"]`. The page has no `role="tab"`.
 
-`drive.mjs` runs contrast on this URL in both themes.
+`drive.mjs` runs contrast on this URL.
 
 ## Gotchas
 

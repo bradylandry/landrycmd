@@ -28,7 +28,14 @@ const labs = [
   "/lab/airtap-mpls/",
 ];
 
-const themePages = ["/", "/writing/", "/resume", "/work/ai-network-operations"];
+const contrastPages = [
+  "/",
+  "/writing/",
+  "/resume",
+  "/work/ai-network-operations",
+  "/decks/",
+  "/decks/biology-ii-unit-3-integumentary/",
+];
 
 await mkdir(outDir, { recursive: true });
 
@@ -78,23 +85,19 @@ try {
   };
 
   if (!screenshotsOnly) {
-    for (const theme of ["dark", "light"]) {
-      for (const page of themePages) {
-        await open(session, sessionId, {
-          path: page,
-          width: 1280,
-          theme,
-          motion: "no-preference",
-        });
-        const hits = await evaluate(session, sessionId, contrastExpression());
-        report.contrast.push({ theme, path: page, failures: hits });
-      }
+    for (const page of contrastPages) {
+      await open(session, sessionId, {
+        path: page,
+        width: 1280,
+        motion: "no-preference",
+      });
+      const hits = await evaluate(session, sessionId, contrastExpression());
+      report.contrast.push({ theme: "dark", path: page, failures: hits });
     }
     for (const page of ["/", ...labs]) {
       await open(session, sessionId, {
         path: page,
         width: 360,
-        theme: "dark",
         motion: "no-preference",
       });
       const box = await evaluate(session, sessionId, `(() => {
@@ -107,7 +110,6 @@ try {
       await open(session, sessionId, {
         path: page,
         width: 1440,
-        theme: "dark",
         motion: "reduce",
       });
       const motion = await evaluate(session, sessionId, reducedMotionExpression());
@@ -116,7 +118,6 @@ try {
     await open(session, sessionId, {
       path: "/",
       width: 360,
-      theme: "dark",
       motion: "no-preference",
     });
     report.menu = await evaluate(session, sessionId, menuExpression());
@@ -124,7 +125,6 @@ try {
       await open(session, sessionId, {
         path: "/lab/mcp-simulator/",
         width,
-        theme: "dark",
         motion: "no-preference",
       });
       const fs = await evaluate(session, sessionId, `(() => {
@@ -143,7 +143,6 @@ try {
     await open(session, sessionId, {
       path: "/",
       width: 1280,
-      theme: "dark",
       motion: "no-preference",
     });
     report.driven = await driveLab(session, sessionId);
@@ -153,7 +152,6 @@ try {
     await open(session, sessionId, {
       path: "/",
       width,
-      theme: "dark",
       motion: "no-preference",
     });
     const file = `${outDir}/home-${width}.png`;
@@ -212,7 +210,7 @@ function failuresOf(report) {
   return failed;
 }
 
-async function open(session, sessionId, { path, width, theme, motion }) {
+async function open(session, sessionId, { path, width, motion }) {
   await session.send(
     "Emulation.setDeviceMetricsOverride",
     { width, height: 900, deviceScaleFactor: 1, mobile: width < 720 },
@@ -222,15 +220,10 @@ async function open(session, sessionId, { path, width, theme, motion }) {
     "Emulation.setEmulatedMedia",
     {
       features: [
-        { name: "prefers-color-scheme", value: theme },
         { name: "prefers-reduced-motion", value: motion },
+        { name: "prefers-color-scheme", value: "dark" },
       ],
     },
-    sessionId,
-  );
-  await session.send(
-    "Page.addScriptToEvaluateOnNewDocument",
-    { source: `try{localStorage.setItem("theme",${JSON.stringify(theme)})}catch(e){}` },
     sessionId,
   );
   const target = `${base}${path}`;
@@ -428,6 +421,8 @@ function contrastExpression() {
       if (!value) continue;
       const el = text.parentElement;
       if (!el || hidden(el) || el.closest("svg")) continue;
+      // WCAG 1.4.3 and 1.4.11 exempt disabled controls, such as Previous on the first deck card.
+      if (el.closest(":disabled, [aria-disabled='true']")) continue;
       const style = getComputedStyle(el);
       const fg = parse(style.color);
       if (!fg) continue;
@@ -445,7 +440,7 @@ function contrastExpression() {
       }
     }
     for (const el of document.querySelectorAll("button, input, textarea, select, a.btn")) {
-      if (hidden(el) || el.closest("svg")) continue;
+      if (hidden(el) || el.closest("svg") || el.closest(":disabled, [aria-disabled='true']")) continue;
       const label = (el.innerText || el.getAttribute("aria-label") || "").trim();
       if (label) continue;
       const style = getComputedStyle(el);

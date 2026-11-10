@@ -27,7 +27,8 @@ This directory is the maintained source for verifying the visitor-facing behavio
 - Record the feature file and the entry point with the notes for the run.
 - Report an unreachable path with the attempted command and the unmet precondition.
 - Do not report a skipped entry point as verified through a different path.
-- `/study/<id>` is unlisted. `drive.mjs` does not open it. Driving that file is a separate browser pass, and a run that only executes `drive.mjs` has not verified it.
+- `/study/skeletal-system/` is unlisted. `drive.mjs` does not open it. Driving that file is a separate browser pass, and a run that only executes `drive.mjs` has not verified it.
+- `drive.mjs` runs contrast on `/decks/` and `/decks/biology-ii-unit-3-integumentary/`, but not overflow, motion, or the player clicks. The curl recipe in `decks.md` covers the markup, and the player needs its own browser pass.
 
 ## Feature entry contract
 
@@ -37,11 +38,27 @@ Each feature file starts with an H1 title and one paragraph describing the visit
 
 | Feature | Path | File |
 | --- | --- | --- |
-| Home, theme, menu | `/` | [home.md](home.md) |
+| Home, menu | `/` | [home.md](home.md) |
 | Interactive labs | `/#lab`, `/lab/<slug>/` | [labs.md](labs.md) |
 | Writing | `/writing/` | [writing.md](writing.md) |
 | Case study | `/work/ai-network-operations` | [case-study.md](case-study.md) |
 | Public résumé | `/resume` | [resume.md](resume.md) |
-| Study pages (unlisted) | `/study/<id>` | [study.md](study.md) |
+| Flashcard decks | `/decks/`, `/decks/<id>/` | [decks.md](decks.md) |
+| Study page (unlisted) | `/study/skeletal-system/` | [study.md](study.md) |
 
 Unlisted, and not part of the public drive: `/applications`, `/login`, `/resume/<token>`, `/api/auth`, `/api/track`, `/api/publish-note`.
+
+Other public static pages with no feature file. `drive.mjs` does not open them:
+
+- `/privacy` and `/terms`, linked from the footer
+- `/muse-sleeper`, a setup guide with a prompt to paste. Nothing links to it.
+- `/notes/`, the notes index. The `notes` collection is empty, so it shows "No notes yet." and no `/notes/<slug>/` pages are built.
+- `/skeletal-flashcards/`, a static file at `public/skeletal-flashcards/index.html`, not an Astro page. It loads Google Fonts on purpose.
+
+A 200 check is enough for these:
+
+```bash
+for p in /privacy /terms /muse-sleeper /notes/ /skeletal-flashcards/; do
+  printf '%s ' "$p"; curl -fsSL -o /dev/null -w '%{http_code}\n' "http://localhost:4321$p"
+done
+```

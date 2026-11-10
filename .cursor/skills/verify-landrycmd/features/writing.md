@@ -10,7 +10,7 @@ Writing is the public essay index, each essay, and the RSS feed.
 
 ## How to get to it (user POV)
 
-Header or footer path `/writing/`. Each title links to `/writing/<slug>/`. Posts live in `src/content/writing/` and show up when `draft` is not true.
+Header Writing, or "All writing" on the home Writing band. Both go to `/writing/`. The footer does not link it. Each title links to `/writing/<slug>/`. Posts live in `src/content/writing/` and show up when `draft` is not true.
 
 ## Driving it with curl and drive.mjs
 
@@ -22,7 +22,7 @@ curl -fsS -o /dev/null -w '%{http_code}\n' http://localhost:4321/rss.xml
 
 Index selector: `ul.writing-list a[href^="/writing/"]`. Post selector: `article.prose h1`.
 
-`drive.mjs` includes `/writing/` in the dark and light contrast pass. It does not submit anything.
+`drive.mjs` includes `/writing/` in the contrast pass. It does not submit anything.
 
 ## Gotchas
 

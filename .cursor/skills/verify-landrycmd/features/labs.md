@@ -8,6 +8,8 @@ The labs are five network simulators. Each one opens in a dialog from the home p
 - Standalone pages for the same sims
 - Phone-only full-screen entry (`.lab-fs`)
 - Packet dashes from `public/lab/wire.css` (`stroke-dasharray: 5 15`, `stroke-dashoffset: -40`)
+- Embed mode from `public/lab/embed.js`
+- Dialog keyboard: Tab and Shift+Tab stay inside `#lab-dialog`, and Escape closes it, including Escape pressed inside the lab iframe (`src/scripts/lab-dialog.ts`). `drive.mjs` does not exercise either.
 
 Slugs: `mcp-simulator`, `frr-review`, `migration-simulator`, `ring-collapse`, `airtap-mpls`.
 
@@ -27,7 +29,7 @@ Dialog: `button.lab-open[data-lab="mcp-simulator"]`, `#lab-dialog`, `#lab-dialog
 
 Fullscreen probe (scripted in `drive.mjs`, not clicked): `.lab-fs` inside `.view` on `/lab/mcp-simulator/`.
 
-`?embed=1` adds `html.lab-embed` and hides `.lab-header`, `.lab-footer`, and `.cross`. The dialog iframe uses that query.
+`public/lab/embed.js` adds `html.lab-embed` when the page is framed or has `?embed=1`. That class hides `.lab-header`, `.lab-footer`, and `.cross`. In embed mode it also sets `target="_top"` on every link that is not already `_blank`, so a link leaves the dialog instead of loading in the iframe. The dialog iframe uses `?embed=1`. `test/lab-embed.test.ts` fails if a lab page does not load `/lab/embed.js` after its links.
 
 ## Gotchas
 
