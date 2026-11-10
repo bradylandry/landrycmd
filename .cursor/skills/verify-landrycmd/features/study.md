@@ -15,7 +15,7 @@ Study is an unlisted flash-card deck and quiz for the skeletal system. No page o
 
 Unlisted. Nothing on the site links to it. Open `/study/skeletal-system` directly. The page carries `noindex,nofollow,noarchive` and no canonical or OG tags. No login.
 
-Data lives in `src/data/study/<id>.json` with `id`, `title`, `subtitle`, `cards[{cat,q,a}]`, and `quiz[{q,choices,answer}]`. `src/lib/study.ts` rejects any other key.
+There is one study page, `src/pages/study/skeletal-system.astro`. It imports `src/data/study/skeletal-system.json`, which has `id`, `title`, `subtitle`, `cards[{cat,q,a}]`, and `quiz[{q,choices,answer}]`. `src/lib/study.ts` rejects any other key. The route is not dynamic. A new JSON under `src/data/study/` creates no page until a matching `.astro` page imports it.
 
 ## Driving it with curl and a browser
 

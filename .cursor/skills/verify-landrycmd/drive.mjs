@@ -28,7 +28,7 @@ const labs = [
   "/lab/airtap-mpls/",
 ];
 
-const themePages = ["/", "/writing/", "/resume", "/work/ai-network-operations"];
+const contrastPages = ["/", "/writing/", "/resume", "/work/ai-network-operations"];
 
 await mkdir(outDir, { recursive: true });
 
@@ -78,23 +78,19 @@ try {
   };
 
   if (!screenshotsOnly) {
-    for (const theme of ["dark", "light"]) {
-      for (const page of themePages) {
-        await open(session, sessionId, {
-          path: page,
-          width: 1280,
-          theme,
-          motion: "no-preference",
-        });
-        const hits = await evaluate(session, sessionId, contrastExpression());
-        report.contrast.push({ theme, path: page, failures: hits });
-      }
+    for (const page of contrastPages) {
+      await open(session, sessionId, {
+        path: page,
+        width: 1280,
+        motion: "no-preference",
+      });
+      const hits = await evaluate(session, sessionId, contrastExpression());
+      report.contrast.push({ theme: "dark", path: page, failures: hits });
     }
     for (const page of ["/", ...labs]) {
       await open(session, sessionId, {
         path: page,
         width: 360,
-        theme: "dark",
         motion: "no-preference",
       });
       const box = await evaluate(session, sessionId, `(() => {
@@ -107,7 +103,6 @@ try {
       await open(session, sessionId, {
         path: page,
         width: 1440,
-        theme: "dark",
         motion: "reduce",
       });
       const motion = await evaluate(session, sessionId, reducedMotionExpression());
@@ -116,7 +111,6 @@ try {
     await open(session, sessionId, {
       path: "/",
       width: 360,
-      theme: "dark",
       motion: "no-preference",
     });
     report.menu = await evaluate(session, sessionId, menuExpression());
@@ -124,7 +118,6 @@ try {
       await open(session, sessionId, {
         path: "/lab/mcp-simulator/",
         width,
-        theme: "dark",
         motion: "no-preference",
       });
       const fs = await evaluate(session, sessionId, `(() => {
@@ -143,7 +136,6 @@ try {
     await open(session, sessionId, {
       path: "/",
       width: 1280,
-      theme: "dark",
       motion: "no-preference",
     });
     report.driven = await driveLab(session, sessionId);
@@ -153,7 +145,6 @@ try {
     await open(session, sessionId, {
       path: "/",
       width,
-      theme: "dark",
       motion: "no-preference",
     });
     const file = `${outDir}/home-${width}.png`;
@@ -212,7 +203,7 @@ function failuresOf(report) {
   return failed;
 }
 
-async function open(session, sessionId, { path, width, theme, motion }) {
+async function open(session, sessionId, { path, width, motion }) {
   await session.send(
     "Emulation.setDeviceMetricsOverride",
     { width, height: 900, deviceScaleFactor: 1, mobile: width < 720 },
@@ -221,16 +212,8 @@ async function open(session, sessionId, { path, width, theme, motion }) {
   await session.send(
     "Emulation.setEmulatedMedia",
     {
-      features: [
-        { name: "prefers-color-scheme", value: theme },
-        { name: "prefers-reduced-motion", value: motion },
-      ],
+      features: [{ name: "prefers-reduced-motion", value: motion }],
     },
-    sessionId,
-  );
-  await session.send(
-    "Page.addScriptToEvaluateOnNewDocument",
-    { source: `try{localStorage.setItem("theme",${JSON.stringify(theme)})}catch(e){}` },
     sessionId,
   );
   const target = `${base}${path}`;
