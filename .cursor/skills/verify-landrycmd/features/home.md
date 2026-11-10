@@ -17,6 +17,7 @@ Open the site root. The first screen is the profile. Below 860px the word Menu r
 
 ```bash
 curl -fsS http://localhost:4321/ | grep -q 'id="profile-name"'
+curl -fsS http://localhost:4321/ | grep -Eq '<a [^>]*href="/writing/"[^>]*>All writing'
 node .cursor/skills/verify-landrycmd/drive.mjs
 ```
 

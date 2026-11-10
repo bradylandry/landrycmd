@@ -28,7 +28,14 @@ const labs = [
   "/lab/airtap-mpls/",
 ];
 
-const contrastPages = ["/", "/writing/", "/resume", "/work/ai-network-operations"];
+const contrastPages = [
+  "/",
+  "/writing/",
+  "/resume",
+  "/work/ai-network-operations",
+  "/decks/",
+  "/decks/biology-ii-unit-3-integumentary/",
+];
 
 await mkdir(outDir, { recursive: true });
 
@@ -212,7 +219,10 @@ async function open(session, sessionId, { path, width, motion }) {
   await session.send(
     "Emulation.setEmulatedMedia",
     {
-      features: [{ name: "prefers-reduced-motion", value: motion }],
+      features: [
+        { name: "prefers-reduced-motion", value: motion },
+        { name: "prefers-color-scheme", value: "dark" },
+      ],
     },
     sessionId,
   );
@@ -411,6 +421,8 @@ function contrastExpression() {
       if (!value) continue;
       const el = text.parentElement;
       if (!el || hidden(el) || el.closest("svg")) continue;
+      // WCAG 1.4.3 and 1.4.11 exempt disabled controls, such as Previous on the first deck card.
+      if (el.closest(":disabled, [aria-disabled='true']")) continue;
       const style = getComputedStyle(el);
       const fg = parse(style.color);
       if (!fg) continue;
@@ -428,7 +440,7 @@ function contrastExpression() {
       }
     }
     for (const el of document.querySelectorAll("button, input, textarea, select, a.btn")) {
-      if (hidden(el) || el.closest("svg")) continue;
+      if (hidden(el) || el.closest("svg") || el.closest(":disabled, [aria-disabled='true']")) continue;
       const label = (el.innerText || el.getAttribute("aria-label") || "").trim();
       if (label) continue;
       const style = getComputedStyle(el);

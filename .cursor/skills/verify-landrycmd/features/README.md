@@ -28,7 +28,7 @@ This directory is the maintained source for verifying the visitor-facing behavio
 - Report an unreachable path with the attempted command and the unmet precondition.
 - Do not report a skipped entry point as verified through a different path.
 - `/study/skeletal-system/` is unlisted. `drive.mjs` does not open it. Driving that file is a separate browser pass, and a run that only executes `drive.mjs` has not verified it.
-- `drive.mjs` does not open `/decks/` either. The curl recipe in `decks.md` covers the markup, and the player needs its own browser pass.
+- `drive.mjs` runs contrast on `/decks/` and `/decks/biology-ii-unit-3-integumentary/`, but not overflow, motion, or the player clicks. The curl recipe in `decks.md` covers the markup, and the player needs its own browser pass.
 
 ## Feature entry contract
 

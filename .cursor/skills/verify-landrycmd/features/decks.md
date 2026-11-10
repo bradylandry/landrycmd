@@ -29,6 +29,7 @@ curl -fsSL -o /tmp/landrycmd-verify/deck.html http://localhost:4321/decks/biolog
 test -s /tmp/landrycmd-verify/deck.html
 grep -q 'data-deck-player' /tmp/landrycmd-verify/deck.html
 grep -q 'data-card' /tmp/landrycmd-verify/deck.html
+grep -Eq 'data-cards="[^"]+' /tmp/landrycmd-verify/deck.html
 grep -q 'data-counter' /tmp/landrycmd-verify/deck.html
 grep -q 'data-shuffle' /tmp/landrycmd-verify/deck.html
 grep -q 'href="/decks"' /tmp/landrycmd-verify/deck.html
@@ -38,11 +39,12 @@ Selectors: `[data-deck-player]`, `[data-card]` (with `aria-pressed`), `[data-fro
 
 In a browser: click `[data-card]` and expect `aria-pressed="true"`. Click `[data-next]` and expect `[data-counter]` to read "Card 2 of N" and the card to be unflipped. Click `[data-shuffle]` and expect "Card 1 of N".
 
-`drive.mjs` does not open these pages. A run that only executes `drive.mjs` has not verified decks.
+`drive.mjs` runs contrast on `/decks/` and `/decks/biology-ii-unit-3-integumentary/`. It does not run overflow, motion, or the player clicks on them, so a run that only executes `drive.mjs` has not verified the player.
 
 ## Gotchas
 
-- The index links `/decks/<id>` and the deck page links `/decks`, both with no trailing slash. The static server redirects them, so curl needs `-L`.
+- The recipe fetches the trailing-slash URLs. The index links `/decks/<id>` and the deck page links `/decks`, both with no trailing slash, and the static server redirects them. Keep `-L` when you follow those on-page links with curl.
+- The build emits `data-cards` double-quoted, with the JSON quotes escaped as `&#34;`. The grep above matches that form.
 - The player reads the cards from the `data-cards` attribute on `[data-deck-player]`. Card text is in the HTML at build time, so the page needs no fetch after load.
 - The arrow and Space keys are bound on `document`. They do nothing while focus is in an editable field.
 - Deck titles can contain an em dash. Grep for attributes, not the title text.
