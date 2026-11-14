@@ -3,7 +3,9 @@ import { join } from "node:path";
 
 const functionsDir = ".vercel/output/functions";
 const runtime = "nodejs24.x";
-const retired = new Set(["nodejs18.x", "nodejs20.x"]);
+// The adapter copies the build Node major. 18 and 20 are the old adapter
+// runtimes. 22 is inside engines.node and is not the function target.
+const retired = new Set(["nodejs18.x", "nodejs20.x", "nodejs22.x"]);
 
 function walk(dir) {
   for (const name of readdirSync(dir)) {
