@@ -86,7 +86,7 @@ VERIFY_ALLOW_REMOTE=1 VERIFY_BASE="$PREVIEW_ORIGIN" VERIFY_OUT=/tmp/landrycmd-ve
 Saved under `/tmp/landrycmd-verify/` (or `VERIFY_OUT`):
 
 - `report.json` from the browser pass
-- `home-360.png`, `home-768.png`, `home-1440.png`. Each is full page but capped at 8000px tall (`screenshot` in `drive.mjs`). The home page is taller than that at 360 and 768, so those two stop partway down (at 360, in Shipped) and do not show Writing, About, or the footer. Only the 1440 shot reaches the footer.
+- `home-360.png`, `home-768.png`, `home-1440.png`. Each is full page but capped at 8000px tall (`screenshot` in `drive.mjs`). At 360 and 768 the home page can be taller than 8000px, so those shots may not reach the footer. Check the lower sections in the 1440 shot or by scrolling in a browser.
 - `doctor-home.html`, `doctor-apps.txt`, `dev.log`
 - scan stdout (below)
 

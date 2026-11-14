@@ -7,7 +7,7 @@ description: "Formally check the applications auth cookie (verifyToken and signi
 
 The applications cookie is accepted only when it is an unexpired HMAC-SHA256 (base64url, no padding) of `apps:<issuedAt>:<expiresAt>` under the configured signing secret. Accepting anything else shows the job search: which companies, which roles, and the private notes.
 
-This is a property check on the real functions, not a hand model. No test in `npm test` calls `verifyToken`.
+This is a property check on the real functions, not a hand model. `test/safe-compare.test.ts` has example tests for `verifyAppsToken` and `sign`. No test in `npm test` calls `verifyToken` or `signingSecret`, and none checks against an independent HMAC.
 
 ## When a change touches this
 
@@ -22,7 +22,7 @@ A pass does not cover the PIN or the rate limiter. Those files can still change 
 
 ## Check
 
-From the repo root, with Node `>=22.6` (this repo's `engines` field) and `npm ci` done. The run is local. It stubs `process.loadEnvFile` before loading middleware, so a gitignored `.env` is not read. It saves and restores `APPS_SECRET` and `TRIP_SECRET` and does not print their values.
+From the repo root, with Node `>=22.6` (this repo's `engines` field). The run is local. It stubs `process.loadEnvFile` before loading middleware, so a gitignored `.env` is not read. It saves and restores `APPS_SECRET` and `TRIP_SECRET` and does not print their values.
 
 ```bash
 node --experimental-strip-types --import ./.cursor/skills/verify-applications-auth/register.mjs ./.cursor/skills/verify-applications-auth/check.mjs
@@ -58,7 +58,7 @@ Drift guards, source text only, not a behavior proof:
 
 Sync commit: `91b969d532a2927738311d2a289732bd280a0c59`
 
-That commit is the tree of `src/middleware.ts` and `src/lib/apps-token.ts` this check describes. Move the hash forward only after you re-read `signingSecret`, `verifyToken`, `verifyAppsToken`, and `sign` at the new commit and confirm this file still describes them. A pass on a stale hash is not a pass on the new code.
+That commit is the tree of `src/middleware.ts`, `src/lib/apps-token.ts`, and `src/lib/safe-compare.mjs` this check describes. Move the hash forward only after you re-read `signingSecret`, `verifyToken`, `verifyAppsToken`, `sign`, and `safeEqual` at the new commit and confirm this file still describes them. A pass on a stale hash is not a pass on the new code.
 
 ## Bounds
 
@@ -91,7 +91,7 @@ When the new behavior is intentional, change the predicate or the drift guard so
 The command above is the only one to run.
 
 - `register.mjs` installs `loader.mjs` before the check starts (`node --import`).
-- `loader.mjs` resolves `astro:middleware` to `astro-middleware-stub.mjs` and maps extensionless relative imports (such as `./lib/apps-token`) to `.ts`, so `src/middleware.ts` loads under plain Node.
+- `loader.mjs` resolves `astro:middleware` to `astro-middleware-stub.mjs` and maps extensionless relative imports from files under `src/` (such as `./lib/apps-token`) to `.ts`, so `src/middleware.ts` loads under plain Node.
 - `astro-middleware-stub.mjs` returns the handler from `defineMiddleware`. The check never calls `onRequest`.
 - `check.mjs` is the property check.
 
