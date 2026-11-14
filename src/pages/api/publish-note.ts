@@ -3,9 +3,26 @@ import { safeEqual } from "../../lib/safe-compare.mjs";
 
 export const prerender = false;
 
-const GITHUB_TOKEN = import.meta.env.GITHUB_TOKEN;
-const GITHUB_REPO = import.meta.env.GITHUB_REPO ?? "bradylandry/landrycmd";
-const PUBLISH_API_KEY = import.meta.env.PUBLISH_API_KEY;
+// import.meta.env throws under plain Node, where the tests run. The Astro
+// server build rewrites these reads to process.env. An empty value stays
+// empty, so a missing publish token fails closed.
+function metaString(read: () => string | undefined): string | undefined {
+  try {
+    return read();
+  } catch {
+    return undefined;
+  }
+}
+
+function publishSettings(): { token: string; repo: string; key: string } {
+  const tokenMeta = metaString(() => import.meta.env.GITHUB_TOKEN);
+  const repoMeta = metaString(() => import.meta.env.GITHUB_REPO);
+  const keyMeta = metaString(() => import.meta.env.PUBLISH_API_KEY);
+  const token = tokenMeta !== undefined ? tokenMeta : (process.env.GITHUB_TOKEN ?? "");
+  const repo = (repoMeta !== undefined ? repoMeta : process.env.GITHUB_REPO) ?? "bradylandry/landrycmd";
+  const key = keyMeta !== undefined ? keyMeta : (process.env.PUBLISH_API_KEY ?? "");
+  return { token, repo, key };
+}
 
 function slugify(title: string): string {
   return title
@@ -16,15 +33,27 @@ function slugify(title: string): string {
     .replace(/-+/g, "-");
 }
 
+const SAFE_SLUG = /^[a-z0-9-]+$/;
+
+function safeSlug(raw: string): string | null {
+  const slug = raw.trim().toLowerCase();
+  if (!SAFE_SLUG.test(slug)) return null;
+  return slug;
+}
+
+// JSON string encoding is also a valid YAML double-quoted scalar, so a quote
+// or a newline stays inside the value instead of opening a new header line.
+function yamlString(value: string): string {
+  return JSON.stringify(value);
+}
+
 function buildFrontmatter(fields: Record<string, unknown>): string {
   const lines = ["---"];
   for (const [k, v] of Object.entries(fields)) {
     if (Array.isArray(v)) {
-      lines.push(`${k}: [${v.map((s) => `"${s}"`).join(", ")}]`);
-    } else if (typeof v === "string" && v.includes('"')) {
-      lines.push(`${k}: '${v}'`);
+      lines.push(`${k}: [${v.map((s) => yamlString(String(s))).join(", ")}]`);
     } else if (typeof v === "string") {
-      lines.push(`${k}: "${v}"`);
+      lines.push(`${k}: ${yamlString(v)}`);
     } else {
       lines.push(`${k}: ${v}`);
     }
@@ -34,6 +63,7 @@ function buildFrontmatter(fields: Record<string, unknown>): string {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  const { token: GITHUB_TOKEN, repo: GITHUB_REPO, key: PUBLISH_API_KEY } = publishSettings();
   const key = request.headers.get("x-publish-key");
   if (!PUBLISH_API_KEY || !safeEqual(key, PUBLISH_API_KEY)) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -67,7 +97,14 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const slug = providedSlug ?? slugify(title);
+  const rawSlug = typeof providedSlug === "string" ? providedSlug : slugify(title);
+  const slug = safeSlug(rawSlug);
+  if (!slug) {
+    return new Response(JSON.stringify({ error: "Invalid slug" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
   const date = new Date().toISOString().split("T")[0];
   const filePath = `src/content/notes/${slug}.md`;
 

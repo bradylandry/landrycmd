@@ -37,7 +37,7 @@ import Layout from "../layouts/Layout.astro";
   <script is:inline>
     const params = new URLSearchParams(location.search);
     const rawNext = params.get("next") || "";
-    const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/applications";
+    const next = rawNext.startsWith("/") && !rawNext.startsWith("//") && !rawNext.startsWith("/\\") ? rawNext : "/applications";
 
     const display = document.getElementById("pinDisplay");
     const keypad = document.getElementById("keypad");
