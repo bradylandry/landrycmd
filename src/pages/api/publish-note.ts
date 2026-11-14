@@ -30,7 +30,10 @@ function slugify(title: string): string {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+    .replace(/-+/g, "-")
+    .replace(/^-+/, "")
+    .slice(0, 80)
+    .replace(/-+$/, "");
 }
 
 // 1 to 80 characters. Must start and end with a letter or digit, so a

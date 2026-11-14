@@ -87,7 +87,7 @@ function putCall(calls: Call[]) {
 }
 
 test("a slug that leaves the notes folder is rejected before GitHub", async () => {
-  for (const slug of ["../../../README", "../writing/hello", "..", "/etc/passwd", "hello/world", "hello world"]) {
+  for (const slug of ["../../../README", "../writing/hello", "..", "/etc/passwd", "hello/world", "hello world", "..\\..\\README", "%2e%2e%2fREADME", "..%2f..%2fREADME", "foo\u0000bar", "\uff0e\uff0e\uff0fREADME"]) {
     const result = await publish(
       { title: "Hello", content: "Body text", slug },
       { getStatus: 200 },
@@ -96,6 +96,29 @@ test("a slug that leaves the notes folder is rejected before GitHub", async () =
     assert.equal(result.json.error, "Invalid slug");
     assert.equal(result.calls.length, 0, slug);
   }
+});
+
+test("a title that slugifies with edge dashes or past 80 characters still publishes", async () => {
+  for (const [title, slug] of [
+    ["Hello -", "hello"],
+    ["- Draft", "draft"],
+    ["Hello-", "hello"],
+  ]) {
+    const result = await publish({ title, content: "Body text" });
+    assert.equal(result.status, 200, title);
+    assert.equal(result.json.slug, slug, title);
+  }
+
+  const long = `${"word ".repeat(18)}end`;
+  const cut = await publish({ title: long, content: "Body text" });
+  assert.equal(cut.status, 200);
+  const slug = cut.json.slug as string;
+  assert.ok(slug.length <= 80 && slug.startsWith("word-word"), slug);
+  assert.match(slug, /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/);
+
+  const solid = await publish({ title: "a".repeat(90), content: "Body text" });
+  assert.equal(solid.status, 200);
+  assert.equal(solid.json.slug, "a".repeat(80));
 });
 
 test("an empty slug or a title that slugifies to nothing is rejected before GitHub", async () => {

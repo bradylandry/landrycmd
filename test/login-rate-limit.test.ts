@@ -99,8 +99,8 @@ test("five tries are allowed, the sixth is refused, and the minute is on the key
   assert.equal(again[0].ttlMs, 60_000);
 });
 
-test("a thrown expire still leaves a minute on a new key", async () => {
-  const redis = createRedis({ expireThrows: 100 });
+test("a new key gets its minute from SET, not EXPIRE", async () => {
+  const redis = createRedis();
   for (let i = 1; i <= 5; i++) {
     assert.equal(await checkRateLimit("203.0.113.8", redis), true, `try ${i}`);
   }

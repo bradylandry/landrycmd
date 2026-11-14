@@ -35,6 +35,9 @@ test("an off-site next falls back to /applications", () => {
     "/\n/evil.com",
     "/\r\\evil.com",
     "/\t\\evil.com",
+    "/.//evil.com",
+    "/..//evil.com",
+    "/a/..//evil.com",
   ];
   for (const rawNext of rejected) {
     assert.equal(nextOf(rawNext), "/applications", JSON.stringify(rawNext));
