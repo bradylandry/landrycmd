@@ -20,7 +20,7 @@ A pass does not cover the PIN or the rate limiter. Those files can still change 
 
 ## Check
 
-From the repo root, with Node `>=22.6` (this repo's `engines` field). The run is local. It stubs `process.loadEnvFile` before loading middleware, so a gitignored `.env` is not read. It saves and restores `APPS_SECRET` and `TRIP_SECRET` and does not print their values.
+From the repo root, with Node `^22.22.2 || ^24.15.0 || >=26.0.0` (this repo's `engines` field). The run is local. It stubs `process.loadEnvFile` before loading middleware, so a gitignored `.env` is not read. It saves and restores `APPS_SECRET` and `TRIP_SECRET` and does not print their values.
 
 ```bash
 node --experimental-strip-types --import ./.cursor/skills/verify-applications-auth/register.mjs ./.cursor/skills/verify-applications-auth/check.mjs

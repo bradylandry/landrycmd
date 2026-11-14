@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.6"
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -12,7 +12,7 @@
     "build": "astro build && node scripts/vercel-node-runtime.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --experimental-strip-types --import ./test/register-hooks.mjs --test test/private-data.test.ts test/load-private.test.ts test/case-study.test.ts test/lab-dialog.test.ts test/profile-hero.test.ts test/lab-wire-geometry.test.ts test/study.test.ts test/safe-compare.test.ts"
+    "test": "node --experimental-strip-types --import ./test/register-hooks.mjs --test test/private-data.test.ts test/load-private.test.ts test/case-study.test.ts test/lab-dialog.test.ts test/profile-hero.test.ts test/lab-wire-geometry.test.ts test/study.test.ts test/safe-compare.test.ts test/node-engines.test.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.0",
