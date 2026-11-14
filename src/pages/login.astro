@@ -34,14 +34,22 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </div>
 
-  <script is:inline>
+  <script>
+    import { safeNext } from "../lib/safe-next.mjs";
+
     const params = new URLSearchParams(location.search);
     const rawNext = params.get("next") || "";
-    const next = rawNext.startsWith("/") && !rawNext.startsWith("//") && !rawNext.startsWith("/\\") ? rawNext : "/applications";
+    const next = safeNext(rawNext, location.origin);
 
-    const display = document.getElementById("pinDisplay");
-    const keypad = document.getElementById("keypad");
-    const error = document.getElementById("pinError");
+    const displayEl = document.getElementById("pinDisplay");
+    const keypadEl = document.getElementById("keypad");
+    const errorEl = document.getElementById("pinError");
+    if (!(displayEl instanceof HTMLElement) || !(keypadEl instanceof HTMLElement) || !(errorEl instanceof HTMLElement)) {
+      throw new Error("login form missing");
+    }
+    const display = displayEl;
+    const keypad = keypadEl;
+    const error = errorEl;
     const dots = display.querySelectorAll(".pin-dot");
 
     let pin = "";
@@ -92,15 +100,17 @@ import Layout from "../layouts/Layout.astro";
     }
 
     keypad.addEventListener("click", (e) => {
-      const btn = e.target.closest(".pin-key");
-      if (!btn || btn.classList.contains("empty")) return;
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const btn = target.closest(".pin-key");
+      if (!(btn instanceof HTMLElement) || btn.classList.contains("empty")) return;
       const key = btn.dataset.key;
       if (submitting) return;
       clearError();
 
       if (key === "del") {
         pin = pin.slice(0, -1);
-      } else if (pin.length < 4) {
+      } else if (key && pin.length < 4) {
         pin += key;
       }
       render();

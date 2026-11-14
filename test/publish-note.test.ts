@@ -1,6 +1,18 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import test from "node:test";
+import { notesSchema } from "../src/lib/notes-schema.ts";
 import { POST } from "../src/pages/api/publish-note.ts";
+
+const require = createRequire(import.meta.url);
+
+function readFrontMatter(source: string): { data: Record<string, unknown>; content: string } {
+  const matter = require("gray-matter") as (input: string) => {
+    data: Record<string, unknown>;
+    content: string;
+  };
+  return matter(source);
+}
 
 const KEY = "test-publish-key";
 const TOKEN = "test-github-token";
@@ -152,8 +164,77 @@ test("a title with a quote and a newline stays inside the title field", async ()
   assert.equal(JSON.parse(titleLine.slice("title: ".length)), title);
   assert.equal(JSON.parse(descriptionLine.slice("description: ".length)), description);
   assert.deepEqual(JSON.parse(tagsLine.slice("tags: ".length)), tags);
-  assert.match(dateLine, /^date: "\d{4}-\d{2}-\d{2}"$/);
+  assert.match(dateLine, /^date: \d{4}-\d{2}-\d{2}$/);
   assert.equal(match[2], "Body text");
+
+  const parsed = notesSchema.safeParse(readFrontMatter(text).data);
+  assert.equal(parsed.success, true);
+  if (parsed.success) assert.ok(parsed.data.date instanceof Date);
+});
+
+test("a dash-only slug or a slug past 80 characters is rejected", async () => {
+  for (const slug of ["-", "---", "-hello", "hello-", "a".repeat(81), `${"a".repeat(79)}-`]) {
+    const result = await publish({ title: "Hello", content: "Body text", slug }, { getStatus: 200 });
+    assert.equal(result.status, 400, slug);
+    assert.equal(result.json.error, "Invalid slug");
+    assert.equal(result.calls.length, 0, slug);
+  }
+
+  const one = await publish({ title: "Hello", content: "Body text", slug: "a" });
+  assert.equal(one.status, 200);
+  assert.equal(one.json.slug, "a");
+
+  const hyphenated = await publish({ title: "Hello", content: "Body text", slug: "a-b" });
+  assert.equal(hyphenated.status, 200);
+  assert.equal(hyphenated.json.slug, "a-b");
+
+  const longest = "a".repeat(80);
+  const ok = await publish({ title: "Hello", content: "Body text", slug: longest });
+  assert.equal(ok.status, 200);
+  assert.equal(ok.json.slug, longest);
+});
+
+test("title, description, and tags have to match the notes schema types", async () => {
+  const rejected = [
+    { title: { a: 1 }, content: "Body text", slug: "hello" },
+    { title: { a: 1 }, content: "Body text" },
+    { title: "Hello", content: { a: 1 }, slug: "hello" },
+    { title: "Hello", content: "Body text", description: { a: 1 }, slug: "hello" },
+    { title: "Hello", content: "Body text", description: null, slug: "hello" },
+    { title: "Hello", content: "Body text", tags: [1, 2], slug: "hello" },
+    { title: "Hello", content: "Body text", tags: "nope", slug: "hello" },
+    null,
+  ];
+  for (const body of rejected) {
+    const result = await publish(body);
+    assert.equal(result.status, 400, JSON.stringify(body));
+    assert.equal(result.calls.length, 0, JSON.stringify(body));
+  }
+});
+
+test("published front matter matches the notes schema", async () => {
+  const result = await publish({
+    title: "Hello",
+    description: "A note",
+    tags: ["a", "b"],
+    content: "Body text",
+    slug: "hello",
+  });
+  assert.equal(result.status, 200);
+  const { text } = putCall(result.calls);
+  const front = readFrontMatter(text);
+  const parsed = notesSchema.safeParse(front.data);
+  const detail = parsed.success ? "" : parsed.error.issues.map((issue) => issue.message).join("; ");
+  assert.equal(parsed.success, true, detail);
+  if (!parsed.success) return;
+  assert.equal(parsed.data.title, "Hello");
+  assert.equal(parsed.data.description, "A note");
+  assert.deepEqual(parsed.data.tags, ["a", "b"]);
+  assert.equal(parsed.data.draft, false);
+  assert.ok(parsed.data.date instanceof Date);
+  const dateLine = text.split("\n").find((line) => line.startsWith("date: "));
+  assert.equal(dateLine, `date: ${parsed.data.date.toISOString().slice(0, 10)}`);
+  assert.equal(front.content, "Body text");
 });
 
 test("a wrong publish key or a missing title does not call GitHub", async () => {

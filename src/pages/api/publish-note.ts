@@ -33,7 +33,13 @@ function slugify(title: string): string {
     .replace(/-+/g, "-");
 }
 
-const SAFE_SLUG = /^[a-z0-9-]+$/;
+// 1 to 80 characters. Must start and end with a letter or digit, so a
+// dash-only name is not a note file.
+const SAFE_SLUG = /^[a-z0-9](?:[a-z0-9-]{0,78}[a-z0-9])?$/;
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
 
 function safeSlug(raw: string): string | null {
   const slug = raw.trim().toLowerCase();
@@ -53,7 +59,10 @@ function buildFrontmatter(fields: Record<string, unknown>): string {
     if (Array.isArray(v)) {
       lines.push(`${k}: [${v.map((s) => yamlString(String(s))).join(", ")}]`);
     } else if (typeof v === "string") {
-      lines.push(`${k}: ${yamlString(v)}`);
+      // A bare YYYY-MM-DD is a YAML timestamp. Quoted, it stays a string and
+      // fails the notes schema (date: z.date()) on the next build.
+      if (k === "date" && /^\d{4}-\d{2}-\d{2}$/.test(v)) lines.push(`${k}: ${v}`);
+      else lines.push(`${k}: ${yamlString(v)}`);
     } else {
       lines.push(`${k}: ${v}`);
     }
@@ -79,23 +88,49 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  let body: { title?: string; content?: string; description?: string; tags?: string[]; slug?: string };
+  let payload: unknown;
   try {
-    body = await request.json();
+    payload = await request.json();
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
+  if (!payload || typeof payload !== "object") {
+    return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
-  const { title, content, description, tags = [], slug: providedSlug } = body;
-  if (!title || !content) {
+  const body = payload as {
+    title?: unknown;
+    content?: unknown;
+    description?: unknown;
+    tags?: unknown;
+    slug?: unknown;
+  };
+  const { title, content, description, tags, slug: providedSlug } = body;
+  if (typeof title !== "string" || !title || typeof content !== "string" || !content) {
     return new Response(JSON.stringify({ error: "title and content are required" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
+  if (description !== undefined && typeof description !== "string") {
+    return new Response(JSON.stringify({ error: "description must be a string" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  if (tags !== undefined && !isStringArray(tags)) {
+    return new Response(JSON.stringify({ error: "tags must be an array of strings" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  const tagList = tags ?? [];
 
   const rawSlug = typeof providedSlug === "string" ? providedSlug : slugify(title);
   const slug = safeSlug(rawSlug);
@@ -112,7 +147,7 @@ export const POST: APIRoute = async ({ request }) => {
     title,
     ...(description ? { description } : {}),
     date,
-    ...(tags.length ? { tags } : {}),
+    ...(tagList.length ? { tags: tagList } : {}),
   });
   const fileContent = frontmatter + content;
   const encoded = Buffer.from(fileContent).toString("base64");
