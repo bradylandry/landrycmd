@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { checkRateLimit } from "../../lib/login-rate-limit";
 import { getRedis } from "../../lib/redis";
 import { serverEnv } from "../../lib/private-config.mjs";
 import { safeEqual } from "../../lib/safe-compare.mjs";
@@ -16,39 +17,6 @@ function signingSecret(): string {
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 const TOKEN_TTL_MS = COOKIE_MAX_AGE * 1000;
-const MAX_ATTEMPTS = 5;
-const WINDOW_SEC = 60;
-
-const fallbackCounts = new Map<string, { count: number; expiresAt: number }>();
-
-function fallbackRateLimit(bucket: string): boolean {
-  const now = Date.now();
-  const entry = fallbackCounts.get(bucket);
-  if (!entry || now > entry.expiresAt) {
-    fallbackCounts.set(bucket, { count: 1, expiresAt: now + WINDOW_SEC * 1000 });
-    return true;
-  }
-  entry.count += 1;
-  return entry.count <= MAX_ATTEMPTS;
-}
-
-async function checkRateLimit(ip: string): Promise<boolean> {
-  const bucket = `apps:${ip}`;
-  const redis = getRedis();
-  if (!redis) {
-    console.error("Rate limiter: Redis unavailable, using in-process fallback for", bucket);
-    return fallbackRateLimit(bucket);
-  }
-  try {
-    const key = `ratelimit:auth:${bucket}`;
-    const count = await redis.incr(key);
-    if (count === 1) await redis.expire(key, WINDOW_SEC);
-    return count <= MAX_ATTEMPTS;
-  } catch (err) {
-    console.error("Rate limiter: Redis request failed, using in-process fallback for", bucket, err);
-    return fallbackRateLimit(bucket);
-  }
-}
 
 export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   const pinExpected = appsPin();
@@ -80,7 +48,7 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
     });
   }
 
-  if (!(await checkRateLimit(ip))) {
+  if (!(await checkRateLimit(ip, getRedis()))) {
     return new Response(
       JSON.stringify({ ok: false, error: "Too many attempts. Wait a minute." }),
       { status: 429, headers: { "content-type": "application/json" } },

@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { notesSchema } from "../lib/notes-schema";
 
 const writing = defineCollection({
   type: "content",
@@ -13,13 +14,7 @@ const writing = defineCollection({
 
 const notes = defineCollection({
   type: "content",
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    date: z.date(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
+  schema: notesSchema,
 });
 
 export const collections = { writing, notes };

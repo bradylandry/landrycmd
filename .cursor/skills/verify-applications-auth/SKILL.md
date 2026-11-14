@@ -94,6 +94,6 @@ The command above is the only one to run.
 
 ## Second target
 
-The in-process PIN rate limit (`fallbackRateLimit` in `src/pages/api/auth.ts`) is the nearest unchecked promise. When Redis is unset, a break there lets a caller try `APPS_PIN` without the 5-per-minute cap, which is the other way into the same job search. It is not part of this check.
+The in-process PIN rate limit (`fallbackRateLimit` in `src/lib/login-rate-limit.ts`) is the nearest unchecked promise. When Redis is unset, a break there lets a caller try `APPS_PIN` without the 5-per-minute cap, which is the other way into the same job search. It is not part of this check.
 
 After edits that skip this skill, use `/maintain-formal-verification-skill`.
