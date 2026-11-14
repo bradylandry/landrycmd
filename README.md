@@ -6,7 +6,7 @@ can inspect: agents, MCP servers, and retrieval systems.
 
 ## Stack
 
-- [Astro](https://astro.build) 4.x, `hybrid` output (static by default; routes opt into SSR with `export const prerender = false`)
+- [Astro](https://astro.build) 7.x, static by default (routes opt into SSR with `export const prerender = false`)
 - Markdown + MDX for `/writing` posts (via content collections)
 - Deployed on Vercel
 

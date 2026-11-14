@@ -42,7 +42,7 @@ function formatDate(d: Date): string {
         <ul class="writing-list">
           {posts.map((post) => (
             <li>
-              <a href={`/writing/${post.slug}/`}>{post.data.title}</a>
+              <a href={`/writing/${post.id}/`}>{post.data.title}</a>
               <span class="date">{formatDate(post.data.date)}</span>
             </li>
           ))}
