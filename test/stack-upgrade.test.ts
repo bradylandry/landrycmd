@@ -32,13 +32,21 @@ function compare(left: Version, right: Version) {
   return 0;
 }
 
-function floorOf(range: string): Version {
-  const match = range.match(/^(?:\^|>=)(\d+)\.(\d+)(?:\.(\d+))?$/);
-  assert.ok(match, range);
-  return [Number(match[1]), Number(match[2]), Number(match[3] ?? 0)];
+function parts(range: string) {
+  return range.split("||").map((part) => part.trim());
 }
 
-function satisfies(version: string, range: string) {
+function floorOf(range: string): Version {
+  const floors = parts(range).map((part) => {
+    const match = part.match(/^(?:\^|>=)(\d+)\.(\d+)(?:\.(\d+))?$/);
+    assert.ok(match, range);
+    return [Number(match[1]), Number(match[2]), Number(match[3] ?? 0)] as Version;
+  });
+  return floors.reduce((low, floor) => (compare(floor, low) < 0 ? floor : low));
+}
+
+function satisfies(version: string, range: string): boolean {
+  if (range.includes("||")) return parts(range).some((part) => satisfies(version, part));
   const parsed = parseVersion(version);
   if (range.startsWith("^")) {
     const floor = floorOf(range);
@@ -140,6 +148,20 @@ test("engines reject Node versions that cannot load the adapter bundler", () => 
   assert.ok(compare(floorOf(range), [22, 12, 0]) >= 0);
   assert.ok(compare(floorOf(range), floorOf(astroRange)) >= 0);
   assert.equal(satisfies(process.versions.node, range), true);
+
+  // Every Node the engines field allows must also be one astro 7 and jsdom 30 accept.
+  const jsdomRange = lockPackage("jsdom").engines.node as string;
+  const samples = [
+    "22.12.0", "22.22.2", "22.23.4", "23.11.0", "24.0.0", "24.14.9", "24.15.0",
+    "24.22.1", "25.2.1", "26.0.0", "27.1.0",
+  ];
+  for (const version of samples) {
+    if (!satisfies(version, range)) continue;
+    assert.equal(satisfies(version, astroRange), true, `astro ${version}`);
+    assert.equal(satisfies(version, jsdomRange), true, `jsdom ${version}`);
+  }
+  const pinned = readJson("package-lock.json").packages[""].engines.node;
+  assert.equal(pinned, range);
 
   for (const workflow of [".github/workflows/ci.yml", ".github/workflows/verify.yml"]) {
     const source = readText(workflow);
