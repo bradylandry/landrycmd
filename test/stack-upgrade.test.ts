@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -169,7 +169,31 @@ test("engines reject Node versions that cannot load the adapter bundler", () => 
     assert.ok(match, workflow);
     assert.equal(satisfies("22.6.0", match[1]), false, workflow);
     assert.equal(satisfies("22.11.0", match[1]), false, workflow);
+    // CI and the engines field stay on the Node 24 line that Vercel runs.
+    assert.equal(match[1], range, workflow);
+    assert.equal(satisfies("24.15.0", match[1]), true, workflow);
+    assert.equal(satisfies("26.0.0", match[1]), false, workflow);
+    assert.equal(satisfies("27.1.0", match[1]), false, workflow);
   }
+});
+
+test("content entry ids stay equal to the old slugs", () => {
+  // The glob loader builds each id from the file path. Flat, lowercase,
+  // hyphenated file names with no slug frontmatter give the same URL the
+  // old entry.slug did, so /writing/hello/ stays /writing/hello/.
+  for (const dir of ["src/content/writing", "src/content/notes"]) {
+    const full = join(root, dir);
+    if (!existsSync(full)) continue;
+    for (const entry of readdirSync(full, { withFileTypes: true })) {
+      if (entry.name.startsWith(".")) continue;
+      assert.ok(entry.isFile(), `${dir}/${entry.name} must be a flat file`);
+      assert.match(entry.name, /^[a-z0-9]+(?:-[a-z0-9]+)*\.mdx?$/, `${dir}/${entry.name}`);
+      const source = readText(`${dir}/${entry.name}`);
+      const frontmatter = source.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "";
+      assert.doesNotMatch(frontmatter, /^slug:/m, `${dir}/${entry.name}`);
+    }
+  }
+  assert.ok(existsSync(join(root, "src/content/writing/hello.md")));
 });
 
 test("post-build rewrites retired Node function runtimes to nodejs24.x", async () => {
