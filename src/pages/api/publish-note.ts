@@ -3,9 +3,11 @@ import { safeEqual } from "../../lib/safe-compare.mjs";
 
 export const prerender = false;
 
-const GITHUB_TOKEN = import.meta.env.GITHUB_TOKEN;
-const GITHUB_REPO = import.meta.env.GITHUB_REPO ?? "bradylandry/landrycmd";
-const PUBLISH_API_KEY = import.meta.env.PUBLISH_API_KEY;
+// Read at request time. Astro 5 and later inline private import.meta.env
+// values into the server bundle at build time.
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPO = process.env.GITHUB_REPO ?? "bradylandry/landrycmd";
+const PUBLISH_API_KEY = process.env.PUBLISH_API_KEY;
 
 function slugify(title: string): string {
   return title

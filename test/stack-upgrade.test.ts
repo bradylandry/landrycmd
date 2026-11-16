@@ -235,3 +235,40 @@ test("readme documents Astro 7 static output", () => {
   assert.doesNotMatch(readme, /hybrid/);
   assert.doesNotMatch(readme, /4\.x/);
 });
+
+test("server code reads private env at request time, not from import.meta.env", () => {
+  // Astro 5 and later inline private import.meta.env values into the server
+  // bundle at build time. Secrets must come from process.env instead.
+  const builtIn = new Set(["MODE", "DEV", "PROD", "SSR", "SITE", "BASE_URL", "ASSETS_PREFIX"]);
+  const offenders: string[] = [];
+  const walk = (rel: string) => {
+    for (const entry of readdirSync(join(root, rel), { withFileTypes: true })) {
+      const child = `${rel}/${entry.name}`;
+      if (entry.isDirectory()) {
+        walk(child);
+        continue;
+      }
+      if (!/\.(ts|mts|mjs|js|astro)$/.test(entry.name)) continue;
+      for (const match of readText(child).matchAll(/import\.meta\.env\.([A-Z0-9_]+)/g)) {
+        const name = match[1];
+        if (!name.startsWith("PUBLIC_") && !builtIn.has(name)) offenders.push(`${child}: ${name}`);
+      }
+    }
+  };
+  walk("src");
+  assert.deepEqual(offenders, []);
+});
+
+test("collection dates accept the quoted dates publish-note writes", async () => {
+  const source = readText("src/content.config.ts");
+  assert.equal(source.match(/date:\s*z\.coerce\.date\(\)/g)?.length, 2);
+  assert.doesNotMatch(source, /date:\s*z\.date\(\)/);
+
+  // publish-note writes `date: "2026-11-16"`, which YAML reads as a string.
+  const { z } = await import("astro/zod");
+  assert.equal(z.date().safeParse("2026-11-16").success, false);
+  const parsed = z.coerce.date().parse("2026-11-16");
+  assert.equal(parsed.toISOString(), "2026-11-16T00:00:00.000Z");
+  const unquoted = new Date("2026-04-24T00:00:00.000Z");
+  assert.equal(z.coerce.date().parse(unquoted).valueOf(), unquoted.valueOf());
+});
