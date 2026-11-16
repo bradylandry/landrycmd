@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 const functionsDir = ".vercel/output/functions";
 const runtime = "nodejs24.x";
-const retired = new Set(["nodejs18.x", "nodejs20.x"]);
+const retired = new Set(["nodejs18.x", "nodejs20.x", "nodejs22.x"]);
 
 function walk(dir) {
   for (const name of readdirSync(dir)) {

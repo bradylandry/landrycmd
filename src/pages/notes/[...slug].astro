@@ -1,18 +1,18 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {
   const notes = await getCollection("notes", ({ data }) => !data.draft);
   return notes.map((note) => ({
-    params: { slug: note.slug },
+    params: { slug: note.id },
     props: { note },
   }));
 }) satisfies GetStaticPaths;
 
 const { note } = Astro.props;
-const { Content } = await note.render();
+const { Content } = await render(note);
 
 function formatDate(d: Date): string {
   return d.toLocaleDateString("en-US", {
